@@ -57,7 +57,7 @@ def main():
         
         ret = vs.classify(im, vars.classifierType)   
         ret['csv']['class'] = c
-        rs.writerow(ret['csv'])
+        rs.write_row(ret['csv'])
         
         vs.print_proba(ret, full=True, classifier=vars.classifierType)
         

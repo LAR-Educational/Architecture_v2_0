@@ -3,7 +3,7 @@ import time
 
 fieldnames = ['class', 'knn_hst', 'hst_pxl', 'mlp_hst', 'mlp_pxl', 'svm_hst', 'svm_pxl', 'ensemble_hst', 'ensemble_pxl', 'ensemble_all']
 writer = None
-file = 'results_' + str(time.ctime()) +'.csv' 
+file = 'results/vision_results/results_' + str(time.ctime()) +'.csv' 
 
 def initializate(fname=file):
 	global writer
@@ -31,8 +31,7 @@ def write_row(values):
 
 def main():
 	initializate()
-	write_row('e', '1', '2', '0', '1', '2', '0', '1', '0', '2')
-
+	#write_row('e', '1', '2', '0', '1', '2', '0', '1', '0', '2')
 
         # write_csv = {'class':'none',
         #              'knn_hst': str(knn_ret['hst']['label']) + '_' + str(knn_ret['hst'][str(knn_ret['hst']['label'])]),
