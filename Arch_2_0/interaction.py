@@ -10,6 +10,10 @@ from modules import vars
 from modules import dialog as diag
 from modules import motion as mt
 from modules import vision as vs
+
+from modules.vision_components import results as rs
+import time
+
 import cv2
 #import time
 
@@ -34,10 +38,11 @@ def main():
     
 
    # mt.run("Right_hand_up")       
-    
+    rs.initializate()    
     while True:
-        
-        c=raw_input("VAI:") 
+
+        time.sleep(1)       
+        c = raw_input("label:") 
         
         if c == "x":
             break
@@ -50,8 +55,9 @@ def main():
 #        cv2.destroyAllWindows()
 #        
         
-        ret = vs.classify(im, vars.classifierType)    
-        
+        ret = vs.classify(im, vars.classifierType)   
+        ret['csv']['class'] = c
+        rs.writerow(ret['csv'])
         
         vs.print_proba(ret, full=True, classifier=vars.classifierType)
         

@@ -171,7 +171,19 @@ def classify(img_path, classifier='knn'):
 
         all_c = {'label':label, '0':(votes_all[0]/6.0) ,'1':(votes_all[1]/6.0), '2': (votes_all[2]/6.0) }
 
-        return {'pxl':pxl_c, 'hst':hst_c, 'all':all_c }
+        write_csv = {'class':'none',
+                     'knn_hst': str(knn_ret['hst']['label']) + '_' + str(knn_ret['hst'][str(knn_ret['hst']['label'])]),
+                     'hst_pxl': str(knn_ret['pxl']['label']) + '_' + str(knn_ret['pxl'][str(knn_ret['pxl']['label'])]), 
+                     'mlp_hst': str(mlp_ret['hst']['label']) + '_' + str(mlp_ret['hst'][str(mlp_ret['hst']['label'])]), 
+                     'mlp_pxl': str(mlp_ret['pxl']['label']) + '_' + str(mlp_ret['pxl'][str(mlp_ret['pxl']['label'])]), 
+                     'svm_hst': str(svm_ret['hst']['label']) + '_' + str(svm_ret['hst'][str(svm_ret['hst']['label'])]), 
+                     'svm_pxl': str(svm_ret['pxl']['label']) + '_' + str(svm_ret['pxl'][str(svm_ret['pxl']['label'])]), 
+                     'ensemble_hst': str(hst_c['label']) + '_' + str(hst_c[str(hst_c['label'])]), 
+                     'ensemble_pxl': str(pxl_c['label']) + '_' + str(pxl_c[str(pxl_c['label'])]), 
+                     'ensemble_all': str(all_c['label']) + '_' + str(all_c[str(all_c['label'])])}
+
+
+        return {'pxl':pxl_c, 'hst':hst_c, 'all':all_c, 'csv':write_csv}
 
 
 
