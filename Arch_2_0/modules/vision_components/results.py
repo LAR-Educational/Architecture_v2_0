@@ -13,20 +13,20 @@ def initializate(fname=file):
 		writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 		writer.writeheader()
 
-def write_row(label, knn_hst, hst_pxl, mlp_hst, mlp_pxl, svm_hst, svm_pxl, ensemble_hst, ensemble_pxl, ensemble_all):
+def write_row(values):
 	global writer
 	with open(file, 'a') as csvfile:
 		writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-		writer.writerow({ fieldnames[0]: label,
-						  fieldnames[1]: knn_hst,
-						  fieldnames[2]: hst_pxl,
-						  fieldnames[3]: mlp_hst,
-						  fieldnames[4]: mlp_pxl,
-						  fieldnames[5]: svm_hst,
-						  fieldnames[6]: svm_pxl,
-						  fieldnames[7]: ensemble_hst,
-						  fieldnames[8]: ensemble_pxl,
-						  fieldnames[9]: ensemble_all})
+		writer.writerow({ fieldnames[0]: values['class'],
+						  fieldnames[1]: values['knn_hst'],
+						  fieldnames[2]: values['hst_pxl'],
+						  fieldnames[3]: values['mlp_hst'],
+						  fieldnames[4]: values['mlp_pxl'],
+						  fieldnames[5]: values['svm_hst'],
+						  fieldnames[6]: values['svm_pxl'],
+						  fieldnames[7]: values['ensemble_hst'],
+						  fieldnames[8]: values['ensemble_pxl'],
+						  fieldnames[9]: values['ensemble_all']})
 
 
 def main():
