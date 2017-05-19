@@ -121,6 +121,9 @@ def classify(img_path, classifier='knn'):
         mlp_ret = mlp.classify(img_path)
         svm_ret = svm.classify(img_path)
 
+
+        # isso pode ser substituido por moda
+
         votes_hst = np.array([0, 0, 0])
         votes_hst[int(knn_ret['hst']['label'])] +=  1
         votes_hst[int(mlp_ret['hst']['label'])] +=  1
@@ -173,7 +176,7 @@ def classify(img_path, classifier='knn'):
 
         write_csv = {'class':'none',
                      'knn_hst': str(knn_ret['hst']['label']) + '_' + str(knn_ret['hst'][str(knn_ret['hst']['label'])]),
-                     'hst_pxl': str(knn_ret['pxl']['label']) + '_' + str(knn_ret['pxl'][str(knn_ret['pxl']['label'])]), 
+                     'knn_pxl': str(knn_ret['pxl']['label']) + '_' + str(knn_ret['pxl'][str(knn_ret['pxl']['label'])]), 
                      'mlp_hst': str(mlp_ret['hst']['label']) + '_' + str(mlp_ret['hst'][str(mlp_ret['hst']['label'])]), 
                      'mlp_pxl': str(mlp_ret['pxl']['label']) + '_' + str(mlp_ret['pxl'][str(mlp_ret['pxl']['label'])]), 
                      'svm_hst': str(svm_ret['hst']['label']) + '_' + str(svm_ret['hst'][str(svm_ret['hst']['label'])]), 
