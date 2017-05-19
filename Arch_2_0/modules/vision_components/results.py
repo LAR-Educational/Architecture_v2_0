@@ -3,8 +3,8 @@ import time
 
 fieldnames = ['class', 'knn_hst', 'knn_pxl', 'mlp_hst', 'mlp_pxl', 'svm_hst', 'svm_pxl', 'ensemble_hst', 'ensemble_pxl', 'ensemble_all']
 writer = None
-# path = 'results/vision_results/'
-path = '../../results/vision_results/'
+path = 'results/vision_results/'
+# path = '../../results/vision_results/'
 file = 'results_' + str(time.ctime()) +'.csv' 
 
 def initializate(fname=file):
