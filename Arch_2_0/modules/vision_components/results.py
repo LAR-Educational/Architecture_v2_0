@@ -36,7 +36,7 @@ def process(fname):
 	label_0 = [0,0,0,0,0,0,0,0,0,0]
 	label_1 = [0,0,0,0,0,0,0,0,0,0]
 	label_2 = [0,0,0,0,0,0,0,0,0,0]
-	
+
 	with open(path+fname) as csvfile:
 		reader = csv.DictReader(csvfile)
 		for row in reader:
@@ -60,8 +60,8 @@ def process(fname):
 		for i in range(1,10):
 			print("Classificador: " + fieldnames[i])
 			print("\tNumero de acertos por classes:")
-			print("\t0: " + str(label_0[i]/label_0[0]) + "\t1: " + str(label_1[i]/label_1[0])  + "\t2: " + str(label_2[i]/label_2[0]) )
-			print("\tPorcentagem de acertos total: " + str(hit[i]/hit[0]))
+			print("\t0: " + str(label_0[i]/float(label_0[0])) + "\t1: " + str(label_1[i]/float(label_1[0]))  + "\t2: " + str(label_2[i]/float(label_2[0])) )
+			print("\tPorcentagem de acertos total: " + str(hit[i]/float(hit[0])))
 			print("")
  
 
