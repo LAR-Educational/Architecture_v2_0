@@ -11,6 +11,10 @@ class File(object):
 		self.ram = {}
 		self.temp = None
 
+		# Confere se existe o folder que será salvo os arquivos.
+		if os.path.isdir("./Database") is False:
+			os.mkdir("./Database")
+
 		# Confere se já existe algo guardado e o coloca na ram se não só criar um arquivo novo.
 		try:
 			self.file = open('./Database/' + self.filename + '.dat', 'r+')
@@ -48,18 +52,15 @@ class File(object):
 		self.nans = open('./Database/' + self.filename + '.nans', 'w+')
 
 	# Escreve a entrada no arquivo.
-	def write(self, key, content=''):
+	def write(self, key, content):
 		if(self.temp == None):
 			self.temp = open('./Database/' + self.filename + '.temp', 'w+')	
 		
-		if(content != ''):
-			if key not in self.ram:
-				self.ram[key] = content
-				
-				self.temp.write(key + '\n')
-				self.temp.write(content + '\n')
-		else:
-			self.nans.write(key + '\n')
+		if key not in self.ram:
+			self.ram[key] = content
+			
+			self.temp.write(key + '\n')
+			self.temp.write(content + '\n')
 
 
 	# Procura uma pergunta na ram, retorna a resposta ou nada se não ele não tiver ela.
@@ -67,6 +68,7 @@ class File(object):
 		if query in self.ram:
 			return self.ram[query]
 		else:
+			self.nans.write(query + '\n')
 			return None
 
 	# Limpa todos os arquivos utilizados.
@@ -103,3 +105,7 @@ class File(object):
 			os.remove('./Database/' + self.filename + '.temp')
 		except:
 			pass
+
+f = File()
+f.search('rodrigo')
+f.end()
