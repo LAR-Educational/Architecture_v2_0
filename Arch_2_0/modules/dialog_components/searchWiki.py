@@ -4,8 +4,6 @@
 import wikipedia
 import re
 
-
-
 # Pesquisa a página mais próxima de query da wikipedia e procura a seção query, se não achado devolver o resumo.
 def searchWiki(query, section='', sentences = 0):
     # Coloca a linguagem da wikipedia em português
