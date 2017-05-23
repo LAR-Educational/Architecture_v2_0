@@ -98,4 +98,4 @@ def info(stringToPrint, tag=0):
 			print("[ERROR] " + stringToPrint)
 
 f = database.File()
-print(searchWiki(f, "fluminense futebol clube"))
+print(searchWiki(f, u"robô"))

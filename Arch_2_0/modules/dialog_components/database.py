@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import codecs
 
 debug = True
 
@@ -20,7 +21,7 @@ class File(object):
 		# Confere se já existe algo guardado e o coloca na ram se não só criar um arquivo novo.
 		try:
 			info("Reloading memory...")
-			self.file = open('./Database/' + self.filename + '.dat', 'r+')
+			self.file = codecs.open('./Database/' + self.filename + '.dat', 'r+', encoding="utf-8")
 
 			# Le as entradas do arquivo.
 			for line in self.file:
@@ -29,15 +30,15 @@ class File(object):
 				self.ram[line[0]] = temp[0]
 		except:
 			info("Memory not found.", 1)
-			self.file = open('./Database/' + self.filename + '.dat', 'w+')
+			self.file = codecs.open('./Database/' + self.filename + '.dat', 'w+', encoding="utf-8")
 
 		# Abre o arquivo das perguntas não respondidas.
-		self.nans = open('./Database/' + self.filename + '.nans', 'w+')
+		self.nans = codecs.open('./Database/' + self.filename + '.nans', 'w+', encoding="utf-8")
 
 	# Escreve a entrada no arquivo.
 	def write(self, key, content):
 		if(self.file == None):
-			self.file = open('./Database/' + self.filename + '.dat', 'a+')
+			self.file = codecs.open('./Database/' + self.filename + '.dat', 'a+', encoding="utf-8")
 		
 		if key not in self.ram:
 			info("Saving on file...")
@@ -67,8 +68,8 @@ class File(object):
 		info("Cleaning files...")
 
 		self.close()
-		self.file = open('./Database/' + self.filename + '.dat', 'w+')
-		self.nans = open('./Database/' + self.filename + '.nans', 'w+')
+		self.file = codecs.open('./Database/' + self.filename + '.dat', 'w+', encoding="utf-8")
+		self.nans = codecs.open('./Database/' + self.filename + '.nans', 'w+', encoding="utf-8")
 
 	# Fecha todos os arquivos utilizados.
 	def close(self):
