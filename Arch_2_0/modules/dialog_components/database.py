@@ -3,20 +3,23 @@
 
 import os
 
+debug = True
+
 # Classe criada para gerenciar os arquivos que servirão para guardar as perguntas e repostas.
 class File(object):
 	def __init__(self, filename='knowledge'):
 		# Inicializa as varáveis usadas no código.
 		self.filename = filename
 		self.ram = {}
-		self.temp = None
 
 		# Confere se existe o folder que será salvo os arquivos.
 		if os.path.isdir("./Database") is False:
+			info("Creating folder...")
 			os.mkdir("./Database")
 
 		# Confere se já existe algo guardado e o coloca na ram se não só criar um arquivo novo.
 		try:
+			info("Reloading memory...")
 			self.file = open('./Database/' + self.filename + '.dat', 'r+')
 
 			# Le as entradas do arquivo.
@@ -25,87 +28,62 @@ class File(object):
 				line = line.splitlines()
 				self.ram[line[0]] = temp[0]
 		except:
+			info("Memory not found.", 1)
 			self.file = open('./Database/' + self.filename + '.dat', 'w+')
 
-		# Confere se o programa foi terminado abruptamente.
-		try:
-			self.temp = open('./Database/' + self.filename + '.temp', 'r+')
-
-			# Salvar o arquivo temporário na ram e no arquivo permanente.
-			for line in self.temp:
-				temp = self.temp.readline().splitlines()
-				line = line.splitlines()
-				self.ram[line[0]] = temp[0]
-
-				self.file.write(line[0] + '\n')
-				self.file.write(temp[0] + '\n')
-
-			# Reinicia o arquivo temporário.
-			self.temp.close()
-			self.temp = open('./Database/' + self.filename + '.temp', 'w+')
-			self.temp.close()
-			self.temp = None			
-		except:
-			pass
-
-		# Arquivo das perguntas não respondidas.
+		# Abre o arquivo das perguntas não respondidas.
 		self.nans = open('./Database/' + self.filename + '.nans', 'w+')
 
 	# Escreve a entrada no arquivo.
 	def write(self, key, content):
-		if(self.temp == None):
-			self.temp = open('./Database/' + self.filename + '.temp', 'w+')	
+		if(self.file == None):
+			self.file = open('./Database/' + self.filename + '.dat', 'a+')
 		
 		if key not in self.ram:
+			info("Saving on file...")
+			
 			self.ram[key] = content
 			
-			self.temp.write(key + '\n')
-			self.temp.write(content + '\n')
+			self.file.write(key + '\n')
+			self.file.write(content + '\n')
 
 
 	# Procura uma pergunta na ram, retorna a resposta ou nada se não ele não tiver ela.
 	def search(self, query):
+		info("Searching...")
+
 		if query in self.ram:
 			return self.ram[query]
 		else:
-			self.nans.write(query + '\n')
 			return None
+
+	def SaveQuery(self, query):
+		info("Saving on file...")
+		
+		self.nans.write(query + '\n')
 
 	# Limpa todos os arquivos utilizados.
 	def clean(self):
+		info("Cleaning files...")
+
 		self.close()
 		self.file = open('./Database/' + self.filename + '.dat', 'w+')
 		self.nans = open('./Database/' + self.filename + '.nans', 'w+')
-		try:
-			self.temp = open('./Database/' + self.filename + '.temp', 'w+')
-		except:
-			pass
 
 	# Fecha todos os arquivos utilizados.
 	def close(self):
+		info("Closing files...")
+
 		self.file.close()
 		self.nans.close()
-		try:
-			self.temp.close()
-		except:
-			pass
 
-	# Termina a execução corretamente.
-	def end(self):
-		self.close()
-
-		# Salva todas as respostas e perguntas guardadas no arquivo permanente.
-		self.file = open('./Database/' + self.filename + '.dat', 'w+')
-		for x, y in self.ram.items():
-			self.file.write(x + '\n')
-			self.file.write(y + '\n')
-		
-		# Remove o arquivo temporário.
-		try:
-			os.remove('./Database/' + self.filename + '.temp')
-		except:
-			pass
-
-f = File()
-f.search('rodrigo')
-f.end()
+def info(stringToPrint, tag=0):
+	if debug:
+		if(tag == 0):
+			print("[INFO] " + stringToPrint)
+		elif(tag == 1):
+			print("[WARNING] " + stringToPrint)
+		elif(tag == 2):
+			print("[EXCEPTION] " + stringToPrint)
+		elif(tag == 3):
+			print("[ERROR] " + stringToPrint)
