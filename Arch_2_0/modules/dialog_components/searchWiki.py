@@ -96,6 +96,3 @@ def info(stringToPrint, tag=0):
 			print("[EXCEPTION] " + stringToPrint)
 		elif(tag == 3):
 			print("[ERROR] " + stringToPrint)
-
-f = database.File()
-print(searchWiki(f, u"robô"))
