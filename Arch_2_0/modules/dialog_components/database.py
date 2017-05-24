@@ -51,8 +51,6 @@ class File(object):
 
 	# Procura uma pergunta na ram, retorna a resposta ou nada se não ele não tiver ela.
 	def search(self, query):
-		info("Searching...")
-
 		if query in self.ram:
 			return self.ram[query]
 		else:
@@ -78,13 +76,26 @@ class File(object):
 		self.file.close()
 		self.nans.close()
 
+class bcolors:
+	RED   = "\033[1;31m"  
+	BLUE  = "\033[1;34m"
+	CYAN  = "\033[1;36m"
+	GREEN = "\033[0;32m"
+	HEADER = '\033[0;95m'
+	WARNING = '\033[1;93m'
+	FAIL = '\033[1;91m'
+	ENDC = '\033[;0m'
+	BOLD = '\033[;1m'
+	UNDERLINE = '\033[;4m'
+	REVERSE = "\033[;7m"
+
 def info(stringToPrint, tag=0):
 	if debug:
 		if(tag == 0):
-			print("[INFO] " + stringToPrint)
+			print(bcolors.BOLD + "[INFO] " + bcolors.ENDC + stringToPrint)
 		elif(tag == 1):
-			print("[WARNING] " + stringToPrint)
+			print(bcolors.WARNING + "[WARNING] " + bcolors.ENDC + stringToPrint)
 		elif(tag == 2):
-			print("[EXCEPTION] " + stringToPrint)
+			print(bcolors.BLUE + "[EXCEPTION] " + bcolors.ENDC + stringToPrint)
 		elif(tag == 3):
-			print("[ERROR] " + stringToPrint)
+			print(bcolors.FAIL + "[ERROR] " + bcolors.ENDC + stringToPrint)
