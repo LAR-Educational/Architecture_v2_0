@@ -9,10 +9,25 @@ import warnings
 
 warnings.simplefilter("ignore", UserWarning)
 
+def joinQuery(query):
+	settings.info('Joining query...')
+
+	newquery = ''
+	for x in query:
+		newquery += x + ' '
+	newquery = newquery[:-1]
+
+	return newquery
+
 # Pesquisa a página mais próxima de query da wikipedia e procura a seção query, se não achado devolver o resumo.
 def searchWiki(file, query, section='', sentences = 0):
-	query = query.decode('utf-8')
-	section = section.decode('utf-8')
+	query = joinQuery(query)
+
+	try:
+		query = query.decode('utf-8')
+		section = section.decode('utf-8')
+	except:
+		pass
 
 	if query is '':
 		settings.info("Invalid string.", 3)
