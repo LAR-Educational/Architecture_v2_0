@@ -83,18 +83,20 @@ def findNoun(sentence):
 				flag = True
 		
 		if(flag == False):
-			result.append(phrase[x])	
+			result.append(phrase[x])
 
 	return result
+
 
 
 def creat_Dict_stopWord(filtred_words):
 	translate_dict = {}
 
 	for x in range(0, len(filtred_words)):
-		word = TextBlob(filtred_words[x])
+		word = translator.translate(filtred_words[x])
+		word = TextBlob(word)
 		try:
-			translate_dict[filtred_words[x]] = word.translate(to='en').tags
+			translate_dict[filtred_words[x]] = word.tags
 		except:
 			aux = TextBlob(filtred_words[x])
 			translate_dict[filtred_words[x]] = aux.tags
@@ -120,9 +122,10 @@ def creat_Dict(sentence):
 	translate_dict = {}    
 
 	for x in range(0, len(splitted_sentence)):
-		word = TextBlob(splitted_sentence[x])
+		word =  translator.translate(splitted_sentence[x])
+		word = TextBlob(word)
 		try:
-			translate_dict[splitted_sentence[x]] = word.translate(to='en').tags
+			translate_dict[splitted_sentence[x]] = word.tags
 		except:
 			aux = TextBlob(splitted_sentence[x])
 			translate_dict[splitted_sentence[x]] = aux.tags
@@ -204,9 +207,13 @@ temp_list_positive = readFile("afirmation.txt")
 temp_list_noun  = readFile("noun.txt")
 f = database.File()
 print("Data base loaded!\n")
+
 	 
 
+translator = Translator(from_lang = "pt", to_lang = "en")
+
 sentence = raw_input("Receving sentence from NAO:")
+
 input_copy = sentence
 sentence = sentence.lower()
 #print(sentence)
@@ -214,19 +221,20 @@ sentence = sentence.lower()
 print("\nProcessing Sentece\n")
 
 
-encoding = "utf-8" # or iso-8859-15, or cp1252, or whatever encoding you use
-byte_string = sentence  # or simply "café" before python 3.
-unicode_string = byte_string.decode(encoding)
+#encoding = "utf-8" # or iso-8859-15, or cp1252, or whatever encoding you use
+#byte_string = sentence  # or simply "café" before python 3.
+#unicode_string = byte_string.decode(encoding)
 
-awnser = removerAcentosECaracteresEspeciais(unicode_string)
-sentence = awnser.encode(encoding)
-#print(sentence)
 
+#encoding = "utf-8" # or iso-8859-15, or cp1252, or whatever encoding you use
+#byte_string = sentence  # or simply "café" before python 3.
+#unicode_string = byte_string.decode(encoding)
 
 translator = Translator(from_lang = "pt", to_lang = "en")
-translation = translator.translate("Terra")
 
-print(translation)
+#awnser = removerAcentosECaracteresEspeciais(unicode_string)
+#sentence = awnser.encode(encoding)
+#print(sentence)
 
 
 
