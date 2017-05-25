@@ -1,0 +1,37 @@
+('antes ', 'ascii')
+('depois ', 'utf8')
+Loading data base from files...
+[;1m[INFO] [;0mReloading memory...
+Data base loaded!
+
+Receving sentence from NAO:
+Processing Sentece
+
+Calculating number of words
+Number of words: 5
+
+
+Checking for doubts...
+Matches: ['o que']
+Doubt found: True
+
+
+Stopwords filter:
+phrase  o
+Sentece:  ['sol?']
+['sol?']
+
+
+Just translate:
+[u'que', u'sun']
+
+
+All:
+phrase  o
+Sentece:  ['sol?']
+Lista de palavras:  ['sol?']
+('Palavra indo pra: ', 'sol?')
+{'sol?': [(u'sun', u'NN')]}
+['sol?']
+
+

@@ -1,0 +1,46 @@
+('antes ', 'ascii')
+('depois ', 'utf8')
+Loading data base from files...
+[;1m[INFO] [;0mReloading memory...
+Data base loaded!
+
+Receving sentence from NAO:
+Processing Sentece
+
+Calculating number of words
+Number of words: 7
+
+
+Checking for doubts...
+Doubt found: False
+
+
+Checking for negation...
+Negation found: False
+
+
+Checking for afirmation...
+Afirmation found: False
+Stopwords filter:
+phrase  pra
+Sentece:  ['pra', 'lado', 'fica', 'ocenao', 'atl\xc3\xa2ntico?']
+['pra', 'lado', 'fica', 'ocenao', 'atl\xc3\xa2ntico?']
+
+
+Just translate:
+[u'PRA', u'side', u'REMAIN']
+
+
+All:
+phrase  pra
+Sentece:  ['pra', 'lado', 'fica', 'ocenao', 'atl\xc3\xa2ntico?']
+Lista de palavras:  ['pra', 'lado', 'fica', 'ocenao', 'atl\xc3\xa2ntico?']
+('Palavra indo pra: ', 'pra')
+('Palavra indo pra: ', 'lado')
+('Palavra indo pra: ', 'fica')
+('Palavra indo pra: ', 'ocenao')
+('Palavra indo pra: ', 'atl\xc3\xa2ntico?')
+{'ocenao': [(u'Ocean', u'NNP')], 'lado': [(u'side', u'NN')], 'fica': [(u'REMAIN', u'NN')], 'pra': [(u'PRA', u'NN')], 'atl\xc3\xa2ntico?': [(u'Atlantic', u'NNP'), (u'Ocean', u'NNP')]}
+['pra', 'lado', 'fica']
+
+

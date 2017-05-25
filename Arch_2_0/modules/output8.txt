@@ -1,0 +1,47 @@
+('antes ', 'ascii')
+('depois ', 'utf8')
+Loading data base from files...
+[;1m[INFO] [;0mReloading memory...
+Data base loaded!
+
+Receving sentence from NAO:
+Processing Sentece
+
+Calculating number of words
+Number of words: 9
+
+
+Checking for doubts...
+Doubt found: False
+
+
+Checking for negation...
+Negation found: False
+
+
+Checking for afirmation...
+Afirmation found: False
+Stopwords filter:
+phrase  quantas
+Sentece:  ['quantas', 'vezes', 'brasil', 'ganhou', 'copa', 'mundo?']
+['quantas', 'vezes', 'brasil', 'ganhou', 'copa', 'mundo?']
+
+
+Just translate:
+[u'times', u'Brasil', u'soften']
+
+
+All:
+phrase  quantas
+Sentece:  ['quantas', 'vezes', 'brasil', 'ganhou', 'copa', 'mundo?']
+Lista de palavras:  ['quantas', 'vezes', 'brasil', 'ganhou', 'copa', 'mundo?']
+('Palavra indo pra: ', 'quantas')
+('Palavra indo pra: ', 'vezes')
+('Palavra indo pra: ', 'brasil')
+('Palavra indo pra: ', 'ganhou')
+('Palavra indo pra: ', 'copa')
+('Palavra indo pra: ', 'mundo?')
+{'quantas': [(u'How', u'WRB'), (u'many', u'JJ')], 'copa': [(u'tree', u'JJ'), (u'crown', u'NN')], 'brasil': [(u'Brasil', u'NN')], 'ganhou': [(u'winning', u'VBG')], 'vezes': [(u'times', u'NNS')], 'mundo?': [(u'soften', u'NN')]}
+['vezes', 'brasil', 'mundo?']
+
+

@@ -1,0 +1,38 @@
+('antes ', 'ascii')
+('depois ', 'utf8')
+Loading data base from files...
+[;1m[INFO] [;0mReloading memory...
+Data base loaded!
+
+Receving sentence from NAO:
+Processing Sentece
+
+Calculating number of words
+Number of words: 6
+
+
+Checking for doubts...
+Matches: ['o que']
+Doubt found: True
+
+
+Stopwords filter:
+phrase  o
+Sentece:  ['planeta', 'terra?']
+['planeta', 'terra?']
+
+
+Just translate:
+[u'que', u'Planet', u'ground']
+
+
+All:
+phrase  o
+Sentece:  ['planeta', 'terra?']
+Lista de palavras:  ['planeta', 'terra?']
+('Palavra indo pra: ', 'planeta')
+('Palavra indo pra: ', 'terra?')
+{'planeta': [(u'Planet', u'NN')], 'terra?': [(u'ground', u'NN')]}
+['planeta', 'terra?']
+
+

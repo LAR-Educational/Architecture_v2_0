@@ -1,0 +1,60 @@
+('antes ', 'ascii')
+('depois ', 'utf8')
+Loading data base from files...
+[;1m[INFO] [;0mReloading memory...
+Data base loaded!
+
+
+Processing Sentece
+
+Calculating number of words
+Number of words: 5
+
+
+Checking for doubts...
+Matches: [u'o que']
+Doubt found: True
+
+
+Stopwords filter:
+phrase  o
+Sentece:  [u'sol\n']
+[u'sol\n']
+
+
+Just translate:
+[u'que', u'e', u'sun']
+
+
+All:
+phrase  o
+Sentece:  [u'sol\n']
+Lista de palavras:  [u'sol\n']
+('Palavra indo pra: ', u'sol\n')
+{u'sol\n': [(u'sun', u'NN')]}
+[u'sol\n']
+
+
+Loading data base from files...
+[;1m[INFO] [;0mReloading memory...
+Data base loaded!
+
+
+Processing Sentece
+
+Calculating number of words
+Number of words: 4
+
+
+Checking for doubts...
+Matches: [u'o que']
+Doubt found: True
+
+
+Stopwords filter:
+phrase  o
+Sentece:  [u's\xe3o', u'arestas?\n']
+[u's\xe3o', u'arestas?\n']
+
+
+Just translate:

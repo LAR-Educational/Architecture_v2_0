@@ -1,0 +1,37 @@
+('antes ', 'ascii')
+('depois ', 'utf8')
+Loading data base from files...
+[;1m[INFO] [;0mReloading memory...
+Data base loaded!
+
+Receving sentence from NAO:
+Processing Sentece
+
+Calculating number of words
+Number of words: 4
+
+
+Checking for doubts...
+Matches: ['o que']
+Doubt found: True
+
+
+Stopwords filter:
+phrase  o
+Sentece:  ['figura?']
+['figura?']
+
+
+Just translate:
+[u'que', u'figure']
+
+
+All:
+phrase  o
+Sentece:  ['figura?']
+Lista de palavras:  ['figura?']
+('Palavra indo pra: ', 'figura?')
+{'figura?': [(u'figure', u'NN')]}
+['figura?']
+
+

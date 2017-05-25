@@ -132,7 +132,7 @@ def creat_Dict(sentence):
 	translate_dict = {}    
 
 	for x in range(0, len(splitted_sentence)):
-		word =  translator.translate(splitted_sentence[x])
+		word = translator.translate(splitted_sentence[x])
 		word = TextBlob(word)
 		try:
 			translate_dict[splitted_sentence[x]] = word.tags
@@ -207,22 +207,27 @@ def tagger(sentence):
 			break
 
 
-
+# def run(sentence):
 	# Identifica o perguntas afirmações e duvidas 
 print("Loading data base from files...")
 	
+# global temp_list_question
+# global temp_list_negative
+# global temp_list_positive
+# global temp_list_noun
+# global translator
+
 temp_list_question = readFile("doubt.txt")
 temp_list_negative = readFile("negation.txt")
 temp_list_positive = readFile("afirmation.txt")
 temp_list_noun  = readFile("noun.txt")
+
 f = database.File()
 print("Data base loaded!\n")
 
-	 
-
 translator = Translator(from_lang = "pt", to_lang = "en")
 
-sentence = "robô"#raw_input("Receving sentence from NAO:")
+sentence = raw_input("Receving sentence from NAO:")
 
 input_copy = sentence
 sentence = sentence.lower()
@@ -234,7 +239,6 @@ print("\nProcessing Sentece\n")
 #encoding = "utf-8" # or iso-8859-15, or cp1252, or whatever encoding you use
 #byte_string = sentence  # or simply "café" before python 3.
 #unicode_string = byte_string.decode(encoding)
-
 
 #encoding = "utf-8" # or iso-8859-15, or cp1252, or whatever encoding you use
 #byte_string = sentence  # or simply "café" before python 3.
@@ -275,7 +279,7 @@ print "\n"
 
 print("Just translate:")
 
-dictc =  creat_Dict(sentence)
+dictc = creat_Dict(sentence)
 result = find_Nouns(dictc, sentence)
 print(result)
 print "\n"
@@ -298,22 +302,21 @@ while(x < len(result)):
 print(all_nouns)	
 print "\n"
 
-if (len(all_nouns) > 1):
-	print ("Encontrei mais de uma palavra que pode ser pesquisada")
+# if (len(all_nouns) > 1):
+# 	print ("Encontrei mais de uma palavra que pode ser pesquisada")
 
-elif(tagger(sentence) == True):
-	tagged = all_nouns[0]
-	tagged = "_" + tagged
-	print(searchWiki.searchWiki(f, tagged))
-else:	
-	print "all nouns", all_nouns
-	wiki_awnser = searchWiki.searchWiki(f, all_nouns[0])
-	print(wiki_awnser)
+# elif(tagger(sentence) == True):
+# 	tagged = all_nouns[0]
+# 	tagged = "_" + tagged
+# 	print(searchWiki.searchWiki(f, tagged))
+# else:	
+# 	print "all nouns", all_nouns
+# 	wiki_awnser = searchWiki.searchWiki(f, all_nouns[0])
+# 	print(wiki_awnser)
 
-	a = csv_Getter(all_nouns[0])
-	if (match(a, wiki_awnser) >= 3):
-		print(wiki_awnser)
-	else:
-		print(match(a, wiki_awnser))
-		print("Too Bad!")
-
+# 	a = csv_Getter(all_nouns[0])
+# 	if (match(a, wiki_awnser) >= 3):
+# 		print(wiki_awnser)
+# 	else:
+# 		print(match(a, wiki_awnser))
+# 		print("Too Bad!")

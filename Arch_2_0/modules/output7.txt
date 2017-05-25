@@ -1,0 +1,38 @@
+('antes ', 'ascii')
+('depois ', 'utf8')
+Loading data base from files...
+[;1m[INFO] [;0mReloading memory...
+Data base loaded!
+
+Receving sentence from NAO:
+Processing Sentece
+
+Calculating number of words
+Number of words: 7
+
+
+Checking for doubts...
+Matches: ['o que']
+Doubt found: True
+
+
+Stopwords filter:
+phrase  o
+Sentece:  ['copa', 'mundo?']
+['copa', 'mundo?']
+
+
+Just translate:
+[u'que', u'soften']
+
+
+All:
+phrase  o
+Sentece:  ['copa', 'mundo?']
+Lista de palavras:  ['copa', 'mundo?']
+('Palavra indo pra: ', 'copa')
+('Palavra indo pra: ', 'mundo?')
+{'mundo?': [(u'soften', u'NN')], 'copa': [(u'tree', u'JJ'), (u'crown', u'NN')]}
+['mundo?']
+
+

@@ -35,3 +35,5 @@ for pkg in packages:
 		settings.info('Package not found, installing...')
 		install(pkg)
 		settings.info('Instaled.')
+
+os.system('python -m textblob.download_corpora')
