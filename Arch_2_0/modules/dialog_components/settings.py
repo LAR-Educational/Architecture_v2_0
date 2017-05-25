@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+debug = True
+
 class bcolors:
 	RED   = "\033[1;31m"  
 	BLUE  = "\033[1;34m"

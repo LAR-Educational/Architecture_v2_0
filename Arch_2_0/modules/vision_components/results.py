@@ -3,8 +3,8 @@ import time
 
 fieldnames = ['class', 'knn_hst', 'knn_pxl', 'mlp_hst', 'mlp_pxl', 'svm_hst', 'svm_pxl', 'ensemble_hst', 'ensemble_pxl', 'ensemble_all']
 writer = None
-path = 'results/vision_results/'
-# path = '../../results/vision_results/'
+#path = 'results/vision_results/'
+path = '../../results/vision_results/'
 file = 'results_' + str(time.ctime()) +'.csv' 
 
 def initializate(fname=file):
@@ -31,7 +31,7 @@ def write_row(values):
 						  fieldnames[9]: values['ensemble_all']})
 
 
-def process(fname):
+def process(fname, percent=False):
 	hit = [0,0,0,0,0,0,0,0,0,0]
 	label_0 = [0,0,0,0,0,0,0,0,0,0]
 	label_1 = [0,0,0,0,0,0,0,0,0,0]
@@ -56,9 +56,10 @@ def process(fname):
 						label_1[i] += 1
 					if(row[fieldnames[0]] == '2'):
 						label_2[i] += 1
-
+		
 		for i in range(1,10):
 			print("Classificador: " + fieldnames[i])
+			print("Total: " + str(hit[0]))
 			print("\tNumero de acertos por classes:")
 			print("\t0: " + str(label_0[i]/float(label_0[0])) + "\t1: " + str(label_1[i]/float(label_1[0]))  + "\t2: " + str(label_2[i]/float(label_2[0])) )
 			print("\tPorcentagem de acertos total: " + str(hit[i]/float(hit[0])))

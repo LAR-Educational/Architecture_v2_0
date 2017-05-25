@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 import re
 import csv
 import unicodedata
@@ -82,7 +83,7 @@ def findNoun(sentence):
 				flag = True
 		
 		if(flag == False):
-			result.append(phrase[x])	
+			result.append(phrase[x])
 
 	return result
 
@@ -171,6 +172,10 @@ def match(result, sentence):
 	return len(match)
 
 
+
+
+
+
 """
 A remoção de acentos foi baseada em uma resposta no Stack Overflow.
 http://stackoverflow.com/a/517974/3464573
@@ -194,6 +199,8 @@ def tagger(sentence):
 			return True
 			break
 
+
+
 	# Identifica o perguntas afirmações e duvidas 
 print("Loading data base from files...")
 	
@@ -207,10 +214,19 @@ print("Data base loaded!\n")
 	 
 
 translator = Translator(from_lang = "pt", to_lang = "en")
-sentence = raw_input("Receving sentence from NAO...\n")
+
+sentence = raw_input("Receving sentence from NAO:")
+
 input_copy = sentence
 sentence = sentence.lower()
 #print(sentence)
+
+print("\nProcessing Sentece\n")
+
+
+#encoding = "utf-8" # or iso-8859-15, or cp1252, or whatever encoding you use
+#byte_string = sentence  # or simply "café" before python 3.
+#unicode_string = byte_string.decode(encoding)
 
 
 #encoding = "utf-8" # or iso-8859-15, or cp1252, or whatever encoding you use
