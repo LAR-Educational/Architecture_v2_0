@@ -117,7 +117,7 @@ def find_Nouns_stopWord(dictc, filtred_words):
 
 def creat_Dict(sentence):
 	splitted_sentence = sentence.split()
-	translate_dict = {}
+	translate_dict = {}    
 
 	for x in range(0, len(splitted_sentence)):
 		word = TextBlob(splitted_sentence[x])
@@ -224,7 +224,7 @@ sentence = awnser.encode(encoding)
 
 
 translator = Translator(from_lang = "pt", to_lang = "en")
-translation = translator.translate("Vamos ver se vai agora essa desçraca filha da puta")
+translation = translator.translate("Terra")
 
 print(translation)
 
