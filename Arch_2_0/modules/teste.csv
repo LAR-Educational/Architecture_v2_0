@@ -1,6 +1,7 @@
-sol,arestas,vertices,faces,mesa
-estrela,segmento,ponto,plano,movel
-galaxia,reta,retas,lados,madeira
-sistema,linha,aresta,figura,apoio
-solar,vertices,pico,geometria,cadeira
-centro,geometria,encontro,plano,pernas
+sol,arestas,vertices,faces,mesa,robô
+estrela,segmento,ponto,plano,movel,dispositivo
+galaxia,reta,retas,lados,madeira,eletrônico
+sistema,linha,aresta,figura,apoio,tarefa
+solar,vertices,pico,geometria,cadeira,autônomo
+centro,geometria,encontro,plano,pernas,motores
+

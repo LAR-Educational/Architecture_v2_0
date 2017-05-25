@@ -9,8 +9,13 @@ from dialog_components import database
 from textblob import TextBlob
 from translate import Translator
 
+import sys  
 
+reload(sys)  
 
+print("antes ", sys.getdefaultencoding())
+sys.setdefaultencoding('utf8')
+print("depois ", sys.getdefaultencoding())
 
 def readFile(fileName):
 	with open(fileName) as f:
@@ -76,6 +81,8 @@ def findNoun(sentence):
 	result = []
 	flag = False
 	phrase = sentence.split(" ")
+	print "phrase ", phrase[0]
+
 	for x in range(0, len(phrase)):
 		flag = False
 		for y in range(0, len(temp_list_noun)):
@@ -85,6 +92,7 @@ def findNoun(sentence):
 		if(flag == False):
 			result.append(phrase[x])
 
+	print "Sentece: ", result
 	return result
 
 
@@ -92,7 +100,9 @@ def findNoun(sentence):
 def creat_Dict_stopWord(filtred_words):
 	translate_dict = {}
 
+	print "Lista de palavras: ", filtred_words
 	for x in range(0, len(filtred_words)):
+		print ("Palavra indo pra: ", filtred_words[x])   
 		word = translator.translate(filtred_words[x])
 		word = TextBlob(word)
 		try:
@@ -212,7 +222,7 @@ print("Data base loaded!\n")
 
 translator = Translator(from_lang = "pt", to_lang = "en")
 
-sentence = raw_input("Receving sentence from NAO:")
+sentence = "robô"#raw_input("Receving sentence from NAO:")
 
 input_copy = sentence
 sentence = sentence.lower()
@@ -295,9 +305,10 @@ elif(tagger(sentence) == True):
 	tagged = all_nouns[0]
 	tagged = "_" + tagged
 	print(searchWiki.searchWiki(f, tagged))
-else:
+else:	
+	print "all nouns", all_nouns
 	wiki_awnser = searchWiki.searchWiki(f, all_nouns[0])
-	#print(wiki_awnser)
+	print(wiki_awnser)
 
 	a = csv_Getter(all_nouns[0])
 	if (match(a, wiki_awnser) >= 3):
@@ -305,3 +316,4 @@ else:
 	else:
 		print(match(a, wiki_awnser))
 		print("Too Bad!")
+

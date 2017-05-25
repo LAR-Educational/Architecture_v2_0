@@ -11,6 +11,9 @@ warnings.simplefilter("ignore", UserWarning)
 
 # Pesquisa a página mais próxima de query da wikipedia e procura a seção query, se não achado devolver o resumo.
 def searchWiki(file, query, section='', sentences = 0):
+	query = query.decode('utf-8')
+	section = section.decode('utf-8')
+
 	if query is '':
 		settings.info("Invalid string.", 3)
 
