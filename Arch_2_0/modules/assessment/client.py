@@ -1,17 +1,16 @@
 import socket
 import time
 import sys
-import cv2
+
 import settings
 import emotion
 import disatention
-from thread import *
 
 class Client(object):
-	def __init__(self, host='localhost', port=12345):
+	def __init__(self, host='localhost', port=12345cv2):
 		self.host = host
 		self.port = port
-		self.max_retries = 10
+		self.max_retries = 5
 		self.retries = 0
 		
 		while True:
@@ -26,7 +25,7 @@ class Client(object):
 					emotion.setCommand('end')
 					disatention.desv_end('sair')
 					sys.exit()
-				time.sleep(2)
+				time.sleep(4)
 				settings.info("Retrying connection")
 				pass
 		settings.info('Client socket Created')
@@ -44,7 +43,7 @@ class Client(object):
 					emotion.setCommand('end')
 					disatention.desv_end('sair')
 					sys.exit()
-				time.sleep(2)
+				time.sleep(4)
 				settings.info("Retrying connection")
 				pass	
 		settings.info('Client: IP address of ' + self.host + ' is '+ remote_ip)
@@ -62,7 +61,7 @@ class Client(object):
 					emotion.setCommand('end')
 					disatention.desv_end('sair')
 					sys.exit()
-				time.sleep(2)
+				time.sleep(4)
 				settings.info("Retrying connection")
 				pass
 		settings.info('Client socket connected to ' + host + ' on IP '+ remote_ip)

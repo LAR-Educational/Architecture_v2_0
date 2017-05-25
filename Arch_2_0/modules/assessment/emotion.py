@@ -1,10 +1,10 @@
 from __future__ import print_function
+import cv2
+import numpy as np
 import time
 import requests
-import cv2
-import time
+
 import settings
-import numpy as np
 
 command = ''
 def setCommand(cmd):

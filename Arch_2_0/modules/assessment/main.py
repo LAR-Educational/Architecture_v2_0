@@ -1,9 +1,10 @@
 from threading import Thread
 import time
+
 import server
+import client
 import emotion
 import disatention
-import client
 import settings
 
 class myThread(Thread):

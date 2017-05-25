@@ -1,9 +1,10 @@
+from thread import *
 import socket
 import time
 import sys
+
 import emotion
 import disatention
-from thread import *
 import settings
 
 isRunning = True
@@ -12,7 +13,7 @@ class Server(object):
 	def __init__(self, host='localhost', port=12345):
 		self.host = host
 		self.port = port
-		self.max_retries = 10
+		self.max_retries = 5
 		self.retries = 0
 
 		while True:
@@ -27,7 +28,7 @@ class Server(object):
 					emotion.setCommand('end')
 					disatention.desv_end('sair')
 					sys.exit()
-				time.sleep(2)
+				time.sleep(4)
 				settings.info("Retrying connection")
 				pass
 		settings.info('Server socket Created\n')
