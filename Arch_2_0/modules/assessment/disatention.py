@@ -46,8 +46,10 @@ def desv_counter(webcam_code):
 			i = i+1
 			counter = time.time()
 										
-		face_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)                                    
-		faces = face_cascade.detectMultiScale(face_gray, 1.3, 5)
+		face_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+           #ESSES PAREMETROS AUMENTAM OU DIMINUM A ANGULACAO DA FACE PARA DETECCAO                                     
+		faces = face_cascade.detectMultiScale(face_gray, 1.9, 10)
 	
 		if len(faces) == 0:     				#caso nao tenha faces atualizo o tempo                    
 			t1 = time.time()
@@ -81,4 +83,34 @@ def desv_counter(webcam_code):
 	str2 = "%d" %counter_face + "\n" + "%.2f" %time_face_disatention + "\n" + "%.2f" %time_atention + "\n"
 	arq_ret.write(str2)
 	arq_ret.close()
+
+
+
+
+
+def main():
+    print ("Running attention deviation counter")
+    
+    t1=Th(1)
+    t2=Th(2)
+    t1.start()    
+    
+    while True:
+        x = raw_input("\nNumer: ")
+        
+        if(x=='1'):
+            
+            t2.start()
+            break
+    #desv_counter(0)
+
+
+    print ("Shutting down attention deviation counter")
+    
+
+
+
+if __name__=="__main__":
+    main()
+
 

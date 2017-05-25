@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 import re
 import csv
 import unicodedata
@@ -165,6 +166,10 @@ def match(result, sentence):
 	return len(match)
 
 
+
+
+
+
 """
 A remoção de acentos foi baseada em uma resposta no Stack Overflow.
 http://stackoverflow.com/a/517974/3464573
@@ -188,6 +193,8 @@ def tagger(sentence):
 			return True
 			break
 
+
+
 	# Identifica o perguntas afirmações e duvidas 
 print("Loading data base from files...")
 	
@@ -199,10 +206,13 @@ f = database.File()
 print("Data base loaded!\n")
 	 
 
-sentence = raw_input("Receving sentence from NAO...\n")
+sentence = raw_input("Receving sentence from NAO:")
 input_copy = sentence
 sentence = sentence.lower()
 #print(sentence)
+
+print("\nProcessing Sentece\n")
+
 
 encoding = "utf-8" # or iso-8859-15, or cp1252, or whatever encoding you use
 byte_string = sentence  # or simply "café" before python 3.
