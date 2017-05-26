@@ -148,7 +148,7 @@ def classify(img_path, classifier='knn'):
         if(votes_hst[2] > votes_hst[0] and votes_hst[2] > votes_hst[1]):
             label = 2
 
-        hst_c = {'label':label, '0':(votes_hst[0]/3.0) ,'1':(votes_hst[1]/3.0), '2': (votes_hst[2]/3.0) }
+        hst_c = {'label':label, '0':(votes_hst[0]/3.0) ,'1':(votes_hst[1]/3.0), '2': (votes_hst[2]/3.0), '-1': (votes_hst[2]/3.0) }
 
 
 
@@ -167,7 +167,7 @@ def classify(img_path, classifier='knn'):
             label = 2
 
 
-        pxl_c = {'label':label, '0': (votes_pxl[0]/3.0) ,'1':(votes_pxl[1]/3.0), '2': (votes_pxl[2]/3.0) }
+        pxl_c = {'label':label, '0': (votes_pxl[0]/3.0) ,'1':(votes_pxl[1]/3.0), '2': (votes_pxl[2]/3.0), '-1': (votes_pxl[2]/3.0)  }
         
 
 
@@ -182,7 +182,7 @@ def classify(img_path, classifier='knn'):
         if(votes_all[2] > votes_all[0] and votes_all[2] > votes_all[1]):
             label = 2
 
-        all_c = {'label':label, '0':(votes_all[0]/6.0) ,'1':(votes_all[1]/6.0), '2': (votes_all[2]/6.0) }
+        all_c = {'label':label, '0':(votes_all[0]/6.0) ,'1':(votes_all[1]/6.0), '2': (votes_all[2]/6.0), '-1': (votes_all[2]/6.0)  }
 
         write_csv = {'class':'none',
                      'knn_hst': str(knn_ret['hst']['label']) + '_' + str(knn_ret['hst'][str(knn_ret['hst']['label'])]),
