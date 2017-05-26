@@ -35,25 +35,30 @@ def main():
     
    
     vs.initializate(vars. training_path, vars.classifierType)
-    
+    counter = 0
 
    # mt.run("Right_hand_up")       
     rs.initializate()    
     while True:
-
-        time.sleep(1)       
-        c = raw_input("label:") 
         
+        time.sleep(1)       
+        c = raw_input("( " + str(counter) + " ) label:") 
+        counter += 1
         if c == "x":
             break
         
         im=vs.see()    
         
+       # cv2.imshow("top-camera-320x240", im)
+      #  cv2.waitKey(0)
+        name = "newimg/" + c + "_" + str(time.ctime()) + ".jpg"
+
+        cv2.imwrite(name,im)
+        print("Image saved." + name)
+     #   cv2.destroyAllWindows()
         
-#        cv2.imshow("top-camera-320x240", im)
-#        cv2.waitKey()
-#        cv2.destroyAllWindows()
-#        
+
+        
         
         ret = vs.classify(im, vars.classifierType)   
         ret['csv']['class'] = c

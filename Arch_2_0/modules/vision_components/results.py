@@ -3,8 +3,8 @@ import time
 
 fieldnames = ['class', 'knn_hst', 'knn_pxl', 'mlp_hst', 'mlp_pxl', 'svm_hst', 'svm_pxl', 'ensemble_hst', 'ensemble_pxl', 'ensemble_all']
 writer = None
-#path = 'results/vision_results/'
-path = '../../results/vision_results/'
+path = 'results/vision_results/'
+#path = '../../results/vision_results/'
 file = 'results_' + str(time.ctime()) +'.csv' 
 
 def initializate(fname=file):
@@ -67,7 +67,7 @@ def process(fname, percent=False):
  
 
 def main():	
-	process('results_Thu May 18 17:24:49 2017.csv')
+	process('results_Thu May 25 17:24:53 2017.csv')
 	# initializate()
 	#write_row('e', '1', '2', '0', '1', '2', '0', '1', '0', '2')
 
