@@ -8,6 +8,8 @@ import vision_definitions
 import cv2
 
 
+import time
+
 
 
 # subscribe top camera
@@ -97,9 +99,17 @@ def initializate(data_training_path, classifier='knn'):
             knn.initializate(data_training_path)
             mlp.initializate(data_training_path)
             svm.initializate(data_training_path)
+            start_time = time.time()
             knn.fit()
+            print("KNN trainning time: %s seconds " % (time.time() - start_time))            
+            
+            start_time = time.time()
             mlp.fit()
+            print("MLP trainning time: %s seconds " % (time.time() - start_time))            
+            
+            start_time = time.time()
             svm.fit()
+            print("SVM trainning time: %s seconds " % (time.time() - start_time))            
 
         vars.info("Vision system Online.")
         vars.info("Using classifier type: " + vars.classifierType)

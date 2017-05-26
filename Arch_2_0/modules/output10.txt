@@ -1,0 +1,46 @@
+('antes ', 'ascii')
+('depois ', 'utf8')
+Loading data base from files...
+[;1m[INFO] [;0mReloading memory...
+Data base loaded!
+
+Receving sentence from NAO:
+Processing Sentece
+
+Calculating number of words
+Number of words: 9
+
+
+Checking for doubts...
+Doubt found: False
+
+
+Checking for negation...
+Negation found: False
+
+
+Checking for afirmation...
+Afirmation found: False
+Stopwords filter:
+phrase  o
+Sentece:  ['rato', 'roeu', 'roupa', 'rei', 'roma']
+['rato', 'roeu', 'roupa', 'rei', 'roma']
+
+
+Just translate:
+[u'mouse', u'gnawed', u'garment', u'king', u'rome']
+
+
+All:
+phrase  o
+Sentece:  ['rato', 'roeu', 'roupa', 'rei', 'roma']
+Lista de palavras:  ['rato', 'roeu', 'roupa', 'rei', 'roma']
+('Palavra indo pra: ', 'rato')
+('Palavra indo pra: ', 'roeu')
+('Palavra indo pra: ', 'roupa')
+('Palavra indo pra: ', 'rei')
+('Palavra indo pra: ', 'roma')
+{'rato': [(u'mouse', u'NN')], 'roupa': [(u'garment', u'NN')], 'roeu': [(u'gnawed', u'NN')], 'rei': [(u'king', u'NN')], 'roma': [(u'rome', u'NN')]}
+['rato', 'roeu', 'roupa', 'rei', 'roma']
+
+

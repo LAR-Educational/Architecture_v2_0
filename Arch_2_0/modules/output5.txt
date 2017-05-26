@@ -1,0 +1,38 @@
+('antes ', 'ascii')
+('depois ', 'utf8')
+Loading data base from files...
+[;1m[INFO] [;0mReloading memory...
+Data base loaded!
+
+Receving sentence from NAO:
+Processing Sentece
+
+Calculating number of words
+Number of words: 6
+
+
+Checking for doubts...
+Matches: ['o que']
+Doubt found: True
+
+
+Stopwords filter:
+phrase  o
+Sentece:  ['sistema', 'solar?']
+['sistema', 'solar?']
+
+
+Just translate:
+[u'que', u'system']
+
+
+All:
+phrase  o
+Sentece:  ['sistema', 'solar?']
+Lista de palavras:  ['sistema', 'solar?']
+('Palavra indo pra: ', 'sistema')
+('Palavra indo pra: ', 'solar?')
+{'solar?': [(u'Solar', u'JJ')], 'sistema': [(u'system', u'NN')]}
+['sistema']
+
+

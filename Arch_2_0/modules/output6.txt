@@ -1,0 +1,43 @@
+('antes ', 'ascii')
+('depois ', 'utf8')
+Loading data base from files...
+[;1m[INFO] [;0mReloading memory...
+Data base loaded!
+
+Receving sentence from NAO:
+Processing Sentece
+
+Calculating number of words
+Number of words: 6
+
+
+Checking for doubts...
+Doubt found: False
+
+
+Checking for negation...
+Negation found: False
+
+
+Checking for afirmation...
+Afirmation found: False
+Stopwords filter:
+phrase  por
+Sentece:  ['c\xc3\xa9u', 'azul?']
+['c\xc3\xa9u', 'azul?']
+
+
+Just translate:
+[u'que', u'sky', u'blue']
+
+
+All:
+phrase  por
+Sentece:  ['c\xc3\xa9u', 'azul?']
+Lista de palavras:  ['c\xc3\xa9u', 'azul?']
+('Palavra indo pra: ', 'c\xc3\xa9u')
+('Palavra indo pra: ', 'azul?')
+{'azul?': [(u'blue', u'NN')], 'c\xc3\xa9u': [(u'sky', u'NN')]}
+['c\xc3\xa9u', 'azul?']
+
+

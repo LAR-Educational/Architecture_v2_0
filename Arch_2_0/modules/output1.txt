@@ -1,0 +1,38 @@
+('antes ', 'ascii')
+('depois ', 'utf8')
+Loading data base from files...
+[;1m[INFO] [;0mReloading memory...
+Data base loaded!
+
+Receving sentence from NAO:
+Processing Sentece
+
+Calculating number of words
+Number of words: 4
+
+
+Checking for doubts...
+Matches: ['o que']
+Doubt found: True
+
+
+Stopwords filter:
+phrase  o
+Sentece:  ['s\xc3\xa3o', 'arestas?']
+['s\xc3\xa3o', 'arestas?']
+
+
+Just translate:
+[u'que', u'sion', u'Edge']
+
+
+All:
+phrase  o
+Sentece:  ['s\xc3\xa3o', 'arestas?']
+Lista de palavras:  ['s\xc3\xa3o', 'arestas?']
+('Palavra indo pra: ', 's\xc3\xa3o')
+('Palavra indo pra: ', 'arestas?')
+{'arestas?': [(u'Edge', u'NN')], 's\xc3\xa3o': [(u'sion', u'NN')]}
+['s\xc3\xa3o', 'arestas?']
+
+
