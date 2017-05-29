@@ -11,6 +11,7 @@ def initializate(fname=file):
 	global writer
 	global file
 	file = fname
+	print("File: " + path + fname)
 	with open(path+file, 'w') as csvfile:
 		writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 		writer.writeheader()
@@ -67,7 +68,9 @@ def process(fname, percent=False):
  
 
 def main():	
-	process('results_Thu May 25 17:24:53 2017.csv')
+	global path
+	path = '../../results/vision_results/'
+	process('teste_com_ruidos_leves_Fri May 26 15:52:50 2017.csv')
 	# initializate()
 	#write_row('e', '1', '2', '0', '1', '2', '0', '1', '0', '2')
 

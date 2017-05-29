@@ -38,10 +38,10 @@ def main():
     counter = 0
 
    # mt.run("Right_hand_up")       
-    rs.initializate()    
+    rs.initializate('teste_com_ruidos_pesados_'+ str(time.ctime()) +'.csv')
     while True:
         
-        time.sleep(1)       
+        time.sleep(1)
         c = raw_input("( " + str(counter) + " ) label:") 
         counter += 1
         if c == "x":
