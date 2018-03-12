@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 import time
 
-default = 'mlp'
+default = 'all'
 
 def main():
 	vision.initializate(classifier = default)

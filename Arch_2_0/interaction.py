@@ -33,12 +33,69 @@ def main():
     
     info("Starting vision system")
     
+    
+    
+    diag.saynonblock("Olá. Estou inicializando meus sistemas. Logo brincaremos.")
+    
+    
    
     vs.initializate(vars. training_path, vars.classifierType)
     counter = 0
+    
+    diag.say("Vamos começar")   
 
-   # mt.run("Right_hand_up")       
-    rs.initializate('teste_com_ruidos_pesados_'+ str(time.ctime()) +'.csv')
+    #vars.behavior.runBehavior("right_hand_up-5bd8bd/behavior_1")  
+    
+    
+    
+    diag.saynonblock('estou um pouco tímido')
+    
+    vars.behavior.runBehavior('dialog_move_hands/animations/HandsOnEyes') 
+    
+    print 'BEHAV \n', vars.behavior.getInstalledBehaviors()    
+    
+
+
+    
+    
+    
+        
+    #rs.initializate('teste_com_ruidos_pesados_'+ str(time.ctime()) +'.csv')
+    
+    while 1:
+    
+		#time.sleep(1)
+		c = raw_input("( " + str(counter) + " ) label:") 
+		if c == "x":
+		    break
+		counter += 1
+		
+		im=vs.see()
+		#cv2.imshow("top-camera-320x240", im)
+		#cv2.waitKey(0)
+		name = "newimg/" + c + "_" + str(time.ctime()) + ".jpg"
+
+		cv2.imwrite(name,im)
+		print("Image saved." + name)
+	 	#cv2.destroyAllWindows()
+		
+
+		
+		ret = vs.classify(im, vars.classifierType)   
+		#print 'oi'
+		#ret['csv']['class'] = c
+		#rs.write_row(ret['csv'])
+		#print ret
+		vs.print_proba(ret, full=True, classifier=vars.classifierType)
+        
+		#print 'Input classified as ', vars.figures[ret['all']['label']]
+        
+		if(ret['all']['label']==-1):
+			diag.say("Não consegui reconhecer")
+		else:            
+			diag.say("Achei a figura " + vars.figures[ret['all']['label']])
+    	
+    '''
     while True:
         
         time.sleep(1)
@@ -65,18 +122,16 @@ def main():
         rs.write_row(ret['csv'])
         
         vs.print_proba(ret, full=True, classifier=vars.classifierType)
-        
-    #diag.say("")    
-    
-    #vars.posture.goToPosture("Crouch", 1.0)
+    '''    
+    diag.say("Obrigado por participar.")    
     
     
-    #vars.finisher()
+    
+    vars.finisher()
     
     
-    #vars.motors.rest()
-
-
+    vars.motors.rest()
+    info("FINISHED")
 
 
 
