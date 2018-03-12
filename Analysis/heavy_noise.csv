@@ -1,0 +1,10 @@
+Classifier,Approach,Accuracy
+KNN,hst,0.6333333333
+KNN,pxl,0.7
+MLP,hst,0.8
+MLP,pxl,0.3333333333
+SVM,hst,0.7
+SVM,pxl,0.7
+ENS,hst,0.7
+ENS,pxl,0.5666666667
+ENS,all,0.8

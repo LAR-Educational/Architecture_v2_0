@@ -70,7 +70,7 @@ def process(fname, percent=False):
 def main():	
 	global path
 	path = '../../results/vision_results/'
-	process('teste_com_ruidos_leves_Fri May 26 15:52:50 2017.csv')
+	process('total_noise.csv')
 	# initializate()
 	#write_row('e', '1', '2', '0', '1', '2', '0', '1', '0', '2')
 

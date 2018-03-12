@@ -1,0 +1,54 @@
+Classificador: knn_hst
+Total: 90
+	Numero de acertos por classes:
+	0: 0.933333333333	1: 1.0	2: 1.0
+	Porcentagem de acertos total: 0.977777777778
+
+Classificador: knn_pxl
+Total: 90
+	Numero de acertos por classes:
+	0: 1.0	1: 0.933333333333	2: 1.0
+	Porcentagem de acertos total: 0.977777777778
+
+Classificador: mlp_hst
+Total: 90
+	Numero de acertos por classes:
+	0: 0.933333333333	1: 1.0	2: 1.0
+	Porcentagem de acertos total: 0.977777777778
+
+Classificador: mlp_pxl
+Total: 90
+	Numero de acertos por classes:
+	0: 0.0	1: 0.0	2: 1.0
+	Porcentagem de acertos total: 0.333333333333
+
+Classificador: svm_hst
+Total: 90
+	Numero de acertos por classes:
+	0: 0.966666666667	1: 1.0	2: 1.0
+	Porcentagem de acertos total: 0.988888888889
+
+Classificador: svm_pxl
+Total: 90
+	Numero de acertos por classes:
+	0: 1.0	1: 1.0	2: 1.0
+	Porcentagem de acertos total: 1.0
+
+Classificador: ensemble_hst
+Total: 90
+	Numero de acertos por classes:
+	0: 0.933333333333	1: 1.0	2: 1.0
+	Porcentagem de acertos total: 0.977777777778
+
+Classificador: ensemble_pxl
+Total: 90
+	Numero de acertos por classes:
+	0: 1.0	1: 0.933333333333	2: 1.0
+	Porcentagem de acertos total: 0.977777777778
+
+Classificador: ensemble_all
+Total: 90
+	Numero de acertos por classes:
+	0: 0.966666666667	1: 1.0	2: 1.0
+	Porcentagem de acertos total: 0.988888888889
+
