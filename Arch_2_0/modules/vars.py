@@ -4,8 +4,11 @@ Created on Thu May  4 16:06:04 2017
 
 @author: dtozadore
 """
+teddy_ip="169.254.178.70"
 
-robotIp="169.254.206.242"
+
+robotIp=teddy_ip
+
 port = 9559
 #robotIp="169.254.186.197"
 
@@ -14,6 +17,9 @@ import vision_definitions
 
 #variable to check if the robot is conected
 naoConeted= True
+
+figures = ['Cubo', 'Pirâmide', 'Esfera']
+
 
 if(naoConeted):
     tts = ALProxy("ALTextToSpeech", robotIp, port)
@@ -47,7 +53,7 @@ def initializer():
 #        posture = ALProxy("ALRobotPosture", robotIp, 9559)
 
         tts.setLanguage(defaultLanguage)
-        #motors.wakeUp()
+        motors.wakeUp()
 
 
 

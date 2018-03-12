@@ -1,0 +1,2 @@
+class,knn_hst,knn_pxl,mlp_hst,mlp_pxl,svm_hst,svm_pxl,ensemble_hst,ensemble_pxl,ensemble_all
+	x,0_0.6,1_0.6,1_0.4261178283250799,0_1.0,2_0.6332940865672843,1_0.3798399971307455,-1_0.3333333333333333,1_0.6666666666666666,1_0.5

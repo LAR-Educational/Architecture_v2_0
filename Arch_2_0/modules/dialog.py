@@ -13,7 +13,16 @@ def say(str2say):
     
     if(vars.naoConeted):
         vars.tts.say(str2say)
+
+def saynonblock(str2say):
+    """ Function to make the robot say (if connected) """
     
+    print("[NAO SAYING]: " + str2say)
+    print("")
+    
+    if(vars.naoConeted):
+        vars.tts.post.say(str2say)
+      
     
 def setLang(lang):
         if(vars.naoConeted):

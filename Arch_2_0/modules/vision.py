@@ -23,7 +23,7 @@ AL_kBGRColorSpace = 13
 
 def subscribe():
     
-    nameId = vars.camera.subscribeCamera("Tozadore", 1, AL_kQVGA, AL_kBGRColorSpace, 10)
+    nameId = vars.camera.subscribeCamera("Tozadore", AL_kTopCamera, AL_kQVGA, AL_kBGRColorSpace, 10)
     print "Subscribed in ", nameId
     return nameId
 
@@ -82,7 +82,7 @@ def unsub(subId):
 
 
 
-def initializate(data_training_path, classifier='knn'):
+def initializate(data_training_path, classifier='all'):
     
     try:
         if(classifier == 'knn'):
@@ -119,7 +119,8 @@ def initializate(data_training_path, classifier='knn'):
        
  
 
-def classify(img_path, classifier='knn'):
+def classify(img_path, classifier='all', imshow=False):
+    
     if(classifier == 'knn'):
         return knn.classify(img_path)
     elif(classifier == 'mlp'):
@@ -127,9 +128,10 @@ def classify(img_path, classifier='knn'):
     elif(classifier == 'svm'):
         return svm.classify(img_path)
     elif(classifier == 'all'):
-        knn_ret = knn.classify(img_path)
-        mlp_ret = mlp.classify(img_path)
-        svm_ret = svm.classify(img_path)
+        knn_ret = knn.classify(img_path, imshow)
+        mlp_ret = mlp.classify(img_path, imshow)
+        svm_ret = svm.classify(img_path, imshow)
+        #print '--------------------------------------DEBUG----------------------------------------------'
 
 
         # isso pode ser substituido por moda
@@ -195,7 +197,7 @@ def classify(img_path, classifier='knn'):
                      'ensemble_pxl': str(pxl_c['label']) + '_' + str(pxl_c[str(pxl_c['label'])]), 
                      'ensemble_all': str(all_c['label']) + '_' + str(all_c[str(all_c['label'])])}
 
-
+        print 'TESTE AALL', all_c
         return {'pxl':pxl_c, 'hst':hst_c, 'all':all_c, 'csv':write_csv}
 
 
