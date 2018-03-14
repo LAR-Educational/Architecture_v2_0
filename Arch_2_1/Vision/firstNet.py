@@ -40,7 +40,7 @@ model.compile(loss='binary_crossentropy',
 
 print "\n--- Processing Data ---\n"
 
-batch_size = 16
+batch_size = 20
 
 # this is the augmentation configuration we will use for training
 train_datagen = ImageDataGenerator(
@@ -82,12 +82,42 @@ print "\n--- Starting Training ---\n"
 
 model.fit_generator(
         train_generator,
-        steps_per_epoch=2000 // batch_size,
-        epochs=50,
+        steps_per_epoch=10000 // batch_size,
+        epochs=100,
         validation_data=validation_generator,
         validation_steps=800 // batch_size)
+        
+        
+        
+print "\n--- Saving Model ---\n"
+        
+        
+        
 model.save_weights('first_try.h5')  # always save your weights after training or during training
 #'''
+
+
+
+# ----------------------------- FINAL TUNING ----------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
