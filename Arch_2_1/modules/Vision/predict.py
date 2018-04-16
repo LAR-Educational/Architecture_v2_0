@@ -58,9 +58,9 @@ def predict_from_path(model,img_path):
 	
 	#print shapes
 	
-	print predicted, "  Tempo: ", f , '\n\n'
+	print label, "  Tempo: ", f , '\n\n'
 	
-	return predicted
+	return label
 
 
 

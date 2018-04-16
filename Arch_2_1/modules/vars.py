@@ -1,33 +1,23 @@
 # -*- coding: utf-8 -*-
+
+import csv
+from naoqi import ALProxy
+import vision_definitions
+
 """
 Created on Thu May  4 16:06:04 2017
 
 @author: dtozadore
 """
+
 teddy_ip="169.254.178.70"
-
-
 robotIp=teddy_ip
-
 port = 9559
 #robotIp="169.254.186.197"
 
-from naoqi import ALProxy
-import vision_definitions
 
 #variable to check if the robot is conected
 naoConeted= True
-
-figures = ['Cubo', 'Pirâmide', 'Esfera']
-shapes = ['cub', 'pir', 'esf']
-
-
-if(naoConeted):
-    tts = ALProxy("ALTextToSpeech", robotIp, port)
-    behavior = ALProxy("ALBehaviorManager", robotIp, port)
-    motors =  ALProxy("ALMotion", robotIp, port)
-    posture = ALProxy("ALRobotPosture", robotIp, port)
-    camera = ALProxy("ALVideoDevice", robotIp, port)
 
 # System Variables
 debug = True
@@ -40,21 +30,70 @@ training_path = "modules/vision_components/classifiers/DBIM/alldb"
 defaultLanguage = 'Brazilian'
 
 path = "/home/dtozadore/Projects/Arc_2/ICs"
+
+
+ESC = 1048603
+ENTER = 1048586
+
+attention=False
+
+
+
+def load_classes(file_name):
+
+	with open(file_name, 'rb') as csvfile:
+		spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
+		for row in spamreader:
+			return row
+	
+
+figures = ['Cubo', 'Pirâmide', 'Esfera']
+shapes = load_classes('modules/Vision/shapes.csv')
+
     
 
 
+
+class Robot:
+	
+	#naoConected = 
+
+	def __init__(self, roboIp, port, robot_name = "Tédi", defaultLanguage = 'Brazilian'):
+		try:
+			self.tts = ALProxy("ALTextToSpeech", robotIp, port)
+			self.behavior = ALProxy("ALBehaviorManager", robotIp, port)
+			self.motors =  ALProxy("ALMotion", robotIp, port)
+			self.posture = ALProxy("ALRobotPosture", robotIp, port)
+			self.camera = ALProxy("ALVideoDevice", robotIp, port)
+			self.disattention = False
+			self.name = robot_name
+			self.tts.setLanguage(defaultLanguage)
+			self.animatedSpeechProxy = ALProxy("ALAnimatedSpeech", robotIp, port)
+
+		except e:
+			print "Unexpected error:", e
+    		#raise
+'''
+if(naoConeted):
+    tts = ALProxy("ALTextToSpeech", robotIp, port)
+    behavior = ALProxy("ALBehaviorManager", robotIp, port)
+    motors =  ALProxy("ALMotion", robotIp, port)
+    posture = ALProxy("ALRobotPosture", robotIp, port)
+    camera = ALProxy("ALVideoDevice", robotIp, port)
 
 def initializer():
+	
+	#vars.shapes = load_classes('shapes.csv')
     
-    if(naoConeted):
+	#if(naoConeted):
         #tts = ALProxy("ALTextToSpeech", robotIp, 9559)
 #        tts = ALProxy("ALTextToSpeech", robotIp, 9559)
 #        behavior = ALProxy("ALBehaviorManager", robotIp, 9559)
 #        motors =  ALProxy("ALMotion", robotIp, 9559)
 #        posture = ALProxy("ALRobotPosture", robotIp, 9559)
 
-        tts.setLanguage(defaultLanguage)
-        #motors.wakeUp()
+		
+		#motors.wakeUp()
 
 
 
@@ -64,14 +103,39 @@ def finisher():
     
     if(naoConeted):
         motors.rest()
-        
+'''        
 
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+   
    
 def info(stringToPrint):   
     
+    if debug:
+            print bcolors.OKBLUE + "[I] " + stringToPrint + bcolors.ENDC
+
+def war(stringToPrint):   
     
     if debug:
-            print("[INFO ] "+ stringToPrint)            
+            print bcolors.WARNING + "[W] " + stringToPrint + bcolors.ENDC
+
+def error(stringToPrint):   
+    
+    if debug:
+            print bcolors.FAIL + "[E] " + stringToPrint + bcolors.ENDC
+
+def nao_say(stringToPrint):   
+    
+    if debug:
+            print bcolors.OKGREEN + "[Saying] " + stringToPrint + bcolors.ENDC
 
 
 

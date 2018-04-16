@@ -1,8 +1,0 @@
-today
-name
-team
-time
-plus
-city
-year
-temperature

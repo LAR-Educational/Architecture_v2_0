@@ -7,13 +7,17 @@ Created on 21/03/18
 
 import sys
 from modules import vars
-from modules import dialog as diag
+from modules import dialog #as diag
 #from modules import motion as mt
-from modules import vision as vs
+from modules import vision #as vs
 from modules.Vision import predict
 import time
 import cv2
+import csv
 
+teddy_ip="169.254.178.70"
+robotIp=teddy_ip
+port = 9559
 
 
 def main():
@@ -21,23 +25,52 @@ def main():
     info("Starting program ")            
     
     info("Connecting with NAO")    
-    
     try:
-        vars.initializer();
+        #vars.initializer();
+     	nao=vars.Robot(teddy_ip, port)   
     except:
-        info("Exception:" + sys.exc_info()[0])
+        info("Exception:" + str(sys.exc_info()[0]))
+        raise
+    
+    info(" ----- Starting Vision System -----")
+    try:
+    	vs = vision.VisionSystem(nao) 
+    except:
+        error(" ----- Error loading Vision System -----")
+    	war("Exception type:" + str(sys.exc_info()[0]))
+        raise
+    
+    
+    info(" ----- Starting Dialogue System -----")
+    try:
+    	ds = dialog.DialogSystem(nao,'modules/Dialog') 
+    except:
+        error(" ----- Error loading Dialogue System -----")
+    	war("Exception type:" + str(sys.exc_info()[0]))
+        raise
     
     
     
-    info("Starting vision system")
+    ds.quiz()
     
     
     
+    #collect_database("images_new/")
     
-    colect_database("images/")
+    
+    #vs.see(1)
+    #ds.setParameter('speed', 70)
+    #ds.setParameter('volume', 100)
+    #ds.say("estás pis to li tu?", animated=True)
     
     
-    info("DONE!\n\n")
+    #vs.collect_database("modules/Vision/data/", camId=1)
+    
+    #print vars.shapes
+    
+    
+    
+    info("DONE!\n")
     
     
     
@@ -62,7 +95,7 @@ def main():
     
     #diag.saynonblock("Olá. Estou inicializando meus sistemas. Logo brincaremos.")
     
-    model=predict.load_model()
+    model=predict.load_model(model_name="modules/Vision/data/garrafa_carteira/model.h5")
     #vars.behavior.runBehavior("right_hand_up-5bd8bd/behavior_1")
     
     counter=0
@@ -75,14 +108,14 @@ def main():
 		    #break
 		counter += 1
 		
-		im=vs.see()
+		im=vs.see(1)
 		cv2.imshow("top-camera-320x240", im)
 		
-		if cv2.waitKey(1) == 1048603:
+		if cv2.waitKey(1) == vars.ENTER:
 			break
 		
 		
-		name = "images/c.jpeg"# + str(time.ctime()) + ".jpg"
+		name = "images/0.jpeg"# + str(time.ctime()) + ".jpg"
 		cv2.imwrite(name,im)
 		#print("Image saved." + name)
 	 	#cv2.destroyAllWindows()
@@ -93,41 +126,6 @@ def main():
 
 
 
-
-
-
-
-
-def colect_database(path_name,max_imgs=100):
-
-	for sh in range(0,3):
-		
-		diag.say( "Capturando imagens de " + vars.figures[sh] + " Digite ESC para começar ")
-    	
-
-		while 1:
-			im=vs.see()
-			cv2.imshow("top-camera-320x240", im)
-			if cv2.waitKey(1) == 1048603:
-				break
-			
-		counter=0
-		while counter < max_imgs:
-			
-			counter += 1
-			im=vs.see()
-			cv2.imshow("top-camera-320x240", im)
-		
-			if cv2.waitKey(1) == 1048603:
-				break
-		
-		
-			name = path_name + str(sh) + "_" + str(counter) + ".jpeg"# + str(time.ctime()) + ".jpg"
-			cv2.imwrite(name,im)
-			
-			info("Image saved." + name)	
-
-		info("Captura concluida com sucesso!")
 
 
 
@@ -232,25 +230,18 @@ def old():
     
     
 def info(stringToPrint):   
-    
-    
     if vars.debug:
-            print("[INFO ] "+ stringToPrint)            
+            vars.info(stringToPrint)            
 
+    
+def war(stringToPrint):   
+    if vars.debug:
+            vars.war(stringToPrint)            
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
+def error(stringToPrint):   
+    if vars.debug:
+            vars.error(stringToPrint)            
 
 
     
