@@ -48,7 +48,7 @@ def desv_end():
         
 
 #funcao que conta os desvios, retorna o numero de desvios, o tempo perdido em desatencao e o tempo em atencao
-def desv_counter(camId):
+def desv_counter(camId, minNeighbors=10):
 
 	global string
         
@@ -59,7 +59,7 @@ def desv_counter(camId):
     
 
 
-	face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_alt.xml')     #xml necessario para a classificacao 
+	face_cascade = cv2.CascadeClassifier('modules/haarcascade_frontalface_alt.xml')     #xml necessario para a classificacao 
 	
 	#print "Path: ", os.getcwd() + "/modules/haarcascade_frontalface_alt.xml"
 	
@@ -109,7 +109,7 @@ def desv_counter(camId):
                 #            break
                 #        
 
-	        cv2.imshow('Original',image)
+	        cv2.imshow('Deviation Counter',image)
 	
 		img = image                       #capturando os frames da imagem
 		
@@ -117,7 +117,7 @@ def desv_counter(camId):
 		#cv2.waitKey(0)
 										
 		face_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)                                    
-		faces = face_cascade.detectMultiScale(face_gray, 1.3, 3) #ultimo parametro -> min neighbors
+		faces = face_cascade.detectMultiScale(face_gray, 1.3, minNeighbors) #ultimo parametro -> min neighbors
 	
 		if len(faces) == 0:     				#caso nao tenha faces atualizo o tempo                    
 			t1 = time.time()
@@ -126,6 +126,7 @@ def desv_counter(camId):
 
 			for(x, y, w, h) in faces:
 				cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
+				#print "measures: ", x ,y, w, h
 
 			if t1-t0 > 0.7:								#se o tempo for maior que um valor conto desvio
 				counter_face = counter_face + 1				
