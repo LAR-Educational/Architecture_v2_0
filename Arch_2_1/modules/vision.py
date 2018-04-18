@@ -36,6 +36,7 @@ class VisionSystem:
 	
 	def __init__(self, robot):
 		self.robot=robot
+		print "ROBOT INSIDE VS : ", robot
 	
 
 

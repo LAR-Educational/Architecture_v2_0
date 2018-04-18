@@ -70,8 +70,9 @@ class Robot:
 			self.tts.setLanguage(defaultLanguage)
 			self.animatedSpeechProxy = ALProxy("ALAnimatedSpeech", robotIp, port)
 
-		except e:
-			print "Unexpected error:", e
+		except:
+			print "Unexpected error conneting NAO"
+			#return False
     		#raise
 '''
 if(naoConeted):

@@ -24,12 +24,18 @@ def main():
     
     info("Starting program ")            
     
-    info("Connecting with NAO")    
+    info("Connecting with NAO")
+    nao = False
+        
     try:
         #vars.initializer();
      	nao=vars.Robot(teddy_ip, port)   
     except:
         info("Exception:" + str(sys.exc_info()[0]))
+        
+        print "Robô: ", nao
+        
+        
         raise
     
     info(" ----- Starting Vision System -----")
