@@ -2,8 +2,9 @@
 #from vision_components.classifiers import svm, knn, mlp
 import sys
 import numpy as np
-import vars
+import vars as core
 from naoqi import ALProxy
+
 import vision_definitions
 import cv2
 import csv
@@ -161,7 +162,7 @@ class VisionSystem:
 
 
 
-	def collect_database(self, path_name,max_imgs=100, camId=0):
+	def collect_database(self, activity_name, path_name="./Activities", max_imgs=100, camId=0):
 
 		classes=[]
 	
@@ -174,25 +175,25 @@ class VisionSystem:
 		image = np.zeros((height, width, 3), np.uint8)
 
 
-		activity_name = raw_input("Digite o nome o nome da atividade 'fim' para terminar: ")
+		#activity_name = raw_input("Digite o nome o nome da atividade 'fim' para terminar: ")
 	
 	
 		if activity_name == 'fim' or activity_name == '':
 			print "Operação cancelada"
 			return 0
 	
-		act_path = os.path.join(path_name, activity_name)
+		act_path = os.path.join(path_name, activity_name, "Vision")
 	
 		# ---- Verifying Collected path	
 		if os.path.exists(act_path):
 			print "Path activity exists"        
 			#os.makedirs(aug_path)
-			return False
+			#return False
 		else:
-			print "Starting new activity folder in ", act_path
+			print "Starting Vision Componets in activity folder ", act_path
 			os.makedirs(act_path)
 			os.makedirs(os.path.join(act_path, 'collected'))
-	
+
 	
 
 		for sh in range(0,100):
@@ -211,10 +212,10 @@ class VisionSystem:
 				classes.append(cl)
 				#diag.say( "Capturando imagens da classe: " + cl + ". Digite ESC para começar ")
 			
-				vars.info("Digite ESC para inicializar")
+				core.info("Digite ESC para inicializar")
 			
 				key=0 
-				while key!=vars.ESC:
+				while key!=core.ESC:
 		
 					# get image
 					result = self.robot.camera.getImageRemote(subId)
@@ -238,9 +239,9 @@ class VisionSystem:
 						# show image
 						cv2.imshow("Capturing", image)
 						key=cv2.waitKey(1)
-						
+						print key
 			   
-				vars.info("inicializando Captura")
+				core.info("inicializando Captura")
 			   
 			
 				#cv2.waitKey(1)
@@ -288,34 +289,32 @@ class VisionSystem:
 					#im=vs.see()
 					cv2.imshow("Capturing", image)
 		
-					if cv2.waitKey(1) == vars.ESC:
+					if cv2.waitKey(1) == core.ESC:
 						break
 		
 		
 					name = os.path.join(act_path, 'collected', str(sh)) + "_" + str(counter) + ".jpeg"# + str(time.ctime()) + ".jpg"
 					cv2.imwrite(name,image)
 			
-					vars.info("Image saved." + name)	
+					core.info("Image saved." + name)	
 				#'''
 				#print "Lista de classes",  classes
 			
 			
-		#vars.shapes=classes
+		#core.shapes=classes
 	
-		#print vars.shapes
+		#print core.shapes
 	
-		with open(os.path.join(act_path,'file_classes.csv'), 'wb') as csvfile:
+		with open(os.path.join(path_name, activity_name,'file_classes.csv'), 'wb') as csvfile:
 			spamwriter = csv.writer(csvfile, delimiter=' ',
 		                quotechar='|', quoting=csv.QUOTE_MINIMAL)
 			spamwriter.writerow(classes)
 	
-		vars.info("Captura concluida com sucesso!")
+		core.info("Captura concluida com sucesso!")
 
 
 		self.unsub(subId)
 		return True
-
-
 
 
 
@@ -351,11 +350,11 @@ class VisionSystem:
 		        svm.fit()
 		        print("SVM trainning time: %s seconds " % (time.time() - start_time))            
 
-		    vars.info("Vision system Online.")
-		    vars.info("Using classifier type: " + vars.classifierType)
+		    core.info("Vision system Online.")
+		    core.info("Using classifier type: " + core.classifierType)
 		
 		except:
-		    vars.info("Vision System Exception: " +  str(sys.exc_info()[0]))
+		    core.info("Vision System Exception: " +  str(sys.exc_info()[0]))
 		   
 	 
 
