@@ -30,9 +30,9 @@ Proccess sequence:
 
 class Data_process:
 
-	def __init__(self, work_path):
-		self.work_path = work_path
-		self.classes = self.load_classes(os.path.join(work_path, "file_classes.csv"))
+	def __init__(self, activity_path):
+		self.work_path = activity_path#+"/Vision"
+		self.classes = self.load_classes(os.path.join(self.work_path, "file_classes.csv"))
 		
 
 
@@ -81,7 +81,7 @@ class Data_process:
 		    Parameter: Path with train and validation directories
 		'''
 		
-		path = self.work_path
+		path = os.path.join(self.work_path, "Vision")
 		classes = self.classes
 		total_files = []
 		
@@ -153,12 +153,18 @@ class Data_process:
 		validation_percent = percentage of samples in validation. Default 10%.
 	
 		'''
-
-		dir = self.work_path #"./data/collected" #Original Directory
+	
+		dir = os.path.join(self.work_path,"Vision") #"./data/collected" #Original Directory
 
 		classes = self.classes #load_classes('shapes.csv') #['cub','pir','esf']
 
+		print classes
+
 		coll_path = os.path.join(dir,"collected")
+		
+		
+		print coll_path
+		
 		tr_path = os.path.join(dir,"train")
 		val_path = os.path.join(dir,"validation")
 
@@ -263,7 +269,7 @@ class Data_process:
 
 	def generate_model(self):
 	
-		path = self.work_path
+		path = os.path.join(self.work_path, "Vision")
 
 		print "\n Train path:", os.path.join(path, 'train') , "\n"
 		print "\n Validation path:", os.path.join(path, 'validation') , "\n"
@@ -304,7 +310,7 @@ class Data_process:
 
 		print "\n--- Processing Data ---\n"
 
-		batch_size = 20
+		batch_size = 16
 
 		# this is the augmentation configuration we will use for training
 		train_datagen = ImageDataGenerator(
@@ -373,23 +379,23 @@ class Data_process:
 
 
 		
-def main():
+#def main():
 
-	dp = Data_process("data/garrafa_carteira")
+	#dp = Data_process("data/garrafa_carteira")
     
 	#erase_database("./data/validation")
 	#erase_database("./data/train")
 	#dp.buildTrainValidationData()		
 	#dp.data_aug()		
 	
-	dp.generate_model()
+	#dp.generate_model()
 	
 	#dp.print_classes()
 	
 	
     		
     		
-	print "DONE"
+	#print "DONE"
     #raw_input("DONE")
     
     

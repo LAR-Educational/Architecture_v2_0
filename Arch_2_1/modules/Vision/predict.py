@@ -12,7 +12,7 @@ import time
 
 #model = Sequential()
 
-def load_model(model_name='/home/tozadore/Projects/Architecture_v2_0/Arch_2_1/modules/Vision/model.h5'):
+def load_model(model_name):
 	''' function to load CNN model trained model'''
 	
 	model=keras.models.load_model(model_name)
@@ -52,13 +52,13 @@ def predict_from_path(model,img_path):
 	f=end-start
 
 
-	shapes= ['cubo','esfera','piramide']
+	#shapes= ['cubo','esfera','piramide']
 	
-	predicted = shapes[np.argmax(label[0])]
+	#predicted = shapes[np.argmax(label[0])]
 	
 	#print shapes
 	
-	print label, "  Tempo: ", f , '\n\n'
+	#print label, "  Tempo: ", f , '\n\n'
 	
 	return label
 

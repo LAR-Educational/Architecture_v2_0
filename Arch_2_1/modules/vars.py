@@ -3,6 +3,9 @@
 import csv
 from naoqi import ALProxy
 import vision_definitions
+import pickle
+import os
+from pprint import pprint
 
 """
 Created on Thu May  4 16:06:04 2017
@@ -32,11 +35,12 @@ defaultLanguage = 'Brazilian'
 path = "/home/dtozadore/Projects/Arc_2/ICs"
 
 
-ESC = 1048603
-ENTER = 1048586
+ESC = 27 #1048603
+ENTER = 13 #1048586
 
 attention=False
 
+current_path= os.getcwd()
 
 
 def load_classes(file_name):
@@ -74,6 +78,11 @@ class Robot:
 			print "Unexpected error conneting NAO"
 			#return False
     		#raise
+    		
+    		
+    		
+    		
+    		
 '''
 if(naoConeted):
     tts = ALProxy("ALTextToSpeech", robotIp, port)
@@ -96,15 +105,17 @@ def initializer():
 		
 		#motors.wakeUp()
 
-
-
-
 def finisher():
     
     
     if(naoConeted):
         motors.rest()
+
 '''        
+
+
+
+
 
 class bcolors:
     HEADER = '\033[95m'
