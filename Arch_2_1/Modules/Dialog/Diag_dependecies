@@ -1,0 +1,17 @@
+
+
+#- Speech to Text
+
+#--- Pyaudio
+sudo apt-get install libasound-dev portaudio19-dev libportaudio2 libportaudiocpp0
+sudo apt-get install ffmpeg libav-tools
+pip install pyaudio
+
+# SR
+pip install SpeechRecognition
+
+
+# Lev distance
+pip install Distance
+pip install matplotlib
+pip install scipy

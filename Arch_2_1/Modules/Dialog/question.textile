@@ -1,0 +1,8 @@
+today
+team
+name
+time
+plus
+city
+year
+temperature
