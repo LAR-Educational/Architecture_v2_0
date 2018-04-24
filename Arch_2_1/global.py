@@ -69,7 +69,7 @@ def main():
     
     
     
-    
+    #ds.say("VAI CATAR COQUINHO", True, T)
     
     
     #act = Activity("Par_Impar", "Atividade de teste", vision=True)
@@ -78,7 +78,27 @@ def main():
 
     #create_Activity(act,vs)
     
-    #return 1    
+    
+    
+    pi = ParImpar("Par_Impar", "Atividade de teste")
+    
+    
+    pi.print_Attributes()
+    
+    pi.play(ds)
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    return 1    
     
     act.print_Attributes()
     classes = core.load_classes(os.path.join(act.path, "file_classes.csv"))
@@ -229,9 +249,95 @@ def load_Activity(name):
 		
 		core.info("Loaded successfull" )
     
-    
+#"""    
 
     
+
+
+
+
+
+class ParImpar(Activity):
+	'''
+	
+	'''
+
+	def __init__(self, name, description = "", vision = False, dialog = True, 
+					adapt = False, path = "./Activities" ):
+		
+		Activity.__init__(self, name, description,  vision, dialog, adapt, path )
+	
+
+
+	
+	def play(self, ds, nmax=3):
+	
+	
+		#print "PATH", self.path
+		ans = ""
+		
+		while ans != "sim":
+			str2say = ds.load_from_file(os.path.join(self.path,"Dialog",'instruction.txt'))
+			ds.say(str2say, block=True, animated=True)
+			ds.say("Você entendeu?" , block=True, animated=True)
+			ans = ds.getFromMic_Pt()
+		
+		#print ans
+		
+		ds.say("Certo, que os jogos comecem!")
+		
+		
+		
+		for turn in range(0,nmax):
+		
+			if par(turn):
+				ds.say("Eu escolho")
+			else:
+				ds.say("Você escolhe")	
+		
+		ds.say("Fim da porra toda")
+		
+		
+		
+		
+		#print str2say
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+def par(n):
+	if n%2==0:
+		return True
+	else:
+		return False
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #--------------------------------------------------------------------------------------------------
     
