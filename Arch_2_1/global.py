@@ -5,19 +5,26 @@ Created on 21/03/18
 @author: dtozadore
 """
 
+# ----- System imports -----
+
 import sys
-from modules import vars as core
-from modules import dialog #as diag
-#from modules import motion as mt
-from modules import vision #as vs
-from modules.Vision import predict
-from modules.Vision import data_process #as dp
 import time
 import cv2
 import csv
 import os
 import pickle
 from pprint import pprint
+import numpy as np
+
+# ----- R-CASTLE Modules imports -----
+
+from Modules import vars as core
+from Modules import dialog #as diag
+#from Modules import motion as mt
+from Modules import vision #as vs
+from Modules.Vision import predict
+from Modules.Vision import data_process #as dp
+from Modules import content as ct
 
 
 teddy_ip="169.254.178.70"
@@ -54,7 +61,7 @@ def main():
     
     info(" ----- Starting Dialogue System -----")
     try:
-    	ds = dialog.DialogSystem(nao,'modules/Dialog') 
+    	ds = dialog.DialogSystem(nao,'Modules/Dialog') 
     except:
         error(" ----- Error loading Dialogue System -----")
     	war("Exception type:" + str(sys.exc_info()[0]))
@@ -67,12 +74,14 @@ def main():
     
     #act = Activity("Par_Impar", "Atividade de teste", vision=True)
     
-    #create_Activity(act,vs)
-        
-    
     act = load_Activity("Par_Impar")
-    act.print_Attributes()
+
+    #create_Activity(act,vs)
     
+    #return 1    
+    
+    act.print_Attributes()
+    classes = core.load_classes(os.path.join(act.path, "file_classes.csv"))
     
     model = predict.load_model(model_name=os.path.join("Activities", act.name, "model.h5"))
     #core.behavior.runBehavior("right_hand_up-5bd8bd/behavior_1")
@@ -99,7 +108,9 @@ def main():
 		#print("Image saved." + name)
 	 	#cv2.destroyAllWindows()
 		label=predict.predict_from_path(model,name)
-		print label 
+		print label
+		
+		print "Label:", classes [np.argmax(label[0])]
     
     
     
@@ -122,9 +133,7 @@ def main():
     
     
     
-
-
-
+#--------------------------------------------------------------------------------------------------
 
 class Activity():
 	'''
@@ -140,7 +149,7 @@ class Activity():
 		self.dialog = dialog
 		self.adapt = adapt
 		self.path = os.path.join(path,name)
-
+		self.classes = []
 		
 	def save(self):
 		info("Writing activity attributes" )
@@ -158,11 +167,12 @@ class Activity():
 
 
 
-
 def create_Activity(act, vs):
 	'''    
 	Create a new activity and set all directories
 	'''
+
+
 
 	if os.path.exists(act.path):
 		war("Path activity exists")        
@@ -170,6 +180,10 @@ def create_Activity(act, vs):
 	else:
 		info("Starting new activity folder in " + act.path )
 		os.makedirs(act.path)
+		os.makedirs(os.path.join(act.path,"Vision" ))
+		os.makedirs(os.path.join(act.path, "Dialog" ))
+		os.makedirs(os.path.join(act.path, "Users" ))
+		os.makedirs(os.path.join(act.path, "Logs" ))
 	
 	info("Writing activity attributes" )
 	
@@ -182,23 +196,17 @@ def create_Activity(act, vs):
 	
 	if act.vision:
 		info("Starting Vision Componets for activity: " + act.name)
-		#vs.collect_database(act.name, camId=1)
+		#act.classes = vs.collect_database(act.name, camId=1)
 		
+		dp = data_process.Data_process(act.path )
+		#dp.buildTrainValidationData()
+		#dp.data_aug()		
+		#dp.generate_model()
+		#dp.print_classes()
+	
 	else:
 		war("Activity <<" + act.name + ">> has no Vision system required")	
 	
-	
-	dp = data_process.Data_process(act.path )
-	
-	print act.path			
-	
-	#dp.buildTrainValidationData()
-			
-	#dp.data_aug()		
-	
-	#dp.generate_model()
-	
-	#dp.print_classes()
 		
 	
 	
@@ -214,17 +222,18 @@ def create_Activity(act, vs):
 
 
 def load_Activity(name):
-		info("Loading activity attributes" )
+		core.info("Loading activity attributes" )
 		
 		with open(os.path.join(core.current_path, "Activities", name, 'activity.data'), 'rb') as f:
 			return pickle.load(f)
 		
-		info("Loaded successfull" )
+		core.info("Loaded successfull" )
     
     
+
     
-    
-    
+
+#--------------------------------------------------------------------------------------------------
     
     
 def info(stringToPrint):   
@@ -246,7 +255,7 @@ def error(stringToPrint):
 if __name__ == "__main__":
     main()      
 
-
+#--------------------------------------------------------------------------------------------------
 
 '''
     
@@ -339,7 +348,7 @@ def old():
     
     #diag.saynonblock("Olá. Estou inicializando meus sistemas. Logo brincaremos.")
     
-    model=predict.load_model(model_name="modules/Vision/data/garrafa_carteira/model.h5")
+    model=predict.load_model(model_name="Modules/Vision/data/garrafa_carteira/model.h5")
     #core.behavior.runBehavior("right_hand_up-5bd8bd/behavior_1")
     
     counter=0
