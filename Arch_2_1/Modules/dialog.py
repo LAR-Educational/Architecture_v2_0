@@ -29,18 +29,18 @@ def open_file (file_name):
 
 class DialogSystem:
 
-	def __init__(self, robot, path):
+	def __init__(self, robot, path, language = "Brazilian"):
 		self.robot=robot
 		self.questions = open_file(os.path.join(path,'questions.txt'))
 		self.answers = open_file(os.path.join(path,'answers.txt'))
-		self.default_language = 'English'
+		self.default_language = language
 		self.setLang(self.default_language)
 		# set the local configuration
 		self.configuration = {"bodyLanguageMode":"contextual"}
 
 
 	#funtion say
-	def say(self, str2say, block=True, animated=False):
+	def say(self, str2say, block=True, animated=True):
 		""" Function to make the robot say (if connected) 
 			str2say = string to say
 			block = if the call will block next steps
@@ -166,7 +166,7 @@ class DialogSystem:
 		while st =="":
 			with sr.Microphone() as source:
 				r.adjust_for_ambient_noise(source)
-				self.say("Estou escutando.", block=False)
+				#self.say("Estou escutando.", block=True)
 				#r.dynamic_energy_adjustment_ratio = 5.0
 				audio = r.listen(source)
 
@@ -176,7 +176,7 @@ class DialogSystem:
 				# for testing purposes, we're just using the default API key
 				# to use another API key, use `r.recognize_google(audio, key="GOOGLE_SPEECH_RECOGNITION_API_KEY")`
 				# instead of `r.recognize_google(audio)`
-				self.say("Entendi.")
+				#self.say("Entendi.")
 				st = r.recognize_google(audio, language = "pt-BR").encode("utf8")
 				#f.write(st)
 				self.say("Ok! ")
@@ -185,7 +185,7 @@ class DialogSystem:
 				print(st)
 				
 			except sr.UnknownValueError:
-				self.say("Não consegui entender o que você disse Poderia repeditr assim que eu estiver escutando novamente?")
+				self.say("Não consegui entender o que você disse. Repita por favor")
 			except sr.RequestError as e:
 				self.say("Estou com um problema de conexão com a internet. Vou tentar de novo. ; {0}".format(e))
 
