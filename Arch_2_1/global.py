@@ -13,6 +13,7 @@ import cv2
 import csv
 import os
 import pickle
+import random
 from pprint import pprint
 import numpy as np
 
@@ -85,7 +86,7 @@ def main():
     
     pi.print_Attributes()
     
-    pi.play(ds)
+    pi.play(ds,vs)
     
     
     
@@ -270,12 +271,14 @@ class ParImpar(Activity):
 
 
 	
-	def play(self, ds, nmax=3):
+	def play(self, ds, vs, nmax=3):
 	
-	
-		#print "PATH", self.path
-		ans = ""
+		self.classes = core.load_classes(os.path.join(self.path, "file_classes.csv"))
 		
+		model = predict.load_model(model_name=os.path.join("Activities", self.name, "model.h5"))
+
+		ans = ""
+		'''
 		while ans != "sim":
 			str2say = ds.load_from_file(os.path.join(self.path,"Dialog",'instruction.txt'))
 			ds.say(str2say, block=True, animated=True)
@@ -286,16 +289,94 @@ class ParImpar(Activity):
 		
 		ds.say("Certo, que os jogos comecem!")
 		
-		
+		'''
 		
 		for turn in range(0,nmax):
 		
-			if par(turn):
-				ds.say("Eu escolho")
+			robotChoice = ""
+			userChoice = ""
+			
+			
+			options = ["par", "ímpar"]
+			phrases = ["eu escolho par", "eu escolho ímpar"]
+			
+			
+			if not par(turn):
+				ds.say("Minha vez de escolher")
+				ran = random.randint(0,1)
+				if par(ran):
+					robotChoice = "par"
+					userChoice = "ímpar"
+				else:	
+					robotChoice = "ímpar"
+					userChoice = "par"
+					
+				ds.say("Eu escolho " + robotChoice)
+				ds.say("Você fica com " + userChoice)	
 			else:
-				ds.say("Você escolhe")	
+				
+
+				while userChoice not in ["par", "ímpar"]:
+					ds.say("Sua vez. Você escolhe par ou ímpar?")	
+					print "Antes função"
+					foo = ds.getFromMic_Pt()
+					
+					userChoice = options[phrases.index(foo)]
+					
+					print "depois função"	
+								
+				if userChoice == "par":
+					robotChoice = "ímpar"
+				else:
+					robotChoice = "par"		
+				
+			
+			
+			
+			
+			ds.say("Então eu fico com " + robotChoice + " e você fica com " + userChoice)
+			
+			im=vs.get_img(1)
+			name = "images/0.jpeg"# + str(time.ctime()) + ".jpg"
+			cv2.imwrite(name,im)
+			#print("Image saved." + name)
+		 	#cv2.destroyAllWindows()
+			label=predict.predict_from_path(model,name)
+			
+			print label
+			
+			userValue = self.classes [np.argmax(label[0])]
+			
+			print "read:", userValue
+			
+			ds.say("Você colocou o valor " + str(userValue))
+			
+			
+			robotValue = random.randint(0,1)
+			
+			total = int(userValue)+robotValue
+			
+			print total
+			
+			if par(total):
+				result = 'par'
+			else:
+				result = 'impar'
+			
+
+			ds.say("Eu coloquei " + str(robotValue) + " e você colocou " + userValue)
+
+
+
+			if robotChoice == result:
+				ds.say("Eu ganhei porque "+ str(robotValue) + " com " + userValue + " são " + str(robotValue+int(userValue)) + "que é " + result)
+			else:
+				ds.say("Você ganhou porque "+ str(robotValue) + " com " + userValue + " são " + str(robotValue+int(userValue)) + "que é " + result)
+			
+			
+			ds.say("Vamos outra vez?")
 		
-		ds.say("Fim da porra toda")
+		ds.say("Fim da Brincadeira")
 		
 		
 		
