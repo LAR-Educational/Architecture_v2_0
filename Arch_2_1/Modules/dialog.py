@@ -181,8 +181,8 @@ class DialogSystem:
 				#f.write(st)
 				self.say("Ok! ")
 				
-				print '\n\nRead sentence:'
-				print(st)
+				print '\nRead sentence:', st
+				#print(st)
 				
 			except sr.UnknownValueError:
 				self.say("Não consegui entender o que você disse. Repita por favor")
