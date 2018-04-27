@@ -18,7 +18,6 @@ AL_kBGRColorSpace = 13
 string = 'rodando'
 flag = True
 
-
 class Th(Thread):
 
 	def __init__ (self, num):
@@ -69,7 +68,7 @@ def desv_counter(camId, minNeighbors=10):
 
 	arq = open('all_statistics.dat', 'a');
 	
-
+	time_to_save = time.time()
 
 	while True:#(flag):
 	      
@@ -140,6 +139,9 @@ def desv_counter(camId, minNeighbors=10):
                 
 		if cv2.waitKey(1) and string == 'sair':
 	                break;
+
+	    if(time_to_save - time.time() == 0.3):
+	    	cv2.imwrite("imgs/{}.png".format(time.time()), face_gray)
 
 	#cap.release()
 	cv2.destroyAllWindows()
