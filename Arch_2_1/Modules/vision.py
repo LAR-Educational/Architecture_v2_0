@@ -9,7 +9,7 @@ import vision_definitions
 import cv2
 import csv
 import os
-
+import sys
 import time
 
 
@@ -98,7 +98,7 @@ class VisionSystem:
 				
 				key=cv2.waitKey(1)
 				#print key
-				if key == 1048603:
+				if key == core.ESC:#1048603:
 					break
 				#        
 		
@@ -162,10 +162,26 @@ class VisionSystem:
 
 
 
-	def collect_database(self, activity_name, path_name="./Activities", max_imgs=100, camId=0):
+	def collect_database(self, activity, path_name="./Activities", max_imgs=300, camId=0):
+
+		# ---- Verifying Collected path	
+		if os.path.exists(coll_path):
+			choice = raw_input("Collected datavase already exist. Do you want to update it? (y/n):")        
+			
+			if choice == "y":
+				increase_database(activity, path_name, max_imgs, camId)
+				return True
+			else:
+				exit()
+			
+			#return False
+		else:
+			print "No database found. Starting a new one in ", act_path
+			os.makedirs(coll_path)
+		
 
 		classes=[]
-	
+
 		subId = self.subscribe(camId)
 	
 		result = self.robot.camera.getImageRemote(subId)
@@ -175,26 +191,10 @@ class VisionSystem:
 		image = np.zeros((height, width, 3), np.uint8)
 
 
-		#activity_name = raw_input("Digite o nome o nome da atividade 'fim' para terminar: ")
-	
-	
-		if activity_name == 'fim' or activity_name == '':
-			print "Operação cancelada"
-			return 0
-	
-		act_path = os.path.join(path_name, activity_name, "Vision")
-	
-		# ---- Verifying Collected path	
-		if os.path.exists(act_path):
-			print "Path activity exists"        
-			#os.makedirs(aug_path)
-			#return False
-		else:
-			print "Starting Vision Componets in activity folder ", act_path
-			os.makedirs(act_path)
-			os.makedirs(os.path.join(act_path, 'collected'))
-
-	
+		act_path = os.path.join(path_name, activity.name, "Vision")
+		coll_path = os.path.join(act.path, 'collected')
+		
+				
 
 		for sh in range(0,100):
 		
@@ -317,11 +317,144 @@ class VisionSystem:
 		
 		return classes
 
+# -------------------------------------------------------------------------------------------------------
 
 
+	def increase_database(self, act, path_name="./Activities", max_imgs=300, camId=0):
+
+		
+		subId = self.subscribe(camId)
+	
+		result = self.robot.camera.getImageRemote(subId)
+		#create image
+		width = result[0]
+		height = result[1]
+		image = np.zeros((height, width, 3), np.uint8)
 
 
-	'''
+		act_vision_path = os.path.join(path_name, act.name, "Vision")
+		coll_path = os.path.join(act_vision_path, 'collected')
+		
+		total_files = len(os.listdir(coll_path))
+		
+		imgs_per_class = total_files/len(act.classes) 
+		
+		print "imgs per class : ", imgs_per_class 
+	
+		#return 0		
+
+		for current_class in range(0,act.ncl):
+		
+			#diag.say("siga o programa no terminal")
+		
+			#cv2.destroyAllWindows() 
+			
+			core.info("\n\nOperating in class: >> " + act.classes[current_class]+ " <<")
+		
+			core.info("Digite ESC para inicializar")
+		
+			key=0 
+			while key != core.ESC:
+	
+				# get image
+				result = self.robot.camera.getImageRemote(subId)
+
+				if result == None:
+					print 'cannot capture.'
+				elif result[6] == None:
+					print 'no image data string.'
+				else:
+
+					# translate value to mat
+					values = map(ord, list(result[6]))
+					i = 0
+					for y in range(0, height):
+						for x in range(0, width):
+							image.itemset((y, x, 0), values[i + 0])
+							image.itemset((y, x, 1), values[i + 1])
+							image.itemset((y, x, 2), values[i + 2])
+							i += 3
+						
+					# show image
+					cv2.imshow("Capturing", image)
+					key=cv2.waitKey(1)
+					
+					if key != -1:
+						print key
+					
+					if key == core.ENTER:
+						self.unsub(subId)
+						exit()
+					
+		   
+			core.info("Starting capture")
+		   
+		
+			#cv2.waitKey(1)
+			#cv2.destroyAllWindows()
+			#cv2.waitKey(1)
+		
+			#'''
+			counter = imgs_per_class +1
+			while counter < max_imgs + imgs_per_class:
+			
+			
+			
+				# get image
+				result = self.robot.camera.getImageRemote(subId)
+
+				if result == None:
+					print 'cannot capture.'
+				elif result[6] == None:
+					print 'no image data string.'
+				else:
+
+					# translate value to mat
+					values = map(ord, list(result[6]))
+					i = 0
+					for y in range(0, height):
+						for x in range(0, width):
+							image.itemset((y, x, 0), values[i + 0])
+							image.itemset((y, x, 1), values[i + 1])
+							image.itemset((y, x, 2), values[i + 2])
+							i += 3
+						
+					# show image
+					cv2.imshow("Capturing", image)
+					key=cv2.waitKey(1)
+			
+				cv2.putText(image,'Image number ' + str(counter), 
+				bottomLeftCornerOfText, 
+				font, 
+				fontScale,
+				fontColor,
+				lineType)
+			
+			
+				counter += 1
+				#im=vs.see()
+				cv2.imshow("Capturing", image)
+	
+				if cv2.waitKey(1) == core.ESC:
+					break
+	
+				name = os.path.join(act_vision_path, 'collected', str(current_class)) + "_" + str(counter) + ".jpeg"# + str(time.ctime()) + ".jpg"
+				cv2.imwrite(name,image)
+		
+				core.info("Image saved." + name)	
+				sys.stdout.write("\033[F") # Cursor up one line
+				#core.info("Next	!")
+
+
+		core.info("Captura concluida com sucesso!")
+
+
+		self.unsub(subId)
+		
+		return True
+
+
+'''
 	def initializate(data_training_path, classifier='all'):
 		
 		try:
