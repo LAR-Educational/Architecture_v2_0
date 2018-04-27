@@ -39,6 +39,12 @@ attention=False
 
 current_path= os.getcwd()
 
+#emotion vars
+labels_dict = {
+    0: 'happy', 1: 'neutral', 2: 'surprise',
+    3: 'fear', 4: 'disgust', 5: 'angry', 6: 'sad'}
+input_shape = (224,224,3)
+
 
 def load_classes(file_name):
 
