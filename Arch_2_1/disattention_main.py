@@ -6,11 +6,11 @@ Created on Thu May  4 16:14:07 2017
 """
 
 import sys
-from modules import vars
-from modules import dialog as diag
-#from modules import motion as mt
-from modules import vision as vs
-from modules import disatention as d 
+from Modules import vars
+from Modules import dialog as diag
+#from Modules import motion as mt
+from Modules import vision as vs
+from Modules import disatention as d 
 
 #obs o raw_input e o input to python3
 #from modules.vision_components import results as rs
