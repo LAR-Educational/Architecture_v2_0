@@ -14,6 +14,7 @@ Created on Thu May  4 16:06:04 2017
 """
 
 teddy_ip="169.254.178.70"
+
 robotIp=teddy_ip
 port = 9559
 #robotIp="169.254.186.197"
@@ -32,8 +33,8 @@ training_path = "modules/vision_components/classifiers/DBIM/alldb"
 # Default Language
 defaultLanguage = 'Brazilian'
 
-ESC = 27 #1048603
-ENTER = 13 #1048586
+ESC = 1048603 #27
+ENTER = 1048586 #13
 
 attention=False
 

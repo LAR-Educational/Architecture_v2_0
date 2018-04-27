@@ -75,31 +75,39 @@ def main():
     
     #act = Activity("Par_Impar", "Atividade de teste", vision=True)
     
-    act = load_Activity("Par_Impar")
 
-    #create_Activity(act,vs)
+    #act = load_Activity("Par_Impar")
     
     
+    #pi = ParImpar("Par_Impar2", "Atividade de teste", vision=True)
+    #create_Activity(pi,vs)
     
-    pi = ParImpar("Par_Impar", "Atividade de teste")
-    
-    
-    pi.print_Attributes()
-    
-    pi.play(ds,vs)
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+	pi = load_Activity("Par_Impar2")
+
+	pi.print_Attributes()
+
+	#vs.increase_database(pi,max_imgs=10, camId=1)
+	dp = data_process.Data_process(pi.path )
+	dp.buildTrainValidationData()
+	dp.data_aug()		
+	dp.generate_model()
+	dp.save_best()
+	dp.print_classes()
+
+	#pi.play(ds,vs)
     
     return 1    
+    
+    
+    
+    
+    
+    
+    
+    act = pi
+    
+    
+    
     
     act.print_Attributes()
     classes = core.load_classes(os.path.join(act.path, "file_classes.csv"))
@@ -171,6 +179,7 @@ class Activity():
 		self.adapt = adapt
 		self.path = os.path.join(path,name)
 		self.classes = []
+		self.ncl = 0
 		
 	def save(self):
 		info("Writing activity attributes" )
@@ -208,27 +217,29 @@ def create_Activity(act, vs):
 	
 	info("Writing activity attributes" )
 	
-	with open(os.path.join(act.path,'activity.data'), 'wb') as f:
-		pickle.dump(act, f, pickle.HIGHEST_PROTOCOL)
-	
-	info("Writining successfull" )
-	
 	
 	
 	if act.vision:
 		info("Starting Vision Componets for activity: " + act.name)
-		#act.classes = vs.collect_database(act.name, camId=1)
-		
+		act.classes = vs.collect_database(act, camId=1)
+		act.ncl = len(act.classes)
+		#act.save()
 		dp = data_process.Data_process(act.path )
 		#dp.buildTrainValidationData()
 		#dp.data_aug()		
 		#dp.generate_model()
-		#dp.print_classes()
+		dp.save_best()
+		dp.print_classes()
 	
 	else:
 		war("Activity <<" + act.name + ">> has no Vision system required")	
 	
 		
+	
+	with open(os.path.join(act.path,'activity.data'), 'wb') as f:
+		pickle.dump(act, f, pickle.HIGHEST_PROTOCOL)
+	
+	info("Writining successfull" )
 	
 	
 	

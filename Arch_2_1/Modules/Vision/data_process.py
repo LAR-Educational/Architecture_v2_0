@@ -11,7 +11,7 @@ from keras.layers import Conv2D, MaxPooling2D
 from keras.layers import Activation, Dropout, Flatten, Dense
 from keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
 from keras.callbacks import ModelCheckpoint
-
+from keras import models
 
 
 
@@ -376,6 +376,15 @@ class Data_process:
 
 	def print_classes(self):
 		print self.classes
+
+
+
+	def save_best(self):
+		model = models.load_model(os.path.join(self.work_path, "model.h5" ))
+		model.load_weights(os.path.join(self.work_path, "Vision", "weights.best.hdf5" ))
+		model.save(os.path.join(self.work_path,'model.h5'))
+
+
 
 
 		
