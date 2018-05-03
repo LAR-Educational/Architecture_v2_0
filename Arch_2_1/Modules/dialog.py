@@ -31,8 +31,8 @@ class DialogSystem:
 
 	def __init__(self, robot, path, language = "Brazilian"):
 		self.robot=robot
-		self.questions = open_file(os.path.join(path,'questions.txt'))
-		self.answers = open_file(os.path.join(path,'answers.txt'))
+		#self.questions = open_file(os.path.join(path,'questions.txt'))
+		#self.answers = open_file(os.path.join(path,'answers.txt'))
 		self.default_language = language
 		self.setLang(self.default_language)
 		# set the local configuration
