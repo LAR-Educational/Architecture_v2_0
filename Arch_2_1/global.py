@@ -35,38 +35,81 @@ port = 9559
 
 def main():
     
-    info("Starting program ")            
+
+
+
+
+	act = ct.Activity("X")
+
+	act.print_Attributes()
+
+	#ct.create_Activity(act)
+
+
+
+
+	actmain = load_Activity("Par_Impar2")
+
+	actmain.print_Attributes()
+
+	act.name = actmain.name
+	act.description = actmain.description
+	act.vision = actmain.vision
+	act.dialog = actmain.dialog
+	act.adapt = actmain.adapt
+	act.path = actmain.path
+	act.classes = actmain.classes
+	act.ncl = actmain.ncl
+	
+	
+	act.print_Attributes()
+	
+	act.save()
+
+
+	return 1
+
+
+def old():
     
-    info("Connecting with NAO")
-    nao = False
-        
-    try:
-        #core.initializer();
-     	nao=core.Robot(teddy_ip, port)   
-    except:
-        info("Exception:" + str(sys.exc_info()[0]))
-        
-        print "Robô: ", nao
-        
-        
-        raise
+	info("Starting program ")            
+
+	info("Connecting with NAO")
+	nao = False
+
+	try:
+		#core.initializer();
+	 	nao=core.Robot(teddy_ip, port)   
+	except:
+		info("Exception:" + str(sys.exc_info()[0]))
+		
+		print "Robô: ", nao
+		
+		
+		raise
+
+	info(" ----- Starting Vision System -----")
+	try:
+		vs = vision.VisionSystem(nao) 
+	except:
+		error(" ----- Error loading Vision System -----")
+		war("Exception type:" + str(sys.exc_info()[0]))
+		raise
+
+
+	info(" ----- Starting Dialogue System -----")
+	try:
+		ds = dialog.DialogSystem(nao,'Modules/Dialog') 
+	except:
+		error(" ----- Error loading Dialogue System -----")
+		war("Exception type:" + str(sys.exc_info()[0]))
+		#raise
+
+
+
+
     
-    info(" ----- Starting Vision System -----")
-    try:
-    	vs = vision.VisionSystem(nao) 
-    except:
-        error(" ----- Error loading Vision System -----")
-    	war("Exception type:" + str(sys.exc_info()[0]))
-        raise
     
-    
-    info(" ----- Starting Dialogue System -----")
-    try:
-    	ds = dialog.DialogSystem(nao,'Modules/Dialog') 
-    except:
-        error(" ----- Error loading Dialogue System -----")
-    	war("Exception type:" + str(sys.exc_info()[0]))
-        #raise
     
     
     
@@ -96,72 +139,72 @@ def main():
 
 	#pi.play(ds,vs)
     
-    return 1    
+	return 1    
     
-    
-    
-    
-    
-    
-    
-    act = pi
-    
-    
-    
-    
-    act.print_Attributes()
-    classes = core.load_classes(os.path.join(act.path, "file_classes.csv"))
-    
-    model = predict.load_model(model_name=os.path.join("Activities", act.name, "model.h5"))
-    #core.behavior.runBehavior("right_hand_up-5bd8bd/behavior_1")
-    
+
+
+
+
+
+
+	act = pi
+
+
+
+
+	act.print_Attributes()
+	classes = core.load_classes(os.path.join(act.path, "file_classes.csv"))
+
+	model = predict.load_model(model_name=os.path.join("Activities", act.name, "model.h5"))
+	#core.behavior.runBehavior("right_hand_up-5bd8bd/behavior_1")
+
 	#counter=0
-	
-    while 1:
-    
+
+	while 1:
+
 		#time.sleep(1)
 		#c = raw_input("( " + str(counter) + " ) label:") 
 		#if c == "x":
-		    #break
+			#break
 		#counter += 1
-		
+	
 		im=vs.get_img(1)
 		cv2.imshow("top-camera-320x240", im)
-		
+	
 		if cv2.waitKey(1) == core.ENTER:
 			break
-		
-		
+	
+	
 		name = "images/0.jpeg"# + str(time.ctime()) + ".jpg"
 		cv2.imwrite(name,im)
 		#print("Image saved." + name)
 	 	#cv2.destroyAllWindows()
 		label=predict.predict_from_path(model,name)
 		print label
-		
+	
 		print "Label:", classes [np.argmax(label[0])]
-    
-    
-    
-    
-    
-    
-    
-    info("DONE!\n")
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    return True
-    
-    
-    
-    
+
+
+
+
+
+
+
+	info("DONE!\n")
+
+
+
+
+
+
+
+
+
+	return True
+
+
+
+
 #--------------------------------------------------------------------------------------------------
 
 class Activity():

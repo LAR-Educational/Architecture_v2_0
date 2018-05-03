@@ -1,27 +1,56 @@
 from PyQt4 import QtGui # Import the PyQt4 module we'll need
 import sys # We need sys so that we can pass argv to QApplication
 
-import load # This file holds our MainWindow and all design related things
+import activities_Manager # This file holds our MainWindow and all design related things
               # it also keeps events etc that we defined in Qt Designer
 
-class ExampleApp(QtGui.QMainWindow, load.Ui_MainWindow):
-    def __init__(self):
-        # Explaining super is out of the scope of this article
-        # So please google it if you're not familar with it
-        # Simple reason why we use it here is that it allows us to
-        # access variables, methods etc in the design.py file
-        super(self.__class__, self).__init__()
-        
-        self.setupUi(self)  # This is defined in design.py file automatically
-        
-        self.pushButton.clicked.connect(self.load_file)
-        
-        def load_file(self):
+
+from Modules import vars as core
+from Modules import dialog #as diag
+#from Modules import motion as mt
+from Modules import vision #as vs
+from Modules.Vision import predict
+from Modules.Vision import data_process #as dp
+from Modules import content as ct
+
+
+
+
+
+
+
+class ExampleApp(QtGui.QMainWindow, activities_Manager.Ui_MainWindow):
+	def __init__(self):
+		# Explaining super is out of the scope of this article
+		# So please google it if you're not familar with it
+		# Simple reason why we use it here is that it allows us to
+		# access variables, methods etc in the design.py file
+		super(self.__class__, self).__init__()
+
+		self.setupUi(self)  # This is defined in design.py file automatically
+
+		self.loadactButton.clicked.connect(self.load_file)
+		self.exitButton.clicked.connect(self.close)
+		self.act = False
+
+
+	def load_file(self):
 		
-			self.label.setText("O LAR")
-			#lineEdit.setText(QFileDialog.getOpenFileName())
+		filename = QFileDialog.getOpenFileName(w, 'Open File', '/')
 		
-			
+		
+		self.act("O LAR")
+
+
+
+
+
+
+	def close(self):
+		self.destroy()
+
+
+	
 
 def main():
     app = QtGui.QApplication(sys.argv)  # A new instance of QApplication
@@ -31,4 +60,4 @@ def main():
 
 
 if __name__ == '__main__':              # if we're running file directly and not importing it
-    main()                              # run the main function
+	main() # run the main function
