@@ -99,7 +99,10 @@ def create_Activity(act, vs):
 def load_Activity(name):
 		core.info("Loading activity attributes" )
 		
-		with open(os.path.join(core.current_path, "Activities", name, 'activity.data'), 'rb+') as f:
+		#with open(os.path.join(core.current_path, "Activities", name, 'activity.data'), 'rb+') as f:
+		#	return pickle.load(f)
+		
+		with open(name, 'rb+') as f:
 			return pickle.load(f)
 		
 		core.info("Loaded successfull" )

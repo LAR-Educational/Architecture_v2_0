@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1095</width>
-    <height>667</height>
+    <width>1433</width>
+    <height>855</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,10 +17,10 @@
    <widget class="QFrame" name="frame">
     <property name="geometry">
      <rect>
-      <x>146</x>
-      <y>9</y>
-      <width>521</width>
-      <height>221</height>
+      <x>230</x>
+      <y>10</y>
+      <width>631</width>
+      <height>241</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -183,10 +183,10 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>240</y>
-      <width>1071</width>
-      <height>381</height>
+      <x>10</x>
+      <y>270</y>
+      <width>1241</width>
+      <height>461</height>
      </rect>
     </property>
     <property name="tabPosition">
@@ -899,8 +899,8 @@
      <rect>
       <x>20</x>
       <y>10</y>
-      <width>105</width>
-      <height>221</height>
+      <width>191</width>
+      <height>241</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -958,10 +958,10 @@
    <widget class="QFrame" name="frame_6">
     <property name="geometry">
      <rect>
-      <x>720</x>
+      <x>900</x>
       <y>10</y>
-      <width>301</width>
-      <height>231</height>
+      <width>351</width>
+      <height>251</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -970,6 +970,19 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
+    <widget class="QLabel" name="label_27">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>0</y>
+       <width>261</width>
+       <height>251</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/imgs/pencil.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -977,8 +990,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1095</width>
-     <height>20</height>
+     <width>1433</width>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuMenu">

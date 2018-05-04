@@ -20,7 +20,7 @@ import numpy as np
 # ----- R-CASTLE Modules imports -----
 
 from Modules import vars as core
-from Modules import dialog #as diag
+#from Modules import dialog #as diag
 #from Modules import motion as mt
 from Modules import vision #as vs
 from Modules.Vision import predict
