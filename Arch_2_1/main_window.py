@@ -118,6 +118,27 @@ class ExampleApp(QtGui.QMainWindow, activities_Manager.Ui_MainWindow):
 			writer.writerow(item)
 	
 	
+	def loadReportsCsv(self, fileName):
+        with open(fileName, "rb") as fileInput:
+            for row in csv.reader(fileInput):    
+                items = [
+                    QtGui.QStandardItem(field)
+                    for field in row
+                ]
+                self.model.appendRow(items)
+
+    def writeCsv(self, fileName):
+        with open(fileName, "wb") as fileOutput:
+            writer = csv.writer(fileOutput)
+            for rowNumber in range(self.model.rowCount()):
+                fields = [
+                    self.model.data(
+                        self.model.index(rowNumber, columnNumber),
+                        QtCore.Qt.DisplayRole
+                    )
+                    for columnNumber in range(self.model.columnCount())
+                ]
+                writer.writerow(fields)
 	
 	
 	
