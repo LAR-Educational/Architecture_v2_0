@@ -36,8 +36,6 @@ for hist in historias:
 # posture.goToPosture("Stand", speed)
 speech.say("Olá amiguinho! O meu nome é Teddy. Chega mais perto que eu tenho umas histórias pra contar pra você")
 
-
-
 for i in range(0,1):
 	attention = disatention.Th(1)
 	attention.start()
