@@ -6,6 +6,7 @@ import vision as vs
 import os
 import sys
 import vars
+import emotion
 from naoqi import ALProxy
 
 
@@ -30,20 +31,18 @@ class Th(Thread):
 			
 		elif self.num == 2:
 			desv_end()
+		
+		elif self.num == 3:
+			emotion_classification()	
+
+def emotion_classification():
+	clasifier = emotion.Classifier()
+	#TODO
+
 
 def desv_end():
-
 	global string
-
 	string = 'sair'
-
-
-        #global flag
-        
-        #flag = False
-        
-        
-        
         
 camera = ALProxy("ALVideoDevice", vars.teddy_ip, vars.port)
 #funcao que conta os desvios, retorna o numero de desvios, o tempo perdido em desatencao e o tempo em atencao
