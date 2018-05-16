@@ -27,13 +27,13 @@ class Log(object):
 	def log(self, stringToPrint, module='General', tag=0):
 		if self.debug:
 			if(tag == 0):
-				print(bcolors.BOLD + '[INFO] ' + bcolors.ENDC + '[' + module + '] ' + '[' + datetime.datetime.now().strftime('%Y-%m-%d %H:%M') + '] ' + stringToPrint)
+				print(bcolors.BOLD + '[INFO] ' + bcolors.BOLD + '[' + module + '] ' + '[' + datetime.datetime.now().strftime('%Y-%m-%d %H:%M') + '] ' + bcolors.ENDC + stringToPrint)
 			elif(tag == 1):
-				print(bcolors.WARNING + '[WARNING] ' + bcolors.ENDC + '[' + module + '] ' + '[' + datetime.datetime.now().strftime('%Y-%m-%d %H:%M') + '] ' + stringToPrint)
+				print(bcolors.WARNING + '[WARNING] ' + bcolors.BOLD + '[' + module + '] ' + '[' + datetime.datetime.now().strftime('%Y-%m-%d %H:%M') + '] ' + bcolors.ENDC + stringToPrint)
 			elif(tag == 2):
-				print(bcolors.BLUE + '[EXCEPTION] ' + bcolors.ENDC + '[' + module + '] ' + '[' + datetime.datetime.now().strftime('%Y-%m-%d %H:%M') + '] ' + stringToPrint)
+				print(bcolors.BLUE + '[EXCEPTION] ' + bcolors.BOLD + '[' + module + '] ' + '[' + datetime.datetime.now().strftime('%Y-%m-%d %H:%M') + '] ' + bcolors.ENDC + stringToPrint)
 			elif(tag == 3):
-				print(bcolors.FAIL + '[ERROR] ' + bcolors.ENDC + '[' + module + '] ' + '[' + datetime.datetime.now().strftime('%Y-%m-%d %H:%M') + '] ' + stringToPrint)
+				print(bcolors.FAIL + '[ERROR] ' + bcolors.BOLD + '[' + module + '] ' + '[' + datetime.datetime.now().strftime('%Y-%m-%d %H:%M') + '] ' + bcolors.ENDC + stringToPrint)
 		if(tag == 0):
 			self.file.write('INFO, ' + module + ', ' + datetime.datetime.now().strftime('%Y-%m-%d %H:%M') + ', ' + stringToPrint)
 		elif(tag == 1):
