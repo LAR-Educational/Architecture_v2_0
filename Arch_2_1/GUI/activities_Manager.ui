@@ -185,8 +185,8 @@
      <rect>
       <x>10</x>
       <y>270</y>
-      <width>1241</width>
-      <height>461</height>
+      <width>1401</width>
+      <height>531</height>
      </rect>
     </property>
     <property name="tabPosition">
@@ -196,7 +196,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <property name="iconSize">
      <size>
@@ -229,7 +229,7 @@
        <rect>
         <x>50</x>
         <y>60</y>
-        <width>121</width>
+        <width>181</width>
         <height>41</height>
        </rect>
       </property>
@@ -286,8 +286,8 @@
      <widget class="QTabWidget" name="dialog_tabWidget">
       <property name="geometry">
        <rect>
-        <x>220</x>
-        <y>10</y>
+        <x>400</x>
+        <y>30</y>
         <width>831</width>
         <height>331</height>
        </rect>
@@ -297,6 +297,9 @@
       </property>
       <property name="tabShape">
        <enum>QTabWidget::Rounded</enum>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
       </property>
       <widget class="QWidget" name="questions_tab">
        <attribute name="title">
@@ -362,7 +365,7 @@
       </widget>
       <widget class="QWidget" name="tab_6">
        <attribute name="title">
-        <string>Tab 2</string>
+        <string>Dialogue Files</string>
        </attribute>
       </widget>
      </widget>
@@ -376,7 +379,7 @@
        <rect>
         <x>20</x>
         <y>10</y>
-        <width>241</width>
+        <width>381</width>
         <height>301</height>
        </rect>
       </property>
@@ -542,7 +545,7 @@
      <widget class="QFrame" name="frame_2">
       <property name="geometry">
        <rect>
-        <x>550</x>
+        <x>890</x>
         <y>10</y>
         <width>501</width>
         <height>301</height>
@@ -777,7 +780,7 @@
      <widget class="QFrame" name="frame_5">
       <property name="geometry">
        <rect>
-        <x>270</x>
+        <x>550</x>
         <y>10</y>
         <width>271</width>
         <height>301</height>
@@ -790,24 +793,6 @@
        <enum>QFrame::Raised</enum>
       </property>
       <layout class="QGridLayout" name="gridLayout_5">
-       <item row="0" column="0" colspan="2">
-        <widget class="QLabel" name="label_20">
-         <property name="font">
-          <font>
-           <pointsize>16</pointsize>
-           <weight>75</weight>
-           <italic>true</italic>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>Samples</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
        <item row="2" column="1">
         <widget class="QFrame" name="pic_4">
          <property name="frameShape">
@@ -880,8 +865,30 @@
          </property>
         </widget>
        </item>
+       <item row="0" column="0" colspan="2">
+        <widget class="QLabel" name="label_20">
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+           <weight>75</weight>
+           <italic>true</italic>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Samples</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
+     <zorder>frame_4</zorder>
+     <zorder>frame_2</zorder>
+     <zorder>frame_5</zorder>
+     <zorder>label_20</zorder>
     </widget>
     <widget class="QWidget" name="tab_adapt">
      <attribute name="title">
@@ -890,7 +897,48 @@
     </widget>
     <widget class="QWidget" name="tab_reports">
      <attribute name="title">
-      <string>Reports</string>
+      <string>System Reports</string>
+     </attribute>
+     <widget class="QTableView" name="tableView">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>70</y>
+        <width>941</width>
+        <height>391</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="reportLoadButton">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>20</y>
+        <width>110</width>
+        <height>29</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Load</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="writeReportButton">
+      <property name="geometry">
+       <rect>
+        <x>420</x>
+        <y>20</y>
+        <width>110</width>
+        <height>29</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Save</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_5">
+     <attribute name="title">
+      <string>Evaluations</string>
      </attribute>
     </widget>
    </widget>
