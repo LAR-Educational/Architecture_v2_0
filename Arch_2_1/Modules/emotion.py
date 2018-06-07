@@ -10,9 +10,8 @@ input_shape = vars.input_shape
 class Classifier:
     def __init__(self, classifier="sf_model"):
         self.classifier = classifier
-        self.emotion
-        self.model_a
-        self.model_b
+        self.model_a = ""
+        self.model_b = ""
 
         if self.classifier == "single_model":
             self.model_a = mobilenet.generate_mobilenet(input_shape, 7)
@@ -20,7 +19,7 @@ class Classifier:
 
         if self.classifier == "ff_model":
             self.model_a = mobilenet.generate_mobilenet(input_shape, 4)
-            self.model_a.load_weights('models/mobilenet-monster-first.h5')
+            self.model_a.load_weights('models/mobilenet-monportster-first.h5')
             self.model_b = mobilenet.generate_mobilenet(input_shape, 4)
             self.model_b.load_weights('models/mobilenet-monster-second.h5')
 
