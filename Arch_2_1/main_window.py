@@ -1,4 +1,4 @@
-from PyQt4 import QtGui # Import the PyQt4 module we'll need
+from PyQt4 import QtGui, QtCore # Import the PyQt4 module we'll need
 import sys # We need sys so that we can pass argv to QApplication
 import csv
 
@@ -37,10 +37,33 @@ class ExampleApp(QtGui.QMainWindow, activities_Manager.Ui_MainWindow):
 		self.insertQuestion_Button.clicked.connect(self.insertQuestion)
 		self.loadQuestions_Button.clicked.connect(self.loadQuestions_fromFile)
 		self.saveQuestions_Button.clicked.connect(self.saveQuestions_fromFile)
+		self.reportLoadButton.clicked.connect(self.loadReportsCsv)
+		self.writeReportButton.clicked.connect(self.writeReportCsv)
 		
 		self.act = False
 		self.qRow = 0
 		self.qCol = 0
+
+
+		self.model = QtGui.QStandardItemModel(self)
+		self.tableView.setModel(self.model)
+		self.tableView.horizontalHeader().setStretchLastSection(True)
+
+		self.tableView.setModel(self.model)
+		self.tableView.horizontalHeader().setStretchLastSection(True)
+		self.layoutVertical = QtGui.QVBoxLayout(self)
+		self.layoutVertical.addWidget(self.tableView)
+		self.layoutVertical.addWidget(self.reportLoadButton)
+		self.layoutVertical.addWidget(self.writeReportButton)
+		
+
+
+
+
+
+
+
+
 
 	def load_file(self):
 		
@@ -67,15 +90,19 @@ class ExampleApp(QtGui.QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		self.questions_tableWidget.insertRow(self.qRow)
 		self.questions_tableWidget.setCurrentCell(self.qRow,0)
-		#self.questions_tableWidget.setItem(0,0, QtGui.QTableWidgetItem("XUPA"))
-	
+		#self.questions_tableWidget.setItem(0,0, QtGui.QTableWidgetItem("TESTE"))
+		self.qRow+=1
 	
 	
 	
 	def loadQuestions_fromFile(self):
 
 		
+		clearTable(self.questions_tableWidget)
+		
+		
 		fileName = self.act.path + "/Dialog/questions.csv"
+		self.qRow=0
 		
 		#print fileName
 
@@ -95,7 +122,7 @@ class ExampleApp(QtGui.QMainWindow, activities_Manager.Ui_MainWindow):
 		#'''
 
 	
-	def saveQuestions_fromFile(self):
+	def saveQuestions_fromFile(self):						
 
 		
 		fileName = self.act.path + "/Dialog/questions.csv"
@@ -107,42 +134,56 @@ class ExampleApp(QtGui.QMainWindow, activities_Manager.Ui_MainWindow):
 			
 			writer = csv.writer(fileOutput)
 			for index in range(0,self.qRow):
-		
-		
+	
+	
 				item = [
-				self.questions_tableWidget.item(index,0).text,
-				self.questions_tableWidget.item(index,1).text]
-			
+				self.questions_tableWidget.item(index,0).text(),
+				self.questions_tableWidget.item(index,1).text()]
+		
 				print item[0], item [1]
 
-			writer.writerow(item)
+				writer.writerow(item)
 	
 	
-	def loadReportsCsv(self, fileName):
-        with open(fileName, "rb") as fileInput:
-            for row in csv.reader(fileInput):    
-                items = [
-                    QtGui.QStandardItem(field)
-                    for field in row
-                ]
-                self.model.appendRow(items)
 
-    def writeCsv(self, fileName):
-        with open(fileName, "wb") as fileOutput:
-            writer = csv.writer(fileOutput)
-            for rowNumber in range(self.model.rowCount()):
-                fields = [
-                    self.model.data(
-                        self.model.index(rowNumber, columnNumber),
-                        QtCore.Qt.DisplayRole
-                    )
-                    for columnNumber in range(self.model.columnCount())
-                ]
-                writer.writerow(fields)
 	
 	
 	
 	
+	def loadReportsCsv(self):
+
+		with open('report.csv', "rb") as fileInput:
+			for row in csv.reader(fileInput):    
+				items = [
+				    QtGui.QStandardItem(field)
+				    for field in row
+				]
+				self.model.appendRow(items)
+
+
+
+
+	def writeReportCsv(self):
+       
+		with open('report.csv', "wb") as fileOutput:
+			writer = csv.writer(fileOutput)
+			for rowNumber in range(self.model.rowCount()):
+				fields = [
+				    self.model.data(
+				        self.model.index(rowNumber, columnNumber),
+				        QtCore.Qt.DisplayRole
+				    )
+				    for columnNumber in range(self.model.columnCount())
+				]
+				writer.writerow(fields)
+
+
+	
+def clearTable(table):	
+	
+	while (table.rowCount() > 0):
+		table.removeRow(0);
+		
 
 def main():
     app = QtGui.QApplication(sys.argv)  # A new instance of QApplication
