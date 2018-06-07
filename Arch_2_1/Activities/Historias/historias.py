@@ -3,7 +3,7 @@ import naoqi
 import numpy as np
 from Modules import dialog
 from Modules import vars
-from Modules import disatention
+#from Modules import disatention
 
 ip = "169.254.178.70"
 port = 9559
@@ -37,22 +37,24 @@ for hist in historias:
 speech.say("Olá amiguinho! O meu nome é Teddy. Chega mais perto que eu tenho umas histórias pra contar pra você")
 
 for i in range(0,1):
-	attention = disatention.Th(1)
-	attention.start()
+	#attention = disatention.Th(1)
+	#attention.start()
 	
 	r = np.random.randint(0,2)
 	print(postures[r])
 	posture.goToPosture("Sit", speed)
 	r = np.random.randint(0,10)
-	animatedSpeech.say(hist_dict[str(r)])
+	#animatedSpeech.say(hist_dict[str(r)])
 	
-	# speech.say("Você pode resumir essa história pra mim?")
-	# dial = dialog.DialogSystem(robot,"respostas")
-	# answer = dial.getFromMic_Pt()
-	# print answer
+	speech.say("Você pode resumir essa história pra mim?")
+	dial = dialog.DialogSystem(robot,"respostas")
+	print hist_dict[str(r)]
+	answer = dial.getFromMic_Pt()
+	print dial.levenshtein_long_two_strings(answer, hist_dict[str(r)])
+	print dial.levenshtein_short_two_strings(answer, hist_dict[str(r)])
 
-	closeAttention = disatention.Th(2)
-	closeAttention.start()
+	#closeAttention = disatention.Th(2)
+	#closeAttention.start()
 
 posture.goToPosture("Sit", speed)
 motion.rest()
