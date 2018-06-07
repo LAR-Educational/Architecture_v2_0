@@ -2,6 +2,7 @@
   <qresource prefix="imgs">
     <file>pencil.png</file>
     <file>cnn.png</file>
+    <file>user.png</file>
     <file>activityDefault.png</file>
   </qresource>
 </RCC>

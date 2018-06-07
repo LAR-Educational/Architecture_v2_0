@@ -27,13 +27,22 @@ Proccess sequence:
 
 '''
 
-
+class CNN:
+	
+	def __init__(self, steps_per_epoch=1000, batch_size=16,	epochs=30, validation_percent = 10):
+		self.steps_per_epoch=steps_per_epoch
+		self.batch_size=batch_size
+		self.epochs=epochs
+		self.validation_percent = validation_percent 
+		
+		
+		
 class Data_process:
 
 	def __init__(self, activity_path):
 		self.work_path = activity_path#+"/Vision"
 		self.classes = self.load_classes(os.path.join(self.work_path, "file_classes.csv"))
-		
+		#self.cnn=cnn
 
 
 	def load_classes(self, file_name):
@@ -267,7 +276,7 @@ class Data_process:
 	
 	
 
-	def generate_model(self):
+	def generate_model(self, steps_per_epoch=1000, batch_size=16,	epochs=30, validation_percent = 10):
 	
 		path = os.path.join(self.work_path, "Vision")
 
@@ -310,7 +319,7 @@ class Data_process:
 
 		print "\n--- Processing Data ---\n"
 
-		batch_size = 16
+		#batch_size = cnn.batch_size
 
 		# this is the augmentation configuration we will use for training
 		train_datagen = ImageDataGenerator(
@@ -351,8 +360,8 @@ class Data_process:
 
 		model.fit_generator(
 				train_generator,
-				steps_per_epoch=2000 // batch_size,
-				epochs=30,
+				steps_per_epoch= steps_per_epoch // batch_size,
+				epochs= epochs,
 				callbacks=callbacks_list,
 				validation_data=validation_generator,
 				validation_steps=800 // batch_size)
