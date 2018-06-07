@@ -9,7 +9,6 @@ import vars
 import emotion
 from naoqi import ALProxy
 
-
 # subscribe top camera
 AL_kTopCamera = 0
 AL_kQVGA = 1            # 320x240
@@ -31,24 +30,19 @@ class Th(Thread):
 			
 		elif self.num == 2:
 			desv_end()
-		
-		elif self.num == 3:
-			emotion_classification()	
 
-def emotion_classification():
-	clasifier = emotion.Classifier()
-	#TODO
 
 
 def desv_end():
 	global string
 	string = 'sair'
-        
+
+classifier = emotion.Classifier()
 camera = ALProxy("ALVideoDevice", vars.teddy_ip, vars.port)
 #funcao que conta os desvios, retorna o numero de desvios, o tempo perdido em desatencao e o tempo em atencao
 def desv_counter(camId, minNeighbors=10):
 
-	global string
+	global string, classifier
         
         global flag
         
@@ -100,12 +94,13 @@ def desv_counter(camId, minNeighbors=10):
 												
 		face_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)                                    
 		faces = face_cascade.detectMultiScale(face_gray, 1.3, minNeighbors) #ultimo parametro -> min neighbors
-	
+		face_to_classify = None
 		if len(faces) == 0:     				#caso nao tenha faces atualizo o tempo                    
 			t1 = time.time()
 	
 		else:
-			for(x, y, w, h) in faces:
+			for (x, y, w, h) in faces:
+				face_to_classify = img[x-10:x+w+10, y-10:y+h+10]
 				cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
 				#print "measures: ", x ,y, w, h
 			if t1-t0 > 0.7:								#se o tempo for maior que um valor conto desvio
@@ -115,9 +110,13 @@ def desv_counter(camId, minNeighbors=10):
 				time_face_disatention += t1-t0
 			t0 = t1 = time.time()
 			
+			# nova estrategia de classificacao: colocar a emocao na imagem na tela do cv (para a interface posteriormente)
 			time_diff = time.time()		
 			if(time_diff - time_to_save >= 0.3):
-				cv2.imwrite("emotion_imgs/{}.png".format(time_to_save), face_gray)
+				face_to_classify = cv.reshape(face_to_classify, (224,224), interpolation=cv.INTER_CUBIC)
+				emotion = classifier.inference(face_to_classify)
+				cv2.putText(img, emotion, (0,0), cv2.FONT_HERSHEY_SIMPLEX, 3, (255,0,0), 2, cv2.LINE_AA)			
+				#cv2.imwrite("emotion_imgs/{}.png".format(time_to_save), face_gray)
 				time_to_save = time_diff
 
 
