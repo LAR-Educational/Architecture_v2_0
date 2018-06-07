@@ -1,4 +1,4 @@
-from mobilenet import generate_mobilenet
+from Emotion import mobilenet
 import os
 import numpy as np
 import cv2
@@ -15,19 +15,19 @@ class Classifier:
         self.model_b
 
         if self.classifier == "single_model":
-            self.model_a = generate_mobilenet(input_shape, 7)
+            self.model_a = mobilenet.generate_mobilenet(input_shape, 7)
             self.model_a.load_weights('models/mobilenet-monster-noweight.h5')
 
         if self.classifier == "ff_model":
-            self.model_a = generate_mobilenet(input_shape, 4)
+            self.model_a = mobilenet.generate_mobilenet(input_shape, 4)
             self.model_a.load_weights('models/mobilenet-monster-first.h5')
-            self.model_b = generate_mobilenet(input_shape, 4)
+            self.model_b = mobilenet.generate_mobilenet(input_shape, 4)
             self.model_b.load_weights('models/mobilenet-monster-second.h5')
 
         if self.classifier == "sf_model":
-            self.model_a = generate_mobilenet(input_shape, 7)
+            self.model_a = mobilenet.generate_mobilenet(input_shape, 7)
             self.model_a.load_weights('models/mobilenet-monster-noweight.h5')
-            self.model_b = generate_mobilenet(input_shape, 4)
+            self.model_b = mobilenet.generate_mobilenet(input_shape, 4)
             self.model_b.load_weights('models/mobilenet-monster-second.h5')
 
     def inference(self, image):
