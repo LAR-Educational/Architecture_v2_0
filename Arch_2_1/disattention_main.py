@@ -10,20 +10,13 @@ from Modules import vars
 from Modules import dialog as diag
 #from Modules import motion as mt
 from Modules import vision as vs
-from Modules import disatention as d 
+from Modules import disattention as d 
 
 #obs o raw_input e o input to python3
 #from modules.vision_components import results as rs
 import time
 
 import cv2
-#import time
-
-
-
-
-
-
 
 def main():
     
