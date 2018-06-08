@@ -106,8 +106,7 @@ def start_classification(camId, minNeighbors=10):
 		# else, shows on screen the detected face, store the face on
 		# a variable to be emotion-classified, and counts deviation time
 		else:
-			# runs through all faces found (expected only one, but
-			# runs in loop just to be sure)
+			# runs through all faces found (expected only one, but runs on a loop just to be sure)
 			for (x, y, w, h) in faces:
 				# draws rectangle around the face
 				cv2.rectangle(image,(x,y),(x+w,y+h),(255,0,0),2)
