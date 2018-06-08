@@ -1,6 +1,7 @@
 from PyQt4 import QtGui, QtCore # Import the PyQt4 module we'll need
 import sys # We need sys so that we can pass argv to QApplication
 import csv
+import os
 
 #from PyQt4.QtGui import *
  
@@ -56,7 +57,7 @@ class ExampleApp(QtGui.QMainWindow, activities_Manager.Ui_MainWindow):
 		self.layoutVertical.addWidget(self.reportLoadButton)
 		self.layoutVertical.addWidget(self.writeReportButton)
 		
-
+		self.subs_list = []
 
 
 
@@ -67,7 +68,7 @@ class ExampleApp(QtGui.QMainWindow, activities_Manager.Ui_MainWindow):
 
 	def load_file(self):
 		
-		filename = QtGui.QFileDialog.getOpenFileName(self, 'Open File', './Activities/Par_Impar2')
+		filename = QtGui.QFileDialog.getOpenFileName(self, 'Open File', './Activities/NOVA')
 		
 		self.act=ct.load_Activity(filename)
 		
@@ -77,7 +78,10 @@ class ExampleApp(QtGui.QMainWindow, activities_Manager.Ui_MainWindow):
 		#self._lineEdit.setText(self.act.desc)
 		self.editButton.setEnabled(True)
 		self.modules_tabWidget.setEnabled(True)
-
+		self.sub_list = load_subjects(os.path.join(self.act.path,"Content","subjects"))
+		
+		print self.sub_list
+		self.comboBox_6.addItems(self.sub_list[1])
 
 	def close(self):
 		exit()
@@ -183,7 +187,37 @@ def clearTable(table):
 	
 	while (table.rowCount() > 0):
 		table.removeRow(0);
-		
+
+
+
+def load_subjects(filename):
+
+	subject_matrix = []
+	with open(filename+'.csv', "rb") as fileInput:
+		print "OLARRR"
+		for row in csv.reader(fileInput):    
+			#print row					
+			subject_matrix.append(row) 
+
+	return subject_matrix 
+
+
+
+def load_csv_as_matrix(filename):
+	
+	subject_matrix = False
+	
+	with open(filename+'.csv', "rb") as fileInput:
+		for row in csv.reader(fileInput):    
+			for item in row:
+				aux.append(item)	
+			subject_matrix.append(aux) 
+			
+	return subject_matrix 
+
+
+
+
 
 def main():
     app = QtGui.QApplication(sys.argv)  # A new instance of QApplication
