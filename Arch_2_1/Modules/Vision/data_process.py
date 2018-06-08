@@ -399,7 +399,7 @@ class Data_process:
 		
 def main():
 
-	dp = Data_process("Activities/Par_Impar")
+	dp = Data_process("Activities/Par_Impar2")
     
 	#erase_database("./data/validation")
 	#erase_database("./data/train")
