@@ -73,8 +73,8 @@ from keras.utils import conv_utils
 from keras.utils.data_utils import get_file
 from keras.engine.topology import get_source_inputs
 from keras.engine import InputSpec
-from Modules.Emotion.imagenet_utils import _obtain_input_shape
-from Modules.Emotion.imagenet_utils import decode_predictions
+from imagenet_utils import _obtain_input_shape
+from imagenet_utils import decode_predictions
 from keras import backend as K
 
 
