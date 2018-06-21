@@ -49,7 +49,7 @@ def start_classification(camId, minNeighbors=10):
 	info("Emotion Classifier initialized")
 
 	# subscribe NAO's camera
-	nameId = camera.subscribeCamera("Disattention_Counter", camId, AL_kQVGA, AL_kBGRColorSpace, 10)
+	nameId = camera.subscribeCamera(str(time.time()), camId, AL_kQVGA, AL_kBGRColorSpace, 10)
 	info("Subscribed in {}".format(nameId))
 
 	# load the Haar Cascade
@@ -92,8 +92,8 @@ def start_classification(camId, minNeighbors=10):
 				image.itemset((y, x, 1), values[i + 1])
 				image.itemset((y, x, 2), values[i + 2])
 				i += 3
-
-		# converte image to grayscale			
+		
+		# convert image to grayscale			
 		image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)                                    
 
 		# detect faces using Haar Cascade, last parameter: min_neighbors
@@ -113,7 +113,7 @@ def start_classification(camId, minNeighbors=10):
 				
 				# store the detected face with a few extra pixels, because
 				# the cascade classifier cuts a litte too much
-				face_to_classify = image_gray[x-10:x+w+10, y-10:y+h+10]
+				face = image_gray[x-10:x+w+10, y-10:y+h+10]
 			
 			# if the time difference meets a threshold, count it as a deviation
 			diff = dynamic_time - static_time
@@ -132,18 +132,21 @@ def start_classification(camId, minNeighbors=10):
 			if(time_diff >= 0.3):
 				info("Face detected. Classifying emotion.")
 				# reshape image to meet the input dimentions
+				face_to_classify = np.stack([face, face, face], axis=2)
 				face_to_classify = cv2.resize(face_to_classify, input_shape[:2])*1./255
 				# get inference from classifier
 				classified_emotion = classifier.inference(face_to_classify)
 				# writes emotion on the image, to be shown on screen
 				cv2.putText(image, classified_emotion, (0,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,0), 2, cv2.LINE_AA)			
+				cv2.putText(face, classified_emotion, (0,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,0), 2, cv2.LINE_AA)			
 				# store image on a folder, for future analysis
-				cv2.imwrite("emotion_imgs/{}.png".format(time_emotion), face_gray)
+				cv2.imwrite("emotion_imgs/{}.png".format(dynamic_time), face)
 				# reset 
 				time_emotion = time_diff
 				info("Emotion classified: {}".format(classified_emotion))
+
 		# show image on screen
-		cv2.imshow('img',img)
+		cv2.imshow('img',image)
 
 		# check if running will continue
 		if cv2.waitKey(1) and run_state == 'stop':
@@ -157,8 +160,8 @@ def start_classification(camId, minNeighbors=10):
 	# calculate total attention time
 	time_attention = time.time() - time_attention - time_disattention
 	# write info about the whole session
-	totals = "Total number of deviations:{}. Total time on disattention: {:.2f}. Time on attention: {:.2f}\n"
-		.format(n_deviations, time_disattention, time_attention)
+	totals = "Total number of deviations:{}. Total time on disattention: {:.2f}. Time on attention: {:.2f}\n".format(
+		n_deviations, time_disattention, time_attention)
 	arq.write(totals)
 	arq.close()
 	info("Verbose deviation file written.")
