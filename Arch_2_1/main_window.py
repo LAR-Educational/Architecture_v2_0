@@ -41,6 +41,11 @@ class ExampleApp(QtGui.QMainWindow, activities_Manager.Ui_MainWindow):
 		self.reportLoadButton.clicked.connect(self.loadReportsCsv)
 		self.writeReportButton.clicked.connect(self.writeReportCsv)
 		
+		
+		self.insertQuestion_Button_2.clicked.connect(self.content_InsertQuestion)
+		
+		
+		
 		self.act = False
 		self.qRow = 0
 		self.qCol = 0
@@ -72,9 +77,9 @@ class ExampleApp(QtGui.QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		self.act=ct.load_Activity(filename)
 		
-		self.name_lineEdit.setText(self.act.name)
-		self.desc_lineEdit.setText(self.act.description)		
-		self.path_lineEdit.setText(self.act.path)
+		#self.name_lineEdit.setText(self.act.name)
+		#self.desc_lineEdit.setText(self.act.description)		
+		#self.path_lineEdit.setText(self.act.path)
 		#self._lineEdit.setText(self.act.desc)
 		self.editButton.setEnabled(True)
 		self.modules_tabWidget.setEnabled(True)
@@ -92,8 +97,8 @@ class ExampleApp(QtGui.QMainWindow, activities_Manager.Ui_MainWindow):
 	
 	def insertQuestion(self):
 		
-		self.questions_tableWidget.insertRow(self.qRow)
-		self.questions_tableWidget.setCurrentCell(self.qRow,0)
+		self.sysQuestionsTable.insertRow(self.qRow)
+		self.sysQuestionsTable.setCurrentCell(self.qRow,0)
 		#self.questions_tableWidget.setItem(0,0, QtGui.QTableWidgetItem("TESTE"))
 		self.qRow+=1
 	
@@ -102,10 +107,10 @@ class ExampleApp(QtGui.QMainWindow, activities_Manager.Ui_MainWindow):
 	def loadQuestions_fromFile(self):
 
 		
-		clearTable(self.questions_tableWidget)
+		clearTable(self.sysQuestionsTable)
 		
 		
-		fileName = self.act.path + "/Dialog/questions.csv"
+		fileName = self.act.path + "/Dialog/sys_questions.csv"
 		self.qRow=0
 		
 		#print fileName
@@ -115,9 +120,9 @@ class ExampleApp(QtGui.QMainWindow, activities_Manager.Ui_MainWindow):
 			for item in csv.reader(fileInput):    
 				#print item
 				
-				self.questions_tableWidget.insertRow(self.qRow)
-				self.questions_tableWidget.setItem(self.qRow, 0, QtGui.QTableWidgetItem(item[0]))
-				self.questions_tableWidget.setItem(self.qRow, 1, QtGui.QTableWidgetItem(item[1]))
+				self.sysQuestionsTable.insertRow(self.qRow)
+				self.sysQuestionsTable.setItem(self.qRow, 0, QtGui.QTableWidgetItem(item[0]))
+				self.sysQuestionsTable.setItem(self.qRow, 1, QtGui.QTableWidgetItem(item[1]))
 				self.qRow+=1
 				
 				#for field in row:
@@ -141,8 +146,8 @@ class ExampleApp(QtGui.QMainWindow, activities_Manager.Ui_MainWindow):
 	
 	
 				item = [
-				self.questions_tableWidget.item(index,0).text(),
-				self.questions_tableWidget.item(index,1).text()]
+				self.sysQuestionsTable.item(index,0).text(),
+				self.sysQuestionsTable.item(index,1).text()]
 		
 				print item[0], item [1]
 
@@ -180,7 +185,16 @@ class ExampleApp(QtGui.QMainWindow, activities_Manager.Ui_MainWindow):
 				    for columnNumber in range(self.model.columnCount())
 				]
 				writer.writerow(fields)
-
+	
+	
+	def content_InsertQuestion(self):
+		
+		self.questions_tableWidget_2.insertRow(self.questions_tableWidget_2.rowCount())
+		#self.questions_tableWidget_2.setCurrentCell(self.qRow,0)
+		#self.questions_tableWidget.setItem(0,0, QtGui.QTableWidgetItem("TESTE"))
+		#self.qRow+=1
+	
+	
 
 	
 def clearTable(table):	
@@ -194,7 +208,7 @@ def load_subjects(filename):
 
 	subject_matrix = []
 	with open(filename+'.csv', "rb") as fileInput:
-		print "OLARRR"
+		#print "OLARRR"
 		for row in csv.reader(fileInput):    
 			#print row					
 			subject_matrix.append(row) 

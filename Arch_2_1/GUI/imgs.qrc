@@ -1,5 +1,8 @@
 <RCC>
   <qresource prefix="imgs">
+    <file>Adaptive_SBIE.png</file>
+    <file>cub.jpg</file>
+    <file>terminal.png</file>
     <file>pencil.png</file>
     <file>cnn.png</file>
     <file>user.png</file>
