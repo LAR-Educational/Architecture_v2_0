@@ -65,6 +65,8 @@ def start_classification(camId, minNeighbors=10):
 	arq = open('all_statistics.dat', 'a');
 	
 	info("All set. Obtaining images!")
+	c = open('emotion_imgs/classifications.txt', 'a+')
+	
 	while True:
 		result = camera.getImageRemote(nameId)
 		
@@ -138,9 +140,9 @@ def start_classification(camId, minNeighbors=10):
 				classified_emotion = classifier.inference(face_to_classify)
 				# writes emotion on the image, to be shown on screen
 				cv2.putText(image, classified_emotion, (0,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,0), 2, cv2.LINE_AA)			
-				cv2.putText(face, classified_emotion, (0,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,0), 2, cv2.LINE_AA)			
 				# store image on a folder, for future analysis
 				cv2.imwrite("emotion_imgs/{}.png".format(dynamic_time), face)
+				c.write("{} {}\n".format(dynamic_time, classified_emotion))
 				# reset 
 				time_emotion = time_diff
 				info("Emotion classified: {}".format(classified_emotion))
@@ -152,6 +154,9 @@ def start_classification(camId, minNeighbors=10):
 		if cv2.waitKey(1) and run_state == 'stop':
 			info("Stop detected. Breaking execution!")
 			break;
+	
+	c.close()
+	
 	# clear opencv windows
 	cv2.destroyAllWindows()
 	# release camera
