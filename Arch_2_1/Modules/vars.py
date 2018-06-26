@@ -74,7 +74,7 @@ class Robot:
 			self.name = robot_name
 			self.tts.setLanguage(defaultLanguage)
 			self.animatedSpeechProxy = ALProxy("ALAnimatedSpeech", robotIp, port)
-
+			self.speechSpeed = 70
 		except:
 			print "Unexpected error conneting NAO"
 			#return False
