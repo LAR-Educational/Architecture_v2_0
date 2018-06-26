@@ -72,7 +72,7 @@ while flag:
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
         # Display the resulting frame
-        cv2.imshow('frame',gray)
+        # cv2.imshow('frame',gray)
         key = cv2.waitKey(1)
         #print key
         if key == 1048689: #ord('q'):
@@ -102,7 +102,7 @@ while flag:
         print('\nThis person is {} (Model: 7)'.format(emotion_s))
         # print('This person is {} (4-4)'.format(emotion_ff))
         # print('This person is {} (7-4)\n'.format(emotion_sf))
-
+        cv2.imshow('frame',gray)
 
 # When everything done, release the capture
 cap.release()
