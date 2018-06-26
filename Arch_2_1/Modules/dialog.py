@@ -215,8 +215,34 @@ class DialogSystem:
 			i+=1
 		
 		ans = frase, index			
-		return ans	  
+		return ans
 
+
+	def levenshtein_long_two_strings(self, string_one, string_two, print_flag=False):
+		
+		
+		ans = distance.nlevenshtein(string_one, string_two, method=2)
+		#print "Score: " + str(distance.levenshtein(string_one, element))
+	
+		if print_flag:
+			print "Normfor element in questions_list:alizado: " + str(compare) 
+			print "Sentence: " + element 
+			print "Index number: ", i , "\n"
+				
+		return ans
+
+	def levenshtein_short_two_strings(self, string_one, string_two, print_flag=False):
+		
+		
+		ans = distance.nlevenshtein(string_one, string_two, method=1)
+		#print "Score: " + str(distance.levenshtein(string_one, element))
+	
+		if print_flag:
+			print "Normfor element in questions_list:alizado: " + str(compare) 
+			print "Sentence: " + element 
+			print "Index number: ", i , "\n"
+				
+		return ans
 
 
 	#comparing_string = raw_input("Digite a a frase a ser comparada com as questoes no arquivo\n")
