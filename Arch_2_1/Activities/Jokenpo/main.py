@@ -1,16 +1,26 @@
 # -*- coding: utf-8 -*-
 import naoqi
-import numpy as np
+#import numpy as np
 from Modules import dialog
 from Modules import vars as core
-#from Modules import disatention
+from Modules import disattention
 from Modules import vision
-import os
-import sys
+#import os
+#import sys
 #ip = "169.254.178.70"
 #port = 9559
 
+# ----- System imports -----
 
+import sys
+import time
+import cv2
+import csv
+import os
+import pickle
+import random
+from pprint import pprint
+import numpy as np
 
 play_book = ["pedra","papel","tesoura"]
 
@@ -125,12 +135,12 @@ def main():
 
 	for turn in range(0,5):
 			
-			#attention = disatention.Th(1)
-			#attention.start()
+			attention = disattention.Th(1)
+			attention.start()
 	
 			#pass
 
-			print "Rodada numero ", turn
+			print "Rodada numero ", turn+1
 
 			behave = np.random.randint(0,5)
 		
@@ -162,10 +172,12 @@ def main():
 
 
 			print
-			print 
+			print
+			
+			raw_input("Pause") 
 		
-			#closeAttention = disatention.Th(2)
-			#closeAttention.start()
+			closeAttention = disattention.Th(2)
+			closeAttention.start()
 
 
 

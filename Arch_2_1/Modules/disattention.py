@@ -9,7 +9,7 @@ from naoqi import ALProxy
 
 # internal imports
 import emotion
-from vars import info, war, error, teddy_ip, port, input_shape, attention
+from vars import info, war, error, robotIp, port, input_shape, attention
 
 # subscribe top camera
 AL_kTopCamera = 0
@@ -19,7 +19,7 @@ AL_kBGRColorSpace = 13
 # global string that sets the running state of the system
 run_state = 'running'
 # NAO camera device
-camera = ALProxy("ALVideoDevice", teddy_ip, port)
+camera = ALProxy("ALVideoDevice", robotIp, port)
 
 # Threading class for parallel control of this module alongside the whole system
 class Th(Thread):
@@ -49,7 +49,7 @@ def start_classification(camId, minNeighbors=10):
 	info("Emotion Classifier initialized")
 
 	# subscribe NAO's camera
-	nameId = camera.subscribeCamera(str(time.time()), camId, AL_kQVGA, AL_kBGRColorSpace, 10)
+	nameId = camera.subscribeCamera("Emotion_Classifier", camId, AL_kQVGA, AL_kBGRColorSpace, 10)
 	info("Subscribed in {}".format(nameId))
 
 	# load the Haar Cascade

@@ -17,7 +17,7 @@ teddy_ip="169.254.178.70"
 
 robotIp=teddy_ip
 port = 9559
-#robotIp="169.254.186.197"
+robotIp="169.254.163.134"
 
 
 #variable to check if the robot is conected
