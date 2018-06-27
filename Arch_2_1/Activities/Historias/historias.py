@@ -6,6 +6,18 @@ from Modules import dialog
 from Modules import vars
 from Modules import disattention
 
+def read_hist():
+	for x in xrange(0,3):
+
+		historiasfile = arq.read().split("\n")
+		historiasfil = historias[0:10]
+		r = np.random.randint(0,10)
+		arq = open("Activities/Historias/" + str(r) , "r")
+	
+		historias.append(arq.read().split("\n"))
+		historias[x] = historias[0:10]
+
+
 ip = "169.254.178.70"
 port = 9559
 speed = 70
@@ -28,10 +40,7 @@ speechRecognition.setLanguage("Brazilian")
 
 postures = ["Sit", "Stand"]
 
-arq = open("Activities/Historias/historias.txt", "r")
-historias = arq.read().split("\n")
-historias = historias[0:10]
-hist_dict = {}
+
 
 i = 0
 for hist in historias:
