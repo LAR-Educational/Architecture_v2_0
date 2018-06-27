@@ -244,6 +244,10 @@ class DialogSystem:
 				
 		return ans
 
+	def coutingWords(string):
+		return len(string.split())
+
+
 
 	#comparing_string = raw_input("Digite a a frase a ser comparada com as questoes no arquivo\n")
 	def quiz(self):
