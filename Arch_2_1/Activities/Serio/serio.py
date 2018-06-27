@@ -28,7 +28,7 @@ robot.tts.say("O jogo do sério é uma brincadeira onde eu e você iremos ficar 
 t_start = time.time()
 t_last_intervention = t_start
 
-while(1):
+while(True):
 			
 	if(time.time() - t_start > 30): 
 		robot.tss.say("Ra,Ra,Ra,Ra. Parabéns. Você Venceu")
@@ -40,6 +40,7 @@ while(1):
 	
 	if(time.time() - t_last_intervention > 8):
 		robot.tts.say(frase_dict[r[i]])
+		i = i+1
 		t_last_intervention = time.time()
 
 
