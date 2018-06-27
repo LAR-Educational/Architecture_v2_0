@@ -6,8 +6,6 @@ from Modules import dialog
 from Modules import vars
 from Modules import disattention
 
-
-
 def read_hist():
 	arq = open("Activities/Historias/indices.txt" , "r")
 	historiasfile = arq.read().split("\n")
@@ -64,8 +62,16 @@ for i in range(0,3):
 		print answer
 		print dial.coutingWords(answer)
 
-#closeAttention = disattention.Th(2)
-#closeAttention.start()
+closeAttention = disattention.Th(2)
+closeAttention.start()
 
 posture.goToPosture("Sit", speed)
 motion.rest()
+
+
+
+
+
+
+
+
