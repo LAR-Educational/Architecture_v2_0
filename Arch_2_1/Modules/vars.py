@@ -17,7 +17,7 @@ teddy_ip="169.254.178.70"
 
 robotIp=teddy_ip
 port = 9559
-robotIp="169.254.163.134"
+robotIp="169.254.178.70"
 
 
 #variable to check if the robot is conected
@@ -29,7 +29,8 @@ Ykey = 'y'
 classifierType = "all"
 training_path = "modules/vision_components/classifiers/DBIM/alldb"
 
-
+emotions = []
+deviation_times = []
 # Default Language
 defaultLanguage = 'Brazilian'
 
@@ -80,7 +81,7 @@ class Robot:
 			#return False
     		#raise
     		
-    		
+  		
     		
     		
     		
@@ -152,5 +153,38 @@ def nao_say(stringToPrint):
 
 
 
+class ReadValues:
+    """
+     Class to hold read values
+    
+    """
+    
+    def __init__(self, deviations=5, emotionCount=3, 
+                    numberWord=1, time2ans=20, sucRate=1        ):
+                    
+        self.deviations = deviations 
+        self.emotionCount = emotionCount  
+        self.numberWord =  numberWord
+        self.time2ans = time2ans
+        self.sucRate = sucRate
+        
 
 
+class Weights:
+
+    def __init__(self, alpha, beta, gama):
+        self.alpha = alpha
+        self.beta = beta
+        self.gama =  gama
+
+
+
+class AdaptiveSystem:
+
+    def __init__(self, robot, path, op, w, rv):
+    
+        self.robot = robot
+        self.path = path
+        self.op = op
+        self.w = w #weights class
+        self.rv = rv

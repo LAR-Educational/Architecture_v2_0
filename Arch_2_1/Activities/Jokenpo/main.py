@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import naoqi
+import time
 #import numpy as np
 from Modules import dialog
 from Modules import vars as core
@@ -136,10 +137,10 @@ def main():
 	for turn in range(0,5):
 			
 			attention = disattention.Th(1)
-			attention.start()
-	
+			attention.run()
+			time.sleep(15)
 			#pass
-
+			print(core.emotions)
 			print "Rodada numero ", turn+1
 
 			behave = np.random.randint(0,5)
@@ -177,7 +178,7 @@ def main():
 			raw_input("Pause") 
 		
 			closeAttention = disattention.Th(2)
-			closeAttention.start()
+			closeAttention.run()
 
 
 
