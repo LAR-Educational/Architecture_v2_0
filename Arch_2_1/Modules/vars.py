@@ -170,21 +170,3 @@ class ReadValues:
         
 
 
-class Weights:
-
-    def __init__(self, alpha, beta, gama):
-        self.alpha = alpha
-        self.beta = beta
-        self.gama =  gama
-
-
-
-class AdaptiveSystem:
-
-    def __init__(self, robot, path, op, w, rv):
-    
-        self.robot = robot
-        self.path = path
-        self.op = op
-        self.w = w #weights class
-        self.rv = rv
