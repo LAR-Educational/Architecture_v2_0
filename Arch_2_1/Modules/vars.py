@@ -29,7 +29,8 @@ Ykey = 'y'
 classifierType = "all"
 training_path = "modules/vision_components/classifiers/DBIM/alldb"
 
-emotions = []
+emotions = {'happy': 0, 'sad': 0, 'angry': 0, 'disgust': 0,
+ 	'surprise': 0, 'fear': 0, 'neutral': 0}
 deviation_times = []
 # Default Language
 defaultLanguage = 'Brazilian'

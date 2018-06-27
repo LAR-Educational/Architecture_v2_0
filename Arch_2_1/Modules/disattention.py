@@ -49,7 +49,7 @@ def start_classification(camId, minNeighbors=5):
 	info("Emotion Classifier initialized")
 
 	# subscribe NAO's camera
-	nameId = camera.subscribeCamera("Emotion_Classifier5", camId, AL_kQVGA, AL_kBGRColorSpace, 10)
+	nameId = camera.subscribeCamera("Emotion_Classifier6", camId, AL_kQVGA, AL_kBGRColorSpace, 10)
 	info("Subscribed in {}".format(nameId))
 
 	# load the Haar Cascade
@@ -136,7 +136,7 @@ def start_classification(camId, minNeighbors=5):
 					# reset time
 					time_emotion = time_diff
 					info("Emotion classified: {}".format(classified_emotion))
-					emotions.append(classified_emotion)
+					emotions[classified_emotion] += 1
 
 			# if the time difference meets a threshold, count it as a deviation
 			diff = dynamic_time - static_time
