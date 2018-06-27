@@ -17,7 +17,7 @@ teddy_ip="169.254.178.70"
 
 robotIp=teddy_ip
 port = 9559
-robotIp="169.254.163.134"
+robotIp="169.254.178.70"
 
 
 #variable to check if the robot is conected
@@ -29,7 +29,8 @@ Ykey = 'y'
 classifierType = "all"
 training_path = "modules/vision_components/classifiers/DBIM/alldb"
 
-
+emotions = []
+deviation_times = []
 # Default Language
 defaultLanguage = 'Brazilian'
 

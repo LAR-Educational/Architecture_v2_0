@@ -9,7 +9,7 @@ from naoqi import ALProxy
 
 # internal imports
 import emotion
-from vars import info, war, error, robotIp, port, input_shape, attention
+from vars import info, war, error, robotIp, port, input_shape, attention, emotions, deviation_times
 
 # subscribe top camera
 AL_kTopCamera = 0
@@ -40,7 +40,7 @@ def end_classification():
 	run_state = 'stop'
 
 # count number of deviation, time on attention and disattention and classify emotion on faces
-def start_classification(camId, minNeighbors=10):
+def start_classification(camId, minNeighbors=5):
 	# "import" global variables
 	global run_state, camera
 	
@@ -49,7 +49,7 @@ def start_classification(camId, minNeighbors=10):
 	info("Emotion Classifier initialized")
 
 	# subscribe NAO's camera
-	nameId = camera.subscribeCamera("Emotion_Classifier", camId, AL_kQVGA, AL_kBGRColorSpace, 10)
+	nameId = camera.subscribeCamera("Emotion_Classifier5", camId, AL_kQVGA, AL_kBGRColorSpace, 10)
 	info("Subscribed in {}".format(nameId))
 
 	# load the Haar Cascade
@@ -66,6 +66,7 @@ def start_classification(camId, minNeighbors=10):
 	
 	info("All set. Obtaining images!")
 	c = open('emotion_imgs/classifications.txt', 'a+')
+	face = None
 	
 	while True:
 		result = camera.getImageRemote(nameId)
@@ -115,8 +116,28 @@ def start_classification(camId, minNeighbors=10):
 				
 				# store the detected face with a few extra pixels, because
 				# the cascade classifier cuts a litte too much
-				face = image_gray[x-10:x+w+10, y-10:y+h+10]
-			
+				face = image_gray[y-10:y+h+10, x-10:x+w+10]
+				
+				# if a time difference of 0.3 seconds is met, classify the emotion on a face
+				time_diff = dynamic_time-time_emotion
+
+				if(time_diff >= 0.3 and face is not None):
+					info("Face detected. Classifying emotion.")
+					# reshape image to meet the input dimensions
+					face_to_classify = np.stack([face, face, face], axis=2)
+					face_to_classify = cv2.resize(face_to_classify, input_shape[:2], interpolation=cv2.INTER_AREA) * 1./255
+					# get inference from classifier
+					classified_emotion = classifier.inference(face_to_classify)
+					# writes emotion on the image, to be shown on screen
+					cv2.putText(image, classified_emotion, (0,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,0), 2, cv2.LINE_AA)			
+					# store image on a folder, for future analysis
+					cv2.imwrite("emotion_imgs/{}.png".format(dynamic_time), face)
+					c.write("{} {}\n".format(dynamic_time, classified_emotion))
+					# reset time
+					time_emotion = time_diff
+					info("Emotion classified: {}".format(classified_emotion))
+					emotions.append(classified_emotion)
+
 			# if the time difference meets a threshold, count it as a deviation
 			diff = dynamic_time - static_time
 			if diff > 0.7:
@@ -124,28 +145,11 @@ def start_classification(camId, minNeighbors=10):
 				n_deviations += 1
 				# stores the time of this deviation
 				arq.write("Tempo do desvio: {:.2f}\n".format(diff))
+				deviation_times.append(diff)
 				#increases total disattention time
 				time_disattention += diff
 				info("Deviation detected")
 			static_time = dynamic_time = time.time()
-			
-			# if a time difference of 0.3 seconds is met, classify the emotion on a face
-			time_diff = dynamic_time-time_emotion
-			if(time_diff >= 0.3):
-				info("Face detected. Classifying emotion.")
-				# reshape image to meet the input dimentions
-				face_to_classify = np.stack([face, face, face], axis=2)
-				face_to_classify = cv2.resize(face_to_classify, input_shape[:2])*1./255
-				# get inference from classifier
-				classified_emotion = classifier.inference(face_to_classify)
-				# writes emotion on the image, to be shown on screen
-				cv2.putText(image, classified_emotion, (0,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,0), 2, cv2.LINE_AA)			
-				# store image on a folder, for future analysis
-				cv2.imwrite("emotion_imgs/{}.png".format(dynamic_time), face)
-				c.write("{} {}\n".format(dynamic_time, classified_emotion))
-				# reset 
-				time_emotion = time_diff
-				info("Emotion classified: {}".format(classified_emotion))
 
 		# show image on screen
 		cv2.imshow('img',image)
