@@ -9,7 +9,7 @@ import time
 import time
 import os
 
-def normalize(read_val, max_val, min_val=0, floor=-1, roof=1):
+def normalize(read_val, max_val, min_val=0, floor=0, roof=1):
 	"""
 	Normalize two numbers betwenn 0 to 1
 	"""
@@ -128,8 +128,8 @@ def main():
 	key = ""
 	fa = 0
 
-	#w = Weights(0.3, 0.2, 0.5 )	
-	w = Weights(0.3, 0.1, 0.2 )	
+	w = Weights(0.5, 0.2, 0.3 )	
+	#w = Weights(0.3, 0.1, 0.2 )	
 
 	op = OperationalParameters (max_deviation=5.0, max_emotion_count=3, 
 									min_number_word=1 , max_time2ans=10, min_suc_rate=1)
@@ -151,7 +151,7 @@ def main():
 	
 		adpt = AdaptiveSystem(robot=1,path=2, op=op, w=w, rv=rv)
 
-		fc = adpt.adp_function(fa)
+		fc = adpt.adp_function()
 		core.info( "Fadp: " + str(fc) )
 		
 		
