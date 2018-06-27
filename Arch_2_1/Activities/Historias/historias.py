@@ -15,7 +15,7 @@ def read_hist():
 	historias= []
 	for x in xrange(0,3):
 		r = np.random.randint(0,10)
-		arq = open("Activities/Historias/" + historiasfile[r] , "r")
+		arq = open("Activities/Historias/" + historiasfile[r] + ".txt", "r")
 		historias.append(arq.read().split("\n"))
 		historias[x] = historias[x][0:len(historias[x])-1]
 	return historias
@@ -47,19 +47,21 @@ hist_dict = read_hist()
 # posture.goToPosture("Stand", speed)
 speech.say("Olá amiguinho! O meu nome é Teddy. Chega mais perto que eu tenho umas histórias pra contar pra você")
 
-for i in range(0, 3)
-	r = np.random.randint(0,2)
+r = np.random.randint(0,2)
+for i in range(0,3):
 	print(postures[r])
-	posture.goToPosture("Sit", speed)
-	for j in range(1,hist_dict[i][0]):
+	#posture.goToPosture("Sit", speed)
+	for j in range(1,int(hist_dict[i][0])+1):
 		animatedSpeech.say(hist_dict[i][j])
 		speech.say("Agora farei uma pergunta sobre esta parta da historia ")
-		speech.say(hist_dict[i][j+hist_dict[i][0]])
+		indice = j + int(hist_dict[i][0])
+		speech.say(hist_dict[i][indice])
 		dial = dialog.DialogSystem(robot,"respostas")
 		print hist_dict[i][j]		
 		answer = dial.getFromMic_Pt()
-		print dial.levenshtein_long_two_strings(answer, hist_dict[i][j+(2*hist_dict[i][0])])
-		print dial.levenshtein_short_two_strings(answer, hist_dict[i][j+(2*hist_dict[i][0])])
+		print dial.levenshtein_long_two_strings(answer, hist_dict[i][indice])
+		print dial.levenshtein_short_two_strings(answer, hist_dict[i][indice])
+		print answer
 		print dial.coutingWords(answer)
 
 #closeAttention = disattention.Th(2)
