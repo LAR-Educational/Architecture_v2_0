@@ -80,7 +80,7 @@ class Robot:
 			#return False
     		#raise
     		
-    		
+  		
     		
     		
     		
@@ -152,5 +152,38 @@ def nao_say(stringToPrint):
 
 
 
+class ReadValues:
+    """
+     Class to hold read values
+    
+    """
+    
+    def __init__(self, deviations=5, emotionCount=3, 
+                    numberWord=1, time2ans=20, sucRate=1        ):
+                    
+        self.deviations = deviations 
+        self.emotionCount = emotionCount  
+        self.numberWord =  numberWord
+        self.time2ans = time2ans
+        self.sucRate = sucRate
+        
 
 
+class Weights:
+
+    def __init__(self, alpha, beta, gama):
+        self.alpha = alpha
+        self.beta = beta
+        self.gama =  gama
+
+
+
+class AdaptiveSystem:
+
+    def __init__(self, robot, path, op, w, rv):
+    
+        self.robot = robot
+        self.path = path
+        self.op = op
+        self.w = w #weights class
+        self.rv = rv
