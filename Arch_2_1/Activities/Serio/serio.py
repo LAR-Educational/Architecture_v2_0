@@ -10,6 +10,7 @@ robot = Robot(robotIp, port)
 attention = disattention.Th(1)
 attention.start()
 
+
 robot.tts.setLanguage("Brazilian")
 
 with open('Activities/Serio/frases.txt', 'r') as arq:
@@ -24,6 +25,10 @@ r = random.sample(range(7), 3)
 
 robot.tts.say("O jogo do sério é uma brincadeira onde eu e você iremos ficar sérios. Quem rir primeiro ou olhar para o lado perde. Chegue mais perto para que eu possa te ver. Vamos começar!")
 
+
+while(deviation_times.size()<2):
+			
+	if()
 for i in range(3):
 	robot.tts.say(frase_dict[r[i]])
 

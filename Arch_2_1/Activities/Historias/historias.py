@@ -22,7 +22,7 @@ ip = "169.254.178.70"
 port = 9559
 speed = 70
 
-robot = vars.Robot(ip,port)
+robot = core.Robot(ip,port)
 
 attention = disattention.Th(1)
 attention.start()
@@ -52,7 +52,6 @@ for i in range(0,3):
 	print(postures[r])
 	#posture.goToPosture("Sit", speed)
 	for j in range(1,int(hist_dict[i][0])+1):
-		
 		animatedSpeech.say(hist_dict[i][j])
 		speech.say("Agora farei uma pergunta sobre esta parta da historia ")
 		indice = j + int(hist_dict[i][0])
@@ -65,9 +64,11 @@ for i in range(0,3):
 		print dial.levenshtein_long_two_strings(answer, hist_dict[i][indice])
 		print dial.levenshtein_short_two_strings(answer, hist_dict[i][indice])
 		print answer
+		print core.emotions
+		print core.deviation_times
 		totalWords += dial.coutingWords(answer)
-	totalWords = np.ciel(totalWords/int(hist_dict[i][0]))
-	totalWSec = np.ciel(totalSec/int(hist_dict[i][0]))
+	totalWords = np.ceil(totalWords/int(hist_dict[i][0]))
+	totalWSec = np.ceil(totalSec/int(hist_dict[i][0]))
 	core.ReadValues(numberWord=totalWords, time2ans=totalSec)
 
 closeAttention = disattention.Th(2)
