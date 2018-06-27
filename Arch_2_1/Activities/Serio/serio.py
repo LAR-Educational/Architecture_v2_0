@@ -25,15 +25,22 @@ r = random.sample(range(7), 3)
 
 robot.tts.say("O jogo do sério é uma brincadeira onde eu e você iremos ficar sérios. Quem rir primeiro ou olhar para o lado perde. Chegue mais perto para que eu possa te ver. Vamos começar!")
 
+t_start = time.time()
+t_last_intervention = t_start
 
-while(deviation_times.size()<2):
+while(1):
 			
-	if()
-for i in range(3):
-	robot.tts.say(frase_dict[r[i]])
+	if(time.time() - t_start > 30): 
+		robot.tss.say("Ra,Ra,Ra,Ra. Parabéns. Você Venceu")
+		break
 
-lost = False
-
+	if(len(deviation_times) > 2 or emotions['happy'] > 2)
+		robot.tss.say("Eba. Eu venci")
+		break
+	
+	if(time.time() - t_last_intervention > 8):
+		robot.tts.say(frase_dict[r[i]])
+		t_last_intervention = time.time()
 
 
 print(emotions)
