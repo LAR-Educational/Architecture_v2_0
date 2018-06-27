@@ -6,17 +6,19 @@ from Modules import dialog
 from Modules import vars
 from Modules import disattention
 
+
+
 def read_hist():
+	arq = open("Activities/Historias/indices.txt" , "r")
+	historiasfile = arq.read().split("\n")
+	historiasfile = historiasfile[0:10]
+	historias= []
 	for x in xrange(0,3):
-
-		historiasfile = arq.read().split("\n")
-		historiasfil = historias[0:10]
 		r = np.random.randint(0,10)
-		arq = open("Activities/Historias/" + str(r) , "r")
-	
+		arq = open("Activities/Historias/" + historiasfile[r] , "r")
 		historias.append(arq.read().split("\n"))
-		historias[x] = historias[0:10]
-
+		historias[x] = historias[x][0:len(historias[x])-1]
+	return historias
 
 ip = "169.254.178.70"
 port = 9559
@@ -40,33 +42,28 @@ speechRecognition.setLanguage("Brazilian")
 
 postures = ["Sit", "Stand"]
 
-
-
-i = 0
-for hist in historias:
-	hist_dict[str(i)] = hist
-	i += 1
+hist_dict = read_hist()
 
 # posture.goToPosture("Stand", speed)
 speech.say("Olá amiguinho! O meu nome é Teddy. Chega mais perto que eu tenho umas histórias pra contar pra você")
 
-for i in range(0,1):
-	
+for i in range(0, 3)
 	r = np.random.randint(0,2)
 	print(postures[r])
 	posture.goToPosture("Sit", speed)
-	r = np.random.randint(0,10)
-	animatedSpeech.say(hist_dict[str(r)])
-	
-	speech.say("Você pode resumir essa história pra mim?")
-	dial = dialog.DialogSystem(robot,"respostas")
-	print hist_dict[str(r)]
-	answer = dial.getFromMic_Pt()
-	print dial.levenshtein_long_two_strings(answer, hist_dict[str(r)])
-	print dial.levenshtein_short_two_strings(answer, hist_dict[str(r)])
+	for j in range(1,hist_dict[i][0]):
+		animatedSpeech.say(hist_dict[i][j])
+		speech.say("Agora farei uma pergunta sobre esta parta da historia ")
+		speech.say(hist_dict[i][j+hist_dict[i][0]])
+		dial = dialog.DialogSystem(robot,"respostas")
+		print hist_dict[i][j]		
+		answer = dial.getFromMic_Pt()
+		print dial.levenshtein_long_two_strings(answer, hist_dict[i][j+(2*hist_dict[i][0])])
+		print dial.levenshtein_short_two_strings(answer, hist_dict[i][j+(2*hist_dict[i][0])])
+		print dial.coutingWords(answer)
 
-closeAttention = disattention.Th(2)
-closeAttention.start()
+#closeAttention = disattention.Th(2)
+#closeAttention.start()
 
 posture.goToPosture("Sit", speed)
 motion.rest()
