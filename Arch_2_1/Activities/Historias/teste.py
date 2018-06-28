@@ -14,6 +14,6 @@ def read_hist():
 
 
 teste = (read_hist())
+print teste[2]
 print teste[0]
 print teste[1]
-print teste[2]
