@@ -25,6 +25,8 @@ speed = 70
 
 robot = core.Robot(ip,port)
 
+disattention.Th.load_classifier()
+
 animatedSpeech = naoqi.ALProxy("ALAnimatedSpeech", ip, port)
 speech = naoqi.ALProxy("ALTextToSpeech", ip, port)
 motion = naoqi.ALProxy("ALMotion", ip, port)
