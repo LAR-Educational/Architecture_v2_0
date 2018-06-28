@@ -41,10 +41,6 @@ class fileHelper(object):
                     query[0], sentences=2, person=query[1], preference=query[2]
                     )
 
-        self.general.close()
-        if self.personal is not None:
-            self.personal.close()
-
     def addSearchQueue(self, query, person=None, preference=''):
         self.queue.append((query, person, preference))
 
@@ -145,9 +141,14 @@ class fileHelper(object):
         self.linkPerson(person)
         return self.personal.ram
 
-    def close(self):
+    def join(self):
         self.running = False
         self.searchThread.join()
+
+    def close(self):
+        self.general.close()
+        if self.personal is not None:
+            self.personal.close()
 
 
 def example():
@@ -172,7 +173,7 @@ def example():
     answer = raw_input()
     helper.addSearchQueue([answer], nome, 'musica favorita')
 
-    helper.close()
+    helper.join()
 
     preferences = helper.getPreferences(nome)
     try:
@@ -187,6 +188,8 @@ def example():
                 [preferences['musica favorita'].encode('utf-8')])))
     except Exception as e:
         print(e)
+
+    helper.close()
 
 
 if __name__ == "__main__":
