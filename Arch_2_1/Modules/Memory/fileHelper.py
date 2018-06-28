@@ -57,8 +57,8 @@ class fileHelper(object):
         try:
             query = query.decode('utf-8')
             section = section.decode('utf-8')
-        except UnicodeDecodeError:
-            pass
+        except UnicodeDecodeError as e:
+            print(e)
 
         if query is '':
             return 'Por favor coloque algo para pesquisar.'
@@ -73,7 +73,7 @@ class fileHelper(object):
             return ret
 
         # Coloca a linguagem da wikipedia em português
-        wikipedia.set_lang("pt")
+        wikipedia.set_lang("br")
 
         # Pega a página e as seções da página
         try:
