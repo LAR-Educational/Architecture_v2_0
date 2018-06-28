@@ -94,10 +94,10 @@ def jokenpo(primeira_jogada,segunda_jogada):
 
 
 
-def main():
+def play(robot, ds,round_numbers=3):
 	
 	
-	
+	'''
 	info("Starting program ")            
 
 	info("Connecting with NAO")
@@ -128,57 +128,67 @@ def main():
 		error(" ----- Error loading Dialogue System -----")
 		war("Exception type:" + str(sys.exc_info()[0]))
 		#raise
-
+	'''
 
 
 
 	##-------- Real Play
 
-	for turn in range(0,5):
+	for turn in range(0,round_numbers):
 			
 			attention = disattention.Th(1)
-			attention.run()
-			time.sleep(15)
+			attention.start()
+			#time.sleep(15)
 			#pass
-			print(core.emotions)
-			print "Rodada numero ", turn+1
+			#print(core.emotions)
+			ds.say("Rodada número " + str(turn+1))
 
 			behave = np.random.randint(0,5)
 		
 			print "Behave", behave
 		
 			p1 = int(behave/2)
-			p2 = np.random.randint(0,2)
+			#p2 = np.random.randint(0,2)
 	
-			print "p1: ", play_book[p1]
+			p2 = int(raw_input("Player play (1-3): ")) -1
+	
+	
+			print "p1: " , play_book[p1]
 			print "p2: ", play_book[p2]
 			print "behave", behaviors[behave]
 		
-	
+			
+			ds.say("Eu escolho " +  play_book[p1])
+			
 			play,w,l = jokenpo(play_book[p1],play_book[p2])
 		
 			#play=[a,b,c]
-		
+			
+			
+			ds.say("Então eu escolhi " +  play_book[p1] + " e você escolheu " + play_book[p2])
 		
 			print "result: ", play
 	
 			if play > 0:
-				print "Player 1 ganhou porque ", w ," ganha de ", l	
+				ds.say("Eu ganhei porque" +  w + " ganha de " + l)
+				#print "Robô ganhou porque ", w ," ganha de ", l	
 	
 			elif play < 0:	
-				print "Player 2 ganhou porque ", w ," ganha de ", l
+				ds.say("Você ganhou porque" +  w + " ganha de " + l)
+				#print "Player ganhou porque ", w ," ganha de ", l
 		
 			else:
-				print "empate porque ", w ," e ", l, "são iguais"
+				ds.say("Empatou porque escolhemos a mesma coisa")
+				#print "empate porque ", w ," e ", l, "são iguais"
 
 
 			print
 			print
 			
-			raw_input("Pause") 
+			#raw_input("Pause") 
 		
 			closeAttention = disattention.Th(2)
-			closeAttention.run()
+			closeAttention.start()
 
 
 
