@@ -24,8 +24,6 @@ speed = 70
 
 robot = core.Robot(ip,port)
 
-attention = disattention.Th(1)
-attention.start()
 time.sleep(10)
 
 animatedSpeech = naoqi.ALProxy("ALAnimatedSpeech", ip, port)
@@ -47,6 +45,9 @@ speech.say("Olá amiguinho! O meu nome é Teddy. Chega mais perto que eu tenho u
 
 r = np.random.randint(0,2)
 for i in range(0,3):
+	attention = disattention.Th(1)
+	attention.start()
+	
 	totalWords =  0
 	totalSec =  0
 	print(postures[r])
@@ -70,9 +71,9 @@ for i in range(0,3):
 	totalWords = np.ceil(totalWords/int(hist_dict[i][0]))
 	totalWSec = np.ceil(totalSec/int(hist_dict[i][0]))
 	core.ReadValues(numberWord=totalWords, time2ans=totalSec)
-
-closeAttention = disattention.Th(2)
-closeAttention.start()
+	
+	closeAttention = disattention.Th(2)
+	closeAttention.start()
 
 posture.goToPosture("Sit", speed)
 motion.rest()
