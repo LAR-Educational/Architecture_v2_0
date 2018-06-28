@@ -17,7 +17,7 @@ teddy_ip="169.254.178.70"
 
 robotIp=teddy_ip
 port = 9559
-#robotIp="169.254.186.197"
+robotIp="169.254.178.70"
 
 
 #variable to check if the robot is conected
@@ -29,7 +29,9 @@ Ykey = 'y'
 classifierType = "all"
 training_path = "modules/vision_components/classifiers/DBIM/alldb"
 
-
+emotions = {'happy': 0, 'sad': 0, 'angry': 0, 'disgust': 0,
+ 	'surprise': 0, 'fear': 0, 'neutral': 0}
+deviation_times = []
 # Default Language
 defaultLanguage = 'Brazilian'
 
@@ -74,13 +76,13 @@ class Robot:
 			self.name = robot_name
 			self.tts.setLanguage(defaultLanguage)
 			self.animatedSpeechProxy = ALProxy("ALAnimatedSpeech", robotIp, port)
-
+			self.speechSpeed = 70
 		except:
 			print "Unexpected error conneting NAO"
 			#return False
     		#raise
     		
-    		
+  		
     		
     		
     		
@@ -152,5 +154,20 @@ def nao_say(stringToPrint):
 
 
 
+class ReadValues:
+    """
+     Class to hold read values
+    
+    """
+    
+    def __init__(self, deviations=5, emotionCount=3, 
+                    numberWord=1, time2ans=20, sucRate=1        ):
+                    
+        self.deviations = deviations 
+        self.emotionCount = emotionCount  
+        self.numberWord =  numberWord
+        self.time2ans = time2ans
+        self.sucRate = sucRate
+        
 
 
