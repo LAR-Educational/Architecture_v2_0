@@ -158,14 +158,14 @@ def play(robot, ds,round_numbers=3):
 			print "behave", behaviors[behave]
 		
 			
-			ds.say("Eu escolho " +  play_book[p1])
+			#ds.say("Eu escolho " +  play_book[p1])
 			
 			play,w,l = jokenpo(play_book[p1],play_book[p2])
 		
 			#play=[a,b,c]
 			
 			
-			ds.say("Então eu escolhi " +  play_book[p1] + " e você escolheu " + play_book[p2])
+			ds.say(" eu escolhi " +  play_book[p1] + " e você escolheu " + play_book[p2])
 		
 			print "result: ", play
 	

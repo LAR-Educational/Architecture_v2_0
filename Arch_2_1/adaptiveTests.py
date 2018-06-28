@@ -98,29 +98,31 @@ def main():
 
 	preferences = userModel.getPreferences(nome)
 
-	userModel.close()
 
 
 	
 	
 	#stories.paly(nao, ds)	
 
-	#jkp.play(nao, ds, 3)
+	jkp.play(nao, ds, 3)
 
-
+	userModel.close()
+	
+	while len(userModel.queue) > 0:
+		pass
 
 	try:
 		print(u'Sobre seu esporte preferido: \n{}'.format(
-		    userModel.searchFile([preferences['esporte favorito']])).encode('utf-8'))
+		    userModel.searchFile([preferences['esporte favorito'].encode('utf-8')])).encode('utf-8'))
 		print(u'\nSobre sua comida preferida: \n{}'.format(
-		    userModel.searchFile([preferences['comida favorita']])).encode('utf-8'))
+		    userModel.searchFile([preferences['comida favorita'].encode('utf-8')])).encode('utf-8'))
 		print(u'\nSobre sua música preferida: \n{}'.format(
-		    userModel.searchFile([preferences['musica favorita']])).encode('utf-8'))
+		    userModel.searchFile([preferences['musica favorita'].encode('utf-8')])).encode('utf-8'))
 	
 	except Exception as e:
 		print(e)
 
-	ds.say("Sobre Seu esporte: " + userModel.searchFile([preferences['esporte favorito']]).encode('utf-8') )
+	ds.say("Sobre Seu esporte: " + userModel.searchFile([preferences['musica favorita']]).encode('utf-8') )
 
 
 
