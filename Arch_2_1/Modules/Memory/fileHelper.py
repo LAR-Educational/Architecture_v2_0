@@ -148,37 +148,37 @@ class fileHelper(object):
     def close(self):
         self.running = False
 
+def example():
+	helper = fileHelper()
+	print(u'Olá abiguinhos')
+	print(u'Qual é seu nome?')
+	nome = raw_input()
 
-helper = fileHelper()
-print(u'Olá abiguinhos')
-print(u'Qual é seu nome?')
-nome = raw_input()
+	print(u'Qual é a sua idade?')
+	answer = raw_input()
+	helper.addPreference(nome, answer, 'idade')
 
-print(u'Qual é a sua idade?')
-answer = raw_input()
-helper.addPreference(nome, answer, 'idade')
+	print(u'Qual é o seu esporte favorito?')
+	answer = raw_input()
+	helper.addSearchQueue([answer], nome, 'esporte favorito')
 
-print(u'Qual é o seu esporte favorito?')
-answer = raw_input()
-helper.addSearchQueue([answer], nome, 'esporte favorito')
+	print(u'Qual é a sua comida favorita?')
+	answer = raw_input()
+	helper.addSearchQueue([answer], nome, 'comida favorita')
 
-print(u'Qual é a sua comida favorita?')
-answer = raw_input()
-helper.addSearchQueue([answer], nome, 'comida favorita')
+	print(u'Qual é a sua música favorita?')
+	answer = raw_input()
+	helper.addSearchQueue([answer], nome, 'musica favorita')
 
-print(u'Qual é a sua música favorita?')
-answer = raw_input()
-helper.addSearchQueue([answer], nome, 'musica favorita')
+	preferences = helper.getPreferences(nome)
+	try:
+		print(u'Sobre seu esporte preferido: {}'.format(
+		    helper.searchFile([preferences['esporte favorito']])))
+		print(u'Sobre sua comida preferida: {}'.format(
+		    helper.searchFile([preferences['comida favorita']])))
+		print(u'Sobre sua música preferida: {}'.format(
+		    helper.searchFile([preferences['musica favorita']])))
+	except Exception as e:
+		print(e)
 
-preferences = helper.getPreferences(nome)
-try:
-    print(u'Sobre seu esporte preferido: {}'.format(
-        helper.searchFile([preferences['esporte favorito']])))
-    print(u'Sobre sua comida preferida: {}'.format(
-        helper.searchFile([preferences['comida favorita']])))
-    print(u'Sobre sua música preferida: {}'.format(
-        helper.searchFile([preferences['musica favorita']])))
-except Exception as e:
-    print(e)
-
-helper.close()
+	helper.close()
