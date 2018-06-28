@@ -106,10 +106,7 @@ def main():
 
 	jkp.play(nao, ds, 3)
 
-	userModel.close()
-	
-	while len(userModel.queue) > 0:
-		pass
+	userModel.join()
 
 	try:
 		print(u'Sobre seu esporte preferido: \n{}'.format(
@@ -124,7 +121,7 @@ def main():
 
 	ds.say("Sobre Seu esporte: " + userModel.searchFile([preferences['musica favorita']]).encode('utf-8') )
 
-
+	userModel.close()
 
 
 
