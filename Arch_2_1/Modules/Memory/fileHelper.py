@@ -73,7 +73,7 @@ class fileHelper(object):
             return ret
 
         # Coloca a linguagem da wikipedia em português
-        wikipedia.set_lang("br")
+        wikipedia.set_lang("pt")
 
         # Pega a página e as seções da página
         try:
