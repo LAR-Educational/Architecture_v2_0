@@ -62,7 +62,7 @@ def start_classification(camId, minNeighbors=5):
 	# static measuring time, dynamic measuring time, time on atention, time for emotion classifier
 	static_time = dynamic_time = time_attention = time_emotion = time.time()
 
-	arq = open('all_statistics.dat', 'a');
+	arq = open('AttentionLogs/{:6.0f}all_statistics.dat'.format(time.time()), 'w');
 	
 	info("All set. Obtaining images!")
 	c = open('emotion_imgs/classifications.txt', 'a+')
@@ -180,7 +180,7 @@ def start_classification(camId, minNeighbors=5):
 		attention = False
 	
 	# write on raw data file
-	arq_ret = open('statistics.dat', 'w');
+	arq_ret = open('AttentionLogs/statistics.dat', 'a+');
 	data = "{}\n{:.2f}\n{:.2f}\n".format(n_deviations, time_disattention, time_attention)
 	arq_ret.write(data)
 	arq_ret.close()
