@@ -1,15 +1,32 @@
 # -*- coding: utf-8 -*-
 import naoqi
+import time
 import numpy as np
 from Modules import dialog
-from Modules import vars
-from Modules import disatention
+from Modules import vars as core
+from Modules import disattention
+
+def read_hist():
+	arq = open("Activities/Historias/indices.txt" , "r")
+	historiasfile = arq.read().split("\n")
+	historiasfile = historiasfile[0:10]
+	historias= []
+	for x in xrange(0,3):
+		r = np.random.randint(0,10)
+		arq = open("Activities/Historias/" + historiasfile[r] + ".txt", "r")
+		historias.append(arq.read().split("\n"))
+		historias[x] = historias[x][0:len(historias[x])-1]
+	return historias
 
 ip = "169.254.178.70"
 port = 9559
 speed = 70
 
-robot = vars.Robot(ip,port)
+robot = core.Robot(ip,port)
+
+attention = disattention.Th(1)
+attention.start()
+time.sleep(10)
 
 animatedSpeech = naoqi.ALProxy("ALAnimatedSpeech", ip, port)
 posture = naoqi.ALProxy("ALRobotPosture", ip, port)
@@ -23,36 +40,47 @@ speechRecognition.setLanguage("Brazilian")
 
 postures = ["Sit", "Stand"]
 
-arq = open("Activities/Historias/historias.txt", "r")
-historias = arq.read().split("\n")
-historias = historias[0:10]
-hist_dict = {}
-
-i = 0
-for hist in historias:
-	hist_dict[str(i)] = hist
-	i += 1
+hist_dict = read_hist()
 
 # posture.goToPosture("Stand", speed)
 speech.say("Olá amiguinho! O meu nome é Teddy. Chega mais perto que eu tenho umas histórias pra contar pra você")
 
-for i in range(0,1):
-	attention = disatention.Th(1)
-	attention.start()
-	
-	r = np.random.randint(0,2)
+r = np.random.randint(0,2)
+for i in range(0,3):
+	totalWords =  0
+	totalSec =  0
 	print(postures[r])
-	posture.goToPosture("Sit", speed)
-	r = np.random.randint(0,10)
-	animatedSpeech.say(hist_dict[str(r)])
-	
-	# speech.say("Você pode resumir essa história pra mim?")
-	# dial = dialog.DialogSystem(robot,"respostas")
-	# answer = dial.getFromMic_Pt()
-	# print answer
+	#posture.goToPosture("Sit", speed)
+	for j in range(1,int(hist_dict[i][0])+1):
+		animatedSpeech.say(hist_dict[i][j])
+		speech.say("Agora farei uma pergunta sobre esta parta da historia ")
+		indice = j + int(hist_dict[i][0])
+		speech.say(hist_dict[i][indice])
+		dial = dialog.DialogSystem(robot,"respostas")
+		print hist_dict[i][j]
+		start = time.time()		
+		answer = dial.getFromMic_Pt()
+		totalSec += time.time() - start
+		print dial.levenshtein_long_two_strings(answer, hist_dict[i][indice])
+		print dial.levenshtein_short_two_strings(answer, hist_dict[i][indice])
+		print answer
+		print core.emotions
+		print core.deviation_times
+		totalWords += dial.coutingWords(answer)
+	totalWords = np.ceil(totalWords/int(hist_dict[i][0]))
+	totalWSec = np.ceil(totalSec/int(hist_dict[i][0]))
+	core.ReadValues(numberWord=totalWords, time2ans=totalSec)
 
-	closeAttention = disatention.Th(2)
-	closeAttention.start()
+closeAttention = disattention.Th(2)
+closeAttention.start()
 
 posture.goToPosture("Sit", speed)
 motion.rest()
+
+
+
+
+
+
+
+
