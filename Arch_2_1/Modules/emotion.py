@@ -2,7 +2,7 @@ from Emotion import mobilenet
 import os
 import numpy as np
 import cv2
-from vars import labels_dict, input_shape, info, war, error
+from vars import info, war, error
 
 labels_dict = {
 	0: 'happy', 1: 'neutral', 2: 'surprise',

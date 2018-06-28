@@ -21,15 +21,13 @@ run_state = 'running'
 # NAO camera device
 camera = ALProxy("ALVideoDevice", robotIp, port)
 
+classifier = emotion.Classifier()
+
 # Threading class for parallel control of this module alongside the whole system
 class Th(Thread):
 	def __init__ (self, num):
 		Thread.__init__(self)
 		self.num = num
-	
-	def load_classifier(self):
-		self.classifier = emotion.Classifier()
-		self.face_cascade = cv2.CascadeClassifier('Modules/haarcascade_frontalface_alt.xml')
 
 	def run(self):
 		if self.num == 1:
@@ -49,7 +47,7 @@ class Th(Thread):
 		global run_state, camera
 
 		# subscribe NAO's camera
-		nameId = camera.subscribeCamera("Emotion_Classifier7", camId, AL_kQVGA, AL_kBGRColorSpace, 10)
+		nameId = camera.subscribeCamera("Emotion_Classifier", camId, AL_kQVGA, AL_kBGRColorSpace, 10)
 		info("Subscribed in {}".format(nameId))
 
 		# start some variables
@@ -58,6 +56,8 @@ class Th(Thread):
 		# static measuring time, dynamic measuring time, time on atention, time for emotion classifier
 		static_time = dynamic_time = time_attention = time_emotion = time.time()
 
+		face_cascade = cv2.CascadeClassifier('Modules/haarcascade_frontalface_alt.xml')
+		
 		arq = open('AttentionLogs/{:6.0f}all_statistics.dat'.format(time.time()), 'w');
 	
 		info("All set. Obtaining images!")
@@ -96,7 +96,7 @@ class Th(Thread):
 			image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)                                    
 
 			# detect faces using Haar Cascade, last parameter: min_neighbors
-			faces = self.face_cascade.detectMultiScale(image_gray, 1.3, minNeighbors)
+			faces = face_cascade.detectMultiScale(image_gray, 1.3, minNeighbors)
 
 			# if no faces are detected, updates deviation time
 			if len(faces) == 0:                    
@@ -123,7 +123,7 @@ class Th(Thread):
 							face_to_classify = np.stack([face, face, face], axis=2)
 							face_to_classify = cv2.resize(face_to_classify, input_shape[:2], interpolation=cv2.INTER_AREA) * 1./255
 							# get inference from classifier
-							classified_emotion = self.classifier.inference(face_to_classify)
+							classified_emotion = classifier.inference(face_to_classify)
 							# writes emotion on the image, to be shown on screen
 							cv2.putText(image, classified_emotion, (0,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,0), 2, cv2.LINE_AA)			
 							# store image on a folder, for future analysis
@@ -134,7 +134,7 @@ class Th(Thread):
 							info("Emotion classified: {}".format(classified_emotion))
 							emotions[classified_emotion] += 1
 					except Exception as e:
-						pass
+						print(e)
 				# if the time difference meets a threshold, count it as a deviation
 				diff = dynamic_time - static_time
 				if diff > 0.7:
@@ -149,13 +149,13 @@ class Th(Thread):
 				static_time = dynamic_time = time.time()
 
 			# show image on screen
-			cv2.imshow('img',image)
+			# cv2.imshow('img',image)
 
 			# check if running will continue
 			if cv2.waitKey(1) and run_state == 'stop':
 				info("Stop detected. Breaking execution!")
-				break;
-		
+				break
+
 		c.close()
 		
 		# clear opencv windows
