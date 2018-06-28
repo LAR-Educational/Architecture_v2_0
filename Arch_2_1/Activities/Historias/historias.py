@@ -2,6 +2,7 @@
 import naoqi
 import time
 import numpy as np
+import random
 from Modules import dialog
 from Modules import vars as core
 from Modules import disattention
@@ -11,9 +12,9 @@ def read_hist():
 	historiasfile = arq.read().split("\n")
 	historiasfile = historiasfile[0:10]
 	historias= []
+	r = random.sample(range(10), 3)
 	for x in xrange(0,3):
-		r = np.random.randint(0,10)
-		arq = open("Activities/Historias/" + historiasfile[r] + ".txt", "r")
+		arq = open("Activities/Historias/" + historiasfile[r[x]] + ".txt", "r")
 		historias.append(arq.read().split("\n"))
 		historias[x] = historias[x][0:len(historias[x])-1]
 	return historias
@@ -24,24 +25,20 @@ speed = 70
 
 robot = core.Robot(ip,port)
 
-time.sleep(10)
-
 animatedSpeech = naoqi.ALProxy("ALAnimatedSpeech", ip, port)
-posture = naoqi.ALProxy("ALRobotPosture", ip, port)
 speech = naoqi.ALProxy("ALTextToSpeech", ip, port)
-speechRecognition = naoqi.ALProxy("ALSpeechRecognition", ip, port)
 motion = naoqi.ALProxy("ALMotion", ip, port)
+leds = naoqi.ALProxy("ALLeds", ip, port)
+group = ['FaceLed0', 'FaceLed1', 'FaceLed2', 'FaceLed3', 'FaceLed4',
+	'FaceLed5', 'FaceLed6', 'FaceLed7']
+leds.createGroup('eyes', group)
 
 motion.wakeUp()
 speech.setLanguage("Brazilian")
-speechRecognition.setLanguage("Brazilian")
-
-postures = ["Sit", "Stand"]
 
 hist_dict = read_hist()
 
-# posture.goToPosture("Stand", speed)
-speech.say("Olá amiguinho! O meu nome é Teddy. Chega mais perto que eu tenho umas histórias pra contar pra você")
+#speech.say("Olá amiguinho! O meu nome é Teddy. Chega mais perto que eu tenho umas histórias pra contar pra você")
 
 r = np.random.randint(0,2)
 for i in range(0,3):
@@ -50,13 +47,18 @@ for i in range(0,3):
 	
 	totalWords =  0
 	totalSec =  0
-	print(postures[r])
-	#posture.goToPosture("Sit", speed)
+	#if i == 0:
+		#animatedSpeech.say("Agora vou contar a primeira história")
+	#if i == 1:
+		#animatedSpeech.say("Agora vou contar a segunda história")
+	#if i == 2:
+		#animatedSpeech.say("Agora vou contar a terceira história")
 	for j in range(1,int(hist_dict[i][0])+1):
-		animatedSpeech.say(hist_dict[i][j])
-		speech.say("Agora farei uma pergunta sobre esta parta da historia ")
+		#animatedSpeech.say(hist_dict[i][j])
+		#speech.say("Agora farei uma pergunta sobre esta parte da historia ")
 		indice = j + int(hist_dict[i][0])
 		speech.say(hist_dict[i][indice])
+		leds.post.fadeRGB('eyes', 'green', 2.5)
 		dial = dialog.DialogSystem(robot,"respostas")
 		print hist_dict[i][j]
 		start = time.time()		
@@ -68,6 +70,7 @@ for i in range(0,3):
 		print core.emotions
 		print core.deviation_times
 		totalWords += dial.coutingWords(answer)
+		leds.fadeRGB('eyes', 'white', 0.1)		
 	totalWords = np.ceil(totalWords/int(hist_dict[i][0]))
 	totalWSec = np.ceil(totalSec/int(hist_dict[i][0]))
 	core.ReadValues(numberWord=totalWords, time2ans=totalSec)
@@ -75,8 +78,9 @@ for i in range(0,3):
 	closeAttention = disattention.Th(2)
 	closeAttention.start()
 
-posture.goToPosture("Sit", speed)
-motion.rest()
+leds.fadeRGB('eyes', 'white', 0.1)
+
+#motion.rest()
 
 
 

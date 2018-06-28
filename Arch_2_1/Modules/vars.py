@@ -14,10 +14,11 @@ Created on Thu May  4 16:06:04 2017
 """
 
 teddy_ip="169.254.178.70"
+dolores_ip="169.254.65.171"
 
 robotIp=teddy_ip
 port = 9559
-robotIp="169.254.178.70"
+robotIp=dolores_ip
 
 
 #variable to check if the robot is conected
