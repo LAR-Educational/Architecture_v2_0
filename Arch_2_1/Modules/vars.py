@@ -18,7 +18,7 @@ dolores_ip="169.254.65.171"
 
 robotIp=teddy_ip
 port = 9559
-robotIp=dolores_ip
+#robotIp=dolores_ip
 
 
 #variable to check if the robot is conected
@@ -32,7 +32,22 @@ training_path = "modules/vision_components/classifiers/DBIM/alldb"
 
 emotions = {'happy': 0, 'sad': 0, 'angry': 0, 'disgust': 0,
  	'surprise': 0, 'fear': 0, 'neutral': 0}
+
 deviation_times = []
+
+
+def clear_emo_variables():
+
+	global emotions
+	for i in emotions.keys():
+		emotions[i] = 0
+	
+	global deviation_times
+	deviation_times = []
+	
+
+
+
 # Default Language
 defaultLanguage = 'Brazilian'
 
@@ -157,10 +172,13 @@ class ReadValues:
      Class to hold read values
     
     """
-    def __init__(self, deviations=5, emotionCount=3,
-                 numberWord=1, time2ans=20, sucRate=1):
+    def __init__(self, deviations=0, emotionCount=0,
+                 numberWord=0, time2ans=0, sucRate=0):
         self.deviations = deviations 
         self.emotionCount = emotionCount  
         self.numberWord =  numberWord
         self.time2ans = time2ans
         self.sucRate = sucRate
+        
+        
+        

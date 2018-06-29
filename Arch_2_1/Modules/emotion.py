@@ -39,6 +39,7 @@ class Classifier:
         info("Making inference on image...")
         if self.classifier == "single_model":
             result = self.model_a.predict(np.expand_dims(image, axis=0), batch_size=1, verbose=0)
+
             return labels_dict[np.argmax(result[0])]
         elif self.classifier == "ff_model":
             result = self.model_a.predict(np.expand_dims(image, axis=0), batch_size=1, verbose=0)
@@ -50,9 +51,19 @@ class Classifier:
                 pred -= 1
             return labels_dict[pred]
         elif self.classifier == "sf_model":
+
             result = self.model_a.predict(np.expand_dims(image, axis=0), batch_size=1, verbose=0)
+
             pred = np.argmax(result[0])
             if pred in [3,4,5,6]:
                 r = self.model_b.predict(np.expand_dims(image, axis=0), batch_size=1, verbose=0)
                 pred = np.argmax(r[0]) + 3
+            #print "HELLO"            
             return labels_dict[pred]
+            
+            
+            
+            
+            
+            
+            

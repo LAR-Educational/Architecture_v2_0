@@ -27,6 +27,8 @@ import numpy as np
 
 # ---------- Activities Imports -------
 from Activities.Jokenpo import jokenpo_main as jkp
+from Activities.Atores import atores as emo
+from Activities.Historias import historias 
 from Modules.Memory import fileHelper
 
 
@@ -65,8 +67,32 @@ def main():
 
 
 
+	attention = disattention.Th(1)
+	attention.start()
+	
+	#jkp.play(nao, ds, 3)
+
+	emo.play(nao, ds, attention)
+
+	attention._end_classification()
+	
+	
+	
+	
+	
+	return 1
+	
+	
+
+	
+	closeAttention = disattention.Th(2)
+	closeAttention.start()
+
+	#historias.play()
+	
 
 
+	return 1
 
 	ds.say("Qual seu nome?")
 
@@ -100,11 +126,23 @@ def main():
 
 
 
+	# Activities Core
+	
 	
 	
 	#stories.paly(nao, ds)	
 
-	jkp.play(nao, ds, 3)
+	jkp.play(nao, ds, 1)
+
+
+	#emo.play()
+
+
+	#exercises.play()
+
+	#remedy.play()
+	
+	#shelf.play()
 
 	userModel.join()
 

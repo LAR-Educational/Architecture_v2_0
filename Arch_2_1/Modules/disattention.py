@@ -17,17 +17,19 @@ AL_kQVGA = 1            # 320x240
 AL_kBGRColorSpace = 13
 
 # global string that sets the running state of the system
-run_state = 'running'
 # NAO camera device
 camera = ALProxy("ALVideoDevice", robotIp, port)
 
-classifier = emotion.Classifier()
+#classifier = emotion.Classifier()
 
 # Threading class for parallel control of this module alongside the whole system
 class Th(Thread):
 	def __init__ (self, num):
 		Thread.__init__(self)
 		self.num = num
+		#self.classifier = emotion.Classifier()
+		self.run_state = 'running'
+
 
 	def run(self):
 		if self.num == 1:
@@ -37,17 +39,25 @@ class Th(Thread):
 			self._end_classification()
 
 	# set run_state to stop the classification 
+	
 	def _end_classification(self):
-		global run_state
-		run_state = 'stop'
+		self.run_state = 'stop'
 
+	def _halt(self):
+		self.run_state = 'halt'
+		
+	def _continue(self):	
+		self.run_state = 'running'
+		
 	# count number of deviation, time on attention and disattention and classify emotion on faces
 	def _start_classification(self, camId, minNeighbors=5):
 		# "import" global variables
 		global run_state, camera
 
+		classifier = emotion.Classifier()
+
 		# subscribe NAO's camera
-		nameId = camera.subscribeCamera("Emotion_Classifier", camId, AL_kQVGA, AL_kBGRColorSpace, 10)
+		nameId = camera.subscribeCamera("Emotion_Classifier__", camId, AL_kQVGA, AL_kBGRColorSpace, 10)
 		info("Subscribed in {}".format(nameId))
 
 		# start some variables
@@ -64,97 +74,100 @@ class Th(Thread):
 		c = open('emotion_imgs/classifications.txt', 'a+')
 		face = None
 	
-		while True:
-			result = camera.getImageRemote(nameId)
+		while self.run_state!='stop':
 		
-			#create image
-			width = result[0]
-			height = result[1]
-			image = np.zeros((height, width, 3), np.uint8)
+			while self.run_state=='running':
+		
+				result = camera.getImageRemote(nameId)
+		
+				#create image
+				width = result[0]
+				height = result[1]
+				image = np.zeros((height, width, 3), np.uint8)
 
-			# get image
-			result = camera.getImageRemote(nameId)
+				# get image
+				result = camera.getImageRemote(nameId)
 
-			'''if result == None:
-			print 'cannot capture.'
-			elif result[6] == None:
-			print 'no image data string.'
-			else:
-			'''
+				'''if result == None:
+				print 'cannot capture.'
+				elif result[6] == None:
+				print 'no image data string.'
+				else:
+				'''
 	
-			# translate value to mat
-			values = map(ord, list(result[6]))
-			i = 0
-			for y in range(0, height):
-				for x in range(0, width):
-					image.itemset((y, x, 0), values[i + 0])
-					image.itemset((y, x, 1), values[i + 1])
-					image.itemset((y, x, 2), values[i + 2])
-					i += 3
+				# translate value to mat
+				values = map(ord, list(result[6]))
+				i = 0
+				for y in range(0, height):
+					for x in range(0, width):
+						image.itemset((y, x, 0), values[i + 0])
+						image.itemset((y, x, 1), values[i + 1])
+						image.itemset((y, x, 2), values[i + 2])
+						i += 3
 
-			# convert image to grayscale			
-			image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)                                    
+				# convert image to grayscale			
+				image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)                                    
 
-			# detect faces using Haar Cascade, last parameter: min_neighbors
-			faces = face_cascade.detectMultiScale(image_gray, 1.3, minNeighbors)
+				# detect faces using Haar Cascade, last parameter: min_neighbors
+				faces = face_cascade.detectMultiScale(image_gray, 1.3, minNeighbors)
 
-			# if no faces are detected, updates deviation time
-			if len(faces) == 0:                    
-				dynamic_time = time.time()
+				# if no faces are detected, updates deviation time
+				if len(faces) == 0:                    
+					dynamic_time = time.time()
 			
-			# else, shows on screen the detected face, store the face on
-			# a variable to be emotion-classified, and counts deviation time
-			else:
-				# runs through all faces found (expected only one, but runs on a loop just to be sure)
-				for (x, y, w, h) in faces:
-					# draws rectangle around the face
-					cv2.rectangle(image,(x,y),(x+w,y+h),(255,0,0),2)
+				# else, shows on screen the detected face, store the face on
+				# a variable to be emotion-classified, and counts deviation time
+				else:
+					# runs through all faces found (expected only one, but runs on a loop just to be sure)
+					for (x, y, w, h) in faces:
+						# draws rectangle around the face
+						cv2.rectangle(image,(x,y),(x+w,y+h),(255,0,0),2)
 					
-					# store the detected face with a few extra pixels, because
-					# the cascade classifier cuts a litte too much
-					face = image_gray[y-10:y+h+10, x-10:x+w+10]
+						# store the detected face with a few extra pixels, because
+						# the cascade classifier cuts a litte too much
+						face = image_gray[y-10:y+h+10, x-10:x+w+10]
 					
-					# if a time difference of 0.3 seconds is met, classify the emotion on a face
-					time_diff = dynamic_time-time_emotion
-					try:
-						if(time_diff >= 0.3 and face is not None):
-							info("Face detected. Classifying emotion.")
-							# reshape image to meet the input dimensions
-							face_to_classify = np.stack([face, face, face], axis=2)
-							face_to_classify = cv2.resize(face_to_classify, input_shape[:2], interpolation=cv2.INTER_AREA) * 1./255
-							# get inference from classifier
-							classified_emotion = classifier.inference(face_to_classify)
-							# writes emotion on the image, to be shown on screen
-							cv2.putText(image, classified_emotion, (0,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,0), 2, cv2.LINE_AA)			
-							# store image on a folder, for future analysis
-							cv2.imwrite("emotion_imgs/{}.png".format(dynamic_time), face)
-							c.write("{} {}\n".format(dynamic_time, classified_emotion))
-							# reset time
-							time_emotion = time_diff
-							info("Emotion classified: {}".format(classified_emotion))
-							emotions[classified_emotion] += 1
-					except Exception as e:
-						print(e)
-				# if the time difference meets a threshold, count it as a deviation
-				diff = dynamic_time - static_time
-				if diff > 0.7:
-					# increase the number of deviations detected
-					n_deviations += 1
-					# stores the time of this deviation
-					arq.write("Tempo do desvio: {:.2f}\n".format(diff))
-					deviation_times.append(diff)
-					#increases total disattention time
-					time_disattention += diff
-					info("Deviation detected")
-				static_time = dynamic_time = time.time()
+						# if a time difference of 0.3 seconds is met, classify the emotion on a face
+						time_diff = dynamic_time-time_emotion
+						try:
+							if(time_diff >= 0.3 and face is not None):
+								info("Face detected. Classifying emotion.")
+								# reshape image to meet the input dimensions
+								face_to_classify = np.stack([face, face, face], axis=2)
+								face_to_classify = cv2.resize(face_to_classify, input_shape[:2], interpolation=cv2.INTER_AREA) * 1./255
+								# get inference from classifier
+								classified_emotion = classifier.inference(face_to_classify)
+								# writes emotion on the image, to be shown on screen
+								cv2.putText(image, classified_emotion, (0,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,0), 2, cv2.LINE_AA)			
+								# store image on a folder, for future analysis
+								cv2.imwrite("emotion_imgs/{}.png".format(dynamic_time), face)
+								c.write("{} {}\n".format(dynamic_time, classified_emotion))
+								# reset time
+								time_emotion = time_diff
+								info("Emotion classified: {}".format(classified_emotion))
+								emotions[classified_emotion] += 1
+						except Exception as e:
+							print(e)
+					# if the time difference meets a threshold, count it as a deviation
+					diff = dynamic_time - static_time
+					if diff > 0.7:
+						# increase the number of deviations detected
+						n_deviations += 1
+						# stores the time of this deviation
+						arq.write("Tempo do desvio: {:.2f}\n".format(diff))
+						deviation_times.append(diff)
+						#increases total disattention time
+						time_disattention += diff
+						info("Deviation detected")
+					static_time = dynamic_time = time.time()
 
-			# show image on screen
-			# cv2.imshow('img',image)
+				# show image on screen
+				# cv2.imshow('img',image)
 
-			# check if running will continue
-			if cv2.waitKey(1) and run_state == 'stop':
-				info("Stop detected. Breaking execution!")
-				break
+				# check if running will continue
+				if cv2.waitKey(1) and self.run_state == 'stop':
+					info("Stop detected. Breaking execution!")
+					break
 
 		c.close()
 		
