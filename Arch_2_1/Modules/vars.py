@@ -14,10 +14,11 @@ Created on Thu May  4 16:06:04 2017
 """
 
 teddy_ip="169.254.178.70"
+dolores_ip="169.254.65.171"
 
 robotIp=teddy_ip
 port = 9559
-robotIp="169.254.178.70"
+#robotIp=dolores_ip
 
 
 #variable to check if the robot is conected
@@ -29,8 +30,24 @@ Ykey = 'y'
 classifierType = "all"
 training_path = "modules/vision_components/classifiers/DBIM/alldb"
 
-emotions = []
+emotions = {'happy': 0, 'sad': 0, 'angry': 0, 'disgust': 0,
+ 	'surprise': 0, 'fear': 0, 'neutral': 0}
+
 deviation_times = []
+
+
+def clear_emo_variables():
+
+	global emotions
+	for i in emotions.keys():
+		emotions[i] = 0
+	
+	global deviation_times
+	deviation_times = []
+	
+
+
+
 # Default Language
 defaultLanguage = 'Brazilian'
 
@@ -45,6 +62,7 @@ current_path= os.getcwd()
 labels_dict = {
     0: 'happy', 1: 'neutral', 2: 'surprise',
     3: 'fear', 4: 'disgust', 5: 'angry', 6: 'sad'}
+
 input_shape = (224,224,3)
 
 
@@ -54,10 +72,6 @@ def load_classes(file_name):
 		spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
 		for row in spamreader:
 			return row
-	
-
-  
-
 
 
 class Robot:
@@ -158,15 +172,13 @@ class ReadValues:
      Class to hold read values
     
     """
-    
-    def __init__(self, deviations=5, emotionCount=3, 
-                    numberWord=1, time2ans=20, sucRate=1        ):
-                    
+    def __init__(self, deviations=0, emotionCount=0,
+                 numberWord=0, time2ans=0, sucRate=0):
         self.deviations = deviations 
         self.emotionCount = emotionCount  
         self.numberWord =  numberWord
         self.time2ans = time2ans
         self.sucRate = sucRate
         
-
-
+        
+        

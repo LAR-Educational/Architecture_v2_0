@@ -244,7 +244,7 @@ class DialogSystem:
 				
 		return ans
 
-	def coutingWords(string):
+	def coutingWords(self, string):
 		return len(string.split())
 
 
