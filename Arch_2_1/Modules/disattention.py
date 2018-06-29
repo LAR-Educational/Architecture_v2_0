@@ -57,7 +57,7 @@ class Th(Thread):
 		classifier = emotion.Classifier()
 
 		# subscribe NAO's camera
-		nameId = camera.subscribeCamera("Emotion_Classifier__", camId, AL_kQVGA, AL_kBGRColorSpace, 10)
+		nameId = camera.subscribeCamera("Emotion_Classifier_", camId, AL_kQVGA, AL_kBGRColorSpace, 10)
 		info("Subscribed in {}".format(nameId))
 
 		# start some variables

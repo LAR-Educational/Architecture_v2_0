@@ -37,73 +37,83 @@ class OperationalParameters:
 		
 		
 
-	class Weights:
+class Weights:
 
-		def __init__(self, alpha, beta, gama):
-		    self.alpha = alpha
-		    self.beta = beta
-		    self.gama =  gama
+	def __init__(self, alpha, beta, gama):
+	    self.alpha = alpha
+	    self.beta = beta
+	    self.gama =  gama
 
 
 
-	class AdaptiveSystem:
+class AdaptiveSystem:
 
-		def __init__(self, robot, path, op, w, rv):
-		
-		    self.robot = robot
-		    self.path = path
-		    self.op = op
-		    self.w = w #weights class
-		    self.rv = rv		
+	def __init__(self, op, w, rv):
+	
+	    #self.robot = robot
+	    #self.path = path
+	    self.op = op
+	    self.w = w #weights class
+	    self.rv = rv		
 
-		
+	
 
 	def adp_function(self, fadp_previous_value = 0):
-		
+	
 		#calculating the alpha vector
-		
+	
 		alpha = normalize(self.rv.deviations, self.op.max_deviation)
 		core.info("Alpha :" + str(alpha)) 
-		
+	
 		#calculating the beta vector
 		beta = (normalize(self.rv.emotionCount, self.op.max_emotion_count) + 
 							 normalize(self.rv.numberWord, self.op.min_number_word) )/2
 		core.info("Beta :" + str(beta)) 
-		
+	
 		#calculating the gama vector
 		gama = (normalize(self.rv.time2ans, self.op.max_time2ans) 
 							+ normalize(self.rv.sucRate, self.op.min_suc_rate) )/2
 		core.info("Gama :" + str(gama)) 
-		
-		
+	
+	
 		fadp = self.w.alpha*alpha + self.w.beta*beta + self.w.gama*gama
 		core.info("fadp = w.alpha*alpha + w.beta*beta + w.gama*gama")
 		core.info(str(fadp) + " = " 
 		 			+ str(self.w.alpha) + "*" + str(alpha) 
 		 			+ " + " + str(self.w.beta) + "*" + str(beta) + " + "
 		 			+  str(self.w.gama) + "*" + str(gama))
-		
+	
 		# fadp(t) = fadp(t-1) + fadp(t)
 		fadp =  fadp + fadp_previous_value
 		core.info("Final: " + str(fadp))				
-			
+		
 		return fadp
-		
-		
-		
+	
+	
+	
 	def activation_function(self, fadp):	
 		#Activation function
-				
+			
 		if fadp > 0.65:
 			return 1
 		elif fadp < 0.33:	
 			return -1
 		else:
 			return 0	
+	
 		
 		
-		
-		
+def change_behavior(self, robot, behavior):
+	
+	if behavior < 0:
+		robot.tts.setParameter('volume', robot.volume+0.2)
+		robot.tts.setParameter('speed',robot.speed-0.2)	
+	
+	if behavior > 0:
+		robot.tts.setParameter('volume', robot.volume-0.2)
+		robot.tts.setParameter('speed',robot.speed+0.2)	
+	
+	 	
 		
 		
 
