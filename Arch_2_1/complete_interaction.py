@@ -70,6 +70,14 @@ def main():
 
 	#attention = disattention.Th(1)
 	#attention.start()
+	#start attention thread
+	
+
+
+	#attention = disattention.Th(1)
+	#attention.start()
+	
+
 	
 	#CONDITION 1
 	ds.say("Boa tarde, eu sou o Teddy. Vamos fazer uma série de atividades agora. Está preparado? Vamos lá")
@@ -78,9 +86,31 @@ def main():
 	ex.play(nao, ds)
 	ds.say("Vamos jogar um pouco. Que tal Jokenpô? Tenha paciência comigo, eu demoro um pouco para definir as jogadas")
 	jkp.play(nao, ds, 3)
+	
 	attention = disattention.Th(1)
 	attention.start()
 	emo.play(nao, ds, attention)
+
+
+	#jkp.play(nao, ds, 3)
+
+	#print "OIEEE "
+	
+	historias.play(attention)
+
+	
+	
+	#emo.play(nao, ds, attention)
+
+	
+	
+	
+	
+	
+	#
+	attention._end_classification()
+	
+	
 	
 	#CONDITION 2
 	#jkp.play(nao, ds, 3)
@@ -99,7 +129,6 @@ def main():
 	closeAttention = disattention.Th(2)
 	closeAttention.start()
 
-	#historias.play()
 	
 
 

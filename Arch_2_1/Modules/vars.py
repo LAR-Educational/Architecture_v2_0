@@ -6,6 +6,9 @@ import vision_definitions
 import pickle
 import os
 from pprint import pprint
+import operator
+
+
 
 """
 Created on Thu May  4 16:06:04 2017
@@ -13,13 +16,41 @@ Created on Thu May  4 16:06:04 2017
 @author: dtozadore
 """
 
+
+
+class ReadValues:
+    """
+     Class to hold read values
+    
+    """
+    def __init__(self, deviations=0, emotionCount=0,
+                 numberWord=0, time2ans=0, sucRate=0):
+        self.deviations = deviations 
+        self.emotionCount = emotionCount  
+        self.numberWord =  numberWord
+        self.time2ans = time2ans
+        self.sucRate = sucRate
+    
+    def set(self, deviations=0, emotionCount=0,
+                 numberWord=0, time2ans=0, sucRate=0):
+        self.deviations = deviations 
+        self.emotionCount = emotionCount  
+        self.numberWord =  numberWord
+        self.time2ans = time2ans
+        self.sucRate = sucRate
+        
+
+
+userPar = ReadValues()
+
+     
 teddy_ip="169.254.178.70"
 dolores_ip="169.254.65.171"
 actual_ip="169.254.201.16"
 
 robotIp=actual_ip
 port = 9559
-#robotIp=dolores_ip
+robotIp=dolores_ip
 
 
 #variable to check if the robot is conected
@@ -37,17 +68,25 @@ emotions = {'happy': 0, 'sad': 0, 'angry': 0, 'disgust': 0,
 deviation_times = []
 
 
+
+def getBadEmotions():
+	
+	emo =  emotions['sad'] + emotions['angry'] +  emotions['disgust'] + emotions['fear']     
+	print "Number of bad emotions", emo
+
+	return emo
+
+
 def clear_emo_variables():
 
 	global emotions
 	for i in emotions.keys():
 		emotions[i] = 0
 	
+	#print "DEVIATION", deviation_times
 	global deviation_times
-	deviation_times = []
+	del deviation_times[:]
 	
-
-
 
 # Default Language
 defaultLanguage = 'Brazilian'
@@ -167,19 +206,5 @@ def nao_say(stringToPrint):
             print bcolors.OKGREEN + "[Saying] " + stringToPrint + bcolors.ENDC
 
 
-
-class ReadValues:
-    """
-     Class to hold read values
-    
-    """
-    def __init__(self, deviations=0, emotionCount=0,
-                 numberWord=0, time2ans=0, sucRate=0):
-        self.deviations = deviations 
-        self.emotionCount = emotionCount  
-        self.numberWord =  numberWord
-        self.time2ans = time2ans
-        self.sucRate = sucRate
-        
-        
+   
         

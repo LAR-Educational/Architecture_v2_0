@@ -3,9 +3,12 @@ import naoqi
 import time
 import numpy as np
 import random
+from pprint import pprint
 from Modules import dialog
 from Modules import vars as core
 from Modules import disattention
+from Modules import adaption
+
 
 def read_hist():
 	arq = open("Activities/Historias/indices.txt" , "r")
@@ -43,9 +46,17 @@ hist_dict = read_hist()
 #speech.say("Olá amiguinho! O meu nome é Teddy. Chega mais perto que eu tenho umas histórias pra contar pra você")
 
 def play(att):
-
+	
+	w = adaption.Weights(0.5, 0.2, 0.3 )	
+	op = adaption.OperationalParameters (max_deviation=2, max_emotion_count=10, 
+									min_number_word=1 , max_time2ans=10, min_suc_rate=1)
+	
+	
+	adp = adaption.AdaptiveSystem(op,w,core.userPar)
+	
+	
 	r = np.random.randint(0,2)
-	for i in range(0,3):
+	for i in range(0,2):
 		#attention = disattention.Th(1)
 		#attention.start()
 	
@@ -68,9 +79,16 @@ def play(att):
 			dial = dialog.DialogSystem(robot,"respostas")
 			print hist_dict[i][j]
 			start = time.time()		
-			answer = dial.getFromMic_Pt()
+			
+			
+			answer = raw_input("Digite a resposta: ")#dial.getFromMic_Pt()
+			
+			
 			totalSec += time.time() - start
-			print dial.levenshtein_long_two_strings(answer, hist_dict[i][indice])
+			
+			success_rate = dial.levenshtein_long_two_strings(answer, hist_dict[i][indice])
+			
+			print success_rate
 			print dial.levenshtein_short_two_strings(answer, hist_dict[i][indice])
 			print answer
 			print core.emotions
@@ -79,9 +97,30 @@ def play(att):
 			leds.fadeRGB('eyes', 'white', 0.1)		
 		totalWords = np.ceil(totalWords/int(hist_dict[i][0]))
 		totalWSec = np.ceil(totalSec/int(hist_dict[i][0]))
-		core.ReadValues(numberWord=totalWords, time2ans=totalSec)
+		#core.ReadValues(numberWord=totalWords, time2ans=totalSec)
+	
+	
+		fvalue = adp.adp_function()
+	
+		print "FVALUE", fvalue
+	
+	
+		core.userPar.set( deviations= len(core.deviation_times), 
+							emotionCount= core.getBadEmotions(),
+							numberWord=totalWords, 
+							time2ans=totalWSec, 
+							sucRate= success_rate)
+	
+		pprint(vars(core.userPar))
 	
 		att._halt()
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		core.clear_emo_variables()
