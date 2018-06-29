@@ -15,8 +15,9 @@ Created on Thu May  4 16:06:04 2017
 
 teddy_ip="169.254.178.70"
 dolores_ip="169.254.65.171"
+actual_ip="169.254.201.16"
 
-robotIp=teddy_ip
+robotIp=actual_ip
 port = 9559
 #robotIp=dolores_ip
 
