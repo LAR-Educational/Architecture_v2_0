@@ -66,14 +66,27 @@ def main():
 		#raise
 
 
-
+	#start attention thread
+	
 	attention = disattention.Th(1)
 	attention.start()
 	
 	#jkp.play(nao, ds, 3)
 
-	emo.play(nao, ds, attention)
+	#print "OIEEE "
+	
+	historias.play(attention)
 
+	
+	
+	#emo.play(nao, ds, attention)
+
+	
+	
+	
+	
+	
+	#
 	attention._end_classification()
 	
 	
@@ -88,7 +101,6 @@ def main():
 	closeAttention = disattention.Th(2)
 	closeAttention.start()
 
-	#historias.play()
 	
 
 
