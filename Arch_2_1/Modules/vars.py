@@ -17,6 +17,15 @@ Created on Thu May  4 16:06:04 2017
 """
 
 
+teddy_ip="169.254.178.70"
+dolores_ip="169.254.65.171"
+actual_ip="169.254.201.16"
+
+robotIp=teddy_ip
+port = 9559
+#robotIp=current_ip
+
+
 
 class ReadValues:
     """
@@ -44,14 +53,6 @@ class ReadValues:
 userPar = ReadValues()
 
      
-teddy_ip="169.254.178.70"
-dolores_ip="169.254.65.171"
-actual_ip="169.254.201.16"
-
-robotIp=actual_ip
-port = 9559
-robotIp=dolores_ip
-
 
 #variable to check if the robot is conected
 naoConeted= True
@@ -64,6 +65,12 @@ training_path = "modules/vision_components/classifiers/DBIM/alldb"
 
 emotions = {'happy': 0, 'sad': 0, 'angry': 0, 'disgust': 0,
  	'surprise': 0, 'fear': 0, 'neutral': 0}
+
+#emotions = {'felicidade': 0, 'tristeza': 0, 'raiva': 0, 'nojo': 0,
+ 	#'surpresa': 0, 'fear': 0, 'neutra': 0}
+
+
+
 
 deviation_times = []
 
@@ -102,6 +109,13 @@ current_path= os.getcwd()
 labels_dict = {
     0: 'happy', 1: 'neutral', 2: 'surprise',
     3: 'fear', 4: 'disgust', 5: 'angry', 6: 'sad'}
+
+
+translated_emotions = {
+    'happy': 'Feliz', 'neutral': 'neutro', 'surprise': 'surpresa',
+    'fear': 'medo', 'disgust': 'nojo', 'angry': 'raiva', 'sad': 'tristeza'}
+
+
 
 input_shape = (224,224,3)
 

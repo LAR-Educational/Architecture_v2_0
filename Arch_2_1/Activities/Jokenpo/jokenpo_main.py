@@ -136,67 +136,90 @@ def play(robot, ds,round_numbers=3):
 
 
 	##-------- Real Play
+	player_robot = 0
+	player_human = 0
 
 	for turn in range(0,round_numbers):
 			
-			#time.sleep(15)
-			#pass
-			#print(core.emotions)
-			ds.say("Rodada número " + str(turn+1))
+			
 
-			behave = np.random.randint(0,6)
 		
-			print "Behave", behave
-		
-			p1 = int(behave/2)
-			#p2 = np.random.randint(0,2)
+		#time.sleep(15)
+		#pass
+		#print(core.emotions)
+		ds.say("Rodada número " + str(turn+1))
+
+		behave = np.random.randint(0,6)
 	
+		print "Behave", behave
 	
-	
-			
-			robot_move = play_book[p1]
-			
-			#ds.say("Eu escolho " +  play_book[p1])
-			
-			#-- Generic function to execute jokenpo play
-			execute_move(robot, behave)
-			
-			p2 = int(raw_input("Player play (1-3): ")) -1
-			print "p1: " , play_book[p1]
-			print "p2: ", play_book[p2]
-			print "behave", behaviors[behave]
-		
-			play,w,l = jokenpo(play_book[p1],play_book[p2])
-		
-			#play=[a,b,c]
-			
-			ds.say("")
-			
-			
-			
-			ds.say(" eu escolhi " +  play_book[p1] + " e você escolheu " + play_book[p2])
-		
-			print "result: ", play
-	
-			if play > 0:
-				ds.say("Eu ganhei porque" +  w + " ganha de " + l)
-				#print "Robô ganhou porque ", w ," ganha de ", l	
-	
-			elif play < 0:	
-				ds.say("Você ganhou porque" +  w + " ganha de " + l)
-				#print "Player ganhou porque ", w ," ganha de ", l
-		
-			else:
-				ds.say("Empatou porque escolhemos a mesma coisa")
-				#print "empate porque ", w ," e ", l, "são iguais"
+		p1 = int(behave/2)
+		#p2 = np.random.randint(0,2)
 
 
-			print
-			print
-			
-			#raw_input("Pause") 
 		
+		
+		robot_move = play_book[p1]
+		
+		#ds.say("Eu escolho " +  play_book[p1])
+		
+		#-- Generic function to execute jokenpo play
+		execute_move(robot, behave)
+		
+		'''
+		ds.say("Jó", animated = False, block=False)
+		time.sleep(3)
+		
+		ds.say("quem", animated = False, block=False)
+		time.sleep(3)
+		
+		ds.say("Pô", animated = False, block=False)
+		#time.sleep(1)
+		'''
+		
+		p2 = int(raw_input("Player play (1-3): ")) -1
+		print "p1: " , play_book[p1]
+		print "p2: ", play_book[p2]
+		print "behave", behaviors[behave]
+	
+		play,w,l = jokenpo(play_book[p1],play_book[p2])
+	
+		#play=[a,b,c]
+		
+		#ds.say("")
+		
+		
+		
+		ds.say(" eu escolhi " +  play_book[p1] + " e você escolheu " + play_book[p2])
+	
+		print "result: ", play
 
+		if play > 0:
+			ds.say("Eu ganhei porque" +  w + " ganha de " + l)
+			#print "Robô ganhou porque ", w ," ganha de ", l	
+			player_robot+=1
+		elif play < 0:	
+			ds.say("Você ganhou porque" +  w + " ganha de " + l)
+			#print "Player ganhou porque ", w ," ganha de ", l
+			player_human+=1
+		else:
+			ds.say("Empatou porque escolhemos a mesma coisa")
+			#print "empate porque ", w ," e ", l, "são iguais"
+
+
+		print
+		print
+		
+		#raw_input("Pause") 
+	
+	if player_robot > player_human:
+		ds.say("Rá! Parece que eu ganhei, hein. Robôs Dominam!")
+	
+	elif player_robot < player_human:
+		ds.say("é. Acho que os robôs estão longe de ganhar dessa sua racinha.")
+	
+	else:
+		ds.say("Nem pra mim nem pra você. Empatamos no geral")
 
 
 
@@ -210,17 +233,6 @@ def execute_move(robot, chosen_behavior):
 	robot.behavior.runBehavior(mapped_behaviors[chosen_behavior]+"/behavior_1")
 	
 			
-
-
-
-
-
-
-
-
-
-
-
 
 
 

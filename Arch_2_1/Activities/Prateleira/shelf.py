@@ -20,7 +20,7 @@ def play(robot, ds):
 	
 	
 	#Woz entry: Wait until the human finishes
-	escolha = int(raw_input("Select Cue (1-3): ")) -1
+	escolha = int(raw_input("Select Cue: Separar Líquidos (1), Café da manhã (2), Separar latas (3): ")) -1
 	
 	#1 Clue
 	if escolha == 0:
@@ -34,4 +34,10 @@ def play(robot, ds):
 	else:
 		ds.say("Por que você não separa as latas das outras coisas? Ficaria mais bem organizado assim")	
 		
-	raw_input("Press enter to change role")
+	escolha = int(raw_input("Accepted? Yes 0: No 1"))
+	
+	#accepted?
+	if escolha == 0:
+		ds.say("Que bom que gostou da minha opinião")
+	else:
+		ds.say("Certo, vamos deixar assim.")
