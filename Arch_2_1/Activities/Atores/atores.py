@@ -44,10 +44,15 @@ def play(robot, ds, att):
 	#rand_emo = random.randint(0,6)
 
 	ds.say("Agora vou te mostrar minhas habilidades como ator. Primeiro mostre cada uma das emoções contidas no papel que te entregaram, na ordem que preferir. Diga Ok robô quanto estiver pronto")
-	raw_input("Press enter to start emotion recognition")
+	raw_input("GO!")
+	
+	ds.say("Estamos os dois prontos! Pode começar")
+	
+	robot.behavior.runBehavior('wsafe-c66573/behavior_1')
+	
 	 		
 	for i in range(0,6):
-		
+			
 		att._continue()
 		#print(core.emotions)
 		
@@ -59,16 +64,21 @@ def play(robot, ds, att):
 		time.sleep(4)
 		att._halt()
 		
+		core.emotions['neutral']=0
+		
 		print "Mais detectada",  max(core.emotions, key=core.emotions.get)
 		
 		#ds.say("A expressão que eu detectei foi, " + max(core.emotions, key=core.emotions.get))
+		emo_result = core.translated_emotions[max(core.emotions, key=core.emotions.get)]
 		
-		ds.say("Ok, eu detectei a emoção "+ max(core.emotions, key=core.emotions.get))
+		print "Traduzida", emo_result
+		
+		ds.say("Ok, eu detectei a emoção "+ str(emo_result), animated=False)
 		
 		if(i < 5):
-			ds.say("Agora me mostre outra emoção")
+			ds.say("Agora me mostre outra emoção", animated=False)
 		else:
-			ds.say("Perfeito, estou aprendendo as emoções")
+			ds.say("Perfeito, estou aprendendo as emoções", animated=False)
 		
 		print core.emotions
 	
@@ -82,12 +92,20 @@ def play(robot, ds, att):
 	
 	#pessoa adivinha emoções do nao
 	ds.say("Agora é a sua vez de descobrir. Tente dizer qual expressão eu estou mostrando")
+	ds.say("Esta pronto?")
+	ds.say("Anote qual emoção você acha que é e me diga quando estiver pronto para a próxima.")
+	
+	raw_input("GO!")
+	
 	for i in range(0,6):
 		
 		#display_emotion(robot, max(core.emotions, key=core.emotions.get))
-		
+		ds.say("Emoção numero " + str(i+1), block=False)
 		display_emotion(robot, i)
-
+		ds.say("Pronto?")
+		raw_input("GO!")
+		
+	robot.behavior.runBehavior('wsafe-c66573/behavior_1')
 	
 	#return 1		
 	
