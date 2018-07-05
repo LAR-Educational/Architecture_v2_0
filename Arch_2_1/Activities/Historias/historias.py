@@ -46,9 +46,12 @@ hist_dict = read_hist()
 #speech.say("Olá amiguinho! O meu nome é Teddy. Chega mais perto que eu tenho umas histórias pra contar pra você")
 
 def play(att):
+
+
+	fileLog = open ("Log/adaptive_" + str(time.time()), "w+")
 	
 	w = adaption.Weights(0.5, 0.2, 0.3 )	
-	op = adaption.OperationalParameters (max_deviation=2, max_emotion_count=10, 
+	op = adaption.OperationalParameters (max_deviation=2, max_emotion_count=25, 
 									min_number_word=1 , max_time2ans=10, min_suc_rate=1)
 	
 	
@@ -62,6 +65,11 @@ def play(att):
 	
 		att._continue()
 		
+		
+		fileLog.write("Round history" + str(i)) 
+		
+		
+		
 		totalWords =  0
 		totalSec =  0
 		#if i == 0:
@@ -71,28 +79,43 @@ def play(att):
 		#if i == 2:
 			#animatedSpeech.say("Agora vou contar a terceira história")
 		for j in range(1,int(hist_dict[i][0])+1):
-			#animatedSpeech.say(hist_dict[i][j])
-			#speech.say("Agora farei uma pergunta sobre esta parte da historia ")
+			
+			
+			animatedSpeech.say(hist_dict[i][j])
+			
+			
+			fileLog.write("Sorted story"+ hist_dict[i][j])
+			fileLog.write("")
+			
+			speech.say("Agora farei uma pergunta sobre esta parte da historia ")
 			indice = j + int(hist_dict[i][0])
 			speech.say(hist_dict[i][indice])
+			
+			fileLog.write("Question " + str(i) +" : " + hist_dict[i][indice] )
+			fileLog.write("")
+			
+			
 			leds.post.fadeRGB('eyes', 'green', 2.5)
 			dial = dialog.DialogSystem(robot,"respostas")
 			print hist_dict[i][j]
 			start = time.time()		
 			
 			
-			answer = raw_input("Digite a resposta: ")#dial.getFromMic_Pt()
-			
+			answer =dial.getFromMic_Pt()
+			#raw_input("Digite a resposta: ")#
 			
 			totalSec += time.time() - start
 			
 			success_rate = dial.levenshtein_long_two_strings(answer, hist_dict[i][indice])
 			
-			print success_rate
-			print dial.levenshtein_short_two_strings(answer, hist_dict[i][indice])
+			print "longest", success_rate
+			print "short", dial.levenshtein_short_two_strings(answer, hist_dict[i][indice])
 			print answer
-			print core.emotions
-			print core.deviation_times
+			fileLog.write("Answer " + answer)
+			fileLog.write("")
+			
+			#print core.emotions
+			#print core.deviation_times
 			totalWords += dial.coutingWords(answer)
 			leds.fadeRGB('eyes', 'white', 0.1)		
 		totalWords = np.ceil(totalWords/int(hist_dict[i][0]))
@@ -100,9 +123,7 @@ def play(att):
 		#core.ReadValues(numberWord=totalWords, time2ans=totalSec)
 	
 	
-		fvalue = adp.adp_function()
-	
-		print "FVALUE", fvalue
+		
 	
 	
 		core.userPar.set( deviations= len(core.deviation_times), 
@@ -111,8 +132,21 @@ def play(att):
 							time2ans=totalWSec, 
 							sucRate= success_rate)
 	
-		pprint(vars(core.userPar))
+		fvalue = adp.adp_function()
 	
+	
+		fileLog.write("F Value "  +" : " + str(fvalue) )
+		fileLog.write("")
+		print "FVALUE", fvalue
+		fileLog.write("")
+			
+		
+		#fileLog.write(pprint(vars(core.userPar)))
+		pprint(vars(core.userPar))
+		
+		pprint(vars(core.userPar), fileLog)
+		
+		
 		att._halt()
 		
 		
@@ -130,10 +164,10 @@ def play(att):
 		
 		
 	leds.fadeRGB('eyes', 'white', 0.1)
-
+	
 	#motion.rest()
 
-
+	fileLog.close()
 
 
 
