@@ -28,9 +28,11 @@ import numpy as np
 # ---------- Activities Imports -------
 from Activities.Jokenpo import jokenpo_main as jkp
 from Activities.Atores import atores as emo
-from Activities.Historias import historias 
+from Activities.Historias import historias
+from Activities.Exercicio import exercicio as ex 
+from Activities.Prateleira import shelf
+from Activities.Drogas import drugs
 from Modules.Memory import fileHelper
-
 
 def main():
 
@@ -65,29 +67,268 @@ def main():
 		war("Exception type:" + str(sys.exc_info()[0]))
 		#raise
 
-
-	#start attention thread
-	
-	attention = disattention.Th(1)
-	attention.start()
+	nao.motors.wakeUp()
 	
 	#jkp.play(nao, ds, 3)
 
-	#print "OIEEE "
-	
-	historias.play(attention)
-
-	
-	
+	#ds.say("Continue sentado para próxima brincadeira", block=False)
+	#attention = disattention.Th(1)
+	#attention.start()
 	#emo.play(nao, ds, attention)
+	#attention._end_classification()
+
+	#return 1
+	
+	
+	personalize = True
+	play_drugs = True
+	play_ex = True
+	play_shelf = True
+	play_act = True
+	play_jkp = True
+
+
+	#'''
+	userModel = fileHelper.fileHelper()
+	ds.say('E aí, ser humaninho! Meu nome é tédi. E o você, qual é seu nome?')
+	#print(u'Qual é seu nome?')
+	#nome = ds.getFromMic_Pt()#raw_input()
+	nome = raw_input()
+
+	ds.say(nome + "?")
+
+	ds.say("Que nome tópi!")
+
+	userPath= "./Usuarios/" + nome + ".dat"
+	
+	
+	
+	
+	
+	print userPath
+	
+	if os.path.exists( userPath  ):
+		ds.say("Já te conheço")
+		
+	
+	else:
+		ds.say('Qual é a sua idade?')
+		#answer = ds.getFromMic_Pt()#raw_input()
+		answer = raw_input()
+		userModel.addPreference(nome, answer, 'idade')
+
+		#print(u'Qual é o seu esporte favorito?')
+		ds.say("Qual seu esporte favorito")
+		#answer = ds.getFromMic_Pt()#raw_input()
+		answer = raw_input()
+		userModel.addSearchQueue([answer], nome, 'esporte favorito')
+
+		#print(u'Qual é a sua comida favorita?')
+		ds.say("Qual sua comida favorita?")
+		#answer = ds.getFromMic_Pt()#raw_input()
+		answer = raw_input()
+		userModel.addSearchQueue([answer], nome, 'comida favorita')
+
+		#print(u'Qual é a sua música favorita?')
+		ds.say("Qual sua banda preferida?")
+		#answer = ds.getFromMic_Pt()#raw_input()
+		answer = raw_input()
+		userModel.addSearchQueue([answer], nome, 'musica favorita')
+
+		preferences = userModel.getPreferences(nome)
+	
+	
+	#CONDITION 1
+	ds.say(" Vamos fazer uma série de atividades agora. Está preparado? Vamos lá")
+	
+	
+	if play_drugs:
+		drugs.play(nao, ds)
+	
+	try:
+		ds.say(u'Sobre seu esporte preferido: \n{}'.format(
+		    userModel.searchFile([preferences['esporte favorito'].encode('utf-8')])).encode('utf-8'))
+		
+		print (u'Sobre seu esporte preferido: \n{}'.format(
+		    userModel.searchFile([preferences['esporte favorito'].encode('utf-8')])).encode('utf-8'))
+		    
+		
+	except Exception as e:
+		print(e)
+	
+	
+	ds.say("Gostei, " + nome + ". Essse será meu esporte preferido também. O que você acha?")
+	raw_input("GO!")
+	ds.say("Certo. Vamos seguir com a atividade")
+	
+	
+	
+	if play_shelf:
+		shelf.play(nao, ds)
+	
+	if play_ex:
+		ex.play(nao, ds)
+	
+	try:
+		ds.say(u'Sobre o rango que tu mais curte: \n{}'.format(
+		    userModel.searchFile([preferences['comida favorita'].encode('utf-8')])).encode('utf-8'))
+		print(u'Sobre o rango que tu mais curte: \n{}'.format(
+		    userModel.searchFile([preferences['comida favorita'].encode('utf-8')])).encode('utf-8'))
+		
+	except Exception as e:
+		print(e)
+
+	ds.say("Eca. Que nojo. Você tem gostos peculiares. sorte minha que não como")
+	raw_input("GO!")
+	#ds.say("Certo. Vamos seguir com a interação")
+	
+
+
+	# ------------------------ Jokenpo ----------------------------------
+
+	if play_jkp:
+		#nao.behavior.post.runBehavior('wsafe-c66573/behavior_1')
+		ds.say("Vamos jogar um pouco. Que tal Jó quem pô? Tenha paciência comigo, eu demoro um pouco para definir as jogadas. Puxe uma cadeira e sente na minha frente. Me avise quando estiver pronto", animated=True)
+		raw_input("GO!")
+		ds.say("Então vamos lá")
+		jkp.play(nao, ds, 3)
+
+
+
+	# ------------------------ ACTORS ----------------------------------
+	
+	if play_act:
+		ds.say("Continue sentado para próxima brincadeira", block=False)
+		attention = disattention.Th(1)
+		attention.start()
+		emo.play(nao, ds, attention)
+		attention._end_classification()
+
+
+	userModel.join()
+	userModel.close()
+
+	try:
+		ds.say(u'\nSobre sua Banda preferida: \n{}'.format(
+		    userModel.searchFile([preferences['musica favorita'].encode('utf-8')])).encode('utf-8'))
+	
+	except Exception as e:
+		print(e)
+
+	
+	ds.say("Então é isso. Foi um prazer interagir com você, "+ nome +" . Espero te ver em breve. Até mais.", block=False)
+	
+	nao.motors.rest()
+
+	
+	
+	#CONDITION 2
+	#jkp.play(nao, ds, 3)
+	#emo.play(nao, ds, attention)
+	#attention._end_classification()
+	#ex.play(nao, ds)
+	#shelf.play(nao, ds)
+	#drugs.play(nao, ds)
+	
+	return 1	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	'''
+	ds.say("Estou certo? ")
+	
+	userAns = ds.getFromMic_Pt()
+	
+	if userAns == "sim":
+		ds.say("Manjo muito")	
+	
+	else:
+		ds.say("Vou melhorar")
+	'''
+	
+	
+	
+	
+	'''
+
+	ds.say("Estou certo? ")
+	
+	userAns = ds.getFromMic_Pt()
+	
+	if userAns == "sim":
+		ds.say("Manjo muito")	
+	
+	else:
+		ds.say("Vou melhorar")
+	
+
+	#
+	'''
+	'''
+	try:
+		ds.say(u'Sobre seu esporte preferido: \n{}'.format(
+		    userModel.searchFile([preferences['esporte favorito'].encode('utf-8')])).encode('utf-8'))
+		ds.say(u'\nSobre sua comida preferida: \n{}'.format(
+		    userModel.searchFile([preferences['comida favorita'].encode('utf-8')])).encode('utf-8'))
+		ds.say(u'\nSobre sua música preferida: \n{}'.format(
+		    userModel.searchFile([preferences['musica favorita'].encode('utf-8')])).encode('utf-8'))
+	
+	except Exception as e:
+		print(e)
+
+	ds.say("Sobre Seu esporte: " + userModel.searchFile([preferences['musica favorita']]).encode('utf-8') )
+	'''
+	
+	
+	
+	
+	
+
 
 	
 	
 	
 	
 	
-	#
-	attention._end_classification()
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
