@@ -15,7 +15,7 @@ import os
 
 def normalize(read_val, max_val, min_val=0, floor=0, roof=1):
 	"""
-	Normalize two numbers betwenn floor to roof
+	Normalize two numbers between floor to roof
 	"""
 	#return float((read_val*roof)/max_val)
 	return float ( (roof-floor)/(max_val-min_val)*(read_val-max_val)+ roof )
