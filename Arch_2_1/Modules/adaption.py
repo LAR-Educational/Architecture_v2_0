@@ -143,7 +143,7 @@ def main():
 	
 	
 	
-		adpt = AdaptiveSystem(robot=1,path=2, op=op, w=w, rv=rv)
+		adpt = AdaptiveSystem(op=op, w=w, rv=rv)
 
 		fc = adpt.adp_function()
 		core.info( "Fadp: " + str(fc) )
