@@ -136,7 +136,13 @@ class Robot:
     		
   		
     		
-    		
+class Sys_Control:
+
+	def __init__(self):
+		
+		
+		ctrl_file = open("")
+		    		
     		
 '''
 if(naoConeted):
