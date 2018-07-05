@@ -78,6 +78,8 @@ def play(att):
 			#animatedSpeech.say("Agora vou contar a segunda história")
 		#if i == 2:
 			#animatedSpeech.say("Agora vou contar a terceira história")
+		
+
 		for j in range(1,int(hist_dict[i][0])+1):
 			
 			
@@ -85,14 +87,14 @@ def play(att):
 			
 			
 			fileLog.write("Sorted story"+ hist_dict[i][j])
-			fileLog.write("")
+			fileLog.write("\n")
 			
 			speech.say("Agora farei uma pergunta sobre esta parte da historia ")
 			indice = j + int(hist_dict[i][0])
 			speech.say(hist_dict[i][indice])
 			
 			fileLog.write("Question " + str(i) +" : " + hist_dict[i][indice] )
-			fileLog.write("")
+			fileLog.write("\n")
 			
 			
 			leds.post.fadeRGB('eyes', 'green', 2.5)
@@ -101,7 +103,7 @@ def play(att):
 			start = time.time()		
 			
 			
-			answer =dial.getFromMic_Pt()
+			answer = core.get_input()#dial.getFromMic_Pt()
 			#raw_input("Digite a resposta: ")#
 			
 			totalSec += time.time() - start
@@ -112,7 +114,7 @@ def play(att):
 			print "short", dial.levenshtein_short_two_strings(answer, hist_dict[i][indice])
 			print answer
 			fileLog.write("Answer " + answer)
-			fileLog.write("")
+			fileLog.write("\n")
 			
 			#print core.emotions
 			#print core.deviation_times
@@ -121,10 +123,6 @@ def play(att):
 		totalWords = np.ceil(totalWords/int(hist_dict[i][0]))
 		totalWSec = np.ceil(totalSec/int(hist_dict[i][0]))
 		#core.ReadValues(numberWord=totalWords, time2ans=totalSec)
-	
-	
-		
-	
 	
 		core.userPar.set( deviations= len(core.deviation_times), 
 							emotionCount= core.getBadEmotions(),
@@ -138,7 +136,7 @@ def play(att):
 		fileLog.write("F Value "  +" : " + str(fvalue) )
 		fileLog.write("")
 		print "FVALUE", fvalue
-		fileLog.write("")
+		fileLog.write("\n\n\n --------- END OF STORY--------------\n\n\n\n")
 			
 		
 		#fileLog.write(pprint(vars(core.userPar)))
@@ -148,14 +146,6 @@ def play(att):
 		
 		
 		att._halt()
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		core.clear_emo_variables()
 		

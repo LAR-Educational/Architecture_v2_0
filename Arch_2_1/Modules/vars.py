@@ -143,6 +143,27 @@ translated_emotions = {
 input_shape = (224,224,3)
 
 
+
+input_option = {'mic': 1 , 'keyboard':-1}
+
+def get_input(option, ds):
+	'''
+	Get input from mic or keyboard
+	
+	'''
+	sentence = ''
+
+	if option>0: #mic
+		sentence = ds.getFromMic_Pt()
+	elif option<0: #keyboard
+		sentence = raw_input("Waiting keyboard entry: ")
+	
+	return sentence
+
+
+
+
+
 def load_classes(file_name):
 
 	with open(file_name, 'rb') as csvfile:
