@@ -25,6 +25,29 @@ robotIp=teddy_ip
 port = 9559
 #robotIp=current_ip
 
+flag_log = True
+
+
+
+scname = ".system_control.dat"
+if os.path.exists(scname):
+	sys_ctrl = open(scname, "a+")
+	lines = sys_ctrl.readlines()
+	interaction_id = int(lines[-1])
+	sys_ctrl.write(str(interaction_id + 1) + "\n")
+	sys_ctrl.close()
+	print ("Loading system control variables!")
+
+else:
+	sys_ctrl = open( scname, "w+")
+	#lines = sys_ctrl.readlines()
+	interaction_id =  0 #int(lines[-1])
+	sys_ctrl.write(str(interaction_id) + "\n")
+	sys_ctrl.close()
+	print("Creating  system control file!")
+
+
+
 
 
 class ReadValues:
@@ -150,16 +173,38 @@ class Robot:
     		#raise
     		
   		
+'''
     		
 class Sys_Control:
 
 	def __init__(self):
 		
 		
-		ctrl_file = open("")
-		    		
+		ctrl_file = open("system_control.dat", "a+")
+		
+		core.info("Writing activity attributes" )
+ 
+                 with open(os.path.join(,'activity.data'), 'wb') as f:
+                        pickle.dump(self, f, pickle.HIGHEST_PROTOCOL)
+ 
+                 core.info("Write successfull" )
+
+
+
+
+
+
+
+
+def load_class():
+	
+
+	 with open(name, 'rb+') as f:
+ 		return pickle.load(f)
+  
+ 	core.info("Loaded successfull" )
     		
-'''
+    		
 if(naoConeted):
     tts = ALProxy("ALTextToSpeech", robotIp, port)
     behavior = ALProxy("ALBehaviorManager", robotIp, port)
