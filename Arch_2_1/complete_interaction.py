@@ -65,9 +65,9 @@ def main():
 	except:
 		error(" ----- Error loading Dialogue System -----")
 		war("Exception type:" + str(sys.exc_info()[0]))
-		#raise
+		raise
 
-	nao.motors.wakeUp()
+	#nao.motors.wakeUp()
 	
 	#jkp.play(nao, ds, 3)
 
@@ -80,20 +80,20 @@ def main():
 	#return 1
 	
 	
-	personalize = True
-	play_drugs = True
-	play_ex = True
-	play_shelf = True
-	play_act = True
-	play_jkp = True
-
+	prefferences = False
+	play_drugs = False #True
+	play_ex =  False #True
+	play_shelf =  False #True
+	play_act =  False #True
+	play_jkp =  False #True
+	play_hist = True
 
 	#'''
 	userModel = fileHelper.fileHelper()
 	ds.say('E aí, ser humaninho! Meu nome é tédi. E o você, qual é seu nome?')
 	#print(u'Qual é seu nome?')
 	#nome = ds.getFromMic_Pt()#raw_input()
-	nome = raw_input()
+	nome = ds.get_input() #raw_input()
 
 	ds.say(nome + "?")
 
@@ -104,39 +104,39 @@ def main():
 	
 	
 	
-	
-	print userPath
-	
-	if os.path.exists( userPath  ):
-		ds.say("Já te conheço")
+	if prefferences:	
+		print userPath
 		
-	
-	else:
-		ds.say('Qual é a sua idade?')
-		#answer = ds.getFromMic_Pt()#raw_input()
-		answer = raw_input()
-		userModel.addPreference(nome, answer, 'idade')
+		if os.path.exists( userPath  ):
+			ds.say("Já te conheço")
+			
+		
+		else:
+			ds.say('Qual é a sua idade?')
+			#answer = ds.getFromMic_Pt()#raw_input()
+			answer = raw_input()
+			userModel.addPreference(nome, answer, 'idade')
 
-		#print(u'Qual é o seu esporte favorito?')
-		ds.say("Qual seu esporte favorito")
-		#answer = ds.getFromMic_Pt()#raw_input()
-		answer = raw_input()
-		userModel.addSearchQueue([answer], nome, 'esporte favorito')
+			#print(u'Qual é o seu esporte favorito?')
+			ds.say("Qual seu esporte favorito")
+			#answer = ds.getFromMic_Pt()#raw_input()
+			answer = raw_input()
+			userModel.addSearchQueue([answer], nome, 'esporte favorito')
 
-		#print(u'Qual é a sua comida favorita?')
-		ds.say("Qual sua comida favorita?")
-		#answer = ds.getFromMic_Pt()#raw_input()
-		answer = raw_input()
-		userModel.addSearchQueue([answer], nome, 'comida favorita')
+			#print(u'Qual é a sua comida favorita?')
+			ds.say("Qual sua comida favorita?")
+			#answer = ds.getFromMic_Pt()#raw_input()
+			answer = raw_input()
+			userModel.addSearchQueue([answer], nome, 'comida favorita')
 
-		#print(u'Qual é a sua música favorita?')
-		ds.say("Qual sua banda preferida?")
-		#answer = ds.getFromMic_Pt()#raw_input()
-		answer = raw_input()
-		userModel.addSearchQueue([answer], nome, 'musica favorita')
+			#print(u'Qual é a sua música favorita?')
+			ds.say("Qual sua banda preferida?")
+			#answer = ds.getFromMic_Pt()#raw_input()
+			answer = raw_input()
+			userModel.addSearchQueue([answer], nome, 'musica favorita')
 
-		preferences = userModel.getPreferences(nome)
-	
+			preferences = userModel.getPreferences(nome)
+		
 	
 	#CONDITION 1
 	ds.say(" Vamos fazer uma série de atividades agora. Está preparado? Vamos lá")
@@ -145,23 +145,26 @@ def main():
 	if play_drugs:
 		drugs.play(nao, ds)
 	
-	try:
-		ds.say(u'Sobre seu esporte preferido: \n{}'.format(
-		    userModel.searchFile([preferences['esporte favorito'].encode('utf-8')])).encode('utf-8'))
-		
-		print (u'Sobre seu esporte preferido: \n{}'.format(
-		    userModel.searchFile([preferences['esporte favorito'].encode('utf-8')])).encode('utf-8'))
-		    
-		
-	except Exception as e:
-		print(e)
+
+	if prefferences:
+		try:
+			ds.say(u'Sobre seu esporte preferido: \n{}'.format(
+			    userModel.searchFile([preferences['esporte favorito'].encode('utf-8')])).encode('utf-8'))
+			
+			print (u'Sobre seu esporte preferido: \n{}'.format(
+			    userModel.searchFile([preferences['esporte favorito'].encode('utf-8')])).encode('utf-8'))
+	
+			ds.say("Gostei, " + nome + ". Essse será meu esporte preferido também. O que você acha?")
+			#raw_input("GO!")
+			ds.say("Certo. Vamos seguir com a atividade")
+			
+		except Exception as e:
+			print(e)
 	
 	
-	ds.say("Gostei, " + nome + ". Essse será meu esporte preferido também. O que você acha?")
-	raw_input("GO!")
-	ds.say("Certo. Vamos seguir com a atividade")
 	
-	
+	userModel.join()
+	userModel.close()
 	
 	if play_shelf:
 		shelf.play(nao, ds)
@@ -169,20 +172,31 @@ def main():
 	if play_ex:
 		ex.play(nao, ds)
 	
-	try:
-		ds.say(u'Sobre o rango que tu mais curte: \n{}'.format(
-		    userModel.searchFile([preferences['comida favorita'].encode('utf-8')])).encode('utf-8'))
-		print(u'Sobre o rango que tu mais curte: \n{}'.format(
-		    userModel.searchFile([preferences['comida favorita'].encode('utf-8')])).encode('utf-8'))
-		
-	except Exception as e:
-		print(e)
 
-	ds.say("Eca. Que nojo. Você tem gostos peculiares. sorte minha que não como")
-	raw_input("GO!")
+	if prefferences:
+		try:
+			ds.say(u'Sobre o rango que tu mais curte: \n{}'.format(
+			    userModel.searchFile([preferences['comida favorita'].encode('utf-8')])).encode('utf-8'))
+			print(u'Sobre o rango que tu mais curte: \n{}'.format(
+			    userModel.searchFile([preferences['comida favorita'].encode('utf-8')])).encode('utf-8'))
+			
+			ds.say("Eca. Que nojo. Você tem gostos peculiares. sorte minha que não como")
+		except Exception as e:
+			print(e)
+
+	#raw_input("GO!")
 	#ds.say("Certo. Vamos seguir com a interação")
 	
 
+
+	# ------------------------ Stories ----------------------------------
+
+	if play_hist:
+		attention = disattention.Th(1)
+		attention.start()
+		historias.play(ds, attention)
+		attention._end_classification()
+	
 
 	# ------------------------ Jokenpo ----------------------------------
 
@@ -205,15 +219,13 @@ def main():
 		attention._end_classification()
 
 
-	userModel.join()
-	userModel.close()
-
-	try:
-		ds.say(u'\nSobre sua Banda preferida: \n{}'.format(
-		    userModel.searchFile([preferences['musica favorita'].encode('utf-8')])).encode('utf-8'))
-	
-	except Exception as e:
-		print(e)
+	if prefferences:
+		try:
+			ds.say(u'\nSobre sua Banda preferida: \n{}'.format(
+			    userModel.searchFile([preferences['musica favorita'].encode('utf-8')])).encode('utf-8'))
+		
+		except Exception as e:
+			print(e)
 
 	
 	ds.say("Então é isso. Foi um prazer interagir com você, "+ nome +" . Espero te ver em breve. Até mais.", block=False)

@@ -45,7 +45,7 @@ hist_dict = read_hist()
 
 #speech.say("Olá amiguinho! O meu nome é Teddy. Chega mais perto que eu tenho umas histórias pra contar pra você")
 
-def play(att):
+def play(ds, att):
 
 
 	fileLog = open ("Log/adaptive_" + str(time.time()), "w+")
@@ -103,7 +103,7 @@ def play(att):
 			start = time.time()		
 			
 			
-			answer = core.get_input()#dial.getFromMic_Pt()
+			answer = ds.get_input()#dial.getFromMic_Pt()
 			#raw_input("Digite a resposta: ")#
 			
 			totalSec += time.time() - start
@@ -130,7 +130,7 @@ def play(att):
 							time2ans=totalWSec, 
 							sucRate= success_rate)
 	
-		fvalue = adp.adp_function()
+		fvalue = adp.adp_function(i)
 	
 	
 		fileLog.write("F Value "  +" : " + str(fvalue) )

@@ -21,7 +21,7 @@ teddy_ip="169.254.178.70"
 dolores_ip="169.254.65.171"
 actual_ip="169.254.201.16"
 
-robotIp=teddy_ip
+robotIp=dolores_ip
 port = 9559
 #robotIp=current_ip
 
@@ -144,22 +144,25 @@ input_shape = (224,224,3)
 
 
 
-input_option = {'mic': 1 , 'keyboard':-1}
+input_option_list = {'mic': 1 , 'keyboard':-1}
 
-def get_input(option, ds):
-	'''
+input_option = input_option_list['keyboard'] 
+
+'''
+def get_input(ds):
 	Get input from mic or keyboard
 	
-	'''
+	global input_option
 	sentence = ''
 
-	if option>0: #mic
+	if input_option>0: #mic
 		sentence = ds.getFromMic_Pt()
-	elif option<0: #keyboard
+	elif input_option<0: #keyboard
 		sentence = raw_input("Waiting keyboard entry: ")
 	
 	return sentence
 
+'''
 
 
 

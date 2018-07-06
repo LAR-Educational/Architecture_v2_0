@@ -1,7 +1,7 @@
 # coding=UTF-8
 
 
-import vars 
+import vars as core 
 import random
 import distance
 import numpy as np
@@ -38,6 +38,7 @@ class DialogSystem:
 		# set the local configuration
 		self.configuration = {"bodyLanguageMode":"contextual"}
 
+		self.input_option = core.input_option 
 
 	#funtion say
 	def say(self, str2say, block=True, animated=True):
@@ -46,7 +47,7 @@ class DialogSystem:
 			block = if the call will block next steps
 		"""
 		
-		vars.nao_say(str2say)
+		core.nao_say(str2say)
 		
 		
 		if animated:
@@ -84,7 +85,7 @@ class DialogSystem:
 		# say the text with the local configuration
 		#animatedSpeechProxy.say("Hello, I am Nao", configuration)
 		
-		vars.nao_say(str2say)
+		core.nao_say(str2say)
 		
 		if block:
 			self.robot.animatedSpeechProxy.say(str2say, configuration)
@@ -94,7 +95,7 @@ class DialogSystem:
 		  
 		
 	def setLang(self, lang):
-		    if(vars.naoConeted):
+		    if(core.naoConeted):
 		        self.robot.tts.setLanguage(lang)
 		
 		
@@ -284,15 +285,21 @@ class DialogSystem:
 		except:
 			print "Exit before t2 vriable being assigned"
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+	def get_input(self):                                                                                 
+		'''
+		Get input from mic or keyboard
+		 
+		'''
+		sentence = ''
+
+		if self.input_option>0: #mic
+			sentence = self.getFromMic_Pt()
+		elif self.input_option<0: #keyboard
+			sentence = raw_input("Waiting keyboard entry: ")
+
+		return sentence
+
+
 		
 		
 		
