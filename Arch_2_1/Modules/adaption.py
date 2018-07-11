@@ -15,7 +15,7 @@ import os
 
 def normalize(read_val, max_val, min_val=0, floor=0, roof=1):
 	"""
-	Normalize two numbers between floor to roof
+	Normalize two numbers betwenn floor to roof
 	"""
 	#return float((read_val*roof)/max_val)
 	return float ( (roof-floor)/(max_val-min_val)*(read_val-max_val)+ roof )
@@ -52,14 +52,17 @@ class Weights:
 
 class AdaptiveSystem:
 
-	def __init__(self, op, w, rv):
+	def __init__(self, robot, op, w, rv):
 	
-	    	#self.robot = robot
+	    	self.robot = robot
 	    	#self.path = path
 	    	self.op = op
 	    	self.w = w #weights class
 		self.rv = rv		
-		flag_log=core.flag_log	
+		flag_log=core.flag_log
+		self.robot_communication_profile_list=['SitRelax','Sit','Crouch','StandInit','Stand']
+		self.robot_communication_profile = 3
+
 
 	def adp_function(self, adaptive_frame, fadp_previous_value = 0):
 	
@@ -90,18 +93,13 @@ class AdaptiveSystem:
 		fadp =  fadp + fadp_previous_value
 		core.info("Final: " + str(fadp))				
 		
-		if core.flag_log:
-			filename = os.path.join("Log/AdaptiveLogs","vectors_int_" + str(core.interaction_id)+".dat")
-			#print filename		
-			#print "Log/AdaptiveLogs/vectors_int_" + str(core.interaction_id)+".dat"	
-
-			log_file = open(filename, "a+" )
+		if flag_log:
+			log_file = open("./Log/AdativeLogs/vectors_int_" + str(core.nteraction_id)+".dat", "a+" )
 			log_file.write(str(adaptive_frame) 
 					+ "," + str(alpha) 
-					+ "," + str(beta) 
-					+ "," + str(gama)
 					+ "," + str(fadp)  
-					+ "," + str( self.activation_function(fadp) ) )
+					+ "," + str(beta) 
+					+ "," + str(gama) )
 			log_file.write("\n")
 			log_file.close()
 
@@ -113,27 +111,56 @@ class AdaptiveSystem:
 		#Activation function
 			
 		if fadp > 0.65:
-			return 1
-		elif fadp < 0.33:	
 			return -1
+		elif fadp < 0.33:	
+			return 1
 		else:
 			return 0	
 	
 		
 		
-def change_behavior(self, robot, behavior):
+	def change_behavior(self, robot, behavior):
+		
+
+		if behavior == 0:
+			core.info("Communication profile held!")
+			return 0
+
+		if behavior < 0:
+			core.info("Decreasing communication profile!")
+			if self.robot.volume < 1:
+				self.robot.volume+=0.2
+			
+			if self.robot_communication_profile > 1: 
+				self.robot_communication_profile-=1
+		
+		if behavior > 0:
+			core.info("Increasing communication profile!")
+			if self.robot.volume > 0:
+				self.robot.volume-=0.2
+			
+			if self.robot_communication_profile < 5: 
+				self.robot_communication_profile+=1
 	
-	if behavior < 0:
-		robot.tts.setParameter('volume', robot.volume+0.2)
-		robot.tts.setParameter('speed',robot.speed-0.2)	
-	
-	if behavior > 0:
-		robot.tts.setParameter('volume', robot.volume-0.2)
-		robot.tts.setParameter('speed',robot.speed+0.2)	
-	
+		self.robot.posture.goToPosture(self.robot_communication_profile_list[self.robot_communication_profile-1],1)
+		core.info("Adapting to communication profile " + str(self.robot_communication_profile) +" in position " + str(self.robot_communication_profile_list[self.robot_communication_profile-1]))
+		self.robot.tts.setVolume(self.robot.volume)
+		core.info("Volume set to " + str(self.robot.volume))
 		
 		
-		
+		if flag_log:
+			log_file = open("./Log/AdativeLogs/com_prof_int_" + str(core.nteraction_id)+".dat", "a+" )
+			log_file.write(str(behavior) 
+					+ "," + str(self.robot_communication_profile) )
+			log_file.write("\n")
+			log_file.close()
+
+
+
+
+
+
+
 
 def main():
 
@@ -146,8 +173,6 @@ def main():
 	op = OperationalParameters (max_deviation=5.0, max_emotion_count=3, 
 									min_number_word=1 , max_time2ans=10, min_suc_rate=1)
 	
-	adap_frame=0
-
 	while(key!="e"):
 
 		#print "test", normalize(1.75,5)
@@ -160,12 +185,12 @@ def main():
 		#print "on main", op.max_deviation
 		#print "weights", w.alpha
 		#print "rv.deviations", rv.deviations
-			
+	
 	
 	
 		adpt = AdaptiveSystem(op=op, w=w, rv=rv)
 
-		fc = adpt.adp_function(adap_frame)
+		fc = adpt.adp_function()
 		core.info( "Fadp: " + str(fc) )
 		
 		
@@ -175,7 +200,7 @@ def main():
 		key=raw_input("Key: ")
 
 		fa = fc
-		adap_frame +=1
+
 
 if __name__ == "__main__":
 	main()
