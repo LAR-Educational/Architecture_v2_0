@@ -15,8 +15,9 @@ def read_hist():
 	historiasfile = arq.read().split("\n")
 	historiasfile = historiasfile[0:10]
 	historias= []
-	r = random.sample(range(10), 3)
-	for x in xrange(0,3):
+	r = random.sample(range(10), 4)
+	
+	for x in xrange(0,4):
 		arq = open("Activities/Historias/" + historiasfile[r[x]] + ".txt", "r")
 		historias.append(arq.read().split("\n"))
 		historias[x] = historias[x][0:len(historias[x])-1]
@@ -45,17 +46,17 @@ hist_dict = read_hist()
 
 #speech.say("Olá amiguinho! O meu nome é Teddy. Chega mais perto que eu tenho umas histórias pra contar pra você")
 
-def play(ds, att):
+def play(robot, ds, att):
 
 
-	fileLog = open ("Log/adaptive_" + str(time.time()), "w+")
+	fileLog = open ("Log/Complete_Hist_" + str(core.interaction_id), "w+")
 	
 	w = adaption.Weights(0.5, 0.2, 0.3 )	
 	op = adaption.OperationalParameters (max_deviation=2, max_emotion_count=25, 
 									min_number_word=1 , max_time2ans=10, min_suc_rate=1)
 	
 	
-	adp = adaption.AdaptiveSystem(op,w,core.userPar)
+	adp = adaption.AdaptiveSystem(robot, op,w,core.userPar)
 	
 	
 	r = np.random.randint(0,2)
@@ -83,8 +84,9 @@ def play(ds, att):
 		for j in range(1,int(hist_dict[i][0])+1):
 			
 			
-			animatedSpeech.say(hist_dict[i][j])
+			#animatedSpeech.say(hist_dict[i][j])
 			
+			print hist_dict[i][j]
 			
 			fileLog.write("Sorted story"+ hist_dict[i][j])
 			fileLog.write("\n")
@@ -99,7 +101,6 @@ def play(ds, att):
 			
 			leds.post.fadeRGB('eyes', 'green', 2.5)
 			dial = dialog.DialogSystem(robot,"respostas")
-			print hist_dict[i][j]
 			start = time.time()		
 			
 			
@@ -131,7 +132,14 @@ def play(ds, att):
 							sucRate= success_rate)
 	
 		fvalue = adp.adp_function(i)
-	
+		
+		# changing robot's behavior
+		adp.change_behavior(adp.activation_function(fvalue))
+		
+
+		
+
+		
 	
 		fileLog.write("F Value "  +" : " + str(fvalue) )
 		fileLog.write("")
