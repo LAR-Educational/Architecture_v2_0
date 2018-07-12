@@ -220,7 +220,10 @@ class DialogSystem:
 
 
 	def levenshtein_long_two_strings(self, string_one, string_two, print_flag=False):
-		
+		string_one =  re.sub(r'[^\w\s]','',string_one)
+		string_two =  re.sub(r'[^\w\s]','',string_two)
+		string_one.lower()
+		string_two.lower()
 		
 		ans = distance.nlevenshtein(string_one, string_two, method=2)
 		#print "Score: " + str(distance.levenshtein(string_one, element))
@@ -233,7 +236,10 @@ class DialogSystem:
 		return ans
 
 	def levenshtein_short_two_strings(self, string_one, string_two, print_flag=False):
-		
+		string_one =  re.sub(r'[^\w\s]','',string_one)
+		string_two =  re.sub(r'[^\w\s]','',string_two)
+		string_one.lower()
+		string_two.lower()
 		
 		ans = distance.nlevenshtein(string_one, string_two, method=1)
 		#print "Score: " + str(distance.levenshtein(string_one, element))
