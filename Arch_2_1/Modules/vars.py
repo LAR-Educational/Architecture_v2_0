@@ -21,7 +21,7 @@ teddy_ip="169.254.178.70"
 dolores_ip="169.254.65.171"
 actual_ip="169.254.201.16"
 
-robotIp=dolores_ip
+robotIp=teddy_ip
 port = 9559
 #robotIp=current_ip
 
