@@ -81,7 +81,8 @@ def main():
 
 	#return 1
 	
-	
+	nao.posture.goToPosture("Crouch", 1)
+
 	prefferences = False
 	play_drugs = False #True
 	play_ex =  False #True
@@ -99,7 +100,7 @@ def main():
 
 	ds.say(nome + "?")
 
-	ds.say("Que nome tópi!")
+	#ds.say("Que nome tópi!")
 
 	userPath= "./Usuarios/" + nome + ".dat"
 	
