@@ -93,11 +93,13 @@ class AdaptiveSystem:
 		fadp =  fadp + fadp_previous_value
 		core.info("Final: " + str(fadp))				
 		
-		if flag_log:
-			log_file = open("./Log/AdativeLogs/vectors_int_" + str(core.nteraction_id)+".dat", "a+" )
+		if core.flag_log:
+			path_name = os.path.join("Log","AdaptiveLogs","vectors_int_"+  str(core.interaction_id)+".dat") 
+			print "Vectors PATH: ", path_name
+			log_file = open(path_name, "a+" )
 			log_file.write(str(adaptive_frame) 
-					+ "," + str(alpha) 
 					+ "," + str(fadp)  
+					+ "," + str(alpha) 
 					+ "," + str(beta) 
 					+ "," + str(gama) )
 			log_file.write("\n")
@@ -119,7 +121,7 @@ class AdaptiveSystem:
 	
 		
 		
-	def change_behavior(self, robot, behavior):
+	def change_behavior(self, behavior):
 		
 
 		if behavior == 0:
@@ -148,8 +150,10 @@ class AdaptiveSystem:
 		core.info("Volume set to " + str(self.robot.volume))
 		
 		
-		if flag_log:
-			log_file = open("./Log/AdativeLogs/com_prof_int_" + str(core.nteraction_id)+".dat", "a+" )
+		if core.flag_log:
+			path_name = os.path.join("Log","AdaptiveLogs","com_prof_int_"+  str(core.interaction_id)+".dat") 
+			print "PATH: ", path_name
+			log_file = open(path_name, "a+" )
 			log_file.write(str(behavior) 
 					+ "," + str(self.robot_communication_profile) )
 			log_file.write("\n")

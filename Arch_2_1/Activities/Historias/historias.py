@@ -88,14 +88,14 @@ def play(robot, ds, att):
 			
 			print hist_dict[i][j]
 			
-			fileLog.write("Sorted story"+ hist_dict[i][j])
+			fileLog.write("\nSorted story: "+ hist_dict[i][j])
 			fileLog.write("\n")
 			
-			speech.say("Agora farei uma pergunta sobre esta parte da historia ")
+			speech.say("\nAgora farei uma pergunta sobre esta parte da historia ")
 			indice = j + int(hist_dict[i][0])
 			speech.say(hist_dict[i][indice])
 			
-			fileLog.write("Question " + str(i) +" : " + hist_dict[i][indice] )
+			fileLog.write("\nQuestion " + str(j) +" : " + hist_dict[i][indice] )
 			fileLog.write("\n")
 			
 			
@@ -112,9 +112,9 @@ def play(robot, ds, att):
 			success_rate = dial.levenshtein_long_two_strings(answer, hist_dict[i][indice])
 			
 			print "longest", success_rate
-			print "short", dial.levenshtein_short_two_strings(answer, hist_dict[i][indice])
+			#print "short", dial.levenshtein_short_two_strings(answer, hist_dict[i][indice])
 			print answer
-			fileLog.write("Answer " + answer)
+			fileLog.write("\Answer " + answer)
 			fileLog.write("\n")
 			
 			#print core.emotions
@@ -137,14 +137,9 @@ def play(robot, ds, att):
 		adp.change_behavior(adp.activation_function(fvalue))
 		
 
-		
-
-		
-	
-		fileLog.write("F Value "  +" : " + str(fvalue) )
+		fileLog.write("\nFValue "  +" : " + str(fvalue) )
 		fileLog.write("")
 		print "FVALUE", fvalue
-		fileLog.write("\n\n\n --------- END OF STORY--------------\n\n\n\n")
 			
 		
 		#fileLog.write(pprint(vars(core.userPar)))
@@ -152,6 +147,7 @@ def play(robot, ds, att):
 		
 		pprint(vars(core.userPar), fileLog)
 		
+		fileLog.write("\n\n --------- END OF STORY--------------\n\n\n\n")
 		
 		att._halt()
 		
