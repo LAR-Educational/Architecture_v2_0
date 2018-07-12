@@ -70,7 +70,7 @@ class Th(Thread):
 		
 		arq = open('AttentionLogs/{:6.0f}all_statistics.dat'.format(time.time()), 'w');
 	
-		info("All set. Obtaining images!")
+		#info("All set. Obtaining images!")
 		c = open('emotion_imgs/classifications.txt', 'a+')
 		face = None
 	
@@ -131,7 +131,7 @@ class Th(Thread):
 						time_diff = dynamic_time-time_emotion
 						try:
 							if(time_diff >= 0.3 and face is not None):
-								info("Face detected. Classifying emotion.")
+								#info("Face detected. Classifying emotion.")
 								# reshape image to meet the input dimensions
 								face_to_classify = np.stack([face, face, face], axis=2)
 								face_to_classify = cv2.resize(face_to_classify, input_shape[:2], interpolation=cv2.INTER_AREA) * 1./255
@@ -144,7 +144,7 @@ class Th(Thread):
 								c.write("{} {}\n".format(dynamic_time, classified_emotion))
 								# reset time
 								time_emotion = time_diff
-								info("Emotion classified: {}".format(classified_emotion))
+								#info("Emotion classified: {}".format(classified_emotion))
 								emotions[classified_emotion] += 1
 						except Exception as e:
 							print(e)

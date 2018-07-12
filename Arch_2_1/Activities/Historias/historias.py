@@ -20,7 +20,7 @@ def read_hist():
 	for x in xrange(0,4):
 		arq = open("Activities/Historias/" + historiasfile[r[x]] + ".txt", "r")
 		historias.append(arq.read().split("\n"))
-		historias[x] = historias[x][0:len(historias[x])-1]
+		historias[x] = historias[x][0:len(historias[x])]
 	return historias
 
 ip = core.robotIp #"169.254.178.70"
@@ -60,14 +60,14 @@ def play(robot, ds, att):
 	
 	
 	r = np.random.randint(0,2)
-	for i in range(0,2):
+	for i in range(0,4):
 		#attention = disattention.Th(1)
 		#attention.start()
 	
 		att._continue()
 		
 		
-		fileLog.write("Round history" + str(i)) 
+		fileLog.write("Round history " + str(i)) 
 		
 		
 		
@@ -87,7 +87,9 @@ def play(robot, ds, att):
 			#animatedSpeech.say(hist_dict[i][j])
 			
 			print hist_dict[i][j]
-			
+
+			gap = int(hist_dict[i][0])
+
 			fileLog.write("\nSorted story: "+ hist_dict[i][j])
 			fileLog.write("\n")
 			
@@ -103,18 +105,26 @@ def play(robot, ds, att):
 			dial = dialog.DialogSystem(robot,"respostas")
 			start = time.time()		
 			
-			
+			print "length: ", len(hist_dict[i]) 
+			print "indece: ", indice 
+			print "gap: ", gap 
+			print "Question: ",  hist_dict[i][indice]
+			print "expected answer: ", hist_dict[i][gap+indice] 
 			answer = ds.get_input()#dial.getFromMic_Pt()
+
 			#raw_input("Digite a resposta: ")#
 			
 			totalSec += time.time() - start
 			
-			success_rate = dial.levenshtein_long_two_strings(answer, hist_dict[i][indice])
-			
+			success_rate = dial.levenshtein_long_two_strings(answer, hist_dict[i][gap+indice])
+
 			print "longest", success_rate
 			#print "short", dial.levenshtein_short_two_strings(answer, hist_dict[i][indice])
 			print answer
-			fileLog.write("\Answer " + answer)
+			fileLog.write("\nExpected Answer " + hist_dict[i][indice])
+			fileLog.write("\nUser Answer " + answer)
+						
+						
 			fileLog.write("\n")
 			
 			#print core.emotions

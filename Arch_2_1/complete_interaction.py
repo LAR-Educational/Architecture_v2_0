@@ -261,7 +261,7 @@ def main():
 
 
 	time_log = open("Times.csv", "a+")
-	time_log.write(str(core.interaction_id) + " , " +  name + " , " + str(time.time()-time_count))
+	time_log.write(str(core.interaction_id) + " , " +  nome + " , " + str(time.time()-time_count))
 	time_log.close()
 
 	return 1	

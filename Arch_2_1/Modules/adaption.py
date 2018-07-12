@@ -144,7 +144,7 @@ class AdaptiveSystem:
 			if self.robot_communication_profile < 5: 
 				self.robot_communication_profile+=1
 	
-		self.robot.posture.goToPosture(self.robot_communication_profile_list[self.robot_communication_profile-1],1)
+		#self.robot.posture.goToPosture(self.robot_communication_profile_list[self.robot_communication_profile-1],1)
 		core.info("Adapting to communication profile " + str(self.robot_communication_profile) +" in position " + str(self.robot_communication_profile_list[self.robot_communication_profile-1]))
 		self.robot.tts.setVolume(self.robot.volume)
 		core.info("Volume set to " + str(self.robot.volume))
