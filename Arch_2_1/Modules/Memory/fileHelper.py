@@ -26,7 +26,9 @@ def joinQuery(query):
 class fileHelper(object):
     def __init__(self):
         self.general = database.File()
+        self.person = None
         self.personal = None
+        self.preferences = {}
         self.queue = deque()
 
         self.searchThread = threading.Thread(target=self._searchThread)
@@ -36,18 +38,37 @@ class fileHelper(object):
         self.running = True
         while self.running or len(self.queue) > 0:
             if len(self.queue) > 0:
-                query = self.queue.popleft()
-                self.searchFile(
-                    query[0], sentences=2, person=query[1], preference=query[2]
-                    )
+                self.searchWiki(
+                    self.queue[0][0],
+                    sentences=2,
+                    preference=self.queue[0][2]
+                )
+                self.queue.popleft()
 
     def addSearchQueue(self, query, person=None, preference=''):
+        if person is not None:
+            if not self.checkPreference(person, preference):
+                self.addPreference(person, query, preference)
+
         self.queue.append((query, person, preference))
+
+    def search(
+            self, query, section=''):
+        searching = False
+        for element in self.queue:
+            if query == element[0]:
+                searching = True
+
+        if searching:
+            self.join()
+
+        ret = self.general.search(query+section)
+        return ret
 
     # Pesquisa a página mais próxima de query da wikipedia
     # e procura a seção query, se não achado devolver o resumo.
-    def searchFile(
-            self, query, section='', sentences=0, person=None, preference=''):
+    def searchWiki(
+            self, query, section='', sentences=0, preference=''):
         query = joinQuery(query)
 
         try:
@@ -58,15 +79,6 @@ class fileHelper(object):
 
         if query is '':
             return 'Por favor coloque algo para pesquisar.'
-
-        ret = self.general.search(query+section)
-
-        if person is not None:
-            if not self.checkPreference(person, preference):
-                self.addPreference(person, query, preference)
-
-        if ret:
-            return ret
 
         # Coloca a linguagem da wikipedia em português
         wikipedia.set_lang("pt")
@@ -103,7 +115,7 @@ class fileHelper(object):
         ret = re.sub(r'\s{2,}|[\t\n\r\f\v]', ' ', ret)
 
         if(found):
-            # Separa as sentenças que foram requisitado.
+            # Separa as sentenças que foram requisitadas.
             temp = ret
             ret = ''
             for i in range(sentences):
@@ -121,11 +133,13 @@ class fileHelper(object):
         return ret
 
     def linkPerson(self, person):
-        if self.personal is None:
+        if self.person != person:
+            if self.personal is None:
+                self.personal = database.File(person)
+                return
+            self.personal.close()
             self.personal = database.File(person)
-            return
-        self.personal.close()
-        self.personal = database.File(person)
+            self.person = person
 
     def addPreference(self, person, answer, preference):
         self.linkPerson(person)
@@ -145,52 +159,57 @@ class fileHelper(object):
         self.running = False
         self.searchThread.join()
 
+        self.running = True
+        self.searchThread = threading.Thread(target=self._searchThread)
+        self.searchThread.start()
+
     def close(self):
+        self.running = False
+        self.searchThread.join()
+
         self.general.close()
         if self.personal is not None:
             self.personal.close()
 
 
-def example():
-    helper = fileHelper()
-    print(u'Olá abiguinhos')
-    print(u'Qual é seu nome?')
-    nome = raw_input()
+# def example():
+#     helper = fileHelper()
+#     print(u'Olá abiguinhos')
+#     print(u'Qual é seu nome?')
+#     nome = raw_input()
 
-    print(u'Qual é a sua idade?')
-    answer = raw_input()
-    helper.addPreference(nome, answer, 'idade')
+#     print(u'Qual é a sua idade?')
+#     answer = raw_input()
+#     helper.addPreference(nome, answer, 'idade')
 
-    print(u'Qual é o seu esporte favorito?')
-    answer = raw_input()
-    helper.addSearchQueue([answer], nome, 'esporte favorito')
+#     print(u'Qual é o seu esporte favorito?')
+#     answer = raw_input()
+#     helper.addSearchQueue([answer], nome, 'esporte favorito')
 
-    print(u'Qual é a sua comida favorita?')
-    answer = raw_input()
-    helper.addSearchQueue([answer], nome, 'comida favorita')
+#     print(u'Qual é a sua comida favorita?')
+#     answer = raw_input()
+#     helper.addSearchQueue([answer], nome, 'comida favorita')
 
-    print(u'Qual é a sua música favorita?')
-    answer = raw_input()
-    helper.addSearchQueue([answer], nome, 'musica favorita')
+#     print(u'Qual é a sua música favorita?')
+#     answer = raw_input()
+#     helper.addSearchQueue([answer], nome, 'musica favorita')
 
-    helper.join()
+#     preferences = helper.getPreferences(nome)
+#     try:
+#         print(u'Sobre seu esporte preferido: {}'.format(
+#             helper.search(
+#                 [preferences['esporte favorito'].encode('utf-8')])))
+#         print(u'Sobre sua comida preferida: {}'.format(
+#             helper.search(
+#                 [preferences['comida favorita'].encode('utf-8')])))
+#         print(u'Sobre sua música preferida: {}'.format(
+#             helper.search(
+#                 [preferences['musica favorita'].encode('utf-8')])))
+#     except Exception as e:
+#         print(e)
 
-    preferences = helper.getPreferences(nome)
-    try:
-        print(u'Sobre seu esporte preferido: {}'.format(
-            helper.searchFile(
-                [preferences['esporte favorito'].encode('utf-8')])))
-        print(u'Sobre sua comida preferida: {}'.format(
-            helper.searchFile(
-                [preferences['comida favorita'].encode('utf-8')])))
-        print(u'Sobre sua música preferida: {}'.format(
-            helper.searchFile(
-                [preferences['musica favorita'].encode('utf-8')])))
-    except Exception as e:
-        print(e)
-
-    helper.close()
+#     helper.close()
 
 
-if __name__ == "__main__":
-    example()
+# if __name__ == "__main__":
+#     example()
