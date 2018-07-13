@@ -1,0 +1,100 @@
+Round history 0
+Sorted story: O passado reserva tristes memórias para Mauro nos recifes de coral. onde perdeu sua esposa e toda a ninhada. Agora, ele cria seu único filho Timo com todo o cuidado do mundo. mas o pequeno e simpático peixe-palhaço acaba exagerando durante uma simples discussão e acaba sendo capturado por um mergulhador. 
+
+Question 1 : Onde vive Mauro e quem captura seu filho Timo?
+Expected Answer Nos recifes de Coral, capturado por um mergulhador.
+User Answer nos corais de Recife e ele é capturado por um mergulhador
+
+Sorted story: Agora, o pai, sem rumo. entra numa desesperada busca pelo mar aberto. Enquanto isso, Timo também vive uma terrível experiência em um aquário com peixes que não conhece. enquanto tenta escapar do destino que lhe foi reservado: ser torturado pela terrível Carla, sobrinha do dentista que o capturou.
+
+Question 2 : Com o sumiço de Timo, o que seu pai faz?
+Expected Answer Entra numa busca desesperada pelo mar aberto.
+User Answer aduem busca por aberto
+
+FValue  : 1.19833333333
+{'deviations': 1,
+ 'emotionCount': 0,
+ 'numberWord': 7.0,
+ 'sucRate': 0.5555555555555556,
+ 'time2ans': 11.0}
+
+
+ --------- END OF STORY--------------
+
+
+
+Round history 1
+Sorted story: Em um pântano distante vive Silvão, um ogro solitário que vê, sem mais nem menos, sua vida ser invadida por uma série de personagens de contos de fada, como três ratos cegos, um grande e malvado lobo e ainda três porcos que não têm um lugar onde morar. Todos eles foram expulsos de seus lares pelo maligno Lorde Lampião.
+
+Question 1 : Quais personagens invadem a vida de Silvão?
+Expected Answer Três ratos, um lobo e três porcos.
+User Answer três ratos um lobo mau e três porcos
+
+Sorted story: Determinado a recuperar a tranquilidade de antes, Silvão resolve encontrar Lampião e com ele faz um acordo: todos os personagens poderão retornar aos seus lares se ele e seu amigo Burro resgatarem uma bela princesa, que é prisioneira de um dragão em um castelo. Então, Silvão e Burro  encontram o castelo, lutam com o dragão e salvam a princesa.
+
+Question 2 : Qual o acordo que Silvão faz com o Lampião?
+Expected Answer Todos os personagens poderão retornar aos seus lares se ele e seu amigo resgatarem a princesa.
+User Answer que todos voltem para suas respectivas casas se ele salvar a princesa
+
+FValue  : 1.53159793814
+{'deviations': 1,
+ 'emotionCount': 0,
+ 'numberWord': 10.0,
+ 'sucRate': 0.5773195876288659,
+ 'time2ans': 13.0}
+
+
+ --------- END OF STORY--------------
+
+
+
+Round history 2
+Sorted story: Fernando Prass é um vendedor de balões que, aos 78 anos, está prestes a perder a casa em que sempre viveu com sua esposa, a falecida Bruna Enrica. O terreno onde a casa fica localizada interessa a um empresário, que deseja construir no local um edifício. Após um incidente em que acerta um homem com sua bengala, Fernando é considerado uma ameaça pública e forçado a ser internado em um asilo.
+
+Question 1 : O que acontece depois que Fernando acerta um homem com sua bengala?
+Expected Answer É considerado uma ameaça pública e forçado a ser internado em um asilo.
+User Answer ele é internado e obrigado a vir a passar a vida no asilo
+
+Sorted story: Para evitar que isto aconteça, ele enche milhares de balões em sua casa, fazendo com que ela levante vôo. O objetivo de Fernando é viajar para longe raptando o todas as crianças que encontrar para que assim não viva mais sozinho com saudade de sua esposa.
+
+Question 2 : Qual o objetivo de Fernando?
+Expected Answer Viajar para longe raptando todas as crianças que encontrar.
+User Answer viajar para longe raptando todas as crianças que encontrar para não sentir saudade de sua esposa
+
+FValue  : 1.68563829787
+{'deviations': 0,
+ 'emotionCount': 0,
+ 'numberWord': 14.0,
+ 'sucRate': 0.40425531914893614,
+ 'time2ans': 15.0}
+
+
+ --------- END OF STORY--------------
+
+
+
+Round history 3
+Sorted story: Cidade de São Geral, Estados Juntados. Sasuke é um garoto prodígio que, aos 13 anos, criou um poderoso robô para participar de lutas clandestinas, onde tenta ganhar um bom dinheiro. Seu irmão, Itachi, deseja atraí-lo para algo mais útil e resolve levá-lo até o laboratório onde trabalha, que está repleto de invenções.
+
+Question 1 : Qual foi a criação de Sasuke e no que ele participava?
+Expected Answer Um robô poderoso para participar de lutas clandestinas.
+User Answer criou um robô para participar de lutas clandestinas
+
+Sorted story: Sasuke conhece os amigos de Itachi e logo se interessa em estudar ali. Para isso ele precisa fazer a apresentação de uma grande invenção, de forma a convencer o professor Callahan a matriculá-lo. Entretanto, as coisas não saem como ele imaginava e Sasuke, deprimido, foge de casa para nunca mais voltar. 
+
+Question 2 : Por que Sasuke fugiu?
+Expected Answer Porque as coisas não sairam como ele imaginava.
+User Answer Por que as coisas não saíram como ele esperava
+
+FValue  : 1.75608695652
+{'deviations': 3,
+ 'emotionCount': 0,
+ 'numberWord': 8.0,
+ 'sucRate': 0.17391304347826086,
+ 'time2ans': 12.0}
+
+
+ --------- END OF STORY--------------
+
+
+

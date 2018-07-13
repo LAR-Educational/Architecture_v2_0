@@ -146,7 +146,7 @@ input_shape = (224,224,3)
 
 input_option_list = {'mic': 1 , 'keyboard':-1}
 
-input_option = input_option_list['keyboard'] 
+input_option = input_option_list['mic'] 
 
 '''
 def get_input(ds):
@@ -192,6 +192,13 @@ class Robot:
 			self.animatedSpeechProxy = ALProxy("ALAnimatedSpeech", robotIp, port)
 			self.speechSpeed = 0.5
 			self.volume = 0.6
+			self.tts.setVolume(self.volume)
+
+			self.leds = ALProxy("ALLeds", robotIp, port)
+			self.group = ['FaceLed0', 'FaceLed1', 'FaceLed2', 'FaceLed3', 'FaceLed4',
+			              'FaceLed5', 'FaceLed6', 'FaceLed7']
+			self.leds.createGroup('eyes', self.group)
+			 
 
 		except:
 			print "Unexpected error conneting NAO"

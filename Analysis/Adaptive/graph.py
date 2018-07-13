@@ -16,25 +16,25 @@ print vec
 """
 
 
-my_data = genfromtxt('fadap.csv', delimiter=',', skip_header=1)
+my_data = genfromtxt('Log/AdaptiveLogs/vectors_int_36.dat', delimiter=',', skip_header=1)
 #print my_data
 my_data = np.transpose(my_data)
 #print my_data
 
-alpha = my_data[0]
+alpha = my_data[1]
 print alpha
 
-beta = my_data[1]
+beta = my_data[2]
 print beta
 
-gama = my_data[2]
+gama = my_data[3]
 print gama
 
-f = 0.5*alpha + 0.3*beta + 0.2*gama
+f = my_data[0]#0.5*alpha + 0.3*beta + 0.2*gama
 
 print f
 
-x = range(1,10)
+x = range(1,4)
 
 print x
 
