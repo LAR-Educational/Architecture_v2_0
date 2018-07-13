@@ -79,11 +79,18 @@ def main():
 	#emo.play(nao, ds, attention)
 	#attention._end_classification()
 
-	#return 1
+	
+        #ds.say("Falando alguma coisa para testar o volume")
+        
+        #nao.tts.setVolume(1.0)
+        
+        #ds.say("Falando alguma coisa para testar o volume")
+        
+        #return 1
 	
 	nao.posture.goToPosture("Crouch", 1)
 
-	prefferences = False #True
+	prefferences = True
 	play_drugs = False  #True
 	play_ex =  False #True
 	play_shelf =  False #True
@@ -123,7 +130,7 @@ def main():
 		
 		if os.path.exists( userPath  ):
 			ds.say("Já te conheço")
-			
+			preferences = userModel.getPreferences(nome)
 		
 		else:
 			ds.say('Qual é a sua idade?')
@@ -166,7 +173,7 @@ def main():
 	if prefferences:
 		try:
 			ds.say(u'Sobre seu esporte preferido: \n{}'.format(
-			    userModel.searchFile([preferences['esporte favorito'].encode('utf-8')])).encode('utf-8'))
+			    userModel.search([preferences['esporte favorito'].encode('utf-8')])).encode('utf-8'))
 			
 			#print (u'Sobre seu esporte preferido: \n{}'.format(
 			    #userModel.searchFile([preferences['esporte favorito'].encode('utf-8')])).encode('utf-8'))
@@ -177,7 +184,7 @@ def main():
 			ds.say("Estou certo? ")
 			
 			userAns = ds.get_input()
-			
+                        
 			if userAns == "sim":
 				ds.say("Manjo muito")	
 			
@@ -199,10 +206,6 @@ def main():
 	if play_ex:
 		ex.play(nao, ds)
 	
-	userModel.join()
-	userModel.close()
-	
-
 	#ds.say("Certo. Vamos seguir com a interação")
 	
 
@@ -239,7 +242,7 @@ def main():
 	if prefferences:
 		try:
 			ds.say(u'Sobre o rango que tu mais curte: \n{}'.format(
-			    userModel.searchFile([preferences['comida favorita'].encode('utf-8')])).encode('utf-8'))
+			    userModel.search([preferences['comida favorita'].encode('utf-8')])).encode('utf-8'))
 			#print(u'Sobre o rango que tu mais curte: \n{}'.format(
 			   # userModel.searchFile([preferences['comida favorita'].encode('utf-8')])).encode('utf-8'))
 			
@@ -252,16 +255,12 @@ def main():
 	if prefferences:
 		try:
 			ds.say(u'\nSobre sua Banda preferida: \n{}'.format(
-			    userModel.searchFile([preferences['musica favorita'].encode('utf-8')])).encode('utf-8'))
+			    userModel.search([preferences['musica favorita'].encode('utf-8')])).encode('utf-8'))
+
+                userModel.close()
 		
 		except Exception as e:
 			print(e)
-
-	
-	ds.say("Então é isso. Foi um prazer interagir com você, "+ nome +" . Espero te ver em breve. Até mais.", block=False)
-	
-	nao.motors.rest()
-
 	
 	
 	#CONDITION 2
@@ -279,7 +278,14 @@ def main():
 	time_log.write(str(core.interaction_id) + " , " +  nome + " , " + str((time.time()-time_count)/60)+ " , "+  str((time.time()-time_count)%60) + "\n")
 	time_log.close()
 
-	return 1	
+	nao.posture.goToPosture("Crounch",1)
+        ds.say("Então é isso. Foi um prazer interagir com você, "+ nome +" . Espero te ver em breve. Até mais.", block=False)
+	
+        nao.motors.rest()
+	
+        
+        
+        return 1	
 	
 	
 	

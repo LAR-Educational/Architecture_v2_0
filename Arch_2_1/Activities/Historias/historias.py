@@ -52,7 +52,7 @@ def play(robot, ds, att, max_hist=3):
 	fileLog = open ("Log/Complete_Hist_" + str(core.interaction_id), "w+")
 	
 	w = adaption.Weights(0.2, 0.2, 0.6 )	
-	op = adaption.OperationalParameters (max_deviation=3, max_emotion_count=25, 
+	op = adaption.OperationalParameters (max_deviation=3, max_emotion_count=125, 
 		min_number_word=11 , max_time2ans=40, min_suc_rate=1)
 	
 	
@@ -103,8 +103,11 @@ def play(robot, ds, att, max_hist=3):
 			
 			# Apenas para resetar postura
 			adp.change_behavior(0)
-
-			ds.say("\nAgora farei uma pergunta sobre esta parte da historia ", animated=False)
+                        
+                        # Parando a thread
+                        att._halt()
+			
+                        ds.say("Agora farei uma pergunta sobre esta parte da historia ", animated=False)
 			indice = j + int(hist_dict[i][0])
 			
 			# Faz a pergunta
@@ -135,19 +138,23 @@ def play(robot, ds, att, max_hist=3):
 			real_rate = 1 - success_rate
 			print "Real Rate: ", real_rate
 			
-			ds.say("Entendi uma resposta correta em, " + str(np.ceil(real_rate*100) ) + "por cento." )
+			ds.say("Entendi uma resposta correta em, " + str(np.ceil(real_rate*100) ) + "por cento.", animated=False )
 
 			#print "longest", success_rate
 			#print "short", dial.levenshtein_short_two_strings(answer, hist_dict[i][indice])
 			print answer
 			fileLog.write("\nExpected Answer " + hist_dict[i][gap+indice])
 			fileLog.write("\nUser Answer " + answer)
-			
+		        
+                        ds.say("A resposta que eu esperava é: "+ hist_dict[i][gap+indice] )
+
 			total_rate+=real_rate
 						
 			fileLog.write("\n")
 			
-			#print core.emotions
+                        #att._continue()
+			
+                        #print core.emotions
 			#print core.deviation_times
 			totalWords += ds.coutingWords(answer)
 			#leds.fadeRGB('eyes', 'white', 0.1)		

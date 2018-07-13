@@ -144,7 +144,7 @@ class Th(Thread):
 								c.write("{} {}\n".format(dynamic_time, classified_emotion))
 								# reset time
 								time_emotion = time_diff
-								#info("Emotion classified: {}".format(classified_emotion))
+								info("Emotion classified: {}".format(classified_emotion))
 								emotions[classified_emotion] += 1
 						except Exception as e:
 							print(e)

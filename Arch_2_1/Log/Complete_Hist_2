@@ -1,0 +1,81 @@
+Round history 0
+Sorted story: Antônia vive com sua madrasta, Lady Rogéria, e as duas filhas dela. Obrigada a trabalhar como empregada da casa, ela tem como amigos apenas os animais que a rodeiam. O local em que vive está agitado devido ao baile que será realizado no castelo, o qual contará com a presença do príncipe.
+
+Question 1 : Por que o local em que Antônia vive está agitado?
+Expected Answer Porque será realizado um baile no castelo que contará com a presença do príncipe.
+User Answer eu não sei vou falar qualquer coisa aqui
+
+Sorted story: Como Lady Rogéria pretende que uma das filhas se case com ele, elas se preparam com requinte para o evento. Antônia, entretanto, não pode ir. Até que surge a Anja-madrinha, que dá a Antônia um vestido e condições para que possa ir ao baile em alto estilo. Entretanto há uma condição: Antônia precisa retornar antes da meia-noite, caso contrário o feitiço será desfeito.
+
+Question 2 : Por que Antônia precisa retornar antes da meia-noite?
+Expected Answer Pois caso contrário o feitiço será desfeito.
+User Answer vou falar mais um monte de m**** aqui que é para ver se você pega e é na hora que você pegar você em tenta entender o que eu tô falando
+
+FValue  : 0.869333333333
+{'deviations': 4,
+ 'emotionCount': 89,
+ 'numberWord': -9.0,
+ 'sucRate': 0.744949494949495,
+ 'time2ans': 14.0}
+
+
+ --------- END OF STORY--------------
+
+
+
+Round history 1
+Sorted story: Em um pântano distante vive Silvão, um ogro solitário que vê, sem mais nem menos, sua vida ser invadida por uma série de personagens de contos de fada, como três ratos cegos, um grande e malvado lobo e ainda três porcos que não têm um lugar onde morar. Todos eles foram expulsos de seus lares pelo maligno Lorde Lampião.
+
+Question 1 : Quais personagens invadem a vida de Silvão?
+Expected Answer Três ratos, um lobo e três porcos.
+User Answer alguns personagens aí
+
+Sorted story: Determinado a recuperar a tranquilidade de antes, Silvão resolve encontrar Lampião e com ele faz um acordo: todos os personagens poderão retornar aos seus lares se ele e seu amigo Burro resgatarem uma bela princesa, que é prisioneira de um dragão em um castelo. Então, Silvão e Burro  encontram o castelo, lutam com o dragão e salvam a princesa.
+
+Question 2 : Qual o acordo que Silvão faz com o Lampião?
+Expected Answer Todos os personagens poderão retornar aos seus lares se ele e seu amigo resgatarem a princesa.
+User Answer ele vai para far far away com o príncipe farquaad
+
+FValue  : 0.883923920052
+{'deviations': 4,
+ 'emotionCount': 64,
+ 'numberWord': 4.0,
+ 'sucRate': 0.7829787234042553,
+ 'time2ans': 12.0}
+
+
+ --------- END OF STORY--------------
+
+
+
+Round history 2
+Sorted story: Carlos Maçã já foi o maior herói do planeta, salvando vidas e combatendo o mal todos os dias sob o codinome senhor Fantástico. Porém, após deixar um homem se suicidar, ele é processado e condenado na justiça. Com isso a população e o governo passam a odiar os super-heróis.
+
+Question 1 : Por que a população e o governo passaram a odiar os super-heróis?
+Expected Answer Porque Carlos deixou um homem se suicidar, foi processado e condenado na justiça.
+User Answer Por que Carlos deixou um ano se suicidar
+
+Sorted story: A partir disso ele começa a trabalhar de vendedor de balões do chapolim colorado em um parque. Quinze anos depois, Carlos continua vendendo os balões no parque ao lado de sua esposa Clara, que foi a super-heroína Mulher-Bugiganga, e seus três filhos, até que ele surpreendido pelo ben dez voando em uma vassoura.
+
+Question 2 : Qual o trabalho de Carlos Maçã e onde ele trabalhava?
+Expected Answer Vendedor de balões do chapolim colorado em um parque.
+User Answer como vendedor de balões do Chapolin Colorado em um parque
+
+Sorted story: O ben dez convoca ele para uma missão ultra secreta que consiste em derrotar cenouras gigantes espaciais que ameaçam a vida de todos na terra. Eles conseguem acabar com as cenouras gigantes e o Carlos Maçã se torna o maior super-herói que já existiu.
+
+Question 3 : Ben Dez convocou Carlos Maçã para qual missão?
+Expected Answer Derrotar cenouras gigantes espaciais que ameaçam a vida de todos na terra.
+User Answer plantar cenoura derrotar cenouras espaciais que ameaçam a vida de todos na terra
+
+FValue  : 1.14667945326
+{'deviations': 7,
+ 'emotionCount': 122,
+ 'numberWord': 0.0,
+ 'sucRate': 0.31504262198706634,
+ 'time2ans': 13.0}
+
+
+ --------- END OF STORY--------------
+
+
+
