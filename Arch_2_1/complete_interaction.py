@@ -96,7 +96,7 @@ def main():
 	play_shelf =  False #True
 	play_act =  False #True
 	play_jkp =  False #True
-	play_hist = True
+	play_hist = False #True
 
 	#'''
 	userModel = fileHelper.fileHelper()

@@ -39,21 +39,40 @@ class fileHelper(object):
         while self.running or len(self.queue) > 0:
             if len(self.queue) > 0:
                 self.searchWiki(
-                    self.queue[0][0],
-                    sentences=2,
-                    preference=self.queue[0][2]
+                    self.queue[0],
+                    sentences=2
                 )
                 self.queue.popleft()
 
     def addSearchQueue(self, query, person=None, preference=''):
         if person is not None:
             if not self.checkPreference(person, preference):
-                self.addPreference(person, joinQuery(query), preference)
+                _query = joinQuery(query)
 
-        self.queue.append((query, person, preference))
+                try:
+                    _query = _query.decode('utf-8')
+                    _preference = preference.decode('utf-8')
+                except UnicodeDecodeError as e:
+                    print(e)
+
+                if _query is '':
+                    return 'Por favor coloque algo para pesquisar.'
+                self.addPreference(person, _query,  _preference)
+
+        self.queue.append(query)
 
     def search(
             self, query, section=''):
+        query = joinQuery(query)
+
+        try:
+            query = query.decode('utf-8')
+            section = section.decode('utf-8')
+        except UnicodeDecodeError as e:
+            print(e)
+
+        if query is '':
+            return 'Por favor coloque algo para pesquisar.'
         searching = False
         for element in self.queue:
             if query == element[0]:
@@ -68,7 +87,7 @@ class fileHelper(object):
     # Pesquisa a página mais próxima de query da wikipedia
     # e procura a seção query, se não achado devolver o resumo.
     def searchWiki(
-            self, query, section='', sentences=0, preference=''):
+            self, query, section='', sentences=0):
         query = joinQuery(query)
 
         try:
