@@ -254,14 +254,13 @@ def main():
 
 	if prefferences:
 		try:
-			ds.say(u'\nSobre sua Banda preferida: \n{}'.format(
-			    userModel.search([preferences['musica favorita'].encode('utf-8')])).encode('utf-8'))
+			ds.say(u'\nSobre sua Banda preferida: \n{}'.format(userModel.search([preferences['musica favorita'].encode('utf-8')])).encode('utf-8'))
 
-                userModel.close()
 		
 		except Exception as e:
 			print(e)
 	
+        userModel.close()
 	
 	#CONDITION 2
 	#jkp.play(nao, ds, 3)
