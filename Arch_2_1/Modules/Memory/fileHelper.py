@@ -48,7 +48,7 @@ class fileHelper(object):
     def addSearchQueue(self, query, person=None, preference=''):
         if person is not None:
             if not self.checkPreference(person, preference):
-                self.addPreference(person, query, preference)
+                self.addPreference(person, joinQuery(query), preference)
 
         self.queue.append((query, person, preference))
 
