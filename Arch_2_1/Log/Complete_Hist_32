@@ -1,0 +1,66 @@
+Round history 0
+Sorted story: Quando os mongóis invadem a China, o imperador decreta que cada família ceda um homem para o exército imperial. Com isso, uma jovem fica angustiada ao ver seu velho e doente pai ser convocado, por ser o único homem da família. Ele precisa ir, mesmo sabendo que certamente morrerá, para manter a honra da família. 
+
+Question 1 : O que o imperador decreta quando os mongóis invadem a China?
+
+Expected Answer O que o imperador decreta quando os mongóis invadem a China?
+User Answer 
+
+Sorted story: Assim, sua filha rouba sua armadura e espada, se disfarça de homem e se apresenta no lugar do pai, mas os espíritos dos ancestrais decidem protegê-la e ordenam a um dragão, que havia caído em desgraça, que convença a jovem a abandonar seu plano. Ele concorda, mas quando conhece a jovem descobre que ela não pode ser dissuadida e, assim, decide ajudá-la a cumprir sua perigosa missão de ir para a guerra e voltar viva. E assim a jovem consegue salvar seu pai, volta como heroína e ganhando o respeito e reconhecimento da sua nação 
+
+Question 2 : O dragão deveria convencer a jovem a abandonar seu plano. Em vez disso, o que ele faz?
+
+Expected Answer O dragão deveria convencer a jovem a abandonar seu plano. Em vez disso, o que ele faz?
+User Answer 
+
+FValue  : 0.18{'deviations': 0,
+ 'emotionCount': 0,
+ 'numberWord': 0.0,
+ 'sucRate': 1.0,
+ 'time2ans': 2.0}
+
+
+ --------- END OF STORY--------------
+
+
+
+Round history 1
+Sorted story: Antônia vive com sua madrasta, Lady Rogéria, e as duas filhas dela. Obrigada a trabalhar como empregada da casa, ela tem como amigos apenas os animais que a rodeiam. O local em que vive está agitado devido ao baile que será realizado no castelo, o qual contará com a presença do príncipe.
+
+Question 1 : Por que o local em que Antônia vive está agitado?
+
+Expected Answer Por que o local em que Antônia vive está agitado?
+User Answer 
+
+Sorted story: Como Lady Rogéria pretende que uma das filhas se case com ele, elas se preparam com requinte para o evento. Antônia, entretanto, não pode ir. Até que surge a Anja-madrinha, que dá a Antônia um vestido e condições para que possa ir ao baile em alto estilo. Entretanto há uma condição: Antônia precisa retornar antes da meia-noite, caso contrário o feitiço será desfeito.
+
+Question 2 : Por que Antônia precisa retornar antes da meia-noite?
+
+Expected Answer Por que Antônia precisa retornar antes da meia-noite?
+User Answer 
+
+FValue  : 0.195{'deviations': 0,
+ 'emotionCount': 0,
+ 'numberWord': 0.0,
+ 'sucRate': 1.0,
+ 'time2ans': 3.0}
+
+
+ --------- END OF STORY--------------
+
+
+
+Round history 2
+Sorted story: Larissa é uma pequena garota havaiana de 5 anos que adora cuidar de animais menos favorecidos e vive com sua irmã Nani. Larissa tem o costume de coletar lixo reciclável nas praias para, com o dinheiro recebido, comprar comida para peixes e nadar até o alto-mar para alimentá-los. Até que, num belo dia, ela encontra um cachorro e decide adotá-lo.
+
+Question 1 : O que Larissa faz com o dinheiro que recebe com a coleta de lixo reciclável?
+
+Expected Answer O que Larissa faz com o dinheiro que recebe com a coleta de lixo reciclável?
+User Answer 
+
+Sorted story: Entretanto, este cachorro na verdade é Stênio, um ser alienígena que é um dos criminosos mais perigosos da galáxia. Stênio foi preso em um planeta distante pela polícia interplanetária, mas ao ser encaminhado para um planeta-prisão consegue escapar, caindo acidentalmente na Terra. Agora, para escapar da polícia que ainda o persegue, Stênio esconde quatro de suas seis pernas e decide devorar todos aqueles que ficarem em seu caminho, principalmente as crianças.
+
+Question 2 : Como Stênio chegou na Terra?
+
+Expected Answer Como Stênio chegou na Terra?
+User Answer 

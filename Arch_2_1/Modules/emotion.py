@@ -36,7 +36,7 @@ class Classifier:
         info("Weights loaded. Model initialized!")
     
     def inference(self, image):
-        info("Making inference on image...")
+        #info("Making inference on image...")
         if self.classifier == "single_model":
             result = self.model_a.predict(np.expand_dims(image, axis=0), batch_size=1, verbose=0)
 

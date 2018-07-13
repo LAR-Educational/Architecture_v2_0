@@ -83,8 +83,8 @@ def main():
 	
 	nao.posture.goToPosture("Crouch", 1)
 
-	prefferences = False
-	play_drugs = False #True
+	prefferences = False #True
+	play_drugs = False  #True
 	play_ex =  False #True
 	play_shelf =  False #True
 	play_act =  False #True
@@ -93,15 +93,26 @@ def main():
 
 	#'''
 	userModel = fileHelper.fileHelper()
-	#ds.say('E aí, ser humaninho! Meu nome é tédi. E o você, qual é seu nome?')
+	ds.say('E aí, ser humaninho! Meu nome é tédi. E o você, qual é seu nome?')
 	#print(u'Qual é seu nome?')
 	#nome = ds.getFromMic_Pt()#raw_input()
-	nome = ds.get_input() #raw_input()
+	#nao.leds.post.fadeRGB('eyes', 'green', 2.5)
+	
+	right_name=False
 
-	ds.say(nome + "?")
-
-	#ds.say("Que nome tópi!")
-
+	while not right_name:
+		nome = ds.get_input() #raw_input()
+		ds.say("Eu entendi, " + nome + ". Estou certo?")
+		ans= ds.get_input()
+		
+		if ans=="sim" or ans=="é" or ans=="isso":
+			right_name=True
+			ds.say("Que nome tópi!")
+		
+		else:
+			ds.say("Vamos tentar de novo então. Espere e Repita.")
+	
+	
 	userPath= "./Usuarios/" + nome + ".dat"
 	
 	
@@ -117,25 +128,28 @@ def main():
 		else:
 			ds.say('Qual é a sua idade?')
 			#answer = ds.getFromMic_Pt()#raw_input()
-			answer = raw_input()
+			answer = ds.get_input()#raw_input()
 			userModel.addPreference(nome, answer, 'idade')
 
 			#print(u'Qual é o seu esporte favorito?')
 			ds.say("Qual seu esporte favorito")
 			#answer = ds.getFromMic_Pt()#raw_input()
-			answer = raw_input()
+			answer = ds.get_input()#aw_input()
+			if answer =="volei" or answer == "vôlei":
+				answer = "voleibol"
+			
 			userModel.addSearchQueue([answer], nome, 'esporte favorito')
 
 			#print(u'Qual é a sua comida favorita?')
 			ds.say("Qual sua comida favorita?")
 			#answer = ds.getFromMic_Pt()#raw_input()
-			answer = raw_input()
+			answer = ds.get_input()#aw_input()
 			userModel.addSearchQueue([answer], nome, 'comida favorita')
 
 			#print(u'Qual é a sua música favorita?')
 			ds.say("Qual sua banda preferida?")
 			#answer = ds.getFromMic_Pt()#raw_input()
-			answer = raw_input()
+			answer = ds.get_input()#aw_input()
 			userModel.addSearchQueue([answer], nome, 'musica favorita')
 
 			preferences = userModel.getPreferences(nome)
@@ -157,7 +171,6 @@ def main():
 			#print (u'Sobre seu esporte preferido: \n{}'.format(
 			    #userModel.searchFile([preferences['esporte favorito'].encode('utf-8')])).encode('utf-8'))
 	
-			ds.say("Gostei, " + nome + ". Essse será meu esporte preferido também. O que você acha?")
 			#raw_input("GO!")
 			
 			#'''
@@ -168,8 +181,10 @@ def main():
 			if userAns == "sim":
 				ds.say("Manjo muito")	
 			
+				ds.say("Gostei, " + nome + ". Essse será meu esporte preferido também. O que você acha?")
+				time.sleep(3)
 			else:
-				ds.say("Droga. Vou melhorar minha busca.")
+				ds.say("Droga. Vou melhorar minha busca. Nunca fui bom com coisas de humanos mesmo.")
 			#'''
 			ds.say("Certo. Vamos seguir com a atividade")
 		
@@ -178,28 +193,16 @@ def main():
 	
 	
 	
-	userModel.join()
-	userModel.close()
-	
 	if play_shelf:
 		shelf.play(nao, ds)
 	
 	if play_ex:
 		ex.play(nao, ds)
 	
+	userModel.join()
+	userModel.close()
+	
 
-	if prefferences:
-		try:
-			ds.say(u'Sobre o rango que tu mais curte: \n{}'.format(
-			    userModel.searchFile([preferences['comida favorita'].encode('utf-8')])).encode('utf-8'))
-			#print(u'Sobre o rango que tu mais curte: \n{}'.format(
-			   # userModel.searchFile([preferences['comida favorita'].encode('utf-8')])).encode('utf-8'))
-			
-			ds.say("Eca. Que nojo. Você tem gostos peculiares. sorte minha que não como")
-		except Exception as e:
-			print(e)
-
-	#raw_input("GO!")
 	#ds.say("Certo. Vamos seguir com a interação")
 	
 
@@ -233,6 +236,18 @@ def main():
 		emo.play(nao, ds, attention)
 		attention._end_classification()
 
+	if prefferences:
+		try:
+			ds.say(u'Sobre o rango que tu mais curte: \n{}'.format(
+			    userModel.searchFile([preferences['comida favorita'].encode('utf-8')])).encode('utf-8'))
+			#print(u'Sobre o rango que tu mais curte: \n{}'.format(
+			   # userModel.searchFile([preferences['comida favorita'].encode('utf-8')])).encode('utf-8'))
+			
+			ds.say("Eca. Que nojo. Você tem gostos peculiares. sorte minha que não como")
+		except Exception as e:
+			print(e)
+
+	#raw_input("GO!")
 
 	if prefferences:
 		try:
@@ -261,7 +276,7 @@ def main():
 
 
 	time_log = open("Times.csv", "a+")
-	time_log.write(str(core.interaction_id) + " , " +  nome + " , " + str(time.time()-time_count))
+	time_log.write(str(core.interaction_id) + " , " +  nome + " , " + str((time.time()-time_count)/60)+ " , "+  str((time.time()-time_count)%60) + "\n")
 	time_log.close()
 
 	return 1	

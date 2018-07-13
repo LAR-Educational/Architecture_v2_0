@@ -15,7 +15,7 @@ import speech_recognition as sr
 import time
 from difflib import SequenceMatcher
 import os
-
+import re
 
 
 def open_file (file_name):
@@ -163,6 +163,7 @@ class DialogSystem:
 		st=""
 
 		#while(not st):
+		self.robot.leds.post.fadeRGB('eyes', 'green', 2.5)
 
 		while st =="":
 			with sr.Microphone() as source:
@@ -189,7 +190,7 @@ class DialogSystem:
 				self.say("Não consegui entender o que você disse. Repita por favor")
 			except sr.RequestError as e:
 				self.say("Estou com um problema de conexão com a internet. Vou tentar de novo. ; {0}".format(e))
-
+		self.robot.leds.fadeRGB('eyes', 'white', 0.1)
 		return st
 		
 			
@@ -291,7 +292,7 @@ class DialogSystem:
 		except:
 			print "Exit before t2 vriable being assigned"
 		
-	def get_input(self):                                                                                 
+	def get_input(self):                                                                         
 		'''
 		Get input from mic or keyboard
 		 
@@ -300,6 +301,7 @@ class DialogSystem:
 
 		if self.input_option>0: #mic
 			sentence = self.getFromMic_Pt()
+		
 		elif self.input_option<0: #keyboard
 			sentence = raw_input("Waiting keyboard entry: ")
 

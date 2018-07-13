@@ -46,21 +46,21 @@ hist_dict = read_hist()
 
 #speech.say("Olá amiguinho! O meu nome é Teddy. Chega mais perto que eu tenho umas histórias pra contar pra você")
 
-def play(robot, ds, att):
+def play(robot, ds, att, max_hist=3):
 
 
 	fileLog = open ("Log/Complete_Hist_" + str(core.interaction_id), "w+")
 	
-	w = adaption.Weights(0.5, 0.2, 0.3 )	
-	op = adaption.OperationalParameters (max_deviation=2, max_emotion_count=25, 
-									min_number_word=1 , max_time2ans=10, min_suc_rate=1)
+	w = adaption.Weights(0.2, 0.2, 0.6 )	
+	op = adaption.OperationalParameters (max_deviation=3, max_emotion_count=25, 
+		min_number_word=11 , max_time2ans=40, min_suc_rate=1)
 	
 	
 	adp = adaption.AdaptiveSystem(robot, op,w,core.userPar)
 	
 	
 	r = np.random.randint(0,2)
-	for i in range(0,4):
+	for i in range(0,max_hist):
 		#attention = disattention.Th(1)
 		#attention.start()
 	
@@ -69,22 +69,30 @@ def play(robot, ds, att):
 		
 		fileLog.write("Round history " + str(i)) 
 		
-		
+		ds.say("Preste atenção para estória número " + str(i+1))
 		
 		totalWords =  0
 		totalSec =  0
-		#if i == 0:
-			#animatedSpeech.say("Agora vou contar a primeira história")
-		#if i == 1:
-			#animatedSpeech.say("Agora vou contar a segunda história")
-		#if i == 2:
-			#animatedSpeech.say("Agora vou contar a terceira história")
 		
+
+
+
+
+		'''
+		if i == 0:
+			ds.say("Agora vou contar a primeira história")
+		if i == 1:
+			ds.say("Agora vou contar a segunda história")
+		if i == 2:
+			ds.say("Agora vou contar a terceira história")
+		'''
+		total_rate = 0
+
 
 		for j in range(1,int(hist_dict[i][0])+1):
 			
-			
-			#animatedSpeech.say(hist_dict[i][j])
+			# Conta a historia	
+			ds.say(hist_dict[i][j])
 			
 			print hist_dict[i][j]
 
@@ -93,22 +101,28 @@ def play(robot, ds, att):
 			fileLog.write("\nSorted story: "+ hist_dict[i][j])
 			fileLog.write("\n")
 			
-			speech.say("\nAgora farei uma pergunta sobre esta parte da historia ")
+			# Apenas para resetar postura
+			adp.change_behavior(0)
+
+			ds.say("\nAgora farei uma pergunta sobre esta parte da historia ", animated=False)
 			indice = j + int(hist_dict[i][0])
-			speech.say(hist_dict[i][indice])
+			
+			# Faz a pergunta
+			ds.say(hist_dict[i][indice], animated=False)
+			
 			
 			fileLog.write("\nQuestion " + str(j) +" : " + hist_dict[i][indice] )
-			fileLog.write("\n")
+			#fileLog.write("\n")
 			
 			
-			leds.post.fadeRGB('eyes', 'green', 2.5)
-			dial = dialog.DialogSystem(robot,"respostas")
+			#leds.post.fadeRGB('eyes', 'green', 2.5)
+			#dial = dialog.DialogSystem(robot,"respostas")
 			start = time.time()		
 			
-			print "length: ", len(hist_dict[i]) 
-			print "indece: ", indice 
-			print "gap: ", gap 
-			print "Question: ",  hist_dict[i][indice]
+			#print "length: ", len(hist_dict[i]) 
+			#print "indece: ", indice 
+			#print "gap: ", gap 
+			#print "Question: ",  hist_dict[i][indice]
 			print "expected answer: ", hist_dict[i][gap+indice] 
 			answer = ds.get_input()#dial.getFromMic_Pt()
 
@@ -116,39 +130,52 @@ def play(robot, ds, att):
 			
 			totalSec += time.time() - start
 			
-			success_rate = dial.levenshtein_long_two_strings(answer, hist_dict[i][gap+indice])
+			success_rate = ds.levenshtein_long_two_strings(answer, hist_dict[i][gap+indice])
 
-			print "longest", success_rate
+			real_rate = 1 - success_rate
+			print "Real Rate: ", real_rate
+			
+			ds.say("Entendi uma resposta correta em, " + str(np.ceil(real_rate*100) ) + "por cento." )
+
+			#print "longest", success_rate
 			#print "short", dial.levenshtein_short_two_strings(answer, hist_dict[i][indice])
 			print answer
-			fileLog.write("\nExpected Answer " + hist_dict[i][indice])
+			fileLog.write("\nExpected Answer " + hist_dict[i][gap+indice])
 			fileLog.write("\nUser Answer " + answer)
-						
+			
+			total_rate+=real_rate
 						
 			fileLog.write("\n")
 			
 			#print core.emotions
 			#print core.deviation_times
-			totalWords += dial.coutingWords(answer)
-			leds.fadeRGB('eyes', 'white', 0.1)		
+			totalWords += ds.coutingWords(answer)
+			#leds.fadeRGB('eyes', 'white', 0.1)		
 		totalWords = np.ceil(totalWords/int(hist_dict[i][0]))
 		totalWSec = np.ceil(totalSec/int(hist_dict[i][0]))
 		#core.ReadValues(numberWord=totalWords, time2ans=totalSec)
-	
+		
+
+		total_rate = total_rate / j
+
 		core.userPar.set( deviations= len(core.deviation_times), 
 							emotionCount= core.getBadEmotions(),
-							numberWord=totalWords, 
+							numberWord= 10 - totalWords, 
 							time2ans=totalWSec, 
-							sucRate= success_rate)
+							sucRate= 1- total_rate)
 	
 		fvalue = adp.adp_function(i)
-		
+	
+		ds.say("Fim dessa estória. Posso mudar meu comportamento para tentar me adaptar melhor à nossa conversa.")
+
+		ds.say("Não se assuste. Deixe-me ver se econtro uma posição e volume melhor.", block=False)
+
 		# changing robot's behavior
 		adp.change_behavior(adp.activation_function(fvalue))
 		
 
 		fileLog.write("\nFValue "  +" : " + str(fvalue) )
-		fileLog.write("")
+		fileLog.write("\n")
 		print "FVALUE", fvalue
 			
 		
