@@ -191,7 +191,7 @@ class Robot:
 			self.tts.setLanguage(defaultLanguage)
 			self.animatedSpeechProxy = ALProxy("ALAnimatedSpeech", robotIp, port)
 			self.speechSpeed = 0.5
-			self.volume = 0.6
+			self.volume = 0.4
 			self.tts.setVolume(self.volume)
 
 			self.leds = ALProxy("ALLeds", robotIp, port)
