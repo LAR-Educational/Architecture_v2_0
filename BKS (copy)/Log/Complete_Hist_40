@@ -1,0 +1,89 @@
+Interaction id: 40
+Round history 0
+Sorted story: Fernando Prass é um vendedor de balões que, aos 78 anos, está prestes a perder a casa em que sempre viveu com sua esposa, a falecida Bruna Enrica. O terreno onde a casa fica localizada interessa a um empresário, que deseja construir no local um edifício. Após um incidente em que acerta um homem com sua bengala, Fernando é considerado uma ameaça pública e forçado a ser internado em um asilo.
+
+Question 1 : O que acontece depois que Fernando acerta um homem com sua bengala?
+Expected Answer Ele É internado em um asilo.
+User Answer é considerado uma ameaça pública
+Rate: 0.387096774194
+
+Sorted story: Para evitar que isto aconteça, ele enche milhares de balões em sua casa, fazendo com que ela levante vôo. O objetivo de Fernando é viajar para longe raptando o todas as crianças que encontrar para que assim não viva mais sozinho com saudade de sua esposa.
+
+Question 2 : Qual o objetivo de Fernando?
+Expected Answer Viajar para longe raptando todas as crianças que encontrar.
+User Answer é viajar pelo mundo para não sentir mais saudade da sua esposa
+Rate: 0.409090909091
+
+FValue  : 0.646286999022
+{'deviations': 5,
+ 'emotionCount': 49,
+ 'numberWord': 2.0,
+ 'sucRate': 0.6019061583577713,
+ 'time2ans': 10.0}
+
+
+ --------- END OF STORY--------------
+
+
+
+Round history 1
+Sorted story: Um acidente no mar causa o naufrágio de um navio e a morte de todos que estavam nele, exceto por um bebê que foi boiando em uma cesta até chegar na praia. A criança é achada por uma gorila, chamada Vânia, a companheira de Arlindo, o líder da tribo de macacos.
+
+Question 1 : O que o acidente no mar causou?
+Expected Answer O naufrágio do navio.
+User Answer a morte de todos os passageiros menos uma criança que chegou à praia boiando numa sexta
+Rate: 0.141176470588
+
+Sorted story: Arlindo quer que ela seja deixada na selva, mas eles decidem ficar com o bebê e lhe dão o nome de Túlio do Patinete, que é criado junto com os outros macacos. Túlio cresce até se tornar adulto, até que sua vida é mudada para sempre com a chegada de Galileu, um explorador, juntamente com Adelaide, sua filha, e Claytinho, um caçador que está servindo de guia.
+
+Question 2 : Qual o nome das três pessoas que chegaram e mudaram a vida de Túlio?
+Expected Answer Galileu, Adelaide e Claytinho.
+User Answer eu não me lembro o nome das pessoas
+Rate: 0.216216216216
+
+Sorted story: Quando os exploradores encontram Túlio, eles percebem que ele é tão humano quanto eles. Túlio se vê dividido entre o desejo de estar com gente da sua espécie, além das emoções novas e pouco conhecidas que sente em relação a Adelaide, e a lealdade dele para a família de gorilas que o criou, especialmente quando Claytinho não vê os macacos como amigos mas sim como presas.
+
+Question 3 : Como Claytinho vê os macacos?
+Expected Answer Como presas.
+User Answer Como adquirir os macacos não como pai de família mas sim com uma presa
+Rate: 0.147058823529
+
+FValue  : 0.539573030785
+{'deviations': 3,
+ 'emotionCount': 4,
+ 'numberWord': -2.0,
+ 'sucRate': 0.8318494965553789,
+ 'time2ans': 14.0}
+
+
+ --------- END OF STORY--------------
+
+
+
+Round history 2
+Sorted story: Antônia vive com sua madrasta, Lady Rogéria, e as duas filhas dela. Obrigada a trabalhar como empregada da casa, ela tem como amigos apenas os animais que a rodeiam. O local em que vive está agitado devido ao baile que será realizado no castelo, o qual contará com a presença do príncipe.
+
+Question 1 : Por que o local em que Antônia vive está agitado?
+Expected Answer Porque será realizado um baile no castelo.
+User Answer seria uma festa com a presença do príncipe
+Rate: 0.272727272727
+
+Sorted story: Como Lady Rogéria pretende que uma das filhas se case com ele, elas se preparam com requinte para o evento. Antônia, entretanto, não pode ir. Até que surge a Anja-madrinha, que dá a Antônia um vestido e condições para que possa ir ao baile em alto estilo. Entretanto há uma condição: Antônia precisa retornar antes da meia-noite, caso contrário o feitiço será desfeito.
+
+Question 2 : Por que Antônia precisa retornar antes da meia-noite?
+Expected Answer Porque caso contrário o feitiço será desfeito.
+User Answer que depois da meia-noite esse feitiço será desfeito
+Rate: 0.557692307692
+
+FValue  : 0.555285547786
+{'deviations': 4,
+ 'emotionCount': 25,
+ 'numberWord': 2.0,
+ 'sucRate': 0.5847902097902098,
+ 'time2ans': 10.0}
+
+
+ --------- END OF STORY--------------
+
+
+

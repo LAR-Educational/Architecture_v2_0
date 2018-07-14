@@ -1,0 +1,30 @@
+'Esporte favorito: '
+'Voleibol (chamado frequentemente no Brasil de V\xc3\xb4lei e em Portugal de V\xc3\xb3lei) \xc3\xa9 um desporto praticado numa quadra dividida em duas partes por uma rede, possuindo duas equipes de seis jogadores em cada lado. O objetivo da modalidade \xc3\xa9 fazer passar a bola sobre a rede de modo a que a bola toque no ch\xc3\xa3o dentro da quadra advers\xc3\xa1ria, ao mesmo tempo que se evita que os advers\xc3\xa1rios consigam fazer o mesmo.'
+{'angry': 0,
+ 'disgust': 5,
+ 'fear': 5,
+ 'happy': 16,
+ 'neutral': 40,
+ 'sad': 1,
+ 'surprise': 4}
+''
+'Comida favorito: '
+"Churrasco \xc3\xa9 o nome dado ao prato feito a base de carne in natura ou processada, assada sobre fogo ou brasas, com a utiliza\xc3\xa7\xc3\xa3o de estacas de madeira ou metal (chamados de espetos), ou de grelhas. == Origem == N\xc3\xa3o existe refer\xc3\xaancia exata sobre a origem do churrasco, mas presume-se que a partir do dom\xc3\xadnio do fogo na pr\xc3\xa9-hist\xc3\xb3ria, o homem passou a assar a carne de ca\xc3\xa7a quando percebeu que o processo a deixava mais macia.Os \xc3\xadndios tupis sul-americanos, por exemplo, costumavam defumar a carne sobre grelhas de madeira, no chamado moka'em, um antepassado do atual churrasco, conservando-a para o consumo durante longo tempo.Com o tempo, as t\xc3\xa9cnicas foram sendo aperfei\xc3\xa7oadas, principalmente entre os ca\xc3\xa7adores e criadores de gado, dependendo sempre do tipo de carne e lenha dispon\xc3\xadveis."
+{'angry': 0,
+ 'disgust': 11,
+ 'fear': 1,
+ 'happy': 0,
+ 'neutral': 1,
+ 'sad': 2,
+ 'surprise': 0}
+''
+'Musica favorita: '
+'The Beatles foi uma banda de rock brit\xc3\xa2nica, formada em Liverpool em 1960. \xc3\x89 o grupo musical mais bem-sucedido e aclamado da hist\xc3\xb3ria da m\xc3\xbasica popular.'
+{'angry': 0,
+ 'disgust': 1,
+ 'fear': 0,
+ 'happy': 0,
+ 'neutral': 0,
+ 'sad': 0,
+ 'surprise': 0}
+''

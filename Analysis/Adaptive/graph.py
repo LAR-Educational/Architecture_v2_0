@@ -2,6 +2,10 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import numpy as np
 import csv
+import os
+
+
+
 from numpy import genfromtxt
 
 """
@@ -16,7 +20,52 @@ print vec
 """
 
 
-my_data = genfromtxt('Log/AdaptiveLogs/vectors_int_36.dat', delimiter=',', skip_header=1)
+path = "../BKS/Log/AdaptiveLogs"
+
+namelist = os.listdir(path)
+
+#print nameflist
+
+data_list = []
+
+for name in namelist:
+	
+	if "vector" in name:
+		#data_list.append(name)
+		data_list.append( genfromtxt(path+'/'+name, delimiter=',', skip_header=0))
+		
+
+
+fadp= 0
+alpha=0
+beta= 0
+gama= 0
+
+
+frames = []
+
+
+
+for mat in data_list:
+	
+	for row in mat:
+		i=0
+		fadp+= row[1]
+		alpha+=row[2]
+		beta+= row[3]
+		gama+= row[4]
+		
+		#for j in range(1, len(item[i])):
+		#	print item[i][j]
+		
+	
+	print "new matrix"	
+
+exit()
+
+
+
+
 #print my_data
 my_data = np.transpose(my_data)
 #print my_data
