@@ -73,12 +73,14 @@ class AdaptiveSystem:
 	
 		#calculating the beta vector
 		beta = (normalize(self.rv.emotionCount, self.op.max_emotion_count) + 
-							 normalize(self.rv.numberWord, self.op.min_number_word) )/2
+			normalize(self.rv.numberWord, self.op.min_number_word) )/2
+		
 		core.info("Beta :" + str(beta)) 
 	
 		#calculating the gama vector
-		gama = (normalize(self.rv.time2ans, self.op.max_time2ans) 
-							+ normalize(self.rv.sucRate, self.op.min_suc_rate) )/2
+		gama = (normalize(self.rv.time2ans, self.op.max_time2ans) + 
+			 normalize(self.rv.sucRate, self.op.min_suc_rate) )/2
+		
 		core.info("Gama :" + str(gama)) 
 	
 	

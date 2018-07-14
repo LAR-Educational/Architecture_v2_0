@@ -50,7 +50,7 @@ def play(robot, ds, att, max_hist=3):
 
 
 	fileLog = open ("Log/Complete_Hist_" + str(core.interaction_id), "w+")
-	
+	fileLog.write("Interaction id: " + str(core.interaction_id) + "\n")
 	w = adaption.Weights(0.2, 0.2, 0.6 )	
 	op = adaption.OperationalParameters (max_deviation=3, max_emotion_count=125, 
 		min_number_word=11 , max_time2ans=40, min_suc_rate=1)
@@ -150,6 +150,7 @@ def play(robot, ds, att, max_hist=3):
 
 			total_rate+=real_rate
 						
+			fileLog.write("\nRate: " + real_rate )
 			fileLog.write("\n")
 			
                         #att._continue()
@@ -163,6 +164,7 @@ def play(robot, ds, att, max_hist=3):
 		#core.ReadValues(numberWord=totalWords, time2ans=totalSec)
 		
 
+		att._halt()
 		total_rate = total_rate / j
 
 		core.userPar.set( deviations= len(core.deviation_times), 
@@ -193,7 +195,6 @@ def play(robot, ds, att, max_hist=3):
 		
 		fileLog.write("\n\n --------- END OF STORY--------------\n\n\n\n")
 		
-		att._halt()
 		
 		core.clear_emo_variables()
 		
