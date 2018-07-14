@@ -60,7 +60,7 @@ class AdaptiveSystem:
 	    	self.w = w #weights class
 		self.rv = rv		
 		flag_log=core.flag_log
-		self.robot_communication_profile_list=['SitRelax','Sit','Crouch','StandInit','Stand']
+		self.robot_communication_profile_list=['Sit','Sit','Crouch','StandInit','Stand']
 		self.robot_communication_profile = 3
 
 

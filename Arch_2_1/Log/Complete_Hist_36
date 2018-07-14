@@ -1,0 +1,82 @@
+Interaction id: 36
+Round history 0
+Sorted story: Em um pântano distante vive Silvão, um ogro solitário que vê, sem mais nem menos, sua vida ser invadida por uma série de personagens de contos de fada, como três ratos cegos, um grande e malvado lobo e ainda três porcos que não têm um lugar onde morar. Todos eles foram expulsos de seus lares pelo maligno Lorde Lampião.
+
+Question 1 : Quais personagens invadem a vida de Silvão?
+Expected Answer Três ratos, um lobo e três porcos.
+User Answer Play Store
+Rate: 0.166666666667
+
+Sorted story: Determinado a recuperar a tranquilidade de antes, Silvão resolve encontrar Lampião e com ele faz um acordo: todos os personagens poderão retornar aos seus lares se ele e seu amigo Burro resgatarem uma bela princesa, que é prisioneira de um dragão em um castelo. Então, Silvão e Burro  encontram o castelo, lutam com o dragão e salvam a princesa.
+
+Question 2 : O que silvão e o burro fazem no castelo?
+Expected Answer Eles lutam com o dragão e salvam a princesa.
+User Answer tava uma princesa
+Rate: 0.357142857143
+
+FValue  : 0.656922510823
+{'deviations': 4,
+ 'emotionCount': 17,
+ 'numberWord': 8.0,
+ 'sucRate': 0.7380952380952381,
+ 'time2ans': 11.0}
+
+
+ --------- END OF STORY--------------
+
+
+
+Round history 1
+Sorted story: Marquinhos é um carro de corridas ambicioso, que já em sua 1ª temporada na Copa Asfaltão torna-se um astro. Ele sonha em se tornar o 1º estreante a vencer o campeonato, o que possibilitaria que assinasse um patrocínio com a cobiçada dineca. A fama faz com que Marquinhos acredite que não precisa da ajuda de ninguém, sendo uma "equipe de um carro só".
+
+Question 1 : O que aconteceria se Marquinhos vencesse o campeonato?
+Expected Answer Assinaria um patrocínio com a dineca.
+User Answer de conseguir um patrocínio
+Rate: 0.394736842105
+
+Sorted story: Na última corrida da temporada os seus dois principais adversários, o ídolo Príncipe e o traiçoeiro Chicken, cruzem a linha de chegada juntamente com ele, o que faz com que uma corrida de desempate seja agendada na California. No caminho para a cidade da corrida, Marquinhos se perde de sua equipe e chega na pequena cidade Motor Summer, que tem pouquíssimo movimento e que jamais ouviu falar de Marquinhos ou até mesmo da Copa Asfaltão. Ele acaba enlouquecendo e é condenado a prisão pelo resto de sua vida e com isso sua carreira de corredor acaba arruinada.
+
+Question 2 : Por que a carreira de Marquinhos foi arruinada?
+Expected Answer Porque ele enlouqueceu e foi condenado a prisão.
+User Answer perdi Ele comete um crime e ele foi condenado à prisão pelo resto de sua vida
+Rate: 0.410256410256
+
+FValue  : 0.941517678812
+{'deviations': 10,
+ 'emotionCount': 7,
+ 'numberWord': 0.0,
+ 'sucRate': 0.5975033738191633,
+ 'time2ans': 12.0}
+
+
+ --------- END OF STORY--------------
+
+
+
+Round history 2
+Sorted story: Cidade de São Geral, Estados Juntados. Sasuke é um garoto prodígio que, aos 13 anos, criou um poderoso robô para participar de lutas clandestinas, onde tenta ganhar um bom dinheiro. Seu irmão, Itachi, deseja atraí-lo para algo mais útil e resolve levá-lo até o laboratório onde trabalha, que está repleto de invenções.
+
+Question 1 : Qual foi a criação de Sasuke e no que ele participava?
+Expected Answer Um robô para participar de lutas.
+User Answer kryon Ele criou um robô para participar de lutas clandestinas
+Rate: 0.5
+
+Sorted story: Sasuke conhece os amigos de Itachi e logo se interessa em estudar ali. Para isso ele precisa fazer a apresentação de uma grande invenção, de forma a convencer o professor Callahan a matriculá-lo. Entretanto, as coisas não saem como ele imaginava e Sasuke, deprimido, foge de casa para nunca mais voltar. 
+
+Question 2 : Por que Sasuke fugiu?
+Expected Answer Porque as coisas não sairam como ele imaginava.
+User Answer Por que nada sai como ele esperava
+Rate: 0.553191489362
+
+FValue  : 0.304903094778
+{'deviations': 0,
+ 'emotionCount': 59,
+ 'numberWord': 2.0,
+ 'sucRate': 0.47340425531914887,
+ 'time2ans': 13.0}
+
+
+ --------- END OF STORY--------------
+
+
+
