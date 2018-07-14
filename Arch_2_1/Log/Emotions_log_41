@@ -1,0 +1,21 @@
+'Esporte favorito: '
+'Corrida \xc3\xa9 uma competi\xc3\xa7\xc3\xa3o de velocidade ou resist\xc3\xaancia. Os competidores tentam completar uma determinada tarefa no menor per\xc3\xadodo de tempo.'
+{'angry': 0,
+ 'disgust': 0,
+ 'fear': 0,
+ 'happy': 123,
+ 'neutral': 0,
+ 'sad': 1,
+ 'surprise': 2}
+''
+'Comida favorito: '
+'Feijoada \xc3\xa9 uma designa\xc3\xa7\xc3\xa3o comum dada a pratos da culin\xc3\xa1ria de pa\xc3\xadses lus\xc3\xb3fonos como Portugal, Brasil, Angola, Mo\xc3\xa7ambique e Macau. A feijoada consiste num guisado de feij\xc3\xa3o, normalmente com carne, e quase sempre acompanhado com arroz.'
+{'angry': 0,
+ 'disgust': 0,
+ 'fear': 0,
+ 'happy': 0,
+ 'neutral': 0,
+ 'sad': 0,
+ 'surprise': 0}
+''
+'Musica favorita: '

@@ -87,7 +87,7 @@ def main():
         #ds.say("Falando alguma coisa para testar o volume")
         
 
-	nao.posture.goToPosture("StandInit",1)
+	#nao.posture.goToPosture("StandInit",1)
 	#return 1
 
 	emo_file_log = open("Log/Emotions_log_"+str(core.interaction_id), "w+")
@@ -268,7 +268,7 @@ def main():
 		attention._end_classification()
 
 
-	nao.posture.goToPosture("StandInit", 1)
+	#nao.posture.goToPosture("Crounch", 1)
 
 
 
@@ -341,7 +341,7 @@ def main():
 	time_log.write(str(core.interaction_id) + " , " +  nome + " , " + str((time.time()-time_count)/60)+ " , "+  str((time.time()-time_count)%60) + "\n")
 	time_log.close()
 
-	nao.posture.goToPosture("Crounch",1)
+	#nao.posture.goToPosture("Crounch",1)
         ds.say("Então é isso. Foi um prazer interagir com você, "+ nome +" . Espero te ver em breve. Até mais.", block=False)
 	
         nao.motors.rest()

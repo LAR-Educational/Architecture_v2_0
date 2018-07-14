@@ -146,7 +146,7 @@ input_shape = (224,224,3)
 
 input_option_list = {'mic': 1 , 'key':-1}
 
-input_option = input_option_list['key'] 
+input_option = input_option_list['mic'] 
 
 '''
 def get_input(ds):
