@@ -51,7 +51,10 @@ def play(robot, ds, att, max_hist=3):
 
 	fileLog = open ("Log/Complete_Hist_" + str(core.interaction_id), "w+")
 	fileLog.write("Interaction id: " + str(core.interaction_id) + "\n")
+	
+	
 	w = adaption.Weights(0.2, 0.2, 0.6 )	
+	
 	op = adaption.OperationalParameters (max_deviation=3, max_emotion_count=125, 
 		min_number_word=11 , max_time2ans=40, min_suc_rate=1)
 	
@@ -59,12 +62,11 @@ def play(robot, ds, att, max_hist=3):
 	adp = adaption.AdaptiveSystem(robot, op,w,core.userPar)
 	
 	
-	r = np.random.randint(0,2)
+	#r = np.random.randint(0,2)
 	for i in range(0,max_hist):
 		#attention = disattention.Th(1)
 		#attention.start()
 	
-		att._continue()
 		
 		
 		fileLog.write("Round history " + str(i)) 
@@ -91,10 +93,16 @@ def play(robot, ds, att, max_hist=3):
 
 		for j in range(1,int(hist_dict[i][0])+1):
 			
-			# Conta a historia	
-			ds.say(hist_dict[i][j])
+			#Adaptando posição
+			adp.change_behavior(0)
+		
+			# Continuing thread
+			att._continue()
 			
-			print hist_dict[i][j]
+			# Conta a historia	
+			ds.say(hist_dict[i][j], animated=False)
+			
+			#print hist_dict[i][j]
 
 			gap = int(hist_dict[i][0])
 
@@ -102,7 +110,6 @@ def play(robot, ds, att, max_hist=3):
 			fileLog.write("\n")
 			
 			# Apenas para resetar postura
-			adp.change_behavior(0)
                         
                         # Parando a thread
                         att._halt()
@@ -146,11 +153,11 @@ def play(robot, ds, att, max_hist=3):
 			fileLog.write("\nExpected Answer " + hist_dict[i][gap+indice])
 			fileLog.write("\nUser Answer " + answer)
 		        
-                        ds.say("A resposta que eu esperava é: "+ hist_dict[i][gap+indice] )
+                        ds.say("A resposta que eu esperava é: "+ hist_dict[i][gap+indice], animated=False )
 
 			total_rate+=real_rate
 						
-			fileLog.write("\nRate: " + real_rate )
+			fileLog.write("\nRate: " + str(real_rate) )
 			fileLog.write("\n")
 			
                         #att._continue()

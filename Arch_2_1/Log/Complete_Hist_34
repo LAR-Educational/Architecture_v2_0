@@ -1,0 +1,82 @@
+Interaction id: 34
+Round history 0
+Sorted story: Marquinhos é um carro de corridas ambicioso, que já em sua 1ª temporada na Copa Asfaltão torna-se um astro. Ele sonha em se tornar o 1º estreante a vencer o campeonato, o que possibilitaria que assinasse um patrocínio com a cobiçada dineca. A fama faz com que Marquinhos acredite que não precisa da ajuda de ninguém, sendo uma "equipe de um carro só".
+
+Question 1 : O que aconteceria se Marquinhos vencesse o campeonato?
+Expected Answer Assinaria um patrocínio com a dineca.
+User Answer assinaria patrocinio
+Rate: 0.5
+
+Sorted story: Na última corrida da temporada os seus dois principais adversários, o ídolo Príncipe e o traiçoeiro Chicken, cruzem a linha de chegada juntamente com ele, o que faz com que uma corrida de desempate seja agendada na California. No caminho para a cidade da corrida, Marquinhos se perde de sua equipe e chega na pequena cidade Motor Summer, que tem pouquíssimo movimento e que jamais ouviu falar de Marquinhos ou até mesmo da Copa Asfaltão. Ele acaba enlouquecendo e é condenado a prisão pelo resto de sua vida e com isso sua carreira de corredor acaba arruinada.
+
+Question 2 : Por que a carreira de Marquinhos foi arruinada?
+Expected Answer Porque ele enlouqueceu e foi condenado a prisão.
+User Answer porque ele elouquece e foi condenado a prisão
+Rate: 0.934782608696
+
+FValue  : 0.474303820817
+{'deviations': 4,
+ 'emotionCount': 3,
+ 'numberWord': 5.0,
+ 'sucRate': 0.28260869565217384,
+ 'time2ans': 10.0}
+
+
+ --------- END OF STORY--------------
+
+
+
+Round history 1
+Sorted story: Em um pântano distante vive Silvão, um ogro solitário que vê, sem mais nem menos, sua vida ser invadida por uma série de personagens de contos de fada, como três ratos cegos, um grande e malvado lobo e ainda três porcos que não têm um lugar onde morar. Todos eles foram expulsos de seus lares pelo maligno Lorde Lampião.
+
+Question 1 : Quais personagens invadem a vida de Silvão?
+Expected Answer Três ratos, um lobo e três porcos.
+User Answer tres ratos um lobo e trs porcos
+Rate: 0.935483870968
+
+Sorted story: Determinado a recuperar a tranquilidade de antes, Silvão resolve encontrar Lampião e com ele faz um acordo: todos os personagens poderão retornar aos seus lares se ele e seu amigo Burro resgatarem uma bela princesa, que é prisioneira de um dragão em um castelo. Então, Silvão e Burro  encontram o castelo, lutam com o dragão e salvam a princesa.
+
+Question 2 : O que silvão e o burro fazem no castelo?
+Expected Answer Eles lutam com o dragão e salvam a princesa.
+User Answer lutam com o dragão e salvam a princesa
+Rate: 0.880952380952
+
+FValue  : 0.648140622818
+{'deviations': 8,
+ 'emotionCount': 0,
+ 'numberWord': 3.0,
+ 'sucRate': 0.09178187403993854,
+ 'time2ans': 8.0}
+
+
+ --------- END OF STORY--------------
+
+
+
+Round history 2
+Sorted story: Fernando Prass é um vendedor de balões que, aos 78 anos, está prestes a perder a casa em que sempre viveu com sua esposa, a falecida Bruna Enrica. O terreno onde a casa fica localizada interessa a um empresário, que deseja construir no local um edifício. Após um incidente em que acerta um homem com sua bengala, Fernando é considerado uma ameaça pública e forçado a ser internado em um asilo.
+
+Question 1 : O que acontece depois que Fernando acerta um homem com sua bengala?
+Expected Answer Ele É internado em um asilo.
+User Answer é internado em um asilo
+Rate: 0.846153846154
+
+Sorted story: Para evitar que isto aconteça, ele enche milhares de balões em sua casa, fazendo com que ela levante vôo. O objetivo de Fernando é viajar para longe raptando o todas as crianças que encontrar para que assim não viva mais sozinho com saudade de sua esposa.
+
+Question 2 : Qual o objetivo de Fernando?
+Expected Answer Viajar para longe raptando todas as crianças que encontrar.
+User Answer viajar para longe raptando crianças
+Rate: 0.578947368421
+
+FValue  : 0.680856029935
+{'deviations': 7,
+ 'emotionCount': 0,
+ 'numberWord': 5.0,
+ 'sucRate': 0.28744939271255054,
+ 'time2ans': 11.0}
+
+
+ --------- END OF STORY--------------
+
+
+

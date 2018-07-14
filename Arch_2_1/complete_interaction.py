@@ -69,7 +69,7 @@ def main():
 		war("Exception type:" + str(sys.exc_info()[0]))
 		raise
 
-	#nao.motors.wakeUp()
+	nao.motors.wakeUp()
 	
 	#jkp.play(nao, ds, 3)
 
@@ -86,9 +86,15 @@ def main():
         
         #ds.say("Falando alguma coisa para testar o volume")
         
-        #return 1
-	
-	nao.posture.goToPosture("Crouch", 1)
+
+	nao.posture.goToPosture("StandInit",1)
+	#return 1
+
+	emo_file_log = open("Log/Emotions_log_"+str(core.interaction_id), "w+")
+
+
+
+
 
 	prefferences = True
 	play_drugs = False  #True
@@ -96,7 +102,7 @@ def main():
 	play_shelf =  False #True
 	play_act =  False #True
 	play_jkp =  False #True
-	play_hist = False #True
+	play_hist = True
 
 	#'''
 	userModel = fileHelper.fileHelper()
@@ -110,9 +116,10 @@ def main():
 	while not right_name:
 		nome = ds.get_input() #raw_input()
 		ds.say("Eu entendi, " + nome + ". Estou certo?")
-		ans= ds.get_input()
+		userAns= ds.get_input()
 		
-		if ans=="sim" or ans=="é" or ans=="isso":
+		if ("sim" in userAns) or ("está" in userAns) or ("esta" in userAns) or ("certo" in userAns) or ("isso" in userAns) or ("é" in userAns):
+		
 			right_name=True
 			ds.say("Que nome tópi!")
 		
@@ -164,12 +171,18 @@ def main():
 	
 	#CONDITION 1
 	#ds.say(" Vamos fazer uma série de atividades agora. Está preparado? Vamos lá")
+
+
+	# Starting threads
+	attention = disattention.Th(1)
+	attention.start()
+
 	
-	
+	attention._halt()
+
 	if play_drugs:
 		drugs.play(nao, ds)
 	
-
 	if prefferences:
 		try:
 			ds.say(u'Sobre seu esporte preferido: \n{}'.format(
@@ -181,20 +194,34 @@ def main():
 			#raw_input("GO!")
 			
 			#'''
+			
+			attention._continue()
+			
 			ds.say("Estou certo? ")
 			
 			userAns = ds.get_input()
                         
-			if userAns == "sim":
+			if ("sim" in userAns) or ("está" in userAns) or ("esta" in userAns) or ("certo" in userAns):
 				ds.say("Manjo muito")	
 			
-				ds.say("Gostei, " + nome + ". Essse será meu esporte preferido também. O que você acha?")
-				time.sleep(3)
+				ds.say("Gostei, " + nome + ". Se um dia eu conseguir escapar desse laboratório, Essse será o esporte pra deixar minha saúde em dia. ")
+				
 			else:
 				ds.say("Droga. Vou melhorar minha busca. Nunca fui bom com coisas de humanos mesmo.")
 			#'''
-			ds.say("Certo. Vamos seguir com a atividade")
 		
+
+			attention._halt()
+			
+			pprint("Esporte favorito: " , emo_file_log) 
+			pprint(userModel.search([preferences['esporte favorito'].encode('utf-8')]).encode('utf-8'), emo_file_log)
+			pprint(core.emotions, emo_file_log)
+			pprint("", emo_file_log)
+			print(core.emotions)
+			core.clear_emo_variables()
+
+			ds.say("Certo. Vamos seguir com a atividade")
+
 		except Exception as e:
 			print(e)
 	
@@ -213,10 +240,11 @@ def main():
 	# ------------------------ Stories ----------------------------------
 
 	if play_hist:
-		attention = disattention.Th(1)
-		attention.start()
+		#attention = disattention.Th(1)
+		#attention.start()
+		#attention._continue()
 		historias.play(nao, ds, attention)
-		attention._end_classification()
+		#attention._end_classification()
 	
 
 	# ------------------------ Jokenpo ----------------------------------
@@ -239,14 +267,34 @@ def main():
 		emo.play(nao, ds, attention)
 		attention._end_classification()
 
+
+	nao.posture.goToPosture("StandInit", 1)
+
+
+
+
 	if prefferences:
 		try:
+
+
 			ds.say(u'Sobre o rango que tu mais curte: \n{}'.format(
 			    userModel.search([preferences['comida favorita'].encode('utf-8')])).encode('utf-8'))
 			#print(u'Sobre o rango que tu mais curte: \n{}'.format(
 			   # userModel.searchFile([preferences['comida favorita'].encode('utf-8')])).encode('utf-8'))
 			
+			attention._continue()
 			ds.say("Eca. Que nojo. Você tem gostos peculiares. sorte minha que não como")
+			
+			
+			attention._halt()
+			pprint("Comida favorito: " , emo_file_log) 
+			pprint(userModel.search([preferences['comida favorita'].encode('utf-8')]).encode('utf-8'), emo_file_log)
+			pprint(core.emotions, emo_file_log)
+			pprint("", emo_file_log)
+			print(core.emotions)
+			core.clear_emo_variables()
+		
+		
 		except Exception as e:
 			print(e)
 
@@ -254,14 +302,30 @@ def main():
 
 	if prefferences:
 		try:
-			ds.say(u'\nSobre sua Banda preferida: \n{}'.format(userModel.search([preferences['musica favorita'].encode('utf-8')])).encode('utf-8'))
-
+			
+			ds.say(u'Sobre sua Banda preferida: {}'.format(userModel.search([preferences['musica favorita'].encode('utf-8')])).encode('utf-8'))
+			
+			attention._continue()
+			ds.say("Nossa. Nunca nem vi. Como eu sou robô, pra mim é só metal. Risos.")
+				
+			attention._halt()
+			pprint("Musica favorita: " , emo_file_log) 
+			pprint(userModel.search([preferences['musica favorita'].encode('utf-8')]).encode('utf-8'), emo_file_log)
+			pprint(core.emotions, emo_file_log)
+			pprint("", emo_file_log)
+			print(core.emotions)
+			core.clear_emo_variables()
+		
 		
 		except Exception as e:
 			print(e)
-	
+
+
+	#Closing threads
         userModel.close()
-	
+	attention._end_classification()
+	emo_file_log.close()
+
 	#CONDITION 2
 	#jkp.play(nao, ds, 3)
 	#emo.play(nao, ds, attention)

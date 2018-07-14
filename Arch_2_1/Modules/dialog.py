@@ -16,7 +16,7 @@ import time
 from difflib import SequenceMatcher
 import os
 import re
-
+import sys
 
 def open_file (file_name):
 	with open(file_name) as f:
@@ -191,6 +191,9 @@ class DialogSystem:
 			except sr.RequestError as e:
 				self.say("Estou com um problema de conexão com a internet. Vou tentar de novo. ; {0}".format(e))
 		self.robot.leds.fadeRGB('eyes', 'white', 0.1)
+		
+		
+		
 		return st
 		
 			
@@ -305,6 +308,10 @@ class DialogSystem:
 		elif self.input_option<0: #keyboard
 			sentence = raw_input("Waiting keyboard entry: ")
 
+		if sentence == "sair":
+			self.say("Você encerrou a sessão.")
+			sys.exit()
+		
 		return sentence
 
 
