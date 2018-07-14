@@ -1,0 +1,30 @@
+'Esporte favorito: '
+'O futebol, tamb\xc3\xa9m referido como futebol de campo, futebol de onze e, controversamente, futebol associado (em ingl\xc3\xaas: association football, football, soccer), \xc3\xa9 um desporto de equipe jogado entre dois times de 11 jogadores cada um e um \xc3\xa1rbitro que se ocupa da correta aplica\xc3\xa7\xc3\xa3o das normas. \xc3\x89 considerado o desporto mais popular do mundo, pois cerca de 270 milh\xc3\xb5es de pessoas participam das suas v\xc3\xa1rias competi\xc3\xa7\xc3\xb5es.'
+{'angry': 0,
+ 'disgust': 0,
+ 'fear': 1,
+ 'happy': 49,
+ 'neutral': 28,
+ 'sad': 0,
+ 'surprise': 0}
+''
+'Comida favorito: '
+'Bife \xc3\xa0 parmegiana ou fil\xc3\xa9 \xc3\xa0 parmegiana, um prato brasileiro, \xc3\xa9 um tipo de bife frito, composto por um peda\xc3\xa7o de carne fatiado, empanado com farinha de trigo e ovos (clara de ovo), coberto com queijo do tipo parmes\xc3\xa3o, presunto e bastante molho de tomate e condimentos como or\xc3\xa9gano e coentro, a gosto. As vezes o queijo parmes\xc3\xa3o \xc3\xa9 substitu\xc3\xaddo por fatias de queijo mu\xc3\xa7arela.'
+{'angry': 0,
+ 'disgust': 1,
+ 'fear': 0,
+ 'happy': 15,
+ 'neutral': 21,
+ 'sad': 0,
+ 'surprise': 0}
+''
+'Musica favorita: '
+'A Banda Mais Bonita da Cidade \xc3\xa9 uma banda brasileira de MPB e Indie rock formada em 2009, que ficou conhecida dentro e fora do pa\xc3\xads com o v\xc3\xaddeoclipe da m\xc3\xbasica Ora\xc3\xa7\xc3\xa3o, lan\xc3\xa7ado no YouTube, em 2011. Composta por Uyara Torrente no vocal, Vin\xc3\xadcius Nisi no teclado, Marano no baixo, Lu\xc3\xads Bourscheidt na bateria e, atualmente, Thiago Ramalho na guitarra.'
+{'angry': 0,
+ 'disgust': 0,
+ 'fear': 0,
+ 'happy': 13,
+ 'neutral': 1,
+ 'sad': 0,
+ 'surprise': 0}
+''

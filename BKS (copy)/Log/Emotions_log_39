@@ -1,0 +1,30 @@
+'Esporte favorito: '
+'Voleibol (chamado frequentemente no Brasil de V\xc3\xb4lei e em Portugal de V\xc3\xb3lei) \xc3\xa9 um desporto praticado numa quadra dividida em duas partes por uma rede, possuindo duas equipes de seis jogadores em cada lado. O objetivo da modalidade \xc3\xa9 fazer passar a bola sobre a rede de modo a que a bola toque no ch\xc3\xa3o dentro da quadra advers\xc3\xa1ria, ao mesmo tempo que se evita que os advers\xc3\xa1rios consigam fazer o mesmo.'
+{'angry': 0,
+ 'disgust': 0,
+ 'fear': 0,
+ 'happy': 0,
+ 'neutral': 0,
+ 'sad': 0,
+ 'surprise': 0}
+''
+'Comida favorito: '
+'Lasanha (lasagna em italiano) \xc3\xa9 tanto um tipo de massa em folhas (normalmente onduladas na Am\xc3\xa9rica do Norte mas n\xc3\xa3o na It\xc3\xa1lia), como tamb\xc3\xa9m um prato, por vezes chamado lasanha ao forno, feito com camadas alternadas de massa, queijo e molho de carne. == Hist\xc3\xb3ria == A palavra lasanha prov\xc3\xa9m da grega "lasanon" que significa pote de quatro.'
+{'angry': 0,
+ 'disgust': 1,
+ 'fear': 0,
+ 'happy': 30,
+ 'neutral': 0,
+ 'sad': 0,
+ 'surprise': 0}
+''
+'Musica favorita: '
+'Red Hot Chili Peppers (tamb\xc3\xa9m conhecido como Red Hot ou RHCP) \xc3\xa9 uma banda de rock dos Estados Unidos formada em Los Angeles, Calif\xc3\xb3rnia, em 13 de fevereiro de 1983, considerada uma das maiores bandas da hist\xc3\xb3ria do rock. O estilo musical do grupo consiste principalmente de rock, bem como elementos de outros g\xc3\xaaneros, tais como punk,funk rock e rock psicod\xc3\xa9lico.'
+{'angry': 0,
+ 'disgust': 0,
+ 'fear': 0,
+ 'happy': 38,
+ 'neutral': 0,
+ 'sad': 0,
+ 'surprise': 0}
+''
