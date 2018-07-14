@@ -1,0 +1,82 @@
+Interaction id: 42
+Round history 0
+Sorted story: Larissa é uma pequena garota havaiana de 5 anos que adora cuidar de animais menos favorecidos e vive com sua irmã Nani. Larissa tem o costume de coletar lixo reciclável nas praias para, com o dinheiro recebido, comprar comida para peixes e nadar até o alto-mar para alimentá-los. Até que, num belo dia, ela encontra um cachorro e decide adotá-lo.
+
+Question 1 : O que Larissa faz com o dinheiro que recebe com a coleta de lixo reciclável?
+Expected Answer Compra comida para peixes.
+User Answer Compra comida para animais
+Rate: 0.807692307692
+
+Sorted story: Entretanto, este cachorro na verdade é Stênio, um ser alienígena que é um dos criminosos mais perigosos da galáxia. Stênio foi preso em um planeta distante pela polícia interplanetária, mas ao ser encaminhado para um planeta-prisão consegue escapar, caindo acidentalmente na Terra. Agora, para escapar da polícia que ainda o persegue, Stênio esconde quatro de suas seis pernas e decide devorar todos aqueles que ficarem em seu caminho, principalmente as crianças.
+
+Question 2 : O que Stênio faz para escapar da polícia?
+Expected Answer Stênio esconde quatro de suas seis pernas
+User Answer não lembro
+Rate: 0.15
+
+FValue  : 0.494982517483
+{'deviations': 3,
+ 'emotionCount': 0,
+ 'numberWord': 7.0,
+ 'sucRate': 0.5211538461538461,
+ 'time2ans': 10.0}
+
+
+ --------- END OF STORY--------------
+
+
+
+Round history 1
+Sorted story: O passado reserva tristes memórias para Mauro nos recifes de coral. onde perdeu sua esposa e toda a ninhada. Agora, ele cria seu único filho Timo com todo o cuidado do mundo. mas o pequeno e simpático peixe-palhaço acaba exagerando durante uma simples discussão e acaba sendo capturado por um mergulhador. 
+
+Question 1 : Oque aconteceu com seu filho Timo?
+Expected Answer Capturado por um mergulhador.
+User Answer capturar
+Rate: 0.25
+
+Sorted story: Agora, o pai, sem rumo. entra numa desesperada busca pelo mar aberto. Enquanto isso, Timo também vive uma terrível experiência em um aquário com peixes que não conhece. enquanto tenta escapar do destino que lhe foi reservado: ser torturado pela terrível Carla, sobrinha do dentista que o capturou.
+
+Question 2 : Com o sumiço de Timo, o que seu pai faz?
+Expected Answer Entra numa busca desesperada pelo mar aberto.
+User Answer saiu uma busca desesperada
+Rate: 0.5
+
+FValue  : 0.320227272727
+{'deviations': 0,
+ 'emotionCount': 0,
+ 'numberWord': 8.0,
+ 'sucRate': 0.625,
+ 'time2ans': 8.0}
+
+
+ --------- END OF STORY--------------
+
+
+
+Round history 2
+Sorted story: Em um pântano distante vive Silvão, um ogro solitário que vê, sem mais nem menos, sua vida ser invadida por uma série de personagens de contos de fada, como três ratos cegos, um grande e malvado lobo e ainda três porcos que não têm um lugar onde morar. Todos eles foram expulsos de seus lares pelo maligno Lorde Lampião.
+
+Question 1 : Quais personagens invadem a vida de Silvão?
+Expected Answer Três ratos, um lobo e três porcos.
+User Answer três ratos um novo e três portas
+Rate: 0.833333333333
+
+Sorted story: Determinado a recuperar a tranquilidade de antes, Silvão resolve encontrar Lampião e com ele faz um acordo: todos os personagens poderão retornar aos seus lares se ele e seu amigo Burro resgatarem uma bela princesa, que é prisioneira de um dragão em um castelo. Então, Silvão e Burro  encontram o castelo, lutam com o dragão e salvam a princesa.
+
+Question 2 : O que silvão e o burro fazem no castelo?
+Expected Answer Eles lutam com o dragão e salvam a princesa.
+User Answer lutam contra o dragão para salvar a princesa
+Rate: 0.708333333333
+
+FValue  : 0.491589393939
+{'deviations': 4,
+ 'emotionCount': 58,
+ 'numberWord': 3.0,
+ 'sucRate': 0.22916666666666674,
+ 'time2ans': 11.0}
+
+
+ --------- END OF STORY--------------
+
+
+

@@ -1,0 +1,89 @@
+Interaction id: 41
+Round history 0
+Sorted story: Cidade de São Geral, Estados Juntados. Sasuke é um garoto prodígio que, aos 13 anos, criou um poderoso robô para participar de lutas clandestinas, onde tenta ganhar um bom dinheiro. Seu irmão, Itachi, deseja atraí-lo para algo mais útil e resolve levá-lo até o laboratório onde trabalha, que está repleto de invenções.
+
+Question 1 : Qual foi a criação de Sasuke e no que ele participava?
+Expected Answer Um robô para participar de lutas.
+User Answer luta de robô de robôs
+Rate: 0.258064516129
+
+Sorted story: Sasuke conhece os amigos de Itachi e logo se interessa em estudar ali. Para isso ele precisa fazer a apresentação de uma grande invenção, de forma a convencer o professor Callahan a matriculá-lo. Entretanto, as coisas não saem como ele imaginava e Sasuke, deprimido, foge de casa para nunca mais voltar. 
+
+Question 2 : Por que Sasuke fugiu?
+Expected Answer Porque as coisas não sairam como ele imaginava.
+User Answer não conseguiu fazer o projeto
+Rate: 0.239130434783
+
+FValue  : 0.347175302818
+{'deviations': 0,
+ 'emotionCount': 11,
+ 'numberWord': 5.0,
+ 'sucRate': 0.7514025245441796,
+ 'time2ans': 9.0}
+
+
+ --------- END OF STORY--------------
+
+
+
+Round history 1
+Sorted story: Carlos Maçã já foi o maior herói do planeta, salvando vidas e combatendo o mal todos os dias sob o codinome senhor Fantástico. Porém, após deixar um homem se suicidar, ele é processado e condenado na justiça. Com isso a população e o governo passam a odiar os super-heróis.
+
+Question 1 : Por que a população e o governo passaram a odiar os super-heróis?
+Expected Answer Porque Carlos deixou um homem se suicidar.
+User Answer teve morte
+Rate: 0.146341463415
+
+Sorted story: A partir disso ele começa a trabalhar de vendedor de balões do chapolim colorado em um parque. Quinze anos depois, Carlos continua vendendo os balões no parque ao lado de sua esposa Clara, que foi a super-heroína Mulher-Bugiganga, e seus três filhos, até que ele surpreendido pelo ben dez voando em uma vassoura.
+
+Question 2 : Qual o trabalho de Carlos Maçã e onde ele trabalhava?
+Expected Answer Vendedor de balões em um parque.
+User Answer vendendo balões
+Rate: 0.387096774194
+
+Sorted story: O ben dez convoca ele para uma missão ultra secreta que consiste em derrotar cenouras gigantes espaciais que ameaçam a vida de todos na terra. Eles conseguem acabar com as cenouras gigantes e o Carlos Maçã se torna o maior super-herói que já existiu.
+
+Question 3 : Ben Dez convocou Carlos Maçã para qual missão?
+Expected Answer Derrotar cenouras gigantes espaciais.
+User Answer como bater cenoura
+Rate: 0.282051282051
+
+FValue  : 0.852878320761
+{'deviations': 6,
+ 'emotionCount': 24,
+ 'numberWord': 8.0,
+ 'sucRate': 0.7281701601135118,
+ 'time2ans': 19.0}
+
+
+ --------- END OF STORY--------------
+
+
+
+Round history 2
+Sorted story: Fernando Prass é um vendedor de balões que, aos 78 anos, está prestes a perder a casa em que sempre viveu com sua esposa, a falecida Bruna Enrica. O terreno onde a casa fica localizada interessa a um empresário, que deseja construir no local um edifício. Após um incidente em que acerta um homem com sua bengala, Fernando é considerado uma ameaça pública e forçado a ser internado em um asilo.
+
+Question 1 : O que acontece depois que Fernando acerta um homem com sua bengala?
+Expected Answer Ele É internado em um asilo.
+User Answer onde é julgado culpado
+Rate: 0.37037037037
+
+Sorted story: Para evitar que isto aconteça, ele enche milhares de balões em sua casa, fazendo com que ela levante vôo. O objetivo de Fernando é viajar para longe raptando o todas as crianças que encontrar para que assim não viva mais sozinho com saudade de sua esposa.
+
+Question 2 : Qual o objetivo de Fernando?
+Expected Answer Viajar para longe raptando todas as crianças que encontrar.
+User Answer voar com a casa
+Rate: 0.19298245614
+
+FValue  : 0.345042530569
+{'deviations': 0,
+ 'emotionCount': 0,
+ 'numberWord': 6.0,
+ 'sucRate': 0.7183235867446394,
+ 'time2ans': 10.0}
+
+
+ --------- END OF STORY--------------
+
+
+
