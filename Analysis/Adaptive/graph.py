@@ -126,13 +126,16 @@ def users():
     
     x =  range(1,len(av)+1)
     
-    plt.bar(x, av, width=0.35, align="center", yerr=sd, ecolor="red")
-    plt.title("Users average score by question")
-    plt.ylabel("Average users' score")
-    plt.xlabel("Question number")
-    plt.grid(True)
-    plt.xticks(x)
+    plt.bar(x, av, width=0.35, color = 'aqua', align="center", yerr=sd, ecolor="k")
+    for i in x:
+        plt.text(x[i-1]+0.1, av[i-1]+0.1, "{:.2f}".format(av[i-1]), fontsize=14 ) 
 
+    plt.title("Users average score by question", fontsize=28)
+    plt.ylabel("Average users' score", fontsize=16)
+    plt.xlabel("Question number", fontsize=16)
+    plt.gca().yaxis.grid(True)
+    plt.xticks(x)
+    plt.savefig("usersAnswers.png")
     plt.show()
 
 
