@@ -1,0 +1,30 @@
+'Esporte favorito: '
+'Voleibol (chamado frequentemente no Brasil de V\xc3\xb4lei e em Portugal de V\xc3\xb3lei) \xc3\xa9 um desporto praticado numa quadra dividida em duas partes por uma rede, possuindo duas equipes de seis jogadores em cada lado. O objetivo da modalidade \xc3\xa9 fazer passar a bola sobre a rede de modo a que a bola toque no ch\xc3\xa3o dentro da quadra advers\xc3\xa1ria, ao mesmo tempo que se evita que os advers\xc3\xa1rios consigam fazer o mesmo.'
+{'angry': 0,
+ 'disgust': 0,
+ 'fear': 0,
+ 'happy': 50,
+ 'neutral': 41,
+ 'sad': 2,
+ 'surprise': 0}
+''
+'Comida favorito: '
+'Macarr\xc3\xa3o \xc3\xa9 um tipo de massa aliment\xc3\xadcia com o formato de tubos curtos, em que se incluem os penne, ravioli e os cotovelos. No entanto, existem lugares no Brasil em que se usa o termo para se referir a qualquer tipo de massa aliment\xc3\xadcia, desde o espaguete \xc3\xa0s letras e outras formas usadas em v\xc3\xa1rios cozidos e sopas.'
+{'angry': 0,
+ 'disgust': 0,
+ 'fear': 0,
+ 'happy': 30,
+ 'neutral': 4,
+ 'sad': 1,
+ 'surprise': 0}
+''
+'Musica favorita: '
+'Queen foi uma banda brit\xc3\xa2nica de rock, fundada em 1970 e ativa, sob sua forma\xc3\xa7\xc3\xa3o cl\xc3\xa1ssica, at\xc3\xa9 1991. O grupo, formado por Brian May (guitarra e vocais), Freddie Mercury (vocais e piano), John Deacon (baixo) e Roger Taylor (bateria e vocais) \xc3\xa9 frequentemente citado como um dos expoentes do seu estilo, tamb\xc3\xa9m sendo um dos recordistas de vendas de discos a n\xc3\xadvel mundial.'
+{'angry': 0,
+ 'disgust': 0,
+ 'fear': 0,
+ 'happy': 14,
+ 'neutral': 20,
+ 'sad': 1,
+ 'surprise': 0}
+''
