@@ -1,0 +1,96 @@
+Interaction id: 45
+Round history 0
+Sorted story: Um acidente no mar causa o naufrágio de um navio e a morte de todos que estavam nele, exceto por um bebê que foi boiando em uma cesta até chegar na praia. A criança é achada por uma gorila, chamada Vânia, a companheira de Arlindo, o líder da tribo de macacos.
+
+Question 1 : O que o acidente no mar causou?
+Expected Answer O naufrágio do navio.
+User Answer não sei
+Rate: 0.210526315789
+
+Sorted story: Arlindo quer que ela seja deixada na selva, mas eles decidem ficar com o bebê e lhe dão o nome de Túlio do Patinete, que é criado junto com os outros macacos. Túlio cresce até se tornar adulto, até que sua vida é mudada para sempre com a chegada de Galileu, um explorador, juntamente com Adelaide, sua filha, e Claytinho, um caçador que está servindo de guia.
+
+Question 2 : Qual o nome das três pessoas que chegaram e mudaram a vida de Túlio?
+Expected Answer Galileu, Adelaide e Claytinho.
+User Answer das três pessoas são Galileu
+Rate: 0.241379310345
+
+Sorted story: Quando os exploradores encontram Túlio, eles percebem que ele é tão humano quanto eles. Túlio se vê dividido entre o desejo de estar com gente da sua espécie, além das emoções novas e pouco conhecidas que sente em relação a Adelaide, e a lealdade dele para a família de gorilas que o criou, especialmente quando Claytinho não vê os macacos como amigos mas sim como presas.
+
+Question 3 : Como Claytinho vê os macacos?
+Expected Answer Como presas.
+User Answer ela vê como parte da família
+Rate: 0.307692307692
+
+FValue  : 0.674685661163
+{'deviations': 3,
+ 'emotionCount': 67,
+ 'numberWord': 6.0,
+ 'sucRate': 0.7468006887244636,
+ 'time2ans': 19.0}
+
+
+ --------- END OF STORY--------------
+
+
+
+Round history 1
+Sorted story: Carlos Maçã já foi o maior herói do planeta, salvando vidas e combatendo o mal todos os dias sob o codinome senhor Fantástico. Porém, após deixar um homem se suicidar, ele é processado e condenado na justiça. Com isso a população e o governo passam a odiar os super-heróis.
+
+Question 1 : Por que a população e o governo passaram a odiar os super-heróis?
+Expected Answer Porque Carlos deixou um homem se suicidar.
+User Answer eu não sei
+Rate: 0.19512195122
+
+Sorted story: A partir disso ele começa a trabalhar de vendedor de balões do chapolim colorado em um parque. Quinze anos depois, Carlos continua vendendo os balões no parque ao lado de sua esposa Clara, que foi a super-heroína Mulher-Bugiganga, e seus três filhos, até que ele surpreendido pelo ben dez voando em uma vassoura.
+
+Question 2 : Qual o trabalho de Carlos Maçã e onde ele trabalhava?
+Expected Answer Vendedor de balões em um parque.
+User Answer trabalhava
+Rate: 0.166666666667
+
+Sorted story: O ben dez convoca ele para uma missão ultra secreta que consiste em derrotar cenouras gigantes espaciais que ameaçam a vida de todos na terra. Eles conseguem acabar com as cenouras gigantes e o Carlos Maçã se torna o maior super-herói que já existiu.
+
+Question 3 : Ben Dez convocou Carlos Maçã para qual missão?
+Expected Answer Derrotar cenouras gigantes espaciais.
+User Answer para acabar com a cenoura gigante
+Rate: 0.434782608696
+
+FValue  : 0.893745907645
+{'deviations': 7,
+ 'emotionCount': 57,
+ 'numberWord': 7.0,
+ 'sucRate': 0.7344762578060564,
+ 'time2ans': 13.0}
+
+
+ --------- END OF STORY--------------
+
+
+
+Round history 2
+Sorted story: Em um pântano distante vive Silvão, um ogro solitário que vê, sem mais nem menos, sua vida ser invadida por uma série de personagens de contos de fada, como três ratos cegos, um grande e malvado lobo e ainda três porcos que não têm um lugar onde morar. Todos eles foram expulsos de seus lares pelo maligno Lorde Lampião.
+
+Question 1 : Quais personagens invadem a vida de Silvão?
+Expected Answer Três ratos, um lobo e três porcos.
+User Answer três porcos
+Rate: 0.333333333333
+
+Sorted story: Determinado a recuperar a tranquilidade de antes, Silvão resolve encontrar Lampião e com ele faz um acordo: todos os personagens poderão retornar aos seus lares se ele e seu amigo Burro resgatarem uma bela princesa, que é prisioneira de um dragão em um castelo. Então, Silvão e Burro  encontram o castelo, lutam com o dragão e salvam a princesa.
+
+Question 2 : O que silvão e o burro fazem no castelo?
+Expected Answer Eles lutam com o dragão e salvam a princesa.
+User Answer eles lutam contra o dragão
+Rate: 0.444444444444
+
+FValue  : 0.489303030303
+{'deviations': 2,
+ 'emotionCount': 5,
+ 'numberWord': 7.0,
+ 'sucRate': 0.6111111111111112,
+ 'time2ans': 14.0}
+
+
+ --------- END OF STORY--------------
+
+
+

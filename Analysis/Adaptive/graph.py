@@ -44,7 +44,7 @@ def make(path = "../BKS/Log/AdaptiveLogs"):
 
     for name in namelist:
             
-            if "vector" in name:
+            if ("vector" in name):# and ([] in name):
                     #data_list.append(name)
                     data_list.append( genfromtxt(path+'/'+name, delimiter=',', skip_header=0))
                     
@@ -102,6 +102,8 @@ def make(path = "../BKS/Log/AdaptiveLogs"):
     #plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
     plt.legend(bbox_to_anchor=(1,1), loc =1)
 
+    plt.xlim(0,4)
+
 
 
 
@@ -118,15 +120,14 @@ def make(path = "../BKS/Log/AdaptiveLogs"):
 
 def users():
     
-    av = [6.571428571, 3.285714286, 6.714285714, 6.857142857, 5.714285714, 6.857142857, 5.714285714]
-    sd = [0.7867957925, 1.799470822, 0.4879500365, 0.377964473, 0.9511897312, 0.377964473, 0.9511897312]
-
+    av = [6.3, 3.4, 6.4, 6.7, 5.6, 6.6, 5.7]
+    sd = [1.059349905,	1.646545205,	0.9660917831,	0.6749485577,	0.8432740427,	0.6992058988,	1.059349905] 
     
     
     
     x =  range(1,len(av)+1)
     
-    plt.bar(x, av, width=0.35, color = 'aqua', align="center", yerr=sd, ecolor="k")
+    plt.bar(x, av, width=0.45, color = 'aqua', align="center", yerr=sd, ecolor="k")
     for i in x:
         plt.text(x[i-1]+0.1, av[i-1]+0.1, "{:.2f}".format(av[i-1]), fontsize=14 ) 
 
@@ -150,5 +151,5 @@ def users():
     
 
 if __name__=="__main__":
-        #make()
-        users()
+        make()
+        #users()
