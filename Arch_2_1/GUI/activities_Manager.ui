@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1346</width>
-    <height>800</height>
+    <width>1369</width>
+    <height>844</height>
    </rect>
   </property>
   <property name="font">
@@ -19,11 +19,8 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QFormLayout" name="formLayout_2">
-    <property name="fieldGrowthPolicy">
-     <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-    </property>
-    <item row="0" column="0" colspan="2">
+   <layout class="QGridLayout" name="gridLayout_13">
+    <item row="0" column="0">
      <widget class="QFrame" name="frame_17">
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -32,80 +29,29 @@
        <enum>QFrame::Raised</enum>
       </property>
       <layout class="QGridLayout" name="gridLayout_20">
-       <item row="0" column="0">
-        <widget class="QFrame" name="frame_3">
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
+       <item row="0" column="3">
+        <widget class="QLabel" name="label_27">
+         <property name="minimumSize">
+          <size>
+           <width>181</width>
+           <height>171</height>
+          </size>
          </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
+         <property name="maximumSize">
+          <size>
+           <width>181</width>
+           <height>171</height>
+          </size>
          </property>
-         <layout class="QGridLayout" name="gridLayout_3">
-          <item row="2" column="0">
-           <widget class="QPushButton" name="loadactButton">
-            <property name="text">
-             <string>Load Activity</string>
-            </property>
-            <property name="shortcut">
-             <string>Ctrl+L</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="Line" name="line_2">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="0">
-           <widget class="QPushButton" name="exitButton">
-            <property name="text">
-             <string>Exit</string>
-            </property>
-            <property name="shortcut">
-             <string>Ctrl+X</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="0">
-           <widget class="QPushButton" name="editButton">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="text">
-             <string>Edit</string>
-            </property>
-            <property name="shortcut">
-             <string>Ctrl+E</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0">
-           <widget class="QPushButton" name="newButton">
-            <property name="text">
-             <string>New Activity</string>
-            </property>
-            <property name="shortcut">
-             <string>Ctrl+N</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="Line" name="line_3">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="0">
-           <widget class="Line" name="line_5">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-         </layout>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="pixmap">
+          <pixmap>pencil.png</pixmap>
+         </property>
+         <property name="scaledContents">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
        <item row="0" column="1">
@@ -290,35 +236,86 @@
          </layout>
         </widget>
        </item>
-       <item row="0" column="3">
-        <widget class="QLabel" name="label_27">
-         <property name="minimumSize">
-          <size>
-           <width>181</width>
-           <height>171</height>
-          </size>
+       <item row="0" column="0">
+        <widget class="QFrame" name="frame_3">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
          </property>
-         <property name="maximumSize">
-          <size>
-           <width>181</width>
-           <height>171</height>
-          </size>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
          </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="pixmap">
-          <pixmap>pencil.png</pixmap>
-         </property>
-         <property name="scaledContents">
-          <bool>true</bool>
-         </property>
+         <layout class="QGridLayout" name="gridLayout_3">
+          <item row="2" column="0">
+           <widget class="QPushButton" name="loadactButton">
+            <property name="text">
+             <string>Load Activity</string>
+            </property>
+            <property name="shortcut">
+             <string>Ctrl+L</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="Line" name="line_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="0">
+           <widget class="QPushButton" name="exitButton">
+            <property name="text">
+             <string>Exit</string>
+            </property>
+            <property name="shortcut">
+             <string>Ctrl+Q</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QPushButton" name="editButton">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="text">
+             <string>Edit</string>
+            </property>
+            <property name="shortcut">
+             <string>Ctrl+E</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QPushButton" name="newButton">
+            <property name="text">
+             <string>New Activity</string>
+            </property>
+            <property name="shortcut">
+             <string>Ctrl+N</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="Line" name="line_3">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0">
+           <widget class="Line" name="line_5">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
       </layout>
      </widget>
     </item>
-    <item row="1" column="1">
+    <item row="1" column="0">
      <widget class="QTabWidget" name="modules_tabWidget">
       <property name="enabled">
        <bool>true</bool>
@@ -330,7 +327,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <property name="iconSize">
        <size>
@@ -755,7 +752,7 @@
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>2</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="questions_tab">
            <attribute name="title">
@@ -943,9 +940,16 @@
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_13">
                <item>
+                <widget class="QPushButton" name="pushButton_23">
+                 <property name="text">
+                  <string>Load Tables</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
                 <widget class="QPushButton" name="pushButton_34">
                  <property name="text">
-                  <string>PushButton</string>
+                  <string>Default</string>
                  </property>
                 </widget>
                </item>
@@ -1190,6 +1194,32 @@
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_11">
            <item>
+            <widget class="QPushButton" name="contenct_newSubj_button">
+             <property name="maximumSize">
+              <size>
+               <width>119</width>
+               <height>29</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>New Subject</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_18">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
             <widget class="QLabel" name="label_31">
              <property name="maximumSize">
               <size>
@@ -1212,7 +1242,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QComboBox" name="comboBox_4">
+            <widget class="QComboBox" name="content_subject_comboBox">
              <property name="minimumSize">
               <size>
                <width>381</width>
@@ -1222,17 +1252,12 @@
              <property name="editable">
               <bool>true</bool>
              </property>
-             <item>
-              <property name="text">
-               <string>Face, Edges and Vertices</string>
-              </property>
-             </item>
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="saveSubjButton_2">
+            <widget class="QPushButton" name="content_saveSub_button">
              <property name="enabled">
-              <bool>false</bool>
+              <bool>true</bool>
              </property>
              <property name="maximumSize">
               <size>
@@ -1242,19 +1267,6 @@
              </property>
              <property name="text">
               <string>Save</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="newSubjButton_2">
-             <property name="maximumSize">
-              <size>
-               <width>119</width>
-               <height>29</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>New Subject</string>
              </property>
             </widget>
            </item>
@@ -1276,6 +1288,12 @@
         </item>
         <item row="1" column="0">
          <widget class="QFrame" name="frame_9">
+          <property name="maximumSize">
+           <size>
+            <width>1329</width>
+            <height>141</height>
+           </size>
+          </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
           </property>
@@ -1283,9 +1301,6 @@
            <enum>QFrame::Raised</enum>
           </property>
           <layout class="QGridLayout" name="gridLayout_11">
-           <item row="1" column="0" colspan="3">
-            <widget class="QTextEdit" name="textEdit_2"/>
-           </item>
            <item row="0" column="1">
             <widget class="QLabel" name="label_32">
              <property name="font">
@@ -1301,6 +1316,9 @@
               <set>Qt::AlignCenter</set>
              </property>
             </widget>
+           </item>
+           <item row="1" column="0" colspan="3">
+            <widget class="QTextEdit" name="content_concept"/>
            </item>
           </layout>
          </widget>
@@ -1335,85 +1353,21 @@
             </widget>
            </item>
            <item row="0" column="2">
-            <widget class="QPushButton" name="insertQuestion_Button_2">
+            <widget class="QPushButton" name="content_insert_question_button">
              <property name="text">
               <string>Insert Question</string>
              </property>
             </widget>
            </item>
            <item row="0" column="5">
-            <widget class="QPushButton" name="clearQuestions_Button_2">
+            <widget class="QPushButton" name="contenct_clear_questions_button">
              <property name="text">
               <string>Clear Table</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="0" colspan="6">
-            <widget class="QTableWidget" name="questions_tableWidget_2">
-             <property name="gridStyle">
-              <enum>Qt::SolidLine</enum>
-             </property>
-             <property name="sortingEnabled">
-              <bool>true</bool>
-             </property>
-             <attribute name="horizontalHeaderCascadingSectionResizes">
-              <bool>true</bool>
-             </attribute>
-             <attribute name="horizontalHeaderDefaultSectionSize">
-              <number>300</number>
-             </attribute>
-             <attribute name="horizontalHeaderHighlightSections">
-              <bool>true</bool>
-             </attribute>
-             <attribute name="horizontalHeaderMinimumSectionSize">
-              <number>100</number>
-             </attribute>
-             <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
-              <bool>true</bool>
-             </attribute>
-             <attribute name="horizontalHeaderStretchLastSection">
-              <bool>true</bool>
-             </attribute>
-             <attribute name="verticalHeaderVisible">
-              <bool>false</bool>
-             </attribute>
-             <attribute name="verticalHeaderCascadingSectionResizes">
-              <bool>true</bool>
-             </attribute>
-             <attribute name="verticalHeaderDefaultSectionSize">
-              <number>20</number>
-             </attribute>
-             <attribute name="verticalHeaderHighlightSections">
-              <bool>true</bool>
-             </attribute>
-             <attribute name="verticalHeaderMinimumSectionSize">
-              <number>20</number>
-             </attribute>
-             <attribute name="verticalHeaderShowSortIndicator" stdset="0">
-              <bool>false</bool>
-             </attribute>
-             <attribute name="verticalHeaderStretchLastSection">
-              <bool>false</bool>
-             </attribute>
-             <column>
-              <property name="text">
-               <string>Dificulty</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Question</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Expected Answer</string>
-              </property>
-             </column>
-            </widget>
-           </item>
            <item row="0" column="1">
-            <widget class="QComboBox" name="comboBox_5">
+            <widget class="QComboBox" name="content_dif_comboBox">
              <property name="currentIndex">
               <number>0</number>
              </property>
@@ -1445,10 +1399,68 @@
             </widget>
            </item>
            <item row="0" column="3">
-            <widget class="QPushButton" name="pushButton">
+            <widget class="QPushButton" name="content_delete_question_button">
              <property name="text">
               <string>Delete Question</string>
              </property>
+            </widget>
+           </item>
+           <item row="1" column="0" colspan="6">
+            <widget class="QTableWidget" name="content_questions_table">
+             <property name="gridStyle">
+              <enum>Qt::SolidLine</enum>
+             </property>
+             <property name="sortingEnabled">
+              <bool>true</bool>
+             </property>
+             <attribute name="horizontalHeaderCascadingSectionResizes">
+              <bool>true</bool>
+             </attribute>
+             <attribute name="horizontalHeaderDefaultSectionSize">
+              <number>300</number>
+             </attribute>
+             <attribute name="horizontalHeaderHighlightSections">
+              <bool>true</bool>
+             </attribute>
+             <attribute name="horizontalHeaderMinimumSectionSize">
+              <number>1</number>
+             </attribute>
+             <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+              <bool>true</bool>
+             </attribute>
+             <attribute name="horizontalHeaderStretchLastSection">
+              <bool>true</bool>
+             </attribute>
+             <attribute name="verticalHeaderVisible">
+              <bool>false</bool>
+             </attribute>
+             <attribute name="verticalHeaderCascadingSectionResizes">
+              <bool>true</bool>
+             </attribute>
+             <attribute name="verticalHeaderDefaultSectionSize">
+              <number>20</number>
+             </attribute>
+             <attribute name="verticalHeaderHighlightSections">
+              <bool>true</bool>
+             </attribute>
+             <attribute name="verticalHeaderMinimumSectionSize">
+              <number>1</number>
+             </attribute>
+             <column>
+              <property name="text">
+               <string>Difficulty</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Question</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Expected Answer</string>
+              </property>
+             </column>
             </widget>
            </item>
           </layout>
@@ -1659,7 +1671,7 @@
                 <string/>
                </property>
                <property name="pixmap">
-                <pixmap>../../../../../../../../.designer/backup/cnn.png</pixmap>
+                <pixmap>../../../../../../../../../../.designer/backup/cnn.png</pixmap>
                </property>
                <property name="scaledContents">
                 <bool>true</bool>
@@ -3049,7 +3061,7 @@
               <enum>QFrame::Raised</enum>
              </property>
              <layout class="QGridLayout" name="gridLayout_25">
-              <item row="0" column="1">
+              <item row="0" column="0">
                <widget class="QLabel" name="label_40">
                 <property name="font">
                  <font>
@@ -3068,7 +3080,69 @@
                 </property>
                </widget>
               </item>
-              <item row="1" column="1">
+              <item row="0" column="1" rowspan="2">
+               <widget class="QFrame" name="frame_21">
+                <property name="minimumSize">
+                 <size>
+                  <width>1</width>
+                  <height>1</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>1111</width>
+                  <height>1111</height>
+                 </size>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_21">
+                 <item row="2" column="0">
+                  <widget class="QPushButton" name="pushButton_5">
+                   <property name="text">
+                    <string>Database</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="Userimage_2">
+                   <property name="maximumSize">
+                    <size>
+                     <width>101</width>
+                     <height>109</height>
+                    </size>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::Box</enum>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="pixmap">
+                    <pixmap>user2.png</pixmap>
+                   </property>
+                   <property name="scaledContents">
+                    <bool>true</bool>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                   <property name="wordWrap">
+                    <bool>true</bool>
+                   </property>
+                   <property name="indent">
+                    <number>-1</number>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="1" column="0">
                <widget class="QFrame" name="frame_20">
                 <property name="frameShape">
                  <enum>QFrame::StyledPanel</enum>
@@ -3199,81 +3273,6 @@
                  </item>
                 </layout>
                </widget>
-              </item>
-              <item row="0" column="2" rowspan="3">
-               <widget class="QFrame" name="frame_21">
-                <property name="minimumSize">
-                 <size>
-                  <width>1</width>
-                  <height>1</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>1111</width>
-                  <height>1111</height>
-                 </size>
-                </property>
-                <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
-                </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Raised</enum>
-                </property>
-                <layout class="QGridLayout" name="gridLayout_21">
-                 <item row="2" column="0">
-                  <widget class="QPushButton" name="pushButton_5">
-                   <property name="text">
-                    <string>Database</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="0">
-                  <widget class="QLabel" name="Userimage_2">
-                   <property name="maximumSize">
-                    <size>
-                     <width>151</width>
-                     <height>151</height>
-                    </size>
-                   </property>
-                   <property name="frameShape">
-                    <enum>QFrame::Box</enum>
-                   </property>
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="pixmap">
-                    <pixmap>../../../../.designer/backup/user2.png</pixmap>
-                   </property>
-                   <property name="scaledContents">
-                    <bool>true</bool>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignCenter</set>
-                   </property>
-                   <property name="wordWrap">
-                    <bool>true</bool>
-                   </property>
-                   <property name="indent">
-                    <number>-1</number>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-              <item row="6" column="0">
-               <spacer name="verticalSpacer_15">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>40</height>
-                 </size>
-                </property>
-               </spacer>
               </item>
              </layout>
             </widget>
@@ -3704,8 +3703,8 @@
              <property name="frameShadow">
               <enum>QFrame::Raised</enum>
              </property>
-             <layout class="QHBoxLayout" name="horizontalLayout">
-              <item>
+             <layout class="QGridLayout" name="gridLayout_56">
+              <item row="0" column="0">
                <widget class="QLabel" name="label_38">
                 <property name="font">
                  <font>
@@ -3721,7 +3720,7 @@
                 </property>
                </widget>
               </item>
-              <item>
+              <item row="0" column="1">
                <widget class="QFrame" name="frame_28">
                 <property name="frameShape">
                  <enum>QFrame::StyledPanel</enum>
@@ -3773,18 +3772,18 @@
                 </layout>
                </widget>
               </item>
-              <item>
+              <item row="0" column="2">
                <widget class="QLabel" name="Userimage">
                 <property name="minimumSize">
                  <size>
-                  <width>81</width>
-                  <height>81</height>
+                  <width>0</width>
+                  <height>0</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>151</width>
-                  <height>151</height>
+                  <width>91</width>
+                  <height>91</height>
                  </size>
                 </property>
                 <property name="frameShape">
@@ -3794,7 +3793,7 @@
                  <string/>
                 </property>
                 <property name="pixmap">
-                 <pixmap>../../../../../../../../.designer/backup/user2.png</pixmap>
+                 <pixmap>user2.png</pixmap>
                 </property>
                 <property name="scaledContents">
                  <bool>true</bool>
@@ -3887,7 +3886,7 @@
                  <enum>QFrame::StyledPanel</enum>
                 </property>
                 <property name="text">
-                 <string>3</string>
+                 <string>0</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -3930,7 +3929,7 @@
                  <enum>QFrame::StyledPanel</enum>
                 </property>
                 <property name="text">
-                 <string>5</string>
+                 <string>0</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -3950,23 +3949,140 @@
              </property>
              <layout class="QGridLayout" name="gridLayout_53">
               <item row="0" column="0">
-               <widget class="QPushButton" name="pushButton_23">
+               <widget class="QPushButton" name="pushButton_run_activity">
                 <property name="palette">
                  <palette>
                   <active>
+                   <colorrole role="WindowText">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
                    <colorrole role="Button">
                     <brush brushstyle="SolidPattern">
                      <color alpha="255">
-                      <red>242</red>
-                      <green>0</green>
-                      <blue>0</blue>
+                      <red>167</red>
+                      <green>167</green>
+                      <blue>167</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="Light">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>251</red>
+                      <green>251</green>
+                      <blue>251</blue>
                      </color>
                     </brush>
                    </colorrole>
                    <colorrole role="Midlight">
                     <brush brushstyle="SolidPattern">
                      <color alpha="255">
+                      <red>209</red>
+                      <green>209</green>
+                      <blue>209</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="Dark">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>83</red>
+                      <green>83</green>
+                      <blue>83</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="Mid">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>111</red>
+                      <green>111</green>
+                      <blue>111</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="Text">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="BrightText">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
                       <red>255</red>
+                      <green>255</green>
+                      <blue>255</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="ButtonText">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="Base">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>255</red>
+                      <green>255</green>
+                      <blue>255</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="Window">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>167</red>
+                      <green>167</green>
+                      <blue>167</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="Shadow">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="AlternateBase">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>211</red>
+                      <green>211</green>
+                      <blue>211</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="ToolTipBase">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>255</red>
+                      <green>255</green>
+                      <blue>220</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="ToolTipText">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
                      </color>
@@ -3974,19 +4090,136 @@
                    </colorrole>
                   </active>
                   <inactive>
+                   <colorrole role="WindowText">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
                    <colorrole role="Button">
                     <brush brushstyle="SolidPattern">
                      <color alpha="255">
-                      <red>242</red>
-                      <green>0</green>
-                      <blue>0</blue>
+                      <red>167</red>
+                      <green>167</green>
+                      <blue>167</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="Light">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>251</red>
+                      <green>251</green>
+                      <blue>251</blue>
                      </color>
                     </brush>
                    </colorrole>
                    <colorrole role="Midlight">
                     <brush brushstyle="SolidPattern">
                      <color alpha="255">
+                      <red>209</red>
+                      <green>209</green>
+                      <blue>209</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="Dark">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>83</red>
+                      <green>83</green>
+                      <blue>83</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="Mid">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>111</red>
+                      <green>111</green>
+                      <blue>111</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="Text">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="BrightText">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
                       <red>255</red>
+                      <green>255</green>
+                      <blue>255</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="ButtonText">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="Base">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>255</red>
+                      <green>255</green>
+                      <blue>255</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="Window">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>167</red>
+                      <green>167</green>
+                      <blue>167</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="Shadow">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="AlternateBase">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>211</red>
+                      <green>211</green>
+                      <blue>211</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="ToolTipBase">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>255</red>
+                      <green>255</green>
+                      <blue>220</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="ToolTipText">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
                      </color>
@@ -3994,19 +4227,136 @@
                    </colorrole>
                   </inactive>
                   <disabled>
+                   <colorrole role="WindowText">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>83</red>
+                      <green>83</green>
+                      <blue>83</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
                    <colorrole role="Button">
                     <brush brushstyle="SolidPattern">
                      <color alpha="255">
-                      <red>242</red>
-                      <green>0</green>
-                      <blue>0</blue>
+                      <red>167</red>
+                      <green>167</green>
+                      <blue>167</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="Light">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>251</red>
+                      <green>251</green>
+                      <blue>251</blue>
                      </color>
                     </brush>
                    </colorrole>
                    <colorrole role="Midlight">
                     <brush brushstyle="SolidPattern">
                      <color alpha="255">
+                      <red>209</red>
+                      <green>209</green>
+                      <blue>209</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="Dark">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>83</red>
+                      <green>83</green>
+                      <blue>83</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="Mid">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>111</red>
+                      <green>111</green>
+                      <blue>111</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="Text">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>83</red>
+                      <green>83</green>
+                      <blue>83</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="BrightText">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
                       <red>255</red>
+                      <green>255</green>
+                      <blue>255</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="ButtonText">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>83</red>
+                      <green>83</green>
+                      <blue>83</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="Base">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>167</red>
+                      <green>167</green>
+                      <blue>167</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="Window">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>167</red>
+                      <green>167</green>
+                      <blue>167</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="Shadow">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="AlternateBase">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>167</red>
+                      <green>167</green>
+                      <blue>167</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="ToolTipBase">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>255</red>
+                      <green>255</green>
+                      <blue>220</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="ToolTipText">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>0</red>
                       <green>0</green>
                       <blue>0</blue>
                      </color>
@@ -4015,11 +4365,16 @@
                   </disabled>
                  </palette>
                 </property>
+                <property name="font">
+                 <font>
+                  <kerning>false</kerning>
+                 </font>
+                </property>
                 <property name="autoFillBackground">
                  <bool>true</bool>
                 </property>
                 <property name="text">
-                 <string>Stop!</string>
+                 <string>RUN</string>
                 </property>
                 <property name="default">
                  <bool>false</bool>
@@ -4440,7 +4795,7 @@
                  <enum>QFrame::StyledPanel</enum>
                 </property>
                 <property name="text">
-                 <string>3</string>
+                 <string>0</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -4474,26 +4829,13 @@
                 </property>
                </widget>
               </item>
-              <item row="5" column="1">
-               <widget class="QLabel" name="label_127">
-                <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
-                </property>
-                <property name="text">
-                 <string>01:33</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
               <item row="2" column="1">
                <widget class="QLabel" name="label_128">
                 <property name="frameShape">
                  <enum>QFrame::StyledPanel</enum>
                 </property>
                 <property name="text">
-                 <string>5</string>
+                 <string>0</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -4521,7 +4863,7 @@
                  <enum>QFrame::StyledPanel</enum>
                 </property>
                 <property name="text">
-                 <string>3</string>
+                 <string>0</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -4534,7 +4876,7 @@
                  <enum>QFrame::StyledPanel</enum>
                 </property>
                 <property name="text">
-                 <string>3</string>
+                 <string>0</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -4682,6 +5024,19 @@
                 </layout>
                </widget>
               </item>
+              <item row="5" column="1">
+               <widget class="QLabel" name="clock_display">
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="text">
+                 <string>0</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
              </layout>
             </widget>
            </item>
@@ -4697,99 +5052,6 @@
            <enum>QFrame::Raised</enum>
           </property>
           <layout class="QGridLayout" name="gridLayout_52">
-           <item row="0" column="0">
-            <widget class="QFrame" name="frame_48">
-             <property name="maximumSize">
-              <size>
-               <width>1111</width>
-               <height>1111</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Ubuntu</family>
-              </font>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::StyledPanel</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Raised</enum>
-             </property>
-             <layout class="QGridLayout" name="gridLayout_40">
-              <item row="0" column="0">
-               <widget class="QLabel" name="label_83">
-                <property name="font">
-                 <font>
-                  <family>Ubuntu</family>
-                  <pointsize>22</pointsize>
-                 </font>
-                </property>
-                <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
-                </property>
-                <property name="text">
-                 <string>Robot View</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <spacer name="verticalSpacer_11">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>40</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item row="3" column="0">
-               <spacer name="verticalSpacer_12">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>40</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="label_78">
-                <property name="minimumSize">
-                 <size>
-                  <width>320</width>
-                  <height>240</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>320</width>
-                  <height>240</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="pixmap">
-                 <pixmap resource="imgs.qrc">:/imgs/cub.jpg</pixmap>
-                </property>
-                <property name="scaledContents">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
            <item row="0" column="1">
             <widget class="QFrame" name="frame_49">
              <property name="maximumSize">
@@ -4891,13 +5153,145 @@
             </widget>
            </item>
            <item row="2" column="0" colspan="2">
-            <widget class="QLabel" name="label_106">
+            <widget class="QLabel" name="robot_speech">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
              </property>
              <property name="text">
-              <string>Please put in my hand an object with 12 edges</string>
+              <string>&lt;&lt; Robot Speech goes here &gt;&gt;</string>
              </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QFrame" name="frame_48">
+             <property name="maximumSize">
+              <size>
+               <width>1111</width>
+               <height>1111</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Ubuntu</family>
+              </font>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_40">
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_83">
+                <property name="font">
+                 <font>
+                  <family>Ubuntu</family>
+                  <pointsize>22</pointsize>
+                 </font>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="text">
+                 <string>Robot View</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <spacer name="verticalSpacer_11">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="img_from_cam">
+                <property name="minimumSize">
+                 <size>
+                  <width>320</width>
+                  <height>240</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>320</width>
+                  <height>240</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap resource="imgs.qrc">:/imgs/cub.jpg</pixmap>
+                </property>
+                <property name="scaledContents">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QWidget" name="widget" native="true">
+                <layout class="QHBoxLayout" name="horizontalLayout_18">
+                 <item>
+                  <widget class="QPushButton" name="pushButton_start_robot_view">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="text">
+                    <string>Start</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="pushButton_stop_robot_view">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="text">
+                    <string>Stop</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="6" column="0">
+               <spacer name="verticalSpacer_12">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item row="3" column="0">
+               <spacer name="verticalSpacer_8">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
             </widget>
            </item>
           </layout>
@@ -4907,6 +5301,45 @@
       </widget>
      </widget>
     </item>
+    <item row="2" column="0">
+     <widget class="QFrame" name="frame_70">
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_17">
+       <item>
+        <widget class="QLabel" name="label_78">
+         <property name="maximumSize">
+          <size>
+           <width>50</width>
+           <height>111</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>LOG:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="log_text">
+         <property name="text">
+          <string>LOG TEXT</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -4914,7 +5347,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1346</width>
+     <width>1369</width>
      <height>26</height>
     </rect>
    </property>
