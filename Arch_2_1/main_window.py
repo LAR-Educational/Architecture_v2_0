@@ -1,7 +1,16 @@
-from PyQt4 import QtGui, QtCore # Import the PyQt4 module we'll need
+#from PyQt4 import QtGui, QtCore # Import the PyQt4 module we'll need
+
+from PyQt4.QtCore import *
+from PyQt4.QtGui import *
+
+
+#import PyQt4
 import sys # We need sys so that we can pass argv to QApplication
 import csv
 import os
+import cv2
+import numpy as np
+import pandas as pd
 
 #from PyQt4.QtGui import *
  
@@ -18,12 +27,33 @@ from Modules.Vision import data_process #as dp
 from Modules import content as ct
 
 
+class SessionInfo:
+	def __init__(self,itime,ftime,):
+		self.itime=itime
+		self.ftime=ftime
+
+
+class PandasModel(QAbstractTableModel):
+    def __init__(self, data, parent=None):
+        QAbstractTableModel.__init__(self, parent)
+        self._data = data
+
+    def rowCount(self, parent=None):
+        return len(self._data.values)
+
+    def columnCount(self, parent=None):
+        return self._data.columns.size
+
+    def data(self, index, role=Qt.DisplayRole):
+        if index.isValid():
+            if role == Qt.DisplayRole:
+                return QVariant(str(
+                    self._data.values[index.row()][index.column()]))
+        return QVariant()
 
 
 
-
-
-class ExampleApp(QtGui.QMainWindow, activities_Manager.Ui_MainWindow):
+class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 	def __init__(self):
 		# Explaining super is out of the scope of this article
 		# So please google it if you're not familar with it
@@ -42,22 +72,36 @@ class ExampleApp(QtGui.QMainWindow, activities_Manager.Ui_MainWindow):
 		self.writeReportButton.clicked.connect(self.writeReportCsv)
 		
 		
-		self.insertQuestion_Button_2.clicked.connect(self.content_InsertQuestion)
+
+		#--- Content panel
+		self.content_path=None
+		self.contenct_newSubj_button.clicked.connect(self.content_NewSubject)
+		self.content_insert_question_button.clicked.connect(self.content_InsertQuestion)
+		self.content_delete_question_button.clicked.connect(self.content_DeleteQuestion)
+		self.content_saveSub_button.clicked.connect(self.content_save)
+		self.content_subject_comboBox.currentIndexChanged.connect(self.content_update_tab)
+		self.contenct_clear_questions_button.clicked.connect(self.content_clear_table)
 		
+
+		#--- Plan and Run
+		self.pushButton_run_activity.clicked.connect(self.start_display_image)
+		self.pushButton_start_robot_view.clicked.connect(self.resume_display_image)
+		self.pushButton_stop_robot_view.clicked.connect(self.stop_display_image)
 		
+		self.image=None
 		
-		self.act = False
+		self.act = None #"/home/tozadore/Projects/Arch_2/Arch_2_1/Activities/NOVA/Content" #None
 		self.qRow = 0
 		self.qCol = 0
 
 
-		self.model = QtGui.QStandardItemModel(self)
+		self.model = QStandardItemModel(self)
 		self.tableView.setModel(self.model)
 		self.tableView.horizontalHeader().setStretchLastSection(True)
 
 		self.tableView.setModel(self.model)
 		self.tableView.horizontalHeader().setStretchLastSection(True)
-		self.layoutVertical = QtGui.QVBoxLayout(self)
+		self.layoutVertical = QVBoxLayout(self)
 		self.layoutVertical.addWidget(self.tableView)
 		self.layoutVertical.addWidget(self.reportLoadButton)
 		self.layoutVertical.addWidget(self.writeReportButton)
@@ -73,7 +117,7 @@ class ExampleApp(QtGui.QMainWindow, activities_Manager.Ui_MainWindow):
 
 	def load_file(self):
 		
-		filename = QtGui.QFileDialog.getOpenFileName(self, 'Open File', './Activities/NOVA')
+		filename = QFileDialog.getOpenFileName(self, 'Open File', './Activities/NOVA')
 		
 		self.act=ct.load_Activity(filename)
 		
@@ -83,10 +127,15 @@ class ExampleApp(QtGui.QMainWindow, activities_Manager.Ui_MainWindow):
 		#self._lineEdit.setText(self.act.desc)
 		self.editButton.setEnabled(True)
 		self.modules_tabWidget.setEnabled(True)
-		self.sub_list = load_subjects(os.path.join(self.act.path,"Content","subjects"))
+		self.content_path = self.act.path +  "/Content" +"/"
 		
-		print self.sub_list
-		self.comboBox_6.addItems(self.sub_list[1])
+		#self.sub_list = load_subjects(os.path.join(self.act.path,"Content","subjects"))
+		#self.sub_list = pd.read_csv(os.path.join(self.act.path,"Content","subjects.cvs"))
+		#print self.sub_list
+		#self.content_subject_comboBox.addItems(self.sub_list[1])
+
+		self.content_load_subjects()
+
 
 	def close(self):
 		exit()
@@ -99,7 +148,7 @@ class ExampleApp(QtGui.QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		self.sysQuestionsTable.insertRow(self.qRow)
 		self.sysQuestionsTable.setCurrentCell(self.qRow,0)
-		#self.questions_tableWidget.setItem(0,0, QtGui.QTableWidgetItem("TESTE"))
+		#self.questions_tableWidget.setItem(0,0, QTableWidgetItem("TESTE"))
 		self.qRow+=1
 	
 	
@@ -121,8 +170,8 @@ class ExampleApp(QtGui.QMainWindow, activities_Manager.Ui_MainWindow):
 				#print item
 				
 				self.sysQuestionsTable.insertRow(self.qRow)
-				self.sysQuestionsTable.setItem(self.qRow, 0, QtGui.QTableWidgetItem(item[0]))
-				self.sysQuestionsTable.setItem(self.qRow, 1, QtGui.QTableWidgetItem(item[1]))
+				self.sysQuestionsTable.setItem(self.qRow, 0, QTableWidgetItem(item[0]))
+				self.sysQuestionsTable.setItem(self.qRow, 1, QTableWidgetItem(item[1]))
 				self.qRow+=1
 				
 				#for field in row:
@@ -164,7 +213,7 @@ class ExampleApp(QtGui.QMainWindow, activities_Manager.Ui_MainWindow):
 		with open('report.csv', "rb") as fileInput:
 			for row in csv.reader(fileInput):    
 				items = [
-				    QtGui.QStandardItem(field)
+				    QStandardItem(field)
 				    for field in row
 				]
 				self.model.appendRow(items)
@@ -180,23 +229,206 @@ class ExampleApp(QtGui.QMainWindow, activities_Manager.Ui_MainWindow):
 				fields = [
 				    self.model.data(
 				        self.model.index(rowNumber, columnNumber),
-				        QtCore.Qt.DisplayRole
+				        Qt.DisplayRole
 				    )
 				    for columnNumber in range(self.model.columnCount())
 				]
 				writer.writerow(fields)
 	
 	
+
+
+
+
+#------------------------ CONTENT -------------------------------------
+
+	def content_NewSubject(self):
+
+		cont_name,  ok = QInputDialog.getText(self, 'Text Input Dialog', 'Enter your name:')
+      		if ok:
+        		self.content_subject_comboBox.addItem(cont_name)
+		self.content_saveSub_button.setEnabled(True)
+		self.content_subject_comboBox.setCurrentIndex(self.content_subject_comboBox.count()-1)
+
+
+
+	def content_save(self):
+		file_name = self.act.path +  "/Content" +"/"+self.content_subject_comboBox.currentText()+".csv"
+
+		#print file_name
+
+		table_to_file(self.content_questions_table, file_name)
+
+
+
+		return 1 
+
+
+		if (os.path.isfile(file_name)):
+			ret = QMessageBox.warning(self, "Warning!", "File already exist\nChose ther name", QMessageBox.Ok )
+
+		else:
+			ret = QMessageBox.warning(self, "Warning!", "File DO NOT exist\nWant to create it?", QMessageBox.Cancel | QMessageBox.Ok )
+			
+			if ret == QMessageBox.Cancel:
+				print "CANCEL"
+
+
+			if ret == QMessageBox.Ok:
+				#print "Ok"
+				cf = open(file_name,"w")
+				cf.write(self.content_concept.toPlainText())
+				cf.close()
+			
+
+	def content_load_subjects(self):
+
+
+		self.sub_list = pd.read_csv(os.path.join(self.act.path,"Content","subjects.csv"))
+		
+
+
+		#print self.sub_list['concepts']
+		#print self.sub_list['concepts'].tolist()
+
+
+		self.content_subject_comboBox.addItems(self.sub_list['subjects'].tolist())
+		#print "INDEX = ", self.sub_list['subjects'][self.sub_list['subjects']=='subject 3'].index[0]
+		self.content_update_tab()
+		# Show
+
+	def content_update_tab(self):
+		#text= self.sub_list['concepts'][self.sub_list['subjects'][self.sub_list['subjects']==str(self.content_subject_comboBox.currentText())].index[0]]
+		text= self.sub_list['concepts'][self.content_subject_comboBox.currentIndex()]
+		
+		self.content_concept.setText(text)
+		file_name = str(self.content_path + self.content_subject_comboBox.currentText()+".csv")
+		
+		if os.path.isfile(file_name):
+			data=pd.read_csv(file_name)
+			#print "trying data", data
+			#data=PandasModel(pd.read_csv(file_name))
+			#print data
+			print len(data.index)
+			#for item 
+
+			self.content_questions_table.setModel
+		else:
+			self.log_text.setText("WARNING TABLE <<"+file_name +">>  FILE DO NOT EXIST")
+
+
+
+
+
 	def content_InsertQuestion(self):
 		
-		self.questions_tableWidget_2.insertRow(self.questions_tableWidget_2.rowCount())
+		self.content_questions_table.insertRow(self.content_questions_table.rowCount())
 		#self.questions_tableWidget_2.setCurrentCell(self.qRow,0)
-		#self.questions_tableWidget.setItem(0,0, QtGui.QTableWidgetItem("TESTE"))
+		#print self.content_dif_comboBox.currentText()
+		
+		self.content_questions_table.setItem(self.content_questions_table.rowCount()-1,0, QTableWidgetItem(self.content_dif_comboBox.currentText()))
+		
 		#self.qRow+=1
-	
-	
+
 
 	
+	def content_DeleteQuestion(self):
+		
+		index = self.content_questions_table.currentRow()
+		#print index
+		self.content_questions_table.removeRow(index)
+		
+
+
+	def content_clear_table(self):
+
+		#data = table_to_dataframe(self.content_questions_table)
+		data = pd.read_csv("/home/tozadore/Projects/Arch_2/Arch_2_1/Activities/NOVA/Content/subject2.csv")
+		
+		
+		print "RETRIEVED: "
+		print  data
+
+		df_to_table(data,self.content_questions_table)
+
+
+
+#-------------------------------------------------- RUN ----------------------------------------
+
+	def start_display_image(self):
+		self.capture = cv2.VideoCapture(0)
+		self.pushButton_start_robot_view.setEnabled(True)
+		self.pushButton_stop_robot_view.setEnabled(True)
+
+		self.timer = QTimer(self)
+		self.timer.timeout.connect(self.update_frame)
+		self.timer.start(5)
+
+		self.clock_timer = QTimer()
+		self.counter_timer = QTime()
+		self.clock_timer.timeout.connect(self.showTime)
+		self.clock_timer.start(1000)
+		time = QTime.currentTime()
+		#time = time.toString('hh:mm:ss') 
+		self.cur_sess=SessionInfo(time,None)
+		self.counter_timer.start()
+
+
+### ------------ CLOCK
+
+	def showTime(self):
+		time = QTime.currentTime()
+		duration = self.counter_timer.elapsed()
+		sec = (duration/1000) % 60
+		min = int(duration/60000)
+		text = str(min).zfill(2)+':'+str(sec).zfill(2)
+		if (sec %2 ) == 0:
+			text = text[:2] + ' ' + text[3:]
+		self.clock_display.setText(text)
+		
+		
+		
+	def resume_display_image(self):
+		self.pushButton_start_robot_view.setEnabled(False)
+		self.pushButton_stop_robot_view.setEnabled(True)
+
+		self.timer.start(5)
+
+	def update_frame(self):
+		ret, self.image=self.capture.read()
+		self.image = cv2.flip(self.image,1)
+		#cv2.imshow("testwindow",self.image )
+		#cv2.waitKey()
+
+		self.displayImage(self.image)
+
+	def displayImage(self, img):
+		qformat = QImage.Format_Indexed8
+		if len(img.shape)==3:
+				if img.shape[2]==4:
+					qformat = QImage.Format_RGBA8888
+				else :
+					qformat = QImage.Format_RGB888
+		
+		outImage= QImage(img, img.shape[1], img.shape[0], img.strides[0], qformat)
+		outImage = outImage.rgbSwapped()
+
+		self.img_from_cam.setPixmap(QPixmap.fromImage(outImage))
+		#self.img_from_cam.setScaledContentes(True)
+
+
+	def stop_display_image(self):
+		self.pushButton_start_robot_view.setEnabled(True)
+		self.pushButton_stop_robot_view.setEnabled(False)
+		self.timer.stop()
+
+
+
+
+
+### -------------------------- GLOBALS -----------------------
+
+
 def clearTable(table):	
 	
 	while (table.rowCount() > 0):
@@ -230,11 +462,64 @@ def load_csv_as_matrix(filename):
 	return subject_matrix 
 
 
+def table_to_file(table_name, file_name):
+	
+		
+		with open(file_name, "wb") as fileOutput:
+			
+			writer = csv.writer(fileOutput)
+			for row in range(table_name.rowCount()):
+				row_data = []
+				for column in range(table_name.columnCount()):
+					item = table_name.item(row, column)
+					if item is not None:
+						row_data.append(item.text())
+					else:
+						row_data.append('')
+				writer.writerow(row_data)
+
+
+
+def table_to_dataframe(table):
+	row_numb = table.rowCount() 
+	col_numb = table.columnCount()
+
+	#get header labels
+	labels = []
+	for i in range(0,col_numb):
+		labels.append(str(table.horizontalHeaderItem(i).text()))
+	
+	data = 	pd.DataFrame(columns=labels, index=range(row_numb))
+	
+	for i in range(row_numb):
+		for j in range(col_numb):
+			data.ix[i,j] = table.item(i,j).data()
+	
+	return data	
+
+
+def df_to_table(df,table):
+	
+	table.setColumnCount(len(df.columns))
+	table.setRowCount(len(df.index))
+	print df.columns
+
+	table.setHorizontalHeaderLabels(df.columns)
+	for i in range(len(df.index)):
+		for j in range(len(df.columns)):
+			item = str(df.iat[i, j])
+			if item == 'nan':
+				item = ''
+			
+			table.setItem(i, j, QTableWidgetItem(item))
+
+	table.resizeColumnsToContents()
+	table.resizeRowsToContents()
 
 
 
 def main():
-    app = QtGui.QApplication(sys.argv)  # A new instance of QApplication
+    app = QApplication(sys.argv)  # A new instance of QApplication
     form = ExampleApp()                 # We set the form to be our ExampleApp (design)
     form.show()                         # Show the form
     app.exec_()                         # and execute the app

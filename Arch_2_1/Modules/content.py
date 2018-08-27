@@ -3,7 +3,7 @@ import os
 from pprint import pprint
 import numpy as np
 import pickle
-
+import pandas as ps
 
 
 
@@ -35,6 +35,26 @@ class Activity():
 
 	def print_Attributes(self,):
 		pprint(vars(self))
+
+
+
+
+
+class Subject:
+	def __init__(self,sub_name, sub_concept, questions=None):
+		self.sub_name = sub_name
+		self.sub_concept = sub_concept
+		self.questions = questions
+
+	#def get_question(self, question_dificulty):
+
+	def load_subject(self):
+		pass
+
+
+
+
+
 
 
 
