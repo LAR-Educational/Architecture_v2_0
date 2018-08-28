@@ -1,0 +1,30 @@
+'Esporte favorito: '
+'O surfe (aportuguesamento do termo ingl\xc3\xaas surf, tamb\xc3\xa9m recorrente sob a forma surfing), \xc3\xa9 uma pr\xc3\xa1tica desportiva efetuada na superf\xc3\xadcie da \xc3\xa1gua, frequentemente considerada parte do grupo de atividades denominadas esportes de aventura, cuja profici\xc3\xaancia \xc3\xa9 verificada pelo grau de dificuldade dos movimentos executados pelo surfista ao deslizar em p\xc3\xa9 na prancha de surfe, aproveitando a onda que quebra quando se aproxima da praia ou costa.A palavra Surf ainda pode ser encontrada como som da arrebenta\xc3\xa7\xc3\xa3o das ondas. == Freesurf == O chamado \xe2\x80\x9cfreesurf\xe2\x80\x9d \xc3\xa9 uma vertente do surfe onde o seu praticante (conhecido como "freesurfer") surfa \xc3\xbanica e exclusivamente para se divertir, sem se preocupar com a performance e sem participar de competi\xc3\xa7\xc3\xb5es.'
+{'angry': 0,
+ 'disgust': 0,
+ 'fear': 0,
+ 'happy': 0,
+ 'neutral': 0,
+ 'sad': 0,
+ 'surprise': 0}
+''
+'Comida favorito: '
+'Pizza (tamb\xc3\xa9m grafada piza em Portugal ) \xc3\xa9 uma prepara\xc3\xa7\xc3\xa3o culin\xc3\xa1ria que consiste em um disco de massa fermentada de farinha de trigo, coberto com molho de tomate e os ingredientes variados que normalmente incluem algum tipo de queijo, carnes preparadas ou defumadas e ervas, normalmente or\xc3\xa9gano ou manjeric\xc3\xa3o, tudo assado em forno. == Hist\xc3\xb3ria == A hist\xc3\xb3ria da piza come\xc3\xa7ou com os eg\xc3\xadpcios.'
+{'angry': 0,
+ 'disgust': 0,
+ 'fear': 0,
+ 'happy': 54,
+ 'neutral': 0,
+ 'sad': 1,
+ 'surprise': 0}
+''
+'Musica favorita: '
+'Os Ramones foram uma banda norte-americana de punk rock formada em Forest Hills, no distrito de Queens, Nova York, no ano de 1974. Considerada como precursora do estilo e uma das bandas mais influentes e importantes da hist\xc3\xb3ria do rock.No in\xc3\xadcio dos anos 1970 surgiam diversas vertentes do rock nos Estados Unidos e no Reino Unido; o punk rock foi uma delas, sendo os Ramones seus pioneiros e l\xc3\xadderes, que consolidaram a base deste estilo musical, com composi\xc3\xa7\xc3\xb5es simples, minimalistas e repetitivas.'
+{'angry': 0,
+ 'disgust': 0,
+ 'fear': 1,
+ 'happy': 50,
+ 'neutral': 0,
+ 'sad': 0,
+ 'surprise': 0}
+''
