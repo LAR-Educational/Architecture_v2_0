@@ -1,8 +1,1 @@
-,Unnamed: 0,Dif,Question,Expected
-0,0,1 - Very Easy,fd,
-1,1,1 - Very Easy,kfj,3.0
-2,2,3 - Medium,fghj,2.0
-3,3,5 - Very Hard,tyu,
-4,4,3 - Medium,ty,3.0
-5,5,1 - Very Easy,,
-6,6,5 - Very Hard,,
+Difficulty,Question,Expected Answer
