@@ -89,7 +89,7 @@ def make(path = "../BKS/Log/AdaptiveLogs"):
 
     #print f
 
-    x = range(1, len(f)+1)
+    x = range(1, 4)# len(f)+1)
 
     #print x
 
@@ -102,15 +102,16 @@ def make(path = "../BKS/Log/AdaptiveLogs"):
     #plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
     plt.legend(bbox_to_anchor=(1,1), loc =1)
 
-    plt.xlim(0,4)
+    plt.xlim(0.5,3.5)
 
 
 
 
 
+    plt.xticks(x)
     plt.xlabel('Adaptive Window (t)')
     plt.ylabel('Value')
-    plt.title('Adaptive Vectors')
+    plt.title('Adaptive Vectors', fontsize=20)
     plt.grid(True)
     plt.savefig("test.png")
     plt.show()
@@ -142,14 +143,106 @@ def users():
 
 
 
+def make_from_path():
+	
+	path = "measures.csv" 
+	
+
+	data = genfromtxt(path, delimiter=',', skip_header=1)
+	#print data
+
+	#data = np.transpose(data)
+	print data[:3]
+	
+	#for i in range(0,len(data[0])):
+	
 
 
 
+	x = range(1,4)
+	#plt.subplot(121)
+
+   	plt.title("Indicators evolution", fontsize=20)
+    	plt.ylabel("Value", fontsize=14)
+    	plt.xlabel("Instant t", fontsize=14)
+	
+	#plt.plot(x, data[:,0]/30, label = "Deviations * 10e-10")
+	plt.plot(x, data[:,1]/125, label = "Bad emotions count")
+	plt.plot(x, data[:,2]/11, label = "Spoken words")
+	plt.plot(x, 1-data[:,3], label = "Success rate")
+	plt.plot(x, data[:,4]/40, label = "Time to answer")
+	
+    	
+	
+	plt.xlim(0.5,3.5)
+	
+	
+	plt.legend(bbox_to_anchor=(1, 1), loc=1)#, borderaxespad=0.)
+	plt.grid(True)
+	plt.xticks(x)
+	plt.savefig("indicators2.png")
+	plt.show()
 
 
 
-    
+def emo_prefs():
+	
+	sport = [0,	1.777777778,	0.6666666667,	31.22222222,	13,	0.4444444444,	0.6666666667]
+	food = [0,	1.555555556,	0.1111111111,	14.22222222,	4.777777778,	0.3333333333,	0.1111111111]
+	music = [0,	2.555555556,	0,	9.444444444,	5,	0.1111111111,	0]
+
+	ssd = [0,	2.773886163,	1.658312395,	4.002430,	2.00694311,	0.7264831573,	1.414213562]
+	fsd = [0,	3.574601765,	0.3333333333,	12.7747581,	7.758507875,	0.7071067812,	0.3333333333]
+	msd = [0,	5.570258322,	0,				12.1151879,	8.845903006,	0.3333333333,	0]
+
+
+	fig, ax = plt.subplots()
+	
+	index = np.arange(len(sport)) #0,8)
+	
+	
+	
+	bar_width = 0.25
+
+	opacity = 0.4
+	error_config = {'ecolor': '0.3'}
+
+	print len(sport)
+
+
+	rects1 = ax.bar(index, sport, bar_width,
+		            alpha=opacity, color='b',
+		            yerr=ssd, error_kw=error_config,
+		            label='Sport')
+
+	rects2 = ax.bar(index + bar_width, food, bar_width,
+		            alpha=opacity, color='r',
+		            yerr=fsd, error_kw=error_config,
+		            label='Food')
+	#'''
+	rects3 = ax.bar(index + 2*bar_width, music, bar_width,
+		            alpha=opacity, color='g',
+		            yerr=msd, error_kw=error_config,
+		            label='Music')
+	#'''
+	
+	ax.set_xlabel('Emotions labels')
+	ax.set_ylabel('Emotion count')
+	ax.set_title('Emotions detected by preferences')
+	ax.set_xticks(index + bar_width / 2)
+	ax.set_xticklabels(('Angry', 'Disgusting', 'Fear', 'Happy', 'Neutral', 'Sad', 'Surprise'))
+	ax.legend()
+	plt.plot()
+	fig.tight_layout()
+	plt.savefig("emos_pref.png")
+	
+	plt.show()
+
+
+
 
 if __name__=="__main__":
-        make()
+        #emo_prefs()
+        #make_from_path()
         #users()
+	make()
