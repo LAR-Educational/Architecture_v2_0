@@ -273,7 +273,7 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.sub_list.loc[self.content_subject_comboBox.currentIndex()] = [sub_name,sub_conc]
 		
 		data = table_to_dataframe(self.content_questions_table)
-		data.to_csv(file_name)
+		data.to_csv(file_name, index=False)
 
 		#self.log_text.setText("Subject saved at " + QDateTime.currentDateTime())
 
@@ -333,7 +333,8 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 			print data
 
-			data.to_csv(self.content_path + self.content_subject_comboBox.currentText()+".csv")
+			data.to_csv(self.content_path + self.content_subject_comboBox.currentText()+".csv", index=False)
+			data.to_csv(file_name, index=False)
 
 
 
