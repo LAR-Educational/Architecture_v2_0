@@ -143,6 +143,7 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 	
 	
+	#------------------ DIALOG -----------------------------
 	
 	def insertQuestion(self):
 		
@@ -244,10 +245,21 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 	def content_NewSubject(self):
 
-		cont_name,  ok = QInputDialog.getText(self, 'Text Input Dialog', 'Enter your name:')
-      		if ok:
-        		self.content_subject_comboBox.addItem(cont_name)
-		self.content_saveSub_button.setEnabled(True)
+		
+		while True:
+			cont_name,  ok = QInputDialog.getText(self, 'Text Input Dialog', 'Enter new subject name:')
+			if ok:
+				# Check if the name already exists
+				if (cont_name in self.sub_list['subjects'].tolist()):
+					QMessageBox.critical(self, "Error!", "Subject already exists!\nChoose another name!", QMessageBox.Ok )
+				else:		
+					self.content_subject_comboBox.addItem(cont_name)
+					break
+			else:
+				break		
+	
+		#self.content_saveSub_button.setEnabled(True)
+		self.sub_list.loc[len(self.sub_list.index)] = [cont_name,""]
 		self.content_subject_comboBox.setCurrentIndex(self.content_subject_comboBox.count()-1)
 
 
@@ -255,16 +267,24 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 	def content_save(self):
 		file_name = self.act.path +  "/Content" +"/"+self.content_subject_comboBox.currentText()+".csv"
 
-		#print file_name
+		#table_to_file(self.content_questions_table, file_name)
+		sub_name = str(self.content_subject_comboBox.currentText())
+		sub_conc = str(self.content_concept)
+		self.sub_list.loc[self.content_subject_comboBox.currentIndex()] = [sub_name,sub_conc]
+		
+		data = table_to_dataframe(self.content_questions_table)
+		data.to_csv(file_name)
 
-		table_to_file(self.content_questions_table, file_name)
+		#self.log_text.setText("Subject saved at " + QDateTime.currentDateTime())
+
 
 
 
 		return 1 
 
 
-		if (os.path.isfile(file_name)):
+		#if (os.path.isfile(file_name)):
+		if ():
 			ret = QMessageBox.warning(self, "Warning!", "File already exist\nChose ther name", QMessageBox.Ok )
 
 		else:
@@ -282,20 +302,10 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			
 
 	def content_load_subjects(self):
-
-
 		self.sub_list = pd.read_csv(os.path.join(self.act.path,"Content","subjects.csv"))
-		
-
-
-		#print self.sub_list['concepts']
-		#print self.sub_list['concepts'].tolist()
-
-
+		#self.sub_list = pd.read_csv(os.path.join(self.act.path,"Content","subjects.csv"))
 		self.content_subject_comboBox.addItems(self.sub_list['subjects'].tolist())
-		#print "INDEX = ", self.sub_list['subjects'][self.sub_list['subjects']=='subject 3'].index[0]
 		self.content_update_tab()
-		# Show
 
 	def content_update_tab(self):
 		#text= self.sub_list['concepts'][self.sub_list['subjects'][self.sub_list['subjects']==str(self.content_subject_comboBox.currentText())].index[0]]
@@ -307,29 +317,32 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		if os.path.isfile(file_name):
 			data=pd.read_csv(file_name)
 			#print "trying data", data
-			#data=PandasModel(pd.read_csv(file_name))
-			#print data
-			print len(data.index)
-			#for item 
 
-			self.content_questions_table.setModel
-		else:
+			df_to_table(data,self.content_questions_table)
+
+			self.log_text.setText("Subject loaded: " + self.content_subject_comboBox.currentText())
+			
+
+		else:	
 			self.log_text.setText("WARNING TABLE <<"+file_name +">>  FILE DO NOT EXIST")
+			labels = []
+			for i in range(0,3):
+				labels.append(str(self.content_questions_table.horizontalHeaderItem(i).text()))
+			
+			data = 	pd.DataFrame(columns=labels, index=range(0))
 
+			print data
 
+			data.to_csv(self.content_path + self.content_subject_comboBox.currentText()+".csv")
 
 
 
 	def content_InsertQuestion(self):
 		
 		self.content_questions_table.insertRow(self.content_questions_table.rowCount())
-		#self.questions_tableWidget_2.setCurrentCell(self.qRow,0)
-		#print self.content_dif_comboBox.currentText()
-		
 		self.content_questions_table.setItem(self.content_questions_table.rowCount()-1,0, QTableWidgetItem(self.content_dif_comboBox.currentText()))
 		
-		#self.qRow+=1
-
+	
 
 	
 	def content_DeleteQuestion(self):
@@ -493,7 +506,13 @@ def table_to_dataframe(table):
 	
 	for i in range(row_numb):
 		for j in range(col_numb):
-			data.ix[i,j] = table.item(i,j).data()
+			#print i,j
+			#print  table.item(i,j)
+			if table.item(i,j) == None:
+				item = 'nan'
+			else:
+				item = table.item(i,j).text()
+			data.ix[i,j] = item
 	
 	return data	
 
@@ -502,7 +521,7 @@ def df_to_table(df,table):
 	
 	table.setColumnCount(len(df.columns))
 	table.setRowCount(len(df.index))
-	print df.columns
+	#print df.columns
 
 	table.setHorizontalHeaderLabels(df.columns)
 	for i in range(len(df.index)):
@@ -513,8 +532,8 @@ def df_to_table(df,table):
 			
 			table.setItem(i, j, QTableWidgetItem(item))
 
-	table.resizeColumnsToContents()
-	table.resizeRowsToContents()
+	#table.resizeColumnsToContents()
+	#table.resizeRowsToContents()
 
 
 
