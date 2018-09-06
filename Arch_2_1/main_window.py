@@ -254,13 +254,18 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 					QMessageBox.critical(self, "Error!", "Subject already exists!\nChoose another name!", QMessageBox.Ok )
 				else:		
 					self.content_subject_comboBox.addItem(cont_name)
+					self.sub_list.loc[len(self.sub_list.index)] = [cont_name,""]
+					self.content_subject_comboBox.setCurrentIndex(self.content_subject_comboBox.count()-1)
+					file_name = self.act.path +  "/Content/subjects.csv"
+					self.sub_list.to_csv(file_name, index=False)
+
+
+
 					break
 			else:
 				break		
 	
 		#self.content_saveSub_button.setEnabled(True)
-		self.sub_list.loc[len(self.sub_list.index)] = [cont_name,""]
-		self.content_subject_comboBox.setCurrentIndex(self.content_subject_comboBox.count()-1)
 
 
 
@@ -309,8 +314,10 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 	def content_update_tab(self):
 		#text= self.sub_list['concepts'][self.sub_list['subjects'][self.sub_list['subjects']==str(self.content_subject_comboBox.currentText())].index[0]]
-		text= self.sub_list['concepts'][self.content_subject_comboBox.currentIndex()]
+		text= str(self.sub_list['concepts'][self.content_subject_comboBox.currentIndex()])
 		
+		print "TEXT:",self.content_subject_comboBox.currentIndex()
+
 		self.content_concept.setText(text)
 		file_name = str(self.content_path + self.content_subject_comboBox.currentText()+".csv")
 		
