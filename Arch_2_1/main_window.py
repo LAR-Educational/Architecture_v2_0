@@ -293,6 +293,15 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 	def content_save(self):
+		#<<<<<<< HEAD
+		#		file_name = self.act.path +  "/Content" +"/"+self.content_subject_comboBox.currentText()+".csv"
+
+				#table_to_file(self.content_questions_table, file_name)
+		#		sub_name = str(self.content_subject_comboBox.currentText())
+		#		sub_conc = str(self.content_concept.toPlainText())
+		#		self.sub_list.loc[self.content_subject_comboBox.currentIndex()] = [sub_name,sub_conc]
+		#=======
+		#>>>>>>> a6cb02fec78079ad08f4744019e0a6d9e90861eb
 		
 		ret = QMessageBox.question(self, "Saving Content!", "Are you sure you want to overwrite this content?", QMessageBox.Cancel | QMessageBox.Ok )
 			

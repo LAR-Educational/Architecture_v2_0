@@ -7,6 +7,11 @@ class SystemVariablesControl():
 
         self.file_name = ".system_control.dat"
         self.test = 20
+        #self.users_id = None
+        #self.session_id = None
+        s#elf.evaluation_id = None
+        #self.interaction_id = None
+        
         if os.path.exists(self.file_name):
             
             self.load()
@@ -16,8 +21,7 @@ class SystemVariablesControl():
             self.session_id = 18001
             self.evaluation_id = 18001
             self.interaction_id = 18001
-            
-        self.save()
+            self.save()
 
     def printClass(self):
         pprint(vars(self))
