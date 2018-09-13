@@ -11,6 +11,8 @@ import os
 import cv2
 import numpy as np
 import pandas as pd
+from utils import *
+#import utils
 
 #from PyQt4.QtGui import *
  
@@ -75,6 +77,7 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		#--- Content panel
 		self.content_path=None
+		self.content_delete_button.clicked.connect(self.content_delet_topic)
 		self.contenct_newSubj_button.clicked.connect(self.content_NewSubject)
 		self.content_insert_question_button.clicked.connect(self.content_InsertQuestion)
 		self.content_delete_question_button.clicked.connect(self.content_DeleteQuestion)
@@ -82,6 +85,18 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.content_subject_comboBox.currentIndexChanged.connect(self.content_update_tab)
 		self.contenct_clear_questions_button.clicked.connect(self.content_clear_table)
 		
+
+		#--- Knowledge panel
+		self.knowledge_path="./Data/"
+		# DataFrames of General and Personal data
+		self.know_gen_df=None
+		self.know_gen_button_new.clicked.connect( lambda: insert_item_table(self.knowledge_general_table))
+		self.know_gen_button_del.clicked.connect( lambda: delete_item_table(self.knowledge_general_table))
+		self.know_gen_button_save.clicked.connect( lambda: save_table(self, self.knowledge_general_table,self.know_gen_df,self.knowledge_path+"knowledge.csv"))
+		self.know_gen_button_load.clicked.connect( lambda: load_table(self, self.knowledge_general_table,self.know_gen_df,self.knowledge_path+"knowledge.csv"))
+
+		self.know_per_df=None
+
 
 		#--- Plan and Run
 		self.pushButton_run_activity.clicked.connect(self.start_display_image)
@@ -254,31 +269,50 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 					QMessageBox.critical(self, "Error!", "Subject already exists!\nChoose another name!", QMessageBox.Ok )
 				else:		
 					self.content_subject_comboBox.addItem(cont_name)
+					self.sub_list.loc[len(self.sub_list.index)] = [cont_name,""]
+					self.content_subject_comboBox.setCurrentIndex(self.content_subject_comboBox.count()-1)
+					file_name = self.act.path +  "/Content/subjects.csv"
+					self.sub_list.to_csv(file_name, index=False)
+
+
+
 					break
 			else:
 				break		
 	
 		#self.content_saveSub_button.setEnabled(True)
-		self.sub_list.loc[len(self.sub_list.index)] = [cont_name,""]
-		self.content_subject_comboBox.setCurrentIndex(self.content_subject_comboBox.count()-1)
 
 
 
 	def content_save(self):
-		file_name = self.act.path +  "/Content" +"/"+self.content_subject_comboBox.currentText()+".csv"
+		#<<<<<<< HEAD
+		#		file_name = self.act.path +  "/Content" +"/"+self.content_subject_comboBox.currentText()+".csv"
 
-		#table_to_file(self.content_questions_table, file_name)
-		sub_name = str(self.content_subject_comboBox.currentText())
-		sub_conc = str(self.content_concept.toPlainText())
-		self.sub_list.loc[self.content_subject_comboBox.currentIndex()] = [sub_name,sub_conc]
+				#table_to_file(self.content_questions_table, file_name)
+		#		sub_name = str(self.content_subject_comboBox.currentText())
+		#		sub_conc = str(self.content_concept.toPlainText())
+		#		self.sub_list.loc[self.content_subject_comboBox.currentIndex()] = [sub_name,sub_conc]
+		#=======
+		#>>>>>>> a6cb02fec78079ad08f4744019e0a6d9e90861eb
 		
-		data = table_to_dataframe(self.content_questions_table)
-		data.to_csv(file_name, index=False)
+		ret = QMessageBox.question(self, "Saving Content!", "Are you sure you want to overwrite this content?", QMessageBox.Cancel | QMessageBox.Ok )
+			
+		if ret == QMessageBox.Ok:
+			
+			
+			file_name = self.act.path +  "/Content" +"/"+self.content_subject_comboBox.currentText()+".csv"
+			index_file =  self.act.path +  "/Content/subjects.csv"
+			#table_to_file(self.content_questions_table, file_name)
+			sub_name = str(self.content_subject_comboBox.currentText())
+			sub_conc = str(self.content_concept.toPlainText())
+			self.sub_list.loc[self.content_subject_comboBox.currentIndex()] = [sub_name,sub_conc]
+			self.sub_list.to_csv(index_file, index=False)
 
-		#self.log_text.setText("Subject saved at " + QDateTime.currentDateTime())
+			data = table_to_dataframe(self.content_questions_table)
+			data.to_csv(file_name, index=False)
 
-
-
+		"""
+		#self.log("Subject saved at " + QDateTime.currentDateTime())
 
 		return 1 
 
@@ -299,7 +333,7 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				cf = open(file_name,"w")
 				cf.write(self.content_concept.toPlainText())
 				cf.close()
-			
+		"""	
 
 	def content_load_subjects(self):
 		self.sub_list = pd.read_csv(os.path.join(self.act.path,"Content","subjects.csv"))
@@ -309,8 +343,10 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 	def content_update_tab(self):
 		#text= self.sub_list['concepts'][self.sub_list['subjects'][self.sub_list['subjects']==str(self.content_subject_comboBox.currentText())].index[0]]
-		text= self.sub_list['concepts'][self.content_subject_comboBox.currentIndex()]
+		text= str(self.sub_list['concepts'][self.content_subject_comboBox.currentIndex()])
 		
+		#print "TEXT:",self.content_subject_comboBox.currentIndex()
+
 		self.content_concept.setText(text)
 		file_name = str(self.content_path + self.content_subject_comboBox.currentText()+".csv")
 		
@@ -318,13 +354,13 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			data=pd.read_csv(file_name)
 			#print "trying data", data
 
-			df_to_table(data,self.content_questions_table)
+			dataframe_to_table(data,self.content_questions_table)
 
-			self.log_text.setText("Subject loaded: " + self.content_subject_comboBox.currentText())
+			self.log("Subject loaded: " + self.content_subject_comboBox.currentText())
 			
 
 		else:	
-			self.log_text.setText("WARNING TABLE <<"+file_name +">>  FILE DO NOT EXIST")
+			self.log("WARNING TABLE <<"+file_name +">>  FILE DO NOT EXIST")
 			labels = []
 			for i in range(0,3):
 				labels.append(str(self.content_questions_table.horizontalHeaderItem(i).text()))
@@ -344,8 +380,6 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.content_questions_table.setItem(self.content_questions_table.rowCount()-1,0, QTableWidgetItem(self.content_dif_comboBox.currentText()))
 		
 	
-
-	
 	def content_DeleteQuestion(self):
 		
 		index = self.content_questions_table.currentRow()
@@ -360,12 +394,51 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		data = pd.read_csv("/home/tozadore/Projects/Arch_2/Arch_2_1/Activities/NOVA/Content/subject2.csv")
 		
 		
-		print "RETRIEVED: "
-		print  data
+		#print "RETRIEVED: "
+		#print  data
 
-		df_to_table(data,self.content_questions_table)
+		dataframe_to_table(data,self.content_questions_table)
 
 
+
+	def content_delet_topic(self):
+
+		#cont_name,  ok = QInputDialog.getText(self, 'Deleting Topic', 'Are you sure to delete this Topic?')
+		ret = QMessageBox.warning(self, 'Deleting Topic', 'Are you sure to delete this Topic?', QMessageBox.Cancel | QMessageBox.Ok )
+			
+			# if ret == QMessageBox.Cancel:
+			# 	print "CANCEL"
+
+
+		if ret == QMessageBox.Ok:
+		#if ok:
+			cont_name = self.content_subject_comboBox.currentText()
+			
+			#print "index", self.content_subject_comboBox.currentIndex()
+
+			#print self.sub_list
+
+			#delete from RAM table
+			#self.sub_list.drop(self.content_subject_comboBox.currentIndex())
+			
+			self.sub_list = self.sub_list[self.sub_list.subjects != cont_name]
+
+			
+			# Delete qestions table
+			table_name = self.act.path +  "/Content/"+cont_name+".csv"
+			os.remove(table_name)
+
+			
+			#Organizing index file
+			file_name = self.act.path +  "/Content/subjects.csv"
+			self.sub_list.to_csv(file_name, index=False)
+			
+			# Combo box updating
+			self.content_subject_comboBox.removeItem(self.content_subject_comboBox.currentIndex())
+			#self.content_subject_comboBox.setCurrentIndex(self.content_subject_comboBox.count()-1)
+			self.log("Content <<" + cont_name + ">> deleted!")
+			
+			
 
 #-------------------------------------------------- RUN ----------------------------------------
 
@@ -438,103 +511,53 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 
+	# ### -------------------------- Knowledge ----------------------
 
-
-### -------------------------- GLOBALS -----------------------
-
-
-def clearTable(table):	
+	# def know_new(self, table):
+	# 	#self.knowledge_general_table.insertRow(self.knowledge_general_table.rowCount())
+	# 	table.insertRow(table.rowCount())
 	
-	while (table.rowCount() > 0):
-		table.removeRow(0);
+	# def know_del(self, table):
+	# 	#index = table.currentRow()
+	# 	#print index
+	# 	table.removeRow(table.currentRow())
 
 
 
-def load_subjects(filename):
-
-	subject_matrix = []
-	with open(filename+'.csv', "rb") as fileInput:
-		#print "OLARRR"
-		for row in csv.reader(fileInput):    
-			#print row					
-			subject_matrix.append(row) 
-
-	return subject_matrix 
 
 
 
-def load_csv_as_matrix(filename):
-	
-	subject_matrix = False
-	
-	with open(filename+'.csv', "rb") as fileInput:
-		for row in csv.reader(fileInput):    
-			for item in row:
-				aux.append(item)	
-			subject_matrix.append(aux) 
-			
-	return subject_matrix 
 
 
-def table_to_file(table_name, file_name):
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### -------------------------- Class Utils ----------------------
+
+
+	def log(self, text):
 		
-		with open(file_name, "wb") as fileOutput:
-			
-			writer = csv.writer(fileOutput)
-			for row in range(table_name.rowCount()):
-				row_data = []
-				for column in range(table_name.columnCount()):
-					item = table_name.item(row, column)
-					if item is not None:
-						row_data.append(item.text())
-					else:
-						row_data.append('')
-				writer.writerow(row_data)
+		time = QTime.currentTime()
+
+		self.log_text.setText( time.toString("hh:mm:ss") +"  -->  "+ text ) 
 
 
-
-def table_to_dataframe(table):
-	row_numb = table.rowCount() 
-	col_numb = table.columnCount()
-
-	#get header labels
-	labels = []
-	for i in range(0,col_numb):
-		labels.append(str(table.horizontalHeaderItem(i).text()))
-	
-	data = 	pd.DataFrame(columns=labels, index=range(row_numb))
-	
-	for i in range(row_numb):
-		for j in range(col_numb):
-			#print i,j
-			#print  table.item(i,j)
-			if table.item(i,j) == None:
-				item = 'nan'
-			else:
-				item = table.item(i,j).text()
-			data.ix[i,j] = item
-	
-	return data	
-
-
-def df_to_table(df,table):
-	
-	table.setColumnCount(len(df.columns))
-	table.setRowCount(len(df.index))
-	#print df.columns
-
-	table.setHorizontalHeaderLabels(df.columns)
-	for i in range(len(df.index)):
-		for j in range(len(df.columns)):
-			item = str(df.iat[i, j])
-			if item == 'nan':
-				item = ''
-			
-			table.setItem(i, j, QTableWidgetItem(item))
-
-	#table.resizeColumnsToContents()
-	#table.resizeRowsToContents()
 
 
 
