@@ -65,6 +65,9 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		self.setupUi(self)  # This is defined in design.py file automatically
 
+
+		QTextCodec.setCodecForCStrings(QTextCodec.codecForName("utf8"))
+
 		self.loadactButton.clicked.connect(self.load_file)
 		self.exitButton.clicked.connect(self.close)
 		self.insertQuestion_Button.clicked.connect(self.insertQuestion)
@@ -77,6 +80,8 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		#--- Content panel
 		self.content_path=None
+		self.subs_list = []
+
 		self.content_delete_button.clicked.connect(self.content_delet_topic)
 		self.contenct_newSubj_button.clicked.connect(self.content_NewSubject)
 		self.content_insert_question_button.clicked.connect(self.content_InsertQuestion)
@@ -92,10 +97,14 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.know_gen_df=None
 		self.know_gen_button_new.clicked.connect( lambda: insert_item_table(self.knowledge_general_table))
 		self.know_gen_button_del.clicked.connect( lambda: delete_item_table(self.knowledge_general_table))
-		self.know_gen_button_save.clicked.connect( lambda: save_table(self, self.knowledge_general_table,self.know_gen_df,self.knowledge_path+"knowledge.csv"))
-		self.know_gen_button_load.clicked.connect( lambda: load_table(self, self.knowledge_general_table,self.know_gen_df,self.knowledge_path+"knowledge.csv"))
+		self.know_gen_button_save.clicked.connect( lambda: save_table(self, self.knowledge_general_table,self.know_gen_df,self.knowledge_path+"general_knowledge.csv"))
+		self.know_gen_button_load.clicked.connect( lambda: load_table(self, self.knowledge_general_table,self.know_gen_df,self.knowledge_path+"general_knowledge.csv"))
 
 		self.know_per_df=None
+		self.know_per_button_new.clicked.connect( lambda: insert_item_table(self.knowledge_personal_table))
+		self.know_per_button_del.clicked.connect( lambda: delete_item_table(self.knowledge_personal_table))
+		self.know_per_button_save.clicked.connect( lambda: save_table(self, self.knowledge_personal_table,self.know_per_df,self.knowledge_path+"personal_knowledge.csv"))
+		self.know_per_button_load.clicked.connect( lambda: load_table(self, self.knowledge_personal_table,self.know_per_df,self.knowledge_path+"personal_knowledge.csv"))
 
 
 		#--- Plan and Run
@@ -121,8 +130,7 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.layoutVertical.addWidget(self.reportLoadButton)
 		self.layoutVertical.addWidget(self.writeReportButton)
 		
-		self.subs_list = []
-
+		
 
 
 

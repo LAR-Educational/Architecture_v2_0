@@ -2774,16 +2774,31 @@
            </item>
            <item>
             <widget class="QTableWidget" name="knowledge_general_table">
+             <property name="alternatingRowColors">
+              <bool>true</bool>
+             </property>
+             <property name="sortingEnabled">
+              <bool>true</bool>
+             </property>
+             <attribute name="horizontalHeaderCascadingSectionResizes">
+              <bool>true</bool>
+             </attribute>
              <attribute name="horizontalHeaderDefaultSectionSize">
               <number>200</number>
              </attribute>
              <attribute name="horizontalHeaderMinimumSectionSize">
-              <number>300</number>
+              <number>100</number>
              </attribute>
              <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
               <bool>true</bool>
              </attribute>
              <attribute name="horizontalHeaderStretchLastSection">
+              <bool>true</bool>
+             </attribute>
+             <attribute name="verticalHeaderCascadingSectionResizes">
+              <bool>true</bool>
+             </attribute>
+             <attribute name="verticalHeaderStretchLastSection">
               <bool>true</bool>
              </attribute>
              <column>
