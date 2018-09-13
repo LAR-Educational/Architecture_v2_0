@@ -25,13 +25,16 @@ def clearTable(table):
 
 
 def insert_item_table(table):
-	#self.knowledge_general_table.insertRow(self.knowledge_general_table.rowCount())
-	table.insertRow(table.rowCount())
+    #self.knowledge_general_table.insertRow(self.knowledge_general_table.rowCount())
+    table.insertRow(table.rowCount())
+    #table.resizeColumnsToContents()
+    table.resizeRowsToContents()
+
 	
 def delete_item_table(table):
 	#index = table.currentRow()
 	#print index
-	table.removeRow(table.currentRow())
+    table.removeRow(table.currentRow())
 
 
 def save_table(window, table, dataframe, filename):
@@ -40,7 +43,7 @@ def save_table(window, table, dataframe, filename):
                                     "\nOld version will be lost!", QMessageBox.Cancel | QMessageBox.Ok )
     if ret == QMessageBox.Ok:
        dataframe = table_to_dataframe(table)
-       dataframe.to_csv(filename, index=False)
+       dataframe.to_csv(filename, index=False, sep="|")#, encoding='utf-8')
 
 
 def load_table(window, table, dataframe, filename):
@@ -51,7 +54,9 @@ def load_table(window, table, dataframe, filename):
         ret = QMessageBox.question(window, "Loading table!", "Are you sure you want to overwrite this screen table?"+
                                         "\nCurrent content will be lost!", QMessageBox.Cancel | QMessageBox.Ok )
         if ret == QMessageBox.Ok:
-            dataframe = pd.read_csv(filename)
+            dataframe = pd.read_csv(filename, sep="|", encoding='utf-8')
+            #print "DATAFRAME"
+            #print dataframe
             dataframe_to_table(dataframe,table)
 
     else:
@@ -83,22 +88,25 @@ def table_to_dataframe(table):
 
 
 def dataframe_to_table(df,table):
-	
-	table.setColumnCount(len(df.columns))
-	table.setRowCount(len(df.index))
-	#print df.columns
 
-	table.setHorizontalHeaderLabels(df.columns)
-	for i in range(len(df.index)):
-		for j in range(len(df.columns)):
-			item = str(df.iat[i, j])
-			if item == 'nan':
-				item = ''
-			
-			table.setItem(i, j, QTableWidgetItem(item))
+    table.setColumnCount(len(df.columns))
+    table.setRowCount(len(df.index))
+    #print df.columns
 
-	#table.resizeColumnsToContents()
-	#table.resizeRowsToContents()
+    table.setHorizontalHeaderLabels(df.columns)
+    for i in range(len(df.index)):
+        for j in range(len(df.columns)):
+            #item = str(df.iat[i, j])
+            item = u''.join((df.iat[i, j])).encode('utf-8').strip()
+            #print item
+            if item == 'nan':
+                item = ''
+
+            table.setItem(i, j, QTableWidgetItem(item))
+    
+    #table.wordWrap(True)
+    #table.resizeColumnsToContents()
+    table.resizeRowsToContents()
 
 
 
