@@ -269,7 +269,7 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		#table_to_file(self.content_questions_table, file_name)
 		sub_name = str(self.content_subject_comboBox.currentText())
-		sub_conc = str(self.content_concept)
+		sub_conc = str(self.content_concept.toPlainText())
 		self.sub_list.loc[self.content_subject_comboBox.currentIndex()] = [sub_name,sub_conc]
 		
 		data = table_to_dataframe(self.content_questions_table)
