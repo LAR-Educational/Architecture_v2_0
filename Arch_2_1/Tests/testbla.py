@@ -1,5 +1,6 @@
 import os
 import pickle
+import cPickle
 import pandas as pd
 from pprint import pprint
 
@@ -39,7 +40,7 @@ class SystemVariablesControl():
         if os.path.exists(self.file_name):
             
             print "File Exists"
-            self = load(self.file_name)
+            self = load(self)
 
         else:
             self.users_id = 18001
@@ -66,19 +67,20 @@ class SystemVariablesControl():
         pprint(vars(self))
 
 
-    def save(self):
-        print "Saving"
-        with open(self.file_name, 'wb') as f:
-            pickle.dump(self, f, pickle.HIGHEST_PROTOCOL)
-
-
     def load(self):
-        print "Loading"
-        
-        self = load(self.file_name)
-        # with open(self.file_name, 'rb+') as f:
-        #     self = pickle.load(f)
+        f = open(self.file_name, 'rb')
+        tmp_dict = cPickle.load(f)
+        f.close()
 
+        print tmp_dict          
+
+        self.__dict__.update(tmp_dict) 
+
+
+    def save(self):
+        f = open(self.file_name, 'wb')
+        cPickle.dump(self.__dict__, f, 2)
+        f.close()
 
 
 
@@ -88,9 +90,9 @@ def save(svc):
         pickle.dump(svc, f, pickle.HIGHEST_PROTOCOL)
 
 
-def load(path):
+def load(svc):
     print "Loading"
-    with open(path, 'rb+') as f:
+    with open(svc.file_name, 'rb+') as f:
         return pickle.load(f)
 
 
@@ -120,28 +122,27 @@ def main():
 
     svc.initi_vals()
 
+    #svc = load(svc)
+    
+    svc.load()
+
     print "dps"
 
     svc.printClass()
 
     #save(svc)
 
+    svc.users_id += 1
+
     svc.save()
 
-    svc1 = SystemVariablesControl()
+    svc.printClass()
 
-    svc1.printClass()
-
-    svc1 = load(svc1.file_name)
-    #svc1.load()
-
-    print "svc1"
-    svc1.printClass()
+    return
 
 
-    #sys_control = {'test':1}
 
-    #print sys_control
+
 
 
 
