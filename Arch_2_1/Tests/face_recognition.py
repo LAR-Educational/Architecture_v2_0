@@ -7,12 +7,33 @@ import numpy as np
 
 
 #there is no label 0 in our training data so subject name for index/label 0 is empty
-subjects = []
+subjects = ['']
 
 
 
-def create_db_from_cam():
+def create_db_from_cam(user_name, path='training_data/'  ):
 
+
+    users_number = len(os.listdir(path))
+
+    print "Registered users:", users_number
+
+    full_path = path + str(users_number)+ '_'  + user_name
+
+    print "Full", full_path
+    
+    if os.path.exists(full_path):
+        print "File exist"
+    else:
+        print "File DO NOT exist. Creating user directory!"
+        os.mkdir(full_path)
+    
+    list_file = os.listdir(full_path)
+    counter = len(list_file)
+
+    print "Found {} entries in path with names {}.".format(counter, list_file)
+
+    #return 1
 
     cap = cv2.VideoCapture(0)
 
@@ -21,23 +42,47 @@ def create_db_from_cam():
         ret, frame = cap.read()
 
         # Our operations on the frame come here
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        #gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
         # Display the resulting frame
-        cv2.imshow('frame',gray)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
+        cv2.imshow('Images of user ' + user_name, frame)
+
+        key = cv2.waitKey(1)
+
+        #if key != -1:
+            #print "KEY = ", key
+            #print "ord", ord('q')
+
+        if key == 1048691:
+            img_name = full_path+"/" +str(counter)+".jpg"
+            cv2.imwrite(img_name, frame)
+            print "Write image", img_name
+            counter+=1
+            
+            
+
+
+        if key == 1048689:
+            print "Breaking"
             break
 
     # When everything done, release the capture
     cap.release()
     cv2.destroyAllWindows()
 
+    print "\nEnding process with total of {} images on path\n\n".format(counter)
 
 
 
 
+def main():
 
-
+    user_name = raw_input("Enter with user name: ")
+    create_db_from_cam(user_name)
+    
+    #prepare_training_data('training_data/')    
+    
+    #print subjects
 
 
 def detect_face(img):
@@ -54,7 +99,7 @@ def detect_face(img):
 
     #let's detect multiscale images(some images may be closer to camera than others)
     #result is a list of faces
-    faces = face_cascade.detectMultiScale(gray, scaleFactor=1.2, minNeighbors=5);
+    faces = face_cascade.detectMultiScale(gray, scaleFactor=1.2, minNeighbors=5)
 
     #if no faces are detected then return original img
     if (len(faces) == 0):
@@ -83,19 +128,31 @@ def prepare_training_data(data_folder_path):
     #list to hold labels for all subjects
     labels = []
 
+    print "Dirs:", dirs
+
     #let's go through each directory and read images within it
     for dir_name in dirs:
 
+        print "Dir_name:", dir_name
+
         #our subject directories start with letter 's' so
         #ignore any non-relevant directories if any
-        if not dir_name.startswith("s"):
-            continue;
+        #if not dir_name.startswith("s"):
+        #    continue;
 
         #------STEP-2--------
         #extract label number of subject from dir_name
         #format of dir name = slabel
         #, so removing letter 's' from dir_name will give us label
-        label = int(dir_name.replace("s", ""))
+        #label = int(dir_name.replace("s", ""))
+        label, name = dir_name.split('_')
+        label = int(label)
+        #print "label" , label, name
+        #global subjects
+
+        subjects.append(name)
+
+        #break
 
         #build path of directory containing images for current subject subject
         #sample subject_dir_path = "training-data/s1"
@@ -121,8 +178,8 @@ def prepare_training_data(data_folder_path):
             image = cv2.imread(image_path)
 
             #display an image window to show the image 
-            cv2.imshow("Training on image...", image)
-            cv2.waitKey(20)
+            #cv2.imshow("Training on image...", image)
+            #cv2.waitKey(2)
 
             #detect face
             face, rect = detect_face(image)
@@ -137,7 +194,7 @@ def prepare_training_data(data_folder_path):
             #add label for this face
             labels.append(label)
 
-        cv2.destroyAllWindows()
+        #cv2.destroyAllWindows()
     
     
     cv2.waitKey(20)
@@ -184,7 +241,7 @@ def predict(test_img):
 	
 
 
-def old_main():
+def omain():
 
     #data will be in two lists of same size
     #one list will contain all the faces
@@ -199,8 +256,10 @@ def old_main():
 
 
 
+    print subjects 
 
     #create our LBPH face recognizer 
+    global face_recognizer
     face_recognizer = cv2.face.createLBPHFaceRecognizer()
     
     # or use EigenFaceRecognizer by replacing above line with 
@@ -212,68 +271,26 @@ def old_main():
     #train our face recognizer of our training faces
     face_recognizer.train(faces, np.array(labels))
 
-
-
-    #according to given (x, y) coordinates and 
-    #given width and heigh
-    def draw_rectangle(img, rect):
-        (x, y, w, h) = rect
-        cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 2)
-    
-    #function to draw text on give image starting from
-    #passed (x, y) coordinates. 
-    def draw_text(img, text, x, y):
-        cv2.putText(img, text, (x, y), cv2.FONT_HERSHEY_PLAIN, 1.5, (0, 255, 0), 2)
-
-        
-    #this function recognizes the person in image passed
-    #and draws a rectangle around detected face with name of the 
-    #subject
-    def predict(test_img):
-        #make a copy of the image as we don't want to change original image
-        img = test_img.copy()
-        #detect face from the image
-        face, rect = detect_face(img)
-    
-        #predict the image using our face recognizer 
-        label= face_recognizer.predict(face)
-        print "LABEL", label
-        #get name of respective label returned by face recognizer
-        label_text = subjects[label[0]]
-        
-        #draw a rectangle around face detected
-        draw_rectangle(img, rect)
-        #draw name of predicted person
-        draw_text(img, label_text, rect[0], rect[1]-5)
-        
-        return img
-
-        
     print("Predicting images...")
 
     #load test images
-    test_img1 = cv2.imread("test1.jpg")
-    test_img2 = cv2.imread("test2.jpg")
+    test_img1 = cv2.imread("11.jpg")
+    #test_img2 = cv2.imread("test2.jpg")
 
 
     #perform a prediction
     predicted_img1 = predict(test_img1)
-    predicted_img2 = predict(test_img2)
+    #predicted_img2 = predict(test_img2)
     print("Prediction complete")
 
     #display both images
-    cv2.imshow(subjects[1], predicted_img1)
-    cv2.imshow(subjects[2], predicted_img2)
+    cv2.imshow("Result", predicted_img1)
+    #cv2.imshow(subjects[2], predicted_img2)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
 
 
-def main():
-
-    create_db_from_cam()
-
-
 
 if __name__=="__main__":
-    main()
+    omain()
