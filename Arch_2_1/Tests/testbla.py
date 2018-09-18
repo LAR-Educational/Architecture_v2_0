@@ -14,33 +14,17 @@ from pprint import pprint
 class SystemVariablesControl():
     def __init__(self):
        
-        # try:
-        #     self = pickle.load(open(".system_control.dat", "rb"))
-        # except (OSError, IOError) as e:
-        #     self.test = 3
-        #     self.file_name = ".system_control.dat"
-        #     self.test = 20
-        #     self.users_id = None
-        #     self.session_id = None
-        #     self.evaluation_id = None
-        #     self.interaction_id = None
-        
-
-        #     pickle.dump(self, open(".system_control.dat", "wb"))
-
         self.file_name = ".system_control.dat"
-        self.test = 20
         self.users_id = None
         self.session_id = None
         self.evaluation_id = None
         self.interaction_id = None
 
-        #return 
-
+       
         if os.path.exists(self.file_name):
             
-            print "File Exists"
-            self = load(self)
+            #print "File Exists"
+            self.load()
 
         else:
             self.users_id = 18001
@@ -52,7 +36,7 @@ class SystemVariablesControl():
 
 
 
-    def initi_vals(self):
+    def reset_vals(self):
         
         self.users_id = 18001
         self.session_id = 18001
@@ -81,6 +65,27 @@ class SystemVariablesControl():
         f = open(self.file_name, 'wb')
         cPickle.dump(self.__dict__, f, 2)
         f.close()
+
+
+    def add(self, att):
+
+        if(att=='user'):
+            self.users_id+=1
+        elif(att=='interaction'):
+            self.interaction_id+=1
+        elif(att=='session'):
+            self.session_id+=1
+        elif(att=='evaluation'):
+            self.evaluation_id+=1
+        else:
+            raise NameError('Variable "' + att +'" unkwon in add System Variables')
+            #return False    
+            
+        self.save()    
+
+
+
+
 
 
 
@@ -118,23 +123,20 @@ def main():
 
     svc = SystemVariablesControl()
 
+   
     svc.printClass()
-
-    svc.initi_vals()
-
-    #svc = load(svc)
-    
-    svc.load()
 
     print "dps"
+   
+    try:
+       svc.add('evalua')
+       pass
+    except Exception as inst:
+        print(inst.args)     # arguments stored in .args
+        print(type(inst))    # the exception instance
+        print(inst)
 
-    svc.printClass()
-
-    #save(svc)
-
-    svc.users_id += 1
-
-    svc.save()
+    #svc.save()
 
     svc.printClass()
 
