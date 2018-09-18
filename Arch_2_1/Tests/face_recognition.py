@@ -7,8 +7,9 @@ import numpy as np
 
 
 #there is no label 0 in our training data so subject name for index/label 0 is empty
-subjects = ['']
-
+subjects = []
+face_recognizer = cv2.face.createLBPHFaceRecognizer()
+   
 
 
 def create_db_from_cam(user_name, path='training_data/'  ):
@@ -18,7 +19,8 @@ def create_db_from_cam(user_name, path='training_data/'  ):
 
     print "Registered users:", users_number
 
-    full_path = path + str(users_number)+ '_'  + user_name
+    #full_path = path + str(users_number)+ '_'  + user_name
+    full_path = path + user_name
 
     print "Full", full_path
     
@@ -45,7 +47,13 @@ def create_db_from_cam(user_name, path='training_data/'  ):
         #gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
         # Display the resulting frame
-        cv2.imshow('Images of user ' + user_name, frame)
+
+        #
+
+        face, rect = detect_face(frame)
+    
+        #print "face:", face
+
 
         key = cv2.waitKey(1)
 
@@ -53,13 +61,19 @@ def create_db_from_cam(user_name, path='training_data/'  ):
             #print "KEY = ", key
             #print "ord", ord('q')
 
-        if key == 1048691:
-            img_name = full_path+"/" +str(counter)+".jpg"
-            cv2.imwrite(img_name, frame)
-            print "Write image", img_name
-            counter+=1
+        if face is not None:
             
             
+            if (key == 1048691):# and (face is not None):
+                img_name = full_path+"/" +str(counter)+".jpg"
+                cv2.imwrite(img_name, frame)
+                print "Write image", img_name
+                counter+=1
+            #else:
+                #print "FACE NOT DETECT! IMAGE NOT SAVED!"       
+            draw_rectangle(frame, rect)
+            
+        cv2.imshow('Images of user ' + user_name, frame)
 
 
         if key == 1048689:
@@ -74,20 +88,119 @@ def create_db_from_cam(user_name, path='training_data/'  ):
 
 
 
-
-def main():
-
-    user_name = raw_input("Enter with user name: ")
-    create_db_from_cam(user_name)
+def identifier_from_cam():
     
-    #prepare_training_data('training_data/')    
+    print("Preparing data...")
+    faces, labels = prepare_training_data("training_data")
+    print("Data prepared")
     
-    #print subjects
+    #create our LBPH face recognizer 
+    global face_recognizer
+    face_recognizer = cv2.face.createLBPHFaceRecognizer()
+    
+    # or use EigenFaceRecognizer by replacing above line with 
+    # face_recognizer = cv2.face.createEigenFaceRecognizer()
+    
+    # or use FisherFaceRecognizer by replacing above line with 
+    # face_recognizer = cv2.face.createFisherFaceRecognizer()
+
+    #train our face recognizer of our training faces
+    face_recognizer.train(faces, np.array(labels))
+
+    print("Predicting images...")
+
+    #load test images
+    #test_img1 = cv2.imread("0.jpg")
+
+    #test_img2 = cv2.imread("test2.jpg")
+
+    #show_face(test_img1)
+
+    #return
+
+    sub_count = [0] * len(subjects) #dict( (subject,0) for subject in subjects)
+
+    #for i in range():
+        #sub_count[]
+
+
+    print sub_count
+
+    #return
+
+    cap = cv2.VideoCapture(0)
+
+    while(True):
+        # Capture frame-by-frame
+        ret, frame = cap.read()
+
+        face, rect = detect_face(frame)
+ 
+        if face is not None:
+            #predict the image using our face recognizer 
+            label= face_recognizer.predict(face)
+            #print "LABEL", label
+            #get name of respective label returned by face recognizer
+            label_text = subjects[label[0]]
+            
+            #draw a rectangle around face detected
+            draw_rectangle(frame, rect)
+            #draw name of predicted person
+            draw_text(frame, label_text, rect[0], rect[1]-5)
+            
+            sub_count[label[0]] += 1
+
+            #return img
+
+        #img = predict(frame)
+        
+        key = cv2.waitKey(1)
+
+        #if key != -1:
+            #print "KEY = ", key
+            #print "ord", ord('q')
+
+        # if img is None:
+            
+        #     img = frame
+            
+            
+        cv2.imshow('Window', frame)
+
+
+        if (key == 1048691):
+            _max = sub_count.index(max(sub_count))
+            print "MAX", _max
+            print sub_count
+            sub_count * 0
+            print "FINAL", subjects[_max]
+
+        if key == 1048689:
+            print "Breaking"
+            break
+
+    # When everything done, release the capture
+    cap.release()
+    cv2.destroyAllWindows()
+    print "\nEnding process!\n\n"
+
+
+
+
+
+def detect_mult(img, cascade):
+    rects = cascade.detectMultiScale(img, scaleFactor=1.3, minNeighbors=4, minSize=(30, 30), flags = cv2.CASCADE_SCALE_IMAGE)
+    if len(rects) == 0:
+        return []
+    rects[:,2:] += rects[:,:2]
+    return rects
 
 
 def detect_face(img):
     #convert the test image to gray scale as opencv face detector expects gray images
     
+    #print "IMG", img
+
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     # cv2.imshow("Nada",gray)
     # cv2.waitKey(0)
@@ -145,12 +258,15 @@ def prepare_training_data(data_folder_path):
         #format of dir name = slabel
         #, so removing letter 's' from dir_name will give us label
         #label = int(dir_name.replace("s", ""))
-        label, name = dir_name.split('_')
-        label = int(label)
+        #label, name = dir_name.split('_')
+        
+        label = len(subjects)
+        subjects.append(dir_name)
         #print "label" , label, name
         #global subjects
 
-        subjects.append(name)
+        print "label:", label, "subject", subjects[label]
+        #print subjects
 
         #break
 
@@ -225,20 +341,50 @@ def predict(test_img):
     #detect face from the image
     face, rect = detect_face(img)
  
-    #predict the image using our face recognizer 
-    label= face_recognizer.predict(face)
-    print "LABEL", label
-    #get name of respective label returned by face recognizer
-    label_text = subjects[label[0]]
-    
-    #draw a rectangle around face detected
-    draw_rectangle(img, rect)
-    #draw name of predicted person
-    draw_text(img, label_text, rect[0], rect[1]-5)
-    
-    return img
+    if face is not None:
+        #predict the image using our face recognizer 
+        label= face_recognizer.predict(face)
+        print "LABEL", label
+        #get name of respective label returned by face recognizer
+        label_text = subjects[label[0]]
+        
+        #draw a rectangle around face detected
+        draw_rectangle(img, rect)
+        #draw name of predicted person
+        draw_text(img, label_text, rect[0], rect[1]-5)
+        
+        return img
 
-	
+    else:
+        return None
+
+
+def show_face(img):
+
+    face, rect = detect_face(img)
+    
+    print "face:", face
+
+    if face is None:
+        print "Face not detected!"
+        return 0
+
+    draw_rectangle(img, rect)
+
+    cv2.imshow("Face", img)
+    cv2.waitKey(0)
+
+
+
+
+def main():
+
+    user_name = raw_input("Enter with user name: ")
+    create_db_from_cam(user_name)
+    
+    #prepare_training_data('training_data/')    
+    
+    #print subjects
 
 
 def omain():
@@ -256,7 +402,7 @@ def omain():
 
 
 
-    print subjects 
+    print "subjects:", subjects 
 
     #create our LBPH face recognizer 
     global face_recognizer
@@ -274,9 +420,13 @@ def omain():
     print("Predicting images...")
 
     #load test images
-    test_img1 = cv2.imread("11.jpg")
+    test_img1 = cv2.imread("0.jpg")
+
     #test_img2 = cv2.imread("test2.jpg")
 
+    #show_face(test_img1)
+
+    #return
 
     #perform a prediction
     predicted_img1 = predict(test_img1)
@@ -289,8 +439,94 @@ def omain():
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
+def draw_rects(img, rects, color=(255, 0, 0)):
+    for x1, y1, x2, y2 in rects:
+        cv2.rectangle(img, (x1, y1), (x2, y2), color, 2)
+
+
+
+def multiple_detection():
+
+    faceCascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+
+    print("Preparing data...")
+    train_data, labels = prepare_training_data("training_data")
+    print("Data prepared")
+    
+    global face_recognizer
+   
+    #create our LBPH face recognizer 
+    face_recognizer = cv2.face.createLBPHFaceRecognizer()
+    
+    # or use EigenFaceRecognizer by replacing above line with 
+    # face_recognizer = cv2.face.createEigenFaceRecognizer()
+    
+    # or use FisherFaceRecognizer by replacing above line with 
+    # face_recognizer = cv2.face.createFisherFaceRecognizer()
+
+    #train our face recognizer of our training faces
+    face_recognizer.train(train_data, np.array(labels))
+
+    cap = cv2.VideoCapture(0)
+    
+    while(True):
+        # Capture frame-by-frame
+        ret, frame = cap.read()
+
+        img = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+        #faces = faceCascade.detectMultiScale(frame, 1.3, 5)
+        faces = faceCascade.detectMultiScale(frame, scaleFactor=1.3, minNeighbors=5, minSize=(30, 30), flags = cv2.CASCADE_SCALE_IMAGE)
+        
+        #detected_faces = []
+
+        if len(faces) != 0:
+
+            #fnum = 0 
+            for rect in faces:
+
+                x, y, w, h = rect
+
+                face = img[y:y+w, x:x+h]
+
+                #predict the image using our face recognizer 
+                label = face_recognizer.predict(face)
+                print "LABEL", label
+                #get name of respective label returned by face recognizer
+                label_text = subjects[label[0]]
+                
+                #draw a rectangle around face detected
+                draw_rectangle(frame, rect)
+                #draw name of predicted person
+                draw_text(frame, label_text, rect[0], rect[1]-5)
+
+                #detected_faces.append(face)
+                #cv2.imshow(label_text , face)
+                
+                
+        key = cv2.waitKey(1)
+
+        #print len(faces)
+
+        cv2.imshow('Window', frame)
+
+        if (key == 1048691):
+            pass
+
+        if key == 1048689:
+            print "Breaking"
+            break
+
+    # When everything done, release the capture
+    cap.release()
+    cv2.destroyAllWindows()
+    print "\nEnding process!\n\n"
+
+
 
 
 
 if __name__=="__main__":
-    omain()
+    #main()
+    #identifier_from_cam()
+    multiple_detection()
