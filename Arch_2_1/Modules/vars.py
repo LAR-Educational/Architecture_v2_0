@@ -4,6 +4,7 @@ import csv
 from naoqi import ALProxy
 import vision_definitions
 import pickle
+import cPickle
 import os
 from pprint import pprint
 import operator
@@ -29,22 +30,104 @@ flag_log = True
 
 
 
-scname = ".system_control.dat"
-if os.path.exists(scname):
-	sys_ctrl = open(scname, "a+")
-	lines = sys_ctrl.readlines()
-	interaction_id = int(lines[-1])
-	sys_ctrl.write(str(interaction_id + 1) + "\n")
-	sys_ctrl.close()
-	print ("Loading system control variables!")
 
-else:
-	sys_ctrl = open( scname, "w+")
-	#lines = sys_ctrl.readlines()
-	interaction_id =  0 #int(lines[-1])
-	sys_ctrl.write(str(interaction_id) + "\n")
-	sys_ctrl.close()
-	print("Creating  system control file!")
+
+
+class SystemVariablesControl():
+    def __init__(self):
+       
+        self.file_name = ".system_control.svc"
+        self.users_id = None
+        self.session_id = None
+        self.evaluation_id = None
+        self.interaction_id = None
+
+       
+        if os.path.exists(self.file_name):
+            
+            #print "File Exists"
+            self.load()
+
+        else:
+            self.users_id = 18001
+            self.session_id = 18001
+            self.evaluation_id = 18001
+            self.interaction_id = 18001
+        
+            self.save()
+
+
+
+    def reset_vals(self):
+        
+		self.users_id = 18001
+		self.session_id = 18001
+		self.evaluation_id = 18001
+		self.interaction_id = 18001
+		os.remove(self.file_name)
+		self.save()
+
+     
+
+    
+    
+    def printClass(self):
+        pprint(vars(self))
+
+
+    def load(self):
+        f = open(self.file_name, 'rb')
+        tmp_dict = cPickle.load(f)
+        f.close()
+
+        print tmp_dict          
+
+        self.__dict__.update(tmp_dict) 
+
+
+    def save(self):
+        f = open(self.file_name, 'wb')
+        cPickle.dump(self.__dict__, f, 2)
+        f.close()
+
+
+    def add(self, att):
+
+        if(att=='user'):
+            self.users_id+=1
+        elif(att=='interaction'):
+            self.interaction_id+=1
+        elif(att=='session'):
+            self.session_id+=1
+        elif(att=='evaluation'):
+            self.evaluation_id+=1
+        else:
+            raise NameError('Variable "' + att +'" unkwon in add System Variables')
+            #return False    
+            
+        self.save()    
+
+
+
+
+def old_sys_control():
+
+	scname = ".system_control.dat"
+	if os.path.exists(scname):
+		sys_ctrl = open(scname, "a+")
+		lines = sys_ctrl.readlines()
+		interaction_id = int(lines[-1])
+		sys_ctrl.write(str(interaction_id + 1) + "\n")
+		sys_ctrl.close()
+		print ("Loading system control variables!")
+
+	else:
+		sys_ctrl = open( scname, "w+")
+		#lines = sys_ctrl.readlines()
+		interaction_id =  0 #int(lines[-1])
+		sys_ctrl.write(str(interaction_id) + "\n")
+		sys_ctrl.close()
+		print("Creating  system control file!")
 
 
 

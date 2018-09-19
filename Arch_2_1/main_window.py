@@ -30,28 +30,29 @@ from Modules import content as ct
 
 
 class SessionInfo:
-	def __init__(self,itime,ftime,):
-		self.itime=itime
-		self.ftime=ftime
+	def __init__(self,initi_time,final_time):
+		self.initi_time = initi_time
+		self.final_time = final_time
 
 
-class PandasModel(QAbstractTableModel):
-    def __init__(self, data, parent=None):
-        QAbstractTableModel.__init__(self, parent)
-        self._data = data
 
-    def rowCount(self, parent=None):
-        return len(self._data.values)
+# class PandasModel(QAbstractTableModel):
+#     def __init__(self, data, parent=None):
+#         QAbstractTableModel.__init__(self, parent)
+#         self._data = data
 
-    def columnCount(self, parent=None):
-        return self._data.columns.size
+#     def rowCount(self, parent=None):
+#         return len(self._data.values)
 
-    def data(self, index, role=Qt.DisplayRole):
-        if index.isValid():
-            if role == Qt.DisplayRole:
-                return QVariant(str(
-                    self._data.values[index.row()][index.column()]))
-        return QVariant()
+#     def columnCount(self, parent=None):
+#         return self._data.columns.size
+
+#     def data(self, index, role=Qt.DisplayRole):
+#         if index.isValid():
+#             if role == Qt.DisplayRole:
+#                 return QVariant(str(
+#                     self._data.values[index.row()][index.column()]))
+#         return QVariant()
 
 
 
@@ -64,6 +65,8 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		super(self.__class__, self).__init__()
 
 		self.setupUi(self)  # This is defined in design.py file automatically
+
+		svc = core.SystemVariablesControl()
 
 
 		QTextCodec.setCodecForCStrings(QTextCodec.codecForName("utf8"))
