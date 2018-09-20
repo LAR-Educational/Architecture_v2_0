@@ -80,7 +80,7 @@ class SystemVariablesControl():
         tmp_dict = cPickle.load(f)
         f.close()
 
-        print tmp_dict          
+        #print tmp_dict          
 
         self.__dict__.update(tmp_dict) 
 

@@ -27,7 +27,7 @@ from Modules import vision #as vs
 from Modules.Vision import predict
 from Modules.Vision import data_process #as dp
 from Modules import content as ct
-
+from Modules.userhandler import *
 
 class SessionInfo:
 	def __init__(self,initi_time,final_time):
@@ -66,7 +66,7 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		self.setupUi(self)  # This is defined in design.py file automatically
 
-		svc = core.SystemVariablesControl()
+		self.sys_vars = core.SystemVariablesControl()
 
 
 		QTextCodec.setCodecForCStrings(QTextCodec.codecForName("utf8"))
@@ -108,6 +108,18 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.know_per_button_del.clicked.connect( lambda: delete_item_table(self.knowledge_personal_table))
 		self.know_per_button_save.clicked.connect( lambda: save_table(self, self.knowledge_personal_table,self.know_per_df,self.knowledge_path+"personal_knowledge.csv"))
 		self.know_per_button_load.clicked.connect( lambda: load_table(self, self.knowledge_personal_table,self.know_per_df,self.knowledge_path+"personal_knowledge.csv"))
+
+
+		#--- Student
+		
+		self.students_database = UserDatabase()
+		dataframe_to_table(self.students_database.index_table, self.st_db_index_table)
+		self.user_new_button.clicked.connect( self.insert_user)
+		self.user_cancel_button.clicked.connect( self.user_cancel)
+		self.user_ok_button.clicked.connect( self.user_confirm_entry)
+		self.user_del_button.clicked.connect( self.delete_user)
+		self.user_open_table_button.clicked.connect( self.user_open)
+		self.user_choose_pic_button.clicked.connect( self.user_choose_pic)
 
 
 		#--- Plan and Run
@@ -449,7 +461,164 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			#self.content_subject_comboBox.setCurrentIndex(self.content_subject_comboBox.count()-1)
 			self.log("Content <<" + cont_name + ">> deleted!")
 			
-			
+
+
+
+
+#-------------------------------------------------- USER ----------------------------------------
+
+
+	def insert_user(self):
+
+		self.frame_18.setEnabled(False)
+		self.user_frame.setEnabled(True)
+		self.user_name_field.setEnabled(True)
+		self.user_id_label.setText(str(self.sys_vars.users_id+1))
+		#self.user_name_field.setFocus()
+		self.user_creation_date.setDate(QDate.currentDate())
+		self.user_bd_field.setDate(QDate.currentDate())
+		
+		#self.user_id_label.setText(str(user2show.id))
+		#self.user_bd_field.setDate()
+		self.user_name_field.setText("")
+		self.user_last_name_field.setText("")
+		self.user_school_year.setValue(0)
+		self.user_image.setPixmap(QPixmap("GUI/user2.png"))
+		#self.user_last_name_field.setText(str())
+		#self.user_last_name_field.setText(str())
+		#self.user_last_name_field.setText(str())
+
+		self.user_sport.setText("")
+		self.user_team.setText("")
+		self.user_toy.setText("")
+		self.user_game.setText("")
+		self.user_dance.setText("")
+		self.user_music.setText("")
+		self.user_hobby.setText("")
+		self.user_food.setText("")
+
+
+		
+
+	def delete_user(self):
+
+		#print self.students_database.index_table[self.st_db_index_table.currentRow()]
+		#print self.st_db_index_table.currentRow()
+
+		# print self.students_database.users[self.st_db_index_table.currentRow()]
+		user2kill = self.students_database.users[self.st_db_index_table.currentRow()]
+
+		self.students_database.delete_user(user2kill)
+		dataframe_to_table(self.students_database.index_table, self.st_db_index_table)
+
+
+
+	def user_cancel(self):
+
+		self.frame_18.setEnabled(True)
+		self.user_frame.setEnabled(False)
+
+
+		#self.log_text.setText(self.user_name_field.text())	
+		
+	# def __init__(self, id, first_name, last_name, bday='None',
+    #             scholl_year='None', picture='None', preferences={}, img = None, creation_Date=None):
+	
+	# def setPreferences(self, sport='None', team='None', toy='None', game='None', 
+    #                    dance='None', music='None', hobby='None', food='None'):
+
+	def user_confirm_entry(self):
+		
+		
+		#QPixmap qpix = self.user_image.pixmap()
+		image = self.user_image.pixmap().toImage()
+		
+		print type (image)
+
+		#img = cv2.Mat(image.rows(),image.cols(),CV_8UC3,image.scanline())
+		img = qImageToMat(image)
+
+		print type (img)
+
+		cv2.imshow("test",img)
+		cvs.waitKey(0)
+
+		aux = User(int(self.user_id_label.text()),
+			str(self.user_name_field.text()),
+			str(self.user_last_name_field.text()),
+			#str(self.user_bd_field.textFromDateTime("dd:mm:yyyy")),
+			(self.user_bd_field.date()),
+			str(self.user_school_year.text()),
+			creation_date=self.user_creation_date.date())
+
+		aux.setPreferences(
+			self.user_sport.text(),
+			self.user_team.text(),
+			self.user_toy.text(),
+			self.user_game.text(),
+			self.user_dance.text(),
+			self.user_music.text(),
+			self.user_hobby.text(),
+			self.user_food.text())
+
+		if self.students_database.insert_user(aux)	> 0:
+			self.sys_vars.add('user')
+		
+		dataframe_to_table(self.students_database.index_table, self.st_db_index_table)
+		
+		self.user_frame.setEnabled(False)
+		self.frame_18.setEnabled(True)
+		
+	
+
+	def user_open(self):
+
+		#self.st_db_index_table.setEnabled(False)
+		self.frame_18.setEnabled(False)
+		self.user_name_field.setEnabled(True)
+		
+		self.user_frame.setEnabled(True)
+		
+		user2show = self.students_database.users[self.st_db_index_table.currentRow()]
+
+		self.user_id_label.setText(str(user2show.id))
+		#self.user_bd_field.setDate()
+		self.user_name_field.setText(str(user2show.first_name))
+		self.user_last_name_field.setText(str(user2show.last_name))
+		#print user2show.bday
+		#self.user_bd_field.setDate(QDate.fromString(user2show.bday,"dd/MM/yyyy"))
+		#self.user_creation_date.setDate(QDate.fromString(user2show.creation_date,"dd/MM/yyyy"))
+		self.user_bd_field.setDate(user2show.bday)
+		self.user_creation_date.setDate(user2show.creation_date)
+		#self.user_last_name_field.setText(str())
+		#self.user_last_name_field.setText(str())
+		#self.user_last_name_field.setText(str())
+
+		self.user_sport.setText(user2show.preferences['sport'])
+		self.user_team.setText(user2show.preferences['team'])
+		self.user_toy.setText(user2show.preferences['toy'])
+		self.user_game.setText(user2show.preferences['game'])
+		self.user_dance.setText(user2show.preferences['dance'])
+		self.user_music.setText(user2show.preferences['music'])
+		self.user_hobby.setText(user2show.preferences['hobby'])
+		self.user_food.setText(user2show.preferences['food'])
+
+		self.log_text.setText(self.user_creation_date.date().toString('dd/MM/yyyy'))
+
+
+	def user_choose_pic(self):
+
+		filename = QFileDialog.getOpenFileName(self, 'Open File', '.')
+		img = QPixmap(filename)
+		self.user_image.setPixmap(img)
+
+
+
+
+
+
+
+
 
 #-------------------------------------------------- RUN ----------------------------------------
 
@@ -470,6 +639,13 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#time = time.toString('hh:mm:ss') 
 		self.cur_sess=SessionInfo(time,None)
 		self.counter_timer.start()
+
+
+
+
+
+
+
 
 
 ### ------------ CLOCK

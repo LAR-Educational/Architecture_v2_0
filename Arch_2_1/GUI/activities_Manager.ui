@@ -327,7 +327,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>6</number>
       </property>
       <property name="iconSize">
        <size>
@@ -2992,9 +2992,9 @@
        </attribute>
        <layout class="QGridLayout" name="gridLayout_9">
         <item row="0" column="1">
-         <widget class="QFrame" name="frame_19">
+         <widget class="QFrame" name="user_frame">
           <property name="enabled">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="minimumSize">
            <size>
@@ -3015,291 +3015,47 @@
            <enum>QFrame::Raised</enum>
           </property>
           <layout class="QGridLayout" name="gridLayout_44">
-           <item row="4" column="0">
-            <widget class="QFrame" name="frame_24">
-             <property name="frameShape">
-              <enum>QFrame::StyledPanel</enum>
+           <item row="2" column="1">
+            <widget class="QPushButton" name="user_cancel_button">
+             <property name="text">
+              <string>Cancel</string>
              </property>
-             <property name="frameShadow">
-              <enum>QFrame::Raised</enum>
-             </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_3">
-              <item>
-               <spacer name="horizontalSpacer_6">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pushButton_6">
-                <property name="text">
-                 <string>Edit</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pushButton_7">
-                <property name="text">
-                 <string>Cancel</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pushButton_8">
-                <property name="text">
-                 <string>Ok</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_7">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
             </widget>
            </item>
-           <item row="0" column="0">
-            <widget class="QFrame" name="frame_54">
-             <property name="frameShape">
-              <enum>QFrame::StyledPanel</enum>
+           <item row="2" column="0">
+            <spacer name="horizontalSpacer_6">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
              </property>
-             <property name="frameShadow">
-              <enum>QFrame::Raised</enum>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
              </property>
-             <layout class="QGridLayout" name="gridLayout_25">
-              <item row="0" column="0">
-               <widget class="QLabel" name="label_40">
-                <property name="font">
-                 <font>
-                  <family>Ubuntu</family>
-                  <pointsize>28</pointsize>
-                  <weight>75</weight>
-                  <italic>true</italic>
-                  <bold>true</bold>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Student Profile</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1" rowspan="2">
-               <widget class="QFrame" name="frame_21">
-                <property name="minimumSize">
-                 <size>
-                  <width>1</width>
-                  <height>1</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>1111</width>
-                  <height>1111</height>
-                 </size>
-                </property>
-                <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
-                </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Raised</enum>
-                </property>
-                <layout class="QGridLayout" name="gridLayout_21">
-                 <item row="2" column="0">
-                  <widget class="QPushButton" name="pushButton_5">
-                   <property name="text">
-                    <string>Database</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="0">
-                  <widget class="QLabel" name="Userimage_2">
-                   <property name="maximumSize">
-                    <size>
-                     <width>101</width>
-                     <height>109</height>
-                    </size>
-                   </property>
-                   <property name="frameShape">
-                    <enum>QFrame::Box</enum>
-                   </property>
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="pixmap">
-                    <pixmap>user2.png</pixmap>
-                   </property>
-                   <property name="scaledContents">
-                    <bool>true</bool>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignCenter</set>
-                   </property>
-                   <property name="wordWrap">
-                    <bool>true</bool>
-                   </property>
-                   <property name="indent">
-                    <number>-1</number>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QFrame" name="frame_20">
-                <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
-                </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Raised</enum>
-                </property>
-                <layout class="QGridLayout" name="gridLayout_22">
-                 <item row="0" column="0">
-                  <widget class="QLabel" name="label_34">
-                   <property name="maximumSize">
-                    <size>
-                     <width>195</width>
-                     <height>22</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <family>Ubuntu</family>
-                     <pointsize>14</pointsize>
-                     <italic>true</italic>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>Name</string>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignCenter</set>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="1">
-                  <widget class="QLabel" name="label_36">
-                   <property name="maximumSize">
-                    <size>
-                     <width>180</width>
-                     <height>22</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <family>Ubuntu</family>
-                     <pointsize>14</pointsize>
-                     <italic>true</italic>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>Last Name</string>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignCenter</set>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="2">
-                  <widget class="QLabel" name="label_42">
-                   <property name="font">
-                    <font>
-                     <family>Ubuntu</family>
-                     <pointsize>14</pointsize>
-                     <italic>true</italic>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>Birthday</string>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignCenter</set>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="3">
-                  <widget class="QLabel" name="label_39">
-                   <property name="font">
-                    <font>
-                     <family>Ubuntu</family>
-                     <italic>true</italic>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>School Year</string>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignCenter</set>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="0">
-                  <widget class="QLineEdit" name="lineEdit_3">
-                   <property name="enabled">
-                    <bool>true</bool>
-                   </property>
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>231</width>
-                     <height>24</height>
-                    </size>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="1">
-                  <widget class="QLineEdit" name="lineEdit_6">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>241</width>
-                     <height>24</height>
-                    </size>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="2">
-                  <widget class="QDateEdit" name="dateEdit"/>
-                 </item>
-                 <item row="1" column="3">
-                  <widget class="QSpinBox" name="spinBox_2"/>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-             </layout>
+            </spacer>
+           </item>
+           <item row="2" column="2">
+            <widget class="QPushButton" name="user_ok_button">
+             <property name="text">
+              <string>Ok</string>
+             </property>
             </widget>
            </item>
-           <item row="3" column="0">
+           <item row="2" column="3">
+            <spacer name="horizontalSpacer_7">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="1" column="0" colspan="4">
             <widget class="QFrame" name="frame_22">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -3308,6 +3064,9 @@
               <enum>QFrame::Raised</enum>
              </property>
              <layout class="QGridLayout" name="gridLayout_23">
+              <item row="1" column="4">
+               <widget class="QLineEdit" name="user_dance"/>
+              </item>
               <item row="1" column="2" rowspan="4">
                <widget class="Line" name="line_7">
                 <property name="orientation">
@@ -3316,13 +3075,13 @@
                </widget>
               </item>
               <item row="2" column="1">
-               <widget class="QLineEdit" name="lineEdit_5"/>
+               <widget class="QLineEdit" name="user_team"/>
               </item>
               <item row="3" column="1">
-               <widget class="QLineEdit" name="lineEdit_7"/>
+               <widget class="QLineEdit" name="user_toy"/>
               </item>
               <item row="2" column="4">
-               <widget class="QLineEdit" name="lineEdit_10"/>
+               <widget class="QLineEdit" name="user_music"/>
               </item>
               <item row="1" column="0">
                <widget class="QLabel" name="label_41">
@@ -3392,14 +3151,11 @@
                 </property>
                </widget>
               </item>
-              <item row="1" column="4">
-               <widget class="QLineEdit" name="lineEdit_9"/>
-              </item>
               <item row="4" column="1">
-               <widget class="QLineEdit" name="lineEdit_8"/>
+               <widget class="QLineEdit" name="user_game"/>
               </item>
               <item row="1" column="1">
-               <widget class="QLineEdit" name="lineEdit_4"/>
+               <widget class="QLineEdit" name="user_sport"/>
               </item>
               <item row="2" column="0">
                <widget class="QLabel" name="label_45">
@@ -3436,7 +3192,7 @@
                </widget>
               </item>
               <item row="4" column="4">
-               <widget class="QLineEdit" name="lineEdit_12"/>
+               <widget class="QLineEdit" name="user_food"/>
               </item>
               <item row="2" column="3">
                <widget class="QLabel" name="label_48">
@@ -3473,7 +3229,7 @@
                </widget>
               </item>
               <item row="3" column="4">
-               <widget class="QLineEdit" name="lineEdit_11"/>
+               <widget class="QLineEdit" name="user_hobby"/>
               </item>
               <item row="0" column="1" colspan="4">
                <widget class="QLabel" name="label_43">
@@ -3492,6 +3248,278 @@
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
                 </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="0" column="0" colspan="4">
+            <widget class="QFrame" name="frame_54">
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_25">
+              <item row="0" column="1" rowspan="3">
+               <widget class="QFrame" name="frame_21">
+                <property name="minimumSize">
+                 <size>
+                  <width>1</width>
+                  <height>1</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>151</width>
+                  <height>191</height>
+                 </size>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_21">
+                 <item row="2" column="0">
+                  <widget class="QPushButton" name="user_choose_pic_button">
+                   <property name="text">
+                    <string>Choose</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="user_image">
+                   <property name="maximumSize">
+                    <size>
+                     <width>11111</width>
+                     <height>11111</height>
+                    </size>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::Box</enum>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="pixmap">
+                    <pixmap>user2.png</pixmap>
+                   </property>
+                   <property name="scaledContents">
+                    <bool>true</bool>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                   <property name="wordWrap">
+                    <bool>true</bool>
+                   </property>
+                   <property name="indent">
+                    <number>-1</number>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_40">
+                <property name="font">
+                 <font>
+                  <family>Ubuntu</family>
+                  <pointsize>28</pointsize>
+                  <weight>75</weight>
+                  <italic>true</italic>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Student Profile</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QFrame" name="frame_20">
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_22">
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label_106">
+                   <property name="text">
+                    <string>ID</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QLabel" name="label_34">
+                   <property name="maximumSize">
+                    <size>
+                     <width>195</width>
+                     <height>22</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <family>Ubuntu</family>
+                     <pointsize>14</pointsize>
+                     <italic>true</italic>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>Name</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="2">
+                  <widget class="QLabel" name="label_36">
+                   <property name="maximumSize">
+                    <size>
+                     <width>180</width>
+                     <height>22</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <family>Ubuntu</family>
+                     <pointsize>14</pointsize>
+                     <italic>true</italic>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>Last Name</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QLineEdit" name="user_name_field">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>231</width>
+                     <height>24</height>
+                    </size>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="2">
+                  <widget class="QLineEdit" name="user_last_name_field">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>241</width>
+                     <height>24</height>
+                    </size>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="user_id_label">
+                   <property name="font">
+                    <font>
+                     <pointsize>18</pointsize>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>00000</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QFrame" name="frame_71">
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout">
+                 <item>
+                  <widget class="QLabel" name="label_42">
+                   <property name="font">
+                    <font>
+                     <family>Ubuntu</family>
+                     <pointsize>14</pointsize>
+                     <italic>true</italic>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>Birthday</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QDateEdit" name="user_bd_field"/>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_39">
+                   <property name="font">
+                    <font>
+                     <family>Ubuntu</family>
+                     <italic>true</italic>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>School Year</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QSpinBox" name="user_school_year"/>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_127">
+                   <property name="text">
+                    <string>Creation Date</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QDateEdit" name="user_creation_date"/>
+                 </item>
+                </layout>
                </widget>
               </item>
              </layout>
@@ -3537,13 +3565,52 @@
              </property>
             </widget>
            </item>
+           <item row="2" column="0">
+            <widget class="QFrame" name="frame_25">
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <item>
+               <widget class="QPushButton" name="user_new_button">
+                <property name="text">
+                 <string>New</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="user_del_button">
+                <property name="text">
+                 <string>Delete</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="user_open_table_button">
+                <property name="text">
+                 <string>Open</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
            <item row="1" column="0">
-            <widget class="QTableWidget" name="tableWidget">
+            <widget class="QTableWidget" name="st_db_index_table">
              <property name="maximumSize">
               <size>
                <width>441</width>
                <height>411</height>
               </size>
+             </property>
+             <property name="alternatingRowColors">
+              <bool>true</bool>
+             </property>
+             <property name="selectionBehavior">
+              <enum>QAbstractItemView::SelectRows</enum>
              </property>
              <attribute name="horizontalHeaderCascadingSectionResizes">
               <bool>true</bool>
@@ -3578,39 +3645,6 @@
                <string>Last Name</string>
               </property>
              </column>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QFrame" name="frame_25">
-             <property name="frameShape">
-              <enum>QFrame::StyledPanel</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Raised</enum>
-             </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_2">
-              <item>
-               <widget class="QPushButton" name="pushButton_10">
-                <property name="text">
-                 <string>New</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pushButton_9">
-                <property name="text">
-                 <string>Delete</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pushButton_11">
-                <property name="text">
-                 <string>Open</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
             </widget>
            </item>
           </layout>

@@ -33,18 +33,18 @@ class UserDatabase():
         
         self.size = len(self.index_table.index)
 
-        print self.index_table
+        #print self.index_table
 
 
 
     def load_users_list(self):
         
         for item in self.index_table.Id:#['Id']:
-            print item
+            #print item
             self.users.append(self.load_user( os.path.join(self.path,str(item),str(item)+".data")))
         
         
-        print self.users
+        #print self.users
         
         
 
@@ -54,24 +54,31 @@ class UserDatabase():
         #create path
         path = self.path + str(new_user.id)
         if os.path.exists(path):
-            raise NameError('Trying to insert user with id "{}". User already exists!'.format(new_user.id))
-            #print "USER EXIST"
+            #raise NameError('Trying to insert user with id "{}". User already exists!'.format(new_user.id))
+            self.save_user(new_user, path +"/" +str(new_user.id)+".data")
+            self.index_table.to_csv(self.index_path, index=False)
+            self.index_table.loc[self.index_table.Id==new_user.id] =[new_user.id, new_user.first_name,new_user.last_name]
+            self.index_table.to_csv(self.index_path, index=False)
+            print "USER EXIST. UPDATING"
+            return -1
         
-        #else:
-        #create paths and images
-        os.mkdir(path)
-        os.mkdir(path+"/imgs")
-        #insert in table
-        self.save_user(new_user, path +"/" +str(new_user.id)+".data")
-        self.index_table.loc[self.size] =[new_user.id, new_user.first_name,new_user.last_name]
-        self.size += 1
+        else:
+            #create paths and images
+            os.mkdir(path)
+            os.mkdir(path+"/imgs")
+            #insert in table
+            self.index_table.loc[self.size] =[new_user.id, new_user.first_name,new_user.last_name]
+            self.size += 1
+            self.users.append(new_user)
+            print "USER INSERT DONE"
 
-        self.index_table.to_csv(self.index_path, index=False)
-        print "USER INSERT DONE"
-        print self.index_table
-        
+            self.save_user(new_user, path +"/" +str(new_user.id)+".data")
+            self.index_table.to_csv(self.index_path, index=False)
+            #print self.index_table
+            return 1
 
-
+    # NAO ESTA TIRANDO O USER DA LISTA DE USUARIOS DA RAM
+    # APENAS QUANDO REINICIALIZA O PROGRAMA - Resolvi de um jeito bem porco.
     def delete_user(self, new_user):
         #delete path
         #create path
@@ -89,12 +96,12 @@ class UserDatabase():
         self.index_table = self.index_table[self.index_table.Id != new_user.id]
         self.size-=1
         print "DELETE DONE"
-        print self.index_table
+        #print self.index_table
         self.index_table.to_csv(self.index_path, index=False)
-        
+        #self.users.remove()
         #delete table
         #pass
-
+        self.load_users_list()
 
     def load_user(self, path):
         f = open(path, 'rb')
@@ -120,7 +127,7 @@ class UserDatabase():
 class User():
 
     def __init__(self, id, first_name, last_name, bday='None',
-                 scholl_year='None', picture='None', preferences={}, img = None):
+                 scholl_year='None', picture='None', preferences={}, img = None, creation_date=None):
 
         self.id=id
         self.first_name=first_name
@@ -131,6 +138,7 @@ class User():
         self.preferences=preferences
         self.pref_index = ['sport', 'team', 'toy', 'game', 'dance', 'music', 'hobby','food']
         self.img = img
+        self.creation_date = creation_date
     
     
     def setPreferences(self, sport='None', team='None', toy='None', game='None', 

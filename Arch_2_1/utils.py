@@ -64,6 +64,7 @@ def load_table(window, table, dataframe, filename):
         QMessageBox.critical(window, "Error!", "File to load does not exist!", QMessageBox.Ok )
 
 def table_to_dataframe(table):
+	
 	row_numb = table.rowCount() 
 	col_numb = table.columnCount()
 
@@ -96,21 +97,34 @@ def dataframe_to_table(df,table):
     table.setHorizontalHeaderLabels(df.columns)
     for i in range(len(df.index)):
         for j in range(len(df.columns)):
-            #item = str(df.iat[i, j])
-            item = u''.join((df.iat[i, j])).encode('utf-8').strip()
-            #print item
-            if item == 'nan':
-                item = ''
+			item = str(df.iat[i, j])
+			#print df.iat[i, j]
+			#print i, j
+			#item = u''.join((df.iat[i, j])).encode('utf-8').strip()
+			#print item
+			if item == 'nan':
+				item = ''
 
-            table.setItem(i, j, QTableWidgetItem(item))
-    
+			table.setItem(i, j, QTableWidgetItem(item))
+
     #table.wordWrap(True)
     #table.resizeColumnsToContents()
     table.resizeRowsToContents()
 
 
 
+def qImageToMat(incomingImage):
+    '''  Converts a QImage into an opencv MAT format  '''
 
+    incomingImage = incomingImage.convertToFormat(4)
+
+    width = incomingImage.width()
+    height = incomingImage.height()
+
+    ptr = incomingImage.bits()
+    ptr.setsize(incomingImage.byteCount())
+    arr = np.array(ptr).reshape(height, width, 4)  #  Copies the data
+    return arr
 
 
 
