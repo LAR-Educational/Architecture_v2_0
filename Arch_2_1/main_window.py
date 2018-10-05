@@ -165,7 +165,7 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#self._lineEdit.setText(self.act.desc)
 		self.editButton.setEnabled(True)
 		self.modules_tabWidget.setEnabled(True)
-		self.content_path = self.act.path +  "/Content" +"/"
+		self.content_path = self.act.path +  "/Content" +"/"	
 		
 		#self.sub_list = load_subjects(os.path.join(self.act.path,"Content","subjects"))
 		#self.sub_list = pd.read_csv(os.path.join(self.act.path,"Content","subjects.cvs"))
