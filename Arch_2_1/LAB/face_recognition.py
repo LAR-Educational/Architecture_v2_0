@@ -476,7 +476,7 @@ def multiple_detection():
         img = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
         #faces = faceCascade.detectMultiScale(frame, 1.3, 5)
-        faces = faceCascade.detectMultiScale(frame, scaleFactor=1.3, minNeighbors=5, minSize=(30, 30), flags = cv2.CASCADE_SCALE_IMAGE)
+        faces = faceCascade.detectMultiScale(frame, scaleFactor=1.3, minNeighbors=7, minSize=(30, 30), flags = cv2.CASCADE_SCALE_IMAGE)
         
         #detected_faces = []
 
