@@ -1,5 +1,12 @@
 <RCC>
   <qresource prefix="imgs">
+    <file>pause.png</file>
+    <file>play.png</file>
+    <file>rec.png</file>
+    <file>stop.png</file>
+    <file>pause2.png</file>
+    <file>no-image-icon-11.PNG</file>
+    <file>user2.png</file>
     <file>Adaptive_SBIE.png</file>
     <file>cub.jpg</file>
     <file>terminal.png</file>
@@ -7,5 +14,7 @@
     <file>cnn.png</file>
     <file>user.png</file>
     <file>activityDefault.png</file>
+    <file>wrong.png</file>
+    <file>correct.jpg</file>
   </qresource>
 </RCC>

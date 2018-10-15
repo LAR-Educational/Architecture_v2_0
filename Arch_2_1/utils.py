@@ -128,6 +128,37 @@ def qImageToMat(incomingImage):
 
 
 
+
+
+
+def matcv_to_qimg(img):
+
+	qformat = QImage.Format_Indexed8
+	if len(img.shape)==3:
+			if img.shape[2]==4:
+				qformat = QImage.Format_RGBA8888
+			else :
+				qformat = QImage.Format_RGB888
+	
+	outImage= QImage(img, img.shape[1], img.shape[0], img.strides[0], qformat)
+	outImage = outImage.rgbSwapped()
+
+	return outImage
+
+
+#def qimg_to_cvmat()
+
+
+
+
+
+
+
+
+
+
+
+
 #---------------------------------- USELESS- -------------------------------
 
 

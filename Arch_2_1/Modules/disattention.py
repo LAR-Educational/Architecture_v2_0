@@ -78,7 +78,7 @@ class Th(Thread):
 		
 			while self.run_state=='running':
 		
-				result = camera.getImageRemote(nameId)
+				#result = camera.getImageRemote(nameId)
 		
 				#create image
 				width = result[0]
