@@ -9,6 +9,7 @@ import sys # We need sys so that we can pass argv to QApplication
 import csv
 import os
 import cv2
+import time
 import numpy as np
 import pandas as pd
 from utils import *
@@ -24,6 +25,7 @@ from Modules import vars as core
 #from Modules import dialog #as diag
 #from Modules import motion as mt
 from Modules import vision #as vs
+from Modules import emotion
 from Modules.Vision import predict
 from Modules.Vision import data_process #as dp
 from Modules import content as ct
@@ -79,7 +81,7 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.reportLoadButton.clicked.connect(self.loadReportsCsv)
 		self.writeReportButton.clicked.connect(self.writeReportCsv)
 		
-		
+		self.recog_flag = False
 
 		#--- Content panel
 		self.content_path=None
@@ -126,9 +128,24 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.pushButton_run_activity.clicked.connect(self.start_display_image)
 		self.pushButton_start_robot_view.clicked.connect(self.resume_display_image)
 		self.pushButton_stop_robot_view.clicked.connect(self.stop_display_image)
+		self.run_facerecog_pushButton.clicked.connect(self.run_facerecog)
+		self.run_emotion_pushButton.clicked.connect(self.run_att_emo)
 		
+		self.run_load_pushButton.clicked.connect(self.run_load_models)
+		self.run_takepic_pushButton.clicked.connect(self.run_takepic)
+		#self.run_picname_lineEdit.textChanged.connect( lambda: self.line_edit_text_changed(self.run_picname_lineEdit,self.run_takepic_pushButton	 ))
+		#self.run_videoname_lineEdit.textChanged.connect( lambda: self.line_edit_text_changed(self.run_videoname_lineEdit,self.run_recvid_button	 ))
+		self.run_recvid_button.clicked.connect(self.run_start_recording_video)
+		self.run_stopvid_button.clicked.connect(self.run_stop_recording_video)
+
+
+
 		self.image=None
-		
+		# Define the codec and create VideoWriter object
+		self.fourcc = cv2.VideoWriter_fourcc(*'XVID')
+		self.out = None# cv2.VideoWriter('output.avi',fourcc, 20.0, (640,480))
+		self.run_record = False
+		self.run_emotion_flag = False
 		self.act = None #"/home/tozadore/Projects/Arch_2/Arch_2_1/Activities/NOVA/Content" #None
 		self.qRow = 0
 		self.qCol = 0
@@ -368,8 +385,6 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#text= self.sub_list['concepts'][self.sub_list['subjects'][self.sub_list['subjects']==str(self.content_subject_comboBox.currentText())].index[0]]
 		text= str(self.sub_list['concepts'][self.content_subject_comboBox.currentIndex()])
 		
-		#print "TEXT:",self.content_subject_comboBox.currentIndex()
-
 		self.content_concept.setText(text)
 		file_name = str(self.content_path + self.content_subject_comboBox.currentText()+".csv")
 		
@@ -540,8 +555,8 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		print type (img)
 
-		cv2.imshow("test",img)
-		cvs.waitKey(0)
+		#cv2.imshow("test",img)
+		#cv2.waitKey(0)
 
 		aux = User(int(self.user_id_label.text()),
 			str(self.user_name_field.text()),
@@ -623,9 +638,15 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 #-------------------------------------------------- RUN ----------------------------------------
 
 	def start_display_image(self):
+		
 		self.capture = cv2.VideoCapture(0)
-		self.pushButton_start_robot_view.setEnabled(True)
+		self.run_options_frame.setEnabled(True)
+		self.pushButton_start_robot_view.setEnabled(False)
 		self.pushButton_stop_robot_view.setEnabled(True)
+		self.run_emotion_pushButton.setEnabled(False)
+		self.run_facerecog_pushButton.setEnabled(False)
+		self.run_takepic_pushButton.setEnabled(True)
+		self.run_recvid_button.setEnabled(True)
 
 		self.timer = QTimer(self)
 		self.timer.timeout.connect(self.update_frame)
@@ -641,32 +662,51 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.counter_timer.start()
 
 
+	def run_load_models(self):
+		self.students_database.generate_encodings()
+		self.run_facerecog_pushButton.setEnabled(True)
+		self.run_emotion_pushButton.setEnabled(True)
+		self.emotion_classifier = emotion.Classifier()
+		self.face_cascade = cv2.CascadeClassifier('Modules/haarcascade_frontalface_alt.xml')
 
 
+	def run_facerecog(self):
+		self.recog_flag=True
+		self.run_emotion_pushButton.setEnabled(False)
 
 
+	def run_att_emo(self):
+		self.run_emotion_flag=True
+		self.run_facerecog_pushButton.setEnabled(False)
+
+	def run_takepic(self):
+		name = "images/"+str(self.run_picname_lineEdit.text()) +".png"
+		cv2.imwrite(name, self.image)
+		self.log(name + " write")
+		#print name
+
+	def run_start_recording_video(self):
+		video_name = "Videos/"+ str(self.run_videoname_lineEdit.text())+".avi"
+		self.out =  cv2.VideoWriter(video_name,self.fourcc, 20.0, (640,480))
+		self.run_record = True 
+		self.run_stopvid_button.setEnabled(True)
 
 
+	def run_stop_recording_video(self):
+		self.out.release()
+		self.run_record = False
 
-### ------------ CLOCK
-
-	def showTime(self):
-		time = QTime.currentTime()
-		duration = self.counter_timer.elapsed()
-		sec = (duration/1000) % 60
-		min = int(duration/60000)
-		text = str(min).zfill(2)+':'+str(sec).zfill(2)
-		if (sec %2 ) == 0:
-			text = text[:2] + ' ' + text[3:]
-		self.clock_display.setText(text)
-		
-		
 		
 	def resume_display_image(self):
 		self.pushButton_start_robot_view.setEnabled(False)
 		self.pushButton_stop_robot_view.setEnabled(True)
-
+		self.run_emotion_pushButton.setEnabled(True)
+		self.run_facerecog_pushButton.setEnabled(True)
+		self.recog_flag = False
+		self.run_emotion_flag = False
 		self.timer.start(5)
+
+
 
 	def update_frame(self):
 		ret, self.image=self.capture.read()
@@ -674,7 +714,25 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#cv2.imshow("testwindow",self.image )
 		#cv2.waitKey()
 
+		if (self.recog_flag):
+			self.image = self.students_database.face_recognition(self.image)
+
+		if (self.run_emotion_flag):
+			self.image = self.run_attention_emotion_thread(self.image)
+
+		if(self.run_record):
+			frame = self.image #cv2.flip(self.image,-1)
+			self.out.write(frame)
+
 		self.displayImage(self.image)
+
+
+
+
+
+
+
+
 
 	def displayImage(self, img):
 		qformat = QImage.Format_Indexed8
@@ -697,7 +755,105 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.timer.stop()
 
 
+	
+	def run_attention_emotion_thread(self, image):
+	
+		
+		# start some variables
+		# number of deviations, time on disattention
+		n_deviations = time_disattention = 0
+		# static measuring time, dynamic measuring time, time on atention, time for emotion classifier
+		static_time = dynamic_time = time_attention = time_emotion = time.time()
 
+		
+		#arq = open('AttentionLogs/{:6.0f}all_statistics.dat'.format(time.time()), 'w');
+	
+		#info("All set. Obtaining images!")
+		#c = open('emotion_imgs/classifications.txt', 'a+')
+		face = None
+	
+
+		# convert image to grayscale			
+		image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)                                    
+
+		# detect faces using Haar Cascade, last parameter: min_neighbors
+		faces = self.face_cascade.detectMultiScale(image_gray, 1.3, minNeighbors=5)
+
+		# if no faces are detected, updates deviation time
+		if len(faces) == 0:           
+			#print "Here is a problem"         
+			dynamic_time = time.time()
+
+		# else, shows on screen the detected face, store the face on
+		# a variable to be emotion-classified, and counts deviation time
+		else:
+			# runs through all faces found (expected only one, but runs on a loop just to be sure)
+			for (x, y, w, h) in faces:
+				# draws rectangle around the face
+				cv2.rectangle(image,(x,y),(x+w,y+h),(255,0,0),2)
+			
+				# store the detected face with a few extra pixels, because
+				# the cascade classifier cuts a litte too much
+				face = image_gray[y-10:y+h+10, x-10:x+w+10]
+			
+				# if a time difference of 0.3 seconds is met, classify the emotion on a face
+				time_diff = dynamic_time-time_emotion
+
+				try:
+					#print " 1"
+					#if(time_diff >= 0.3 and face is not None):
+					if( face is not None):
+					
+						#print "--2"
+						#info("Face detected. Classifying emotion.")
+						# reshape image to meet the input dimensions
+						face_to_classify = np.stack([face, face, face], axis=2)
+						face_to_classify = cv2.resize(face_to_classify, core.input_shape[:2], interpolation=cv2.INTER_AREA) * 1./255
+						
+						# get inference from classifier
+						classified_emotion = self.emotion_classifier.inference(face_to_classify)
+						# writes emotion on the image, to be shown on screen
+						cv2.putText(image, classified_emotion, (0,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,0), 2, cv2.LINE_AA)			
+						print classified_emotion
+						# store image on a folder, for future analysis
+						#cv2.imwrite("emotion_imgs/{}.png".format(dynamic_time), face)
+						#c.write("{} {}\n".format(dynamic_time, classified_emotion))
+						# reset time
+						time_emotion = time_diff
+						core.info("Emotion classified: {}".format(classified_emotion))
+						core.emotions[classified_emotion] += 1
+				except Exception as e:
+					print(e)
+			# if the time difference meets a threshold, count it as a deviation
+			diff = dynamic_time - static_time
+			
+			if diff > 0.7:
+				# increase the number of deviations detected
+				n_deviations += 1
+				# stores the time of this deviation
+				#arq.write("Tempo do desvio: {:.2f}\n".format(diff))
+				deviation_times.append(diff)
+				#increases total disattention time
+				time_disattention += diff
+				core.info("Deviation detected")
+			static_time = dynamic_time = time.time()
+
+		return image
+
+	
+	### ------------ CLOCK
+
+	def showTime(self):
+		time = QTime.currentTime()
+		duration = self.counter_timer.elapsed()
+		sec = (duration/1000) % 60
+		min = int(duration/60000)
+		text = str(min).zfill(2)+':'+str(sec).zfill(2)
+		if (sec %2 ) == 0:
+			text = text[:2] + ' ' + text[3:]
+		self.clock_display.setText(text)
+		
+		
 	# ### -------------------------- Knowledge ----------------------
 
 	# def know_new(self, table):
@@ -746,7 +902,12 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 
-
+	@pyqtSlot(str)
+	def line_edit_text_changed(self, line, button):
+		if line.text:  # Check to see if text is filled in
+			button.setEnabled(True)
+		else:
+			button.setEnabled(False)
 
 def main():
     app = QApplication(sys.argv)  # A new instance of QApplication

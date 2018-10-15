@@ -111,10 +111,11 @@ def play(robot, ds, att, max_hist=3):
 			
 			# Apenas para resetar postura
                         
-                        # Parando a thread
-                        att._halt()
+            # Parando a thread
+            att._halt()
+
+            ds.say("Agora farei uma pergunta sobre esta parte da historia ", animated=False)
 			
-                        ds.say("Agora farei uma pergunta sobre esta parte da historia ", animated=False)
 			indice = j + int(hist_dict[i][0])
 			
 			# Faz a pergunta
