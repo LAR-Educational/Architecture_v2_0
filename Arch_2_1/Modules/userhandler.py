@@ -178,6 +178,7 @@ class UserDatabase():
 
         process_this_frame = not process_this_frame
 
+        name = None
 
         # Display the results
         for (top, right, bottom, left), name in zip(face_locations, face_names):
@@ -197,7 +198,7 @@ class UserDatabase():
 
         # Display the resulting image
         #cv2.imshow('Video', frame)
-        return frame
+        return frame, name
 
 
 
