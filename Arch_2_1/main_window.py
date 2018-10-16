@@ -137,7 +137,7 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#self.run_videoname_lineEdit.textChanged.connect( lambda: self.line_edit_text_changed(self.run_videoname_lineEdit,self.run_recvid_button	 ))
 		self.run_recvid_button.clicked.connect(self.run_start_recording_video)
 		self.run_stopvid_button.clicked.connect(self.run_stop_recording_video)
-
+		self.deviation_times=[]
 
 
 		self.image=None
@@ -586,6 +586,7 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 	
 
+
 	def user_open(self):
 
 		#self.st_db_index_table.setEnabled(False)
@@ -641,7 +642,7 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		self.capture = cv2.VideoCapture(0)
 		self.run_options_frame.setEnabled(True)
-		self.pushButton_start_robot_view.setEnabled(False)
+		self.pushButton_start_robot_view.setEnabled(True)
 		self.pushButton_stop_robot_view.setEnabled(True)
 		self.run_emotion_pushButton.setEnabled(False)
 		self.run_facerecog_pushButton.setEnabled(False)
@@ -668,7 +669,8 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.run_emotion_pushButton.setEnabled(True)
 		self.emotion_classifier = emotion.Classifier()
 		self.face_cascade = cv2.CascadeClassifier('Modules/haarcascade_frontalface_alt.xml')
-
+		#self.faces = self.face_cascade.detectMultiScale(image_gray, 1.3, self.minNei_spinBox.value() )#minNeighbors=5)
+		self.run_load_pushButton.setEnabled(False)
 
 	def run_facerecog(self):
 		self.recog_flag=True
@@ -678,11 +680,20 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 	def run_att_emo(self):
 		self.run_emotion_flag=True
 		self.run_facerecog_pushButton.setEnabled(False)
+		self.n_deviations = self.time_disattention = 0
+		# static measuring time, dynamic measuring time, time on atention, time for emotion classifier
+		self.static_time = self.dynamic_time = self.time_attention = self.time_emotion = time.time()
+
+
+
+
+
 
 	def run_takepic(self):
 		name = "images/"+str(self.run_picname_lineEdit.text()) +".png"
 		cv2.imwrite(name, self.image)
 		self.log(name + " write")
+		self.run_load_pushButton.setEnabled(True)
 		#print name
 
 	def run_start_recording_video(self):
@@ -715,7 +726,9 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#cv2.waitKey()
 
 		if (self.recog_flag):
-			self.image = self.students_database.face_recognition(self.image)
+			self.image, name = self.students_database.face_recognition(self.image)
+			if name:
+				self.run_recognized_user_label.setText(name)
 
 		if (self.run_emotion_flag):
 			self.image = self.run_attention_emotion_thread(self.image)
@@ -761,9 +774,9 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		# start some variables
 		# number of deviations, time on disattention
-		n_deviations = time_disattention = 0
-		# static measuring time, dynamic measuring time, time on atention, time for emotion classifier
-		static_time = dynamic_time = time_attention = time_emotion = time.time()
+		# n_deviations = time_disattention = 0
+		# # static measuring time, dynamic measuring time, time on atention, time for emotion classifier
+		# static_time = dynamic_time = time_attention = time_emotion = time.time()
 
 		
 		#arq = open('AttentionLogs/{:6.0f}all_statistics.dat'.format(time.time()), 'w');
@@ -777,12 +790,12 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)                                    
 
 		# detect faces using Haar Cascade, last parameter: min_neighbors
-		faces = self.face_cascade.detectMultiScale(image_gray, 1.3, minNeighbors=5)
+		faces = self.face_cascade.detectMultiScale(image_gray, 1.3, self.minNei_spinBox.value() )#minNeighbors=5)
 
 		# if no faces are detected, updates deviation time
 		if len(faces) == 0:           
 			#print "Here is a problem"         
-			dynamic_time = time.time()
+			self.dynamic_time = time.time()
 
 		# else, shows on screen the detected face, store the face on
 		# a variable to be emotion-classified, and counts deviation time
@@ -797,7 +810,7 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				face = image_gray[y-10:y+h+10, x-10:x+w+10]
 			
 				# if a time difference of 0.3 seconds is met, classify the emotion on a face
-				time_diff = dynamic_time-time_emotion
+				self.time_diff = self.dynamic_time-self.time_emotion
 
 				try:
 					#print " 1"
@@ -811,32 +824,34 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 						face_to_classify = cv2.resize(face_to_classify, core.input_shape[:2], interpolation=cv2.INTER_AREA) * 1./255
 						
 						# get inference from classifier
+						#classified_emotion = "nothing"
 						classified_emotion = self.emotion_classifier.inference(face_to_classify)
 						# writes emotion on the image, to be shown on screen
-						cv2.putText(image, classified_emotion, (0,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,0), 2, cv2.LINE_AA)			
-						print classified_emotion
+						#cv2.putText(image, classified_emotion, (0,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,0), 2, cv2.LINE_AA)			
 						# store image on a folder, for future analysis
 						#cv2.imwrite("emotion_imgs/{}.png".format(dynamic_time), face)
 						#c.write("{} {}\n".format(dynamic_time, classified_emotion))
 						# reset time
-						time_emotion = time_diff
-						core.info("Emotion classified: {}".format(classified_emotion))
+						self.time_emotion = self.time_diff
+						#core.info("Emotion classified: {}".format(classified_emotion))
+						self.run_emotion_label.setText(classified_emotion)
 						core.emotions[classified_emotion] += 1
 				except Exception as e:
 					print(e)
 			# if the time difference meets a threshold, count it as a deviation
-			diff = dynamic_time - static_time
+			self.diff = self.dynamic_time - self.static_time
 			
-			if diff > 0.7:
+			if self.diff > 0.7:
 				# increase the number of deviations detected
-				n_deviations += 1
+				self.n_deviations += 1
+				self.run_deviation_count.setText(str(self.n_deviations))
 				# stores the time of this deviation
 				#arq.write("Tempo do desvio: {:.2f}\n".format(diff))
-				deviation_times.append(diff)
+				self.deviation_times.append(self.diff)
 				#increases total disattention time
-				time_disattention += diff
+				self.time_disattention += self.diff
 				core.info("Deviation detected")
-			static_time = dynamic_time = time.time()
+			self.static_time = self.dynamic_time = time.time()
 
 		return image
 
