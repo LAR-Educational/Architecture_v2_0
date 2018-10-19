@@ -34,7 +34,7 @@ class DialogSystem:
 		#self.questions = open_file(os.path.join(path,'questions.txt'))
 		#self.answers = open_file(os.path.join(path,'answers.txt'))
 		self.default_language = language
-		self.setLang(self.default_language)
+		#self.setLang(self.default_language)
 		# set the local configuration
 		self.configuration = {"bodyLanguageMode":"contextual"}
 
