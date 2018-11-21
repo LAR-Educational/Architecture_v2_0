@@ -1,6 +1,6 @@
 <RCC>
   <qresource prefix="imgs">
-    <file>graph(1).png</file>
+    <file>graph1.png</file>
     <file>lines.png</file>
     <file>graph.png</file>
     <file>pie.jpg</file>

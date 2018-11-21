@@ -14,7 +14,7 @@ import numpy as np
 import pandas as pd
 from utils import *
 #import utils
-
+	
 #from PyQt4.QtGui import *
  
 import activities_Manager # This file holds our MainWindow and all design related things
@@ -667,6 +667,7 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.cur_sess=SessionInfo(time,None)
 		self.counter_timer.start()
 		self.run_cont_interator = 0
+		
 		self.run_question_interator = -1
 
 	def run_load_models(self):
@@ -866,7 +867,10 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		if self.run_cont_interator < len(self.sub_list):
 		#for i in self.run_cont_interator < len(self.sub_list):
+			
 			self.robot_say(self.sub_list['concepts'][self.run_cont_interator])
+
+			self.run_current_topic.setText(self.sub_list['subjects'][self.run_cont_interator])
 
 			file_name = str(self.content_path + self.sub_list['subjects'][self.run_cont_interator] +".csv")
 			
@@ -876,6 +880,10 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			#self.robot_speech.setText(str(self.sub_list['concepts'][self.run_cont_interator]))
 
 			self.run_cont_interator+=1
+
+
+			self.run_question_number.setText(0)
+
 		
 		self.run_question_interator = -1
 
@@ -894,7 +902,7 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			# 	self.run_current_topic_data =pd.read_csv(file_name)
 			
 			self.robot_say( self.run_current_topic_data['Question'][self.run_question_interator] )
-
+			self.run_question_number.setText(str(self.run_question_interator+1))
 
 
 
