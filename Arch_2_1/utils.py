@@ -82,7 +82,7 @@ def table_to_dataframe(table):
 			if table.item(i,j) == None:
 				item = 'nan'
 			else:
-				item = table.item(i,j).text()
+				item = str(table.item(i,j).text())
 			data.ix[i,j] = item
 	
 	return data	
@@ -100,8 +100,9 @@ def dataframe_to_table(df,table):
 			item = str(df.iat[i, j])
 			#print df.iat[i, j]
 			#print i, j
-			#item = u''.join((df.iat[i, j])).encode('utf-8').strip()
 			#print item
+			#item = u''.join((df.iat[i, j])).encode('utf-8').strip()
+			
 			if item == 'nan':
 				item = ''
 
