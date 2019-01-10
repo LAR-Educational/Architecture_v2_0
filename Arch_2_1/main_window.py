@@ -13,8 +13,8 @@ import time
 import numpy as np
 import pandas as pd
 from utils import *
-#import utils
 	
+#import utils
 #from PyQt4.QtGui import *
  
 import activities_Manager # This file holds our MainWindow and all design related things
@@ -146,6 +146,7 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 		self.image=None
+		
 		# Define the codec and create VideoWriter object
 		self.fourcc = cv2.VideoWriter_fourcc(*'XVID')
 		self.out = None# cv2.VideoWriter('output.avi',fourcc, 20.0, (640,480))
