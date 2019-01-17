@@ -8,7 +8,7 @@ from pprint import pprint
 import cPickle
 from shutil import rmtree
 import face_recognition
-
+from utils import qImageToMat
 import cv2
 
 
@@ -66,6 +66,11 @@ class UserDatabase():
             self.index_table.to_csv(self.index_path, index=False)
             self.index_table.loc[self.index_table.Id==new_user.id] =[new_user.id, new_user.first_name,new_user.last_name]
             self.index_table.to_csv(self.index_path, index=False)
+            
+            #generate user Pic in CV.Mat format
+            if (new_user.img is not None):
+                cv2.imwrite(path +"/" +str(new_user.first_name)+".png", qImageToMat(new_user.img.toImage()))
+            
             print "USER EXIST. UPDATING"
             return -1
         
@@ -77,11 +82,17 @@ class UserDatabase():
             self.index_table.loc[self.size] =[new_user.id, new_user.first_name,new_user.last_name]
             self.size += 1
             self.users.append(new_user)
-            print "USER INSERT DONE"
 
             self.save_user(new_user, path +"/" +str(new_user.id)+".data")
             self.index_table.to_csv(self.index_path, index=False)
             #print self.index_table
+            #generate user Pic in CV.Mat format
+            if (new_user.img is not None):
+                #                                                                   A imagem esta em pixmap
+                cv2.imwrite(path +"/" +str(new_user.first_name)+".png", qImageToMat(new_user.img.toImage()))
+            
+            
+            print "USER INSERT DONE"
             return 1
 
     # NAO ESTA TIRANDO O USER DA LISTA DE USUARIOS DA RAM
