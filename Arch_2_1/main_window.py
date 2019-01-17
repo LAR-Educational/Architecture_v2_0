@@ -14,7 +14,7 @@ import numpy as np
 import pandas as pd
 from utils import *
 #import utils
-
+	
 #from PyQt4.QtGui import *
  
 import activities_Manager # This file holds our MainWindow and all design related things
@@ -22,9 +22,9 @@ import activities_Manager # This file holds our MainWindow and all design relate
 
 
 from Modules import vars as core
-#from Modules import dialog #as diag
+from Modules import dialog as ds
 #from Modules import motion as mt
-from Modules import vision #as vs
+#from Modules import vision #as vs
 from Modules import emotion
 from Modules.Vision import predict
 from Modules.Vision import data_process #as dp
@@ -69,7 +69,7 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.setupUi(self)  # This is defined in design.py file automatically
 
 		self.sys_vars = core.SystemVariablesControl()
-
+		self.diag_sys = ds.DialogSystem(False, False)
 
 		QTextCodec.setCodecForCStrings(QTextCodec.codecForName("utf8"))
 
@@ -130,7 +130,6 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.pushButton_stop_robot_view.clicked.connect(self.stop_display_image)
 		self.run_facerecog_pushButton.clicked.connect(self.run_facerecog)
 		self.run_emotion_pushButton.clicked.connect(self.run_att_emo)
-		
 		self.run_load_pushButton.clicked.connect(self.run_load_models)
 		self.run_takepic_pushButton.clicked.connect(self.run_takepic)
 		#self.run_picname_lineEdit.textChanged.connect( lambda: self.line_edit_text_changed(self.run_picname_lineEdit,self.run_takepic_pushButton	 ))
@@ -138,6 +137,12 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.run_recvid_button.clicked.connect(self.run_start_recording_video)
 		self.run_stopvid_button.clicked.connect(self.run_stop_recording_video)
 		self.deviation_times=[]
+
+		self.run_next_question_pushButton.clicked.connect(self.run_next_question)
+		self.run_next_topic_pushButton.clicked.connect(self.run_next_concept)
+		self.run_user_say_pushButton.clicked.connect(self.run_user_say)
+		#run_next_topic_pushButton
+
 
 
 		self.image=None
@@ -405,7 +410,7 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			
 			data = 	pd.DataFrame(columns=labels, index=range(0))
 
-			print data
+			#print data
 
 			data.to_csv(self.content_path + self.content_subject_comboBox.currentText()+".csv", index=False)
 			data.to_csv(file_name, index=False)
@@ -595,6 +600,7 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		self.user_frame.setEnabled(True)
 		
+		# Get the user in the selected row of the users table
 		user2show = self.students_database.users[self.st_db_index_table.currentRow()]
 
 		self.user_id_label.setText(str(user2show.id))
@@ -621,12 +627,26 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		self.log_text.setText(self.user_creation_date.date().toString('dd/MM/yyyy'))
 
+		if user2show.img == None:
+			self.user_image.setPixmap( QPixmap("/GUI/user2.png"))
+			self.user_image.setPixmap.show()
+		#self.user_image.setPixmap(cvmat_to_qimg(img))
+
+
+
+
 
 	def user_choose_pic(self):
 
-		filename = QFileDialog.getOpenFileName(self, 'Open File', '.')
-		img = QPixmap(filename)
-		self.user_image.setPixmap(img)
+		filename = QFileDialog.getOpenFileName(self, 'Open File', './images')
+		
+		print filename
+
+		img = cv2.imread(str(filename))
+
+		self.user_image.setPixmap(cvmat_to_qimg(img))
+
+
 
 
 
@@ -661,7 +681,9 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#time = time.toString('hh:mm:ss') 
 		self.cur_sess=SessionInfo(time,None)
 		self.counter_timer.start()
-
+		self.run_cont_interator = 0
+		
+		self.run_question_interator = -1
 
 	def run_load_models(self):
 		self.students_database.generate_encodings()
@@ -855,6 +877,75 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		return image
 
+
+	def run_next_concept(self):
+
+		if self.run_cont_interator < len(self.sub_list):
+		#for i in self.run_cont_interator < len(self.sub_list):
+			
+			self.robot_say(self.sub_list['concepts'][self.run_cont_interator])
+
+			self.run_current_topic.setText(self.sub_list['subjects'][self.run_cont_interator])
+
+			file_name = str(self.content_path + self.sub_list['subjects'][self.run_cont_interator] +".csv")
+			
+			if os.path.isfile(file_name):
+				self.run_current_topic_data =pd.read_csv(file_name)
+			
+			#self.robot_speech.setText(str(self.sub_list['concepts'][self.run_cont_interator]))
+
+			self.run_cont_interator+=1
+
+
+			self.run_question_number.setText(0)
+
+		
+		self.run_question_interator = -1
+
+
+	def run_next_question(self):
+
+		self.run_question_interator+=1
+		if self.run_question_interator < len(self.run_current_topic_data.index):
+		#for i in self.run_cont_interator < len(self.sub_list):
+			
+			# self.robot_speech.setText(str(   ))
+
+			# file_name = str(self.content_path + self.sub_list['subjects'][self.run_cont_interator] +".csv")
+			
+			# if os.path.isfile(file_name):
+			# 	self.run_current_topic_data =pd.read_csv(file_name)
+			
+			self.robot_say( self.run_current_topic_data['Question'][self.run_question_interator] )
+			self.run_question_number.setText(str(self.run_question_interator+1))
+
+
+
+
+
+
+	def run_user_say(self):
+		
+		user_answer = str(self.run_user_answer.text())
+		expected_answer = str(self.run_current_topic_data['Expected Answer'][self.run_question_interator])
+
+		dist =  str(self.diag_sys.levenshtein_long_two_strings(user_answer,expected_answer))
+		
+		# print "user", user_answer
+		# print "ex", expected_answer
+		# print "dist", dist
+		# print
+		
+		self.run_correctness.setText(dist)
+		self.log(dist)
+
+
+
+
+
+
+
+
 	
 	### ------------ CLOCK
 
@@ -914,6 +1005,12 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		time = QTime.currentTime()
 
 		self.log_text.setText( time.toString("hh:mm:ss") +"  -->  "+ text ) 
+
+
+
+	def robot_say(self, text):
+
+		self.robot_speech.setText(str(  text ))
 
 
 
