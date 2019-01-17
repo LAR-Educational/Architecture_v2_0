@@ -552,14 +552,13 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		
 		#QPixmap qpix = self.user_image.pixmap()
-		image = self.user_image.pixmap().toImage()
+		image = self.user_image.pixmap()#.toImage()
 		
-		print type (image)
+		#print type (image)
 
 		#img = cv2.Mat(image.rows(),image.cols(),CV_8UC3,image.scanline())
-		img = qImageToMat(image)
-
-		print type (img)
+		#img = qImageToMat(image)
+		#print type (img)
 
 		#cv2.imshow("test",img)
 		#cv2.waitKey(0)
@@ -570,7 +569,10 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			#str(self.user_bd_field.textFromDateTime("dd:mm:yyyy")),
 			(self.user_bd_field.date()),
 			str(self.user_school_year.text()),
-			creation_date=self.user_creation_date.date())
+			creation_date=self.user_creation_date.date(),
+			#img= img
+			img= image
+			)
 
 		aux.setPreferences(
 			self.user_sport.text(),
@@ -610,12 +612,19 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#print user2show.bday
 		#self.user_bd_field.setDate(QDate.fromString(user2show.bday,"dd/MM/yyyy"))
 		#self.user_creation_date.setDate(QDate.fromString(user2show.creation_date,"dd/MM/yyyy"))
-		self.user_bd_field.setDate(user2show.bday)
+		#self.user_bd_field.setDate(user2show.bday)
 		self.user_creation_date.setDate(user2show.creation_date)
 		#self.user_last_name_field.setText(str())
 		#self.user_last_name_field.setText(str())
 		#self.user_last_name_field.setText(str())
 
+		if (user2show.img is not None):
+			#img = QPixmap(filename)
+			print type(user2show.img)
+			self.user_image.setPixmap(user2show.img)
+			#self.user_image.
+	
+	
 		self.user_sport.setText(user2show.preferences['sport'])
 		self.user_team.setText(user2show.preferences['team'])
 		self.user_toy.setText(user2show.preferences['toy'])
