@@ -122,7 +122,7 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.user_del_button.clicked.connect( self.delete_user)
 		self.user_open_table_button.clicked.connect( self.user_open)
 		self.user_choose_pic_button.clicked.connect( self.user_choose_pic)
-
+		self.user_aux_img = None
 
 		#--- Plan and Run
 		self.pushButton_run_activity.clicked.connect(self.start_display_image)
@@ -547,18 +547,27 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 	# def setPreferences(self, sport='None', team='None', toy='None', game='None', 
     #                    dance='None', music='None', hobby='None', food='None'):
 
+	
+	
+	
 	def user_confirm_entry(self):
 		
 		
 		#QPixmap qpix = self.user_image.pixmap()
 		image = self.user_image.pixmap().toImage()
 		
-		print type (image)
+		#print type (image)
 
 		#img = cv2.Mat(image.rows(),image.cols(),CV_8UC3,image.scanline())
-		img = qImageToMat(image)
+		
+		try:
+			print "try"
+			img = qImageToMat(image)
+			
+		except Exception as e:
+			print "Exception", e
 
-		print type (img)
+		#print type (img)
 
 		#cv2.imshow("test",img)
 		#cv2.waitKey(0)
@@ -567,8 +576,9 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			str(self.user_name_field.text()),
 			str(self.user_last_name_field.text()),
 			#str(self.user_bd_field.textFromDateTime("dd:mm:yyyy")),
-			(self.user_bd_field.date()),
-			str(self.user_school_year.text()),
+			bday=(self.user_bd_field.date()),
+			scholl_year=str(self.user_school_year.text()),
+			img=img,
 			creation_date=self.user_creation_date.date())
 
 		aux.setPreferences(
@@ -627,11 +637,29 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		self.log_text.setText(self.user_creation_date.date().toString('dd/MM/yyyy'))
 
-		if user2show.img == None:
-			self.user_image.setPixmap( QPixmap("/GUI/user2.png"))
-			self.user_image.setPixmap.show()
-		#self.user_image.setPixmap(cvmat_to_qimg(img))
+		#aux_pic = "Usuarios/18014/Daniel.png"
+		aux_pic = "Usuarios/"+ str(user2show.id) +"/"+ str(user2show.first_name) +".png"
+		
+		#print"PIC NAME",  aux_pic
 
+		if os.path.exists(aux_pic):
+			self.user_image.setPixmap( QPixmap(aux_pic))
+			#print "YES"
+			#self.user_image.setPixmap(cvmat_to_qimg(img))
+		else:
+			self.user_image.setPixmap( QPixmap("GUI/user2.png"))
+			#print "NO"
+			#pass
+
+		# filename = QFileDialog.getOpenFileName(self, 'Open File', './images')
+		
+		# #print filename
+
+		# img = cv2.imread(str(filename))
+		
+		# self.user_aux_img = img
+
+		# self.user_image.setPixmap(cvmat_to_qimg(img))
 
 
 
@@ -640,12 +668,13 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		filename = QFileDialog.getOpenFileName(self, 'Open File', './images')
 		
-		print filename
+		#print filename
 
 		img = cv2.imread(str(filename))
+		
+		self.user_aux_img = img
 
 		self.user_image.setPixmap(cvmat_to_qimg(img))
-
 
 
 

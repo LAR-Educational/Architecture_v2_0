@@ -60,10 +60,10 @@ class SystemVariablesControl():
 
     def reset_vals(self):
         
-		self.users_id = 18001
-		self.session_id = 18001
-		self.evaluation_id = 18001
-		self.interaction_id = 18001
+		self.users_id = 19001
+		self.session_id = 19001
+		self.evaluation_id = 19001
+		self.interaction_id = 19001
 		os.remove(self.file_name)
 		self.save()
 
@@ -229,7 +229,7 @@ input_shape = (224,224,3)
 
 input_option_list = {'mic': 1 , 'key':-1}
 
-input_option = input_option_list['mic'] 
+input_option = input_option_list['key'] 
 
 '''
 def get_input(ds):
