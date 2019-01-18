@@ -9,6 +9,7 @@ from Modules import vars as core
 from Modules import disattention
 from Modules import adaption
 
+'''
 
 def read_hist():
 	arq = open("Activities/Historias/indices.txt" , "r")
@@ -80,15 +81,15 @@ def play(robot, ds, att, max_hist=3):
 
 
 
-		'''
-		if i == 0:
-			ds.say("Agora vou contar a primeira história")
-		if i == 1:
-			ds.say("Agora vou contar a segunda história")
-		if i == 2:
-			ds.say("Agora vou contar a terceira história")
-		'''
-		total_rate = 0
+		#
+		#if i == 0:
+		#	ds.say("Agora vou contar a primeira história")
+		#if i == 1:
+		#	ds.say("Agora vou contar a segunda história")
+		#if i == 2:
+		#	ds.say("Agora vou contar a terceira história")
+		#
+		#total_rate = 0
 
 
 		for j in range(1,int(hist_dict[i][0])+1):
@@ -112,7 +113,7 @@ def play(robot, ds, att, max_hist=3):
 			# Apenas para resetar postura
                         
             # Parando a thread
-            att._halt()
+			att._halt()
 
             ds.say("Agora farei uma pergunta sobre esta parte da historia ", animated=False)
 			
@@ -218,6 +219,6 @@ def play(robot, ds, att, max_hist=3):
 
 
 
-
+'''
 
 

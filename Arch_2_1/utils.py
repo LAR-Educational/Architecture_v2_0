@@ -115,17 +115,25 @@ def dataframe_to_table(df,table):
 
 
 def qImageToMat(incomingImage):
-    '''  Converts a QImage into an opencv MAT format  '''
+	'''  Converts a QImage into an opencv MAT format  '''
 
-    incomingImage = incomingImage.convertToFormat(4)
 
-    width = incomingImage.width()
-    height = incomingImage.height()
+	try:
 
-    ptr = incomingImage.bits()
-    ptr.setsize(incomingImage.byteCount())
-    arr = np.array(ptr).reshape(height, width, 4)  #  Copies the data
-    return arr
+		print "try dentro"
+		incomingImage = incomingImage.convertToFormat(4)
+
+		width = incomingImage.width()
+		height = incomingImage.height()
+
+		ptr = incomingImage.bits()
+		ptr.setsize(incomingImage.byteCount())
+		arr = np.array(ptr).reshape(height, width, 4)  #  Copies the data
+		return arr
+
+	except Exception as ex:
+		print("Unexpected error:", ex)
+		#raise
 
 
 

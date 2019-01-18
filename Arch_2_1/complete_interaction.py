@@ -69,6 +69,8 @@ def main():
 		war("Exception type:" + str(sys.exc_info()[0]))
 		raise
 
+	
+	
 	nao.motors.wakeUp()
 	
 	#jkp.play(nao, ds, 3)
@@ -82,7 +84,7 @@ def main():
 	
         #ds.say("Falando alguma coisa para testar o volume")
         
-        #nao.tts.setVolume(1.0)
+	nao.tts.setVolume(1.0)
         
         #ds.say("Falando alguma coisa para testar o volume")
         
@@ -90,19 +92,19 @@ def main():
 	#nao.posture.goToPosture("StandInit",1)
 	#return 1
 
-	emo_file_log = open("Log/Emotions_log_"+str(core.interaction_id), "w+")
+	emo_file_log = open("Log/Emotions_log_"+str(999), "w+")
 
 
+	
 
 
-
-	prefferences = True
+	prefferences = False #True
 	play_drugs = False  #True
 	play_ex =  False #True
 	play_shelf =  False #True
 	play_act =  False #True
-	play_jkp =  False #True
-	play_hist = True
+	play_jkp =  True
+	play_hist = False#True
 
 	#'''
 	userModel = fileHelper.fileHelper()
