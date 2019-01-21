@@ -86,7 +86,7 @@ class EvaluationDatabase():
 
     # NAO ESTA TIRANDO O USER DA LISTA DE USUARIOS DA RAM
     # APENAS QUANDO REINICIALIZA O PROGRAMA - Resolvi de um jeito bem porco.
-    def delete_user(self, new_eval):
+    def delete_eval(self, new_eval):
         #delete path
         #create path
         path = self.path + str(new_eval.id)
@@ -131,67 +131,6 @@ class EvaluationDatabase():
 
 
 
-    
-    # def generate_encodings(self):
-
-    #     path = "images"
-    #     files = os.listdir(path)
-    
-    #     for item in files:
-    #         aux = face_recognition.load_image_file(path +"/"+ item)
-    #         aux_encoding = face_recognition.face_encodings(aux)[0]
-    #         self.known_face_names.append(item.replace(".png",""))
-    #         self.known_face_encodings.append(aux_encoding)
-
-    #     #print len(self.known_face_names)
-    
-    
-    
-
-
-# class User():
-
-#     def __init__(self, id, first_name, last_name, bday='None',
-#                  scholl_year='None', picture='None', preferences={}, img = None, creation_date=None):
-
-#         self.id=id
-#         self.first_name=first_name
-#         self.last_name=last_name
-#         self.bday=bday
-#         self.scholl_year=scholl_year
-#         self.picture=picture
-#         self.preferences=preferences
-#         self.pref_index = ['sport', 'team', 'toy', 'game', 'dance', 'music', 'hobby','food']
-#         self.img = img
-#         self.creation_date = creation_date
-    
-    
-#     def setPreferences(self, sport='None', team='None', toy='None', game='None', 
-#                         dance='None', music='None', hobby='None', food='None'):
-#         self.preferences['sport']=sport
-#         self.preferences['team']=team
-#         self.preferences['toy']=toy
-#         self.preferences['game']=game
-#         self.preferences['dance']=dance
-#         self.preferences['music']=music
-#         self.preferences['hobby']=hobby
-#         self.preferences['food']=food
-
-
-#     def add_preference(self, key, item):
-
-#         if key not in self.pref_index:
-
-#             raise NameError('Trying to insert key "{}" in user preference. Key not valid!'.format(key))
-
-#         else:
-
-#             self.preferences[key] = item 
-
-
-
-
-
 class Evaluation:
     
     def __init__(self, id, 
@@ -203,7 +142,9 @@ class Evaluation:
                 end_time=None,
                 robot=None,
                 supervisor=None,
-                obs=None):
+                obs=None,
+                validation=False,
+                stats = False):
 
         self.id=id
         self.date=date
@@ -216,7 +157,8 @@ class Evaluation:
         self.robot=robot
         self.supervisor=supervisor
         self.obs=obs
-                
+        self.validation=validation
+        self.stats=stats        
 
     def insert_topic(self, tp):
         self.topics.append(tp)
