@@ -680,6 +680,23 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 
+#-------------------------------------------------- INTERACTION ----------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
