@@ -30,6 +30,7 @@ from Modules.Vision import predict
 from Modules.Vision import data_process #as dp
 from Modules import content as ct
 from Modules.userhandler import *
+from Modules.interactionhandler import *
 
 class SessionInfo:
 	def __init__(self,initi_time,final_time):
@@ -124,6 +125,22 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.user_choose_pic_button.clicked.connect( self.user_choose_pic)
 		self.user_aux_img = None
 
+
+		#--- Interaction
+
+		self.int_enable = False
+		self.int_create_button.clicked.connect(self.int_create)
+		self.int_cancel_button.clicked.connect(self.int_cancel_action)
+		self.int_add_cont_button.clicked.connect(self.int_add_cont_action)
+		self.int_add_per_button.clicked.connect(self.int_add_per_action)
+		self.int_add_extra_button.clicked.connect(self.int_add_extra_action)
+		self.int_save_button.clicked.connect(self.int_save_action)
+
+
+
+
+
+
 		#--- Plan and Run
 		self.pushButton_run_activity.clicked.connect(self.start_display_image)
 		self.pushButton_start_robot_view.clicked.connect(self.resume_display_image)
@@ -195,6 +212,10 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#self.content_subject_comboBox.addItems(self.sub_list[1])
 
 		self.content_load_subjects()
+
+		self.interact_database = InteractionDatabase(self.act.path)
+
+
 
 
 	def close(self):
@@ -680,8 +701,118 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 
+
+
+
+
+
+
+
+
+
 #-------------------------------------------------- INTERACTION ----------------------------------------
 
+
+
+	def int_change_enable(self):
+
+		if self.int_enable:
+			self.int_enable=False
+		else:
+			self.int_enable=True
+
+		self.int_cont_frame.setEnabled(self.int_enable)
+		self.int_per_frame.setEnabled(self.int_enable)
+		self.int_tl_frame.setEnabled(self.int_enable)
+		self.int_extra_frame.setEnabled(self.int_enable)
+		self.int_gen_frame.setEnabled(self.int_enable)
+		#self.int_timeline_table.setEnabled(self.int_enable)
+
+
+
+	def int_cancel_action(self):
+		self.int_create_button.setEnabled(True)
+		self.int_load_button.setEnabled(True)
+		self.int_change_enable()
+
+
+	def int_create(self):
+		
+		self.int_load_button.setEnabled(False)
+		self.int_create_button.setEnabled(False)
+		self.int_cancel_button.setEnabled(True)
+		self.int_change_enable()
+
+		self.sub_list = pd.read_csv(os.path.join(self.act.path,"Content","subjects.csv"))
+		#self.sub_list = pd.read_csv(os.path.join(self.act.path,"Content","subjects.csv"))
+		self.int_cont_comboBox.addItems(self.sub_list['subjects'].tolist())
+
+		path = os.path.join(self.act.path, "Interactions" )
+		
+		if not os.path.exists(path):
+			os.mkdir(path)
+		
+		self.int_id_show.setText(str(self.sys_vars.interaction_id))
+
+
+
+
+
+	def int_save_action(self):
+
+		data = table_to_dataframe(self.int_timeline_table)
+		data.to_csv()
+
+
+
+
+
+
+	def int_add_cont_action(self):
+
+		self.int_timeline_table.insertRow(self.int_timeline_table.rowCount())		
+
+		self.int_timeline_table.setItem(
+				self.int_timeline_table.rowCount()-1,
+				0,
+				QTableWidgetItem("Content"))
+
+		self.int_timeline_table.setItem(
+				self.int_timeline_table.rowCount()-1,
+				1,
+				QTableWidgetItem(self.int_cont_comboBox.currentText()))						
+
+
+	def int_add_per_action(self):
+		
+		self.int_timeline_table.insertRow(self.int_timeline_table.rowCount())		
+
+		self.int_timeline_table.setItem(
+				self.int_timeline_table.rowCount()-1,
+				0,
+				QTableWidgetItem("Personal"))
+
+		self.int_timeline_table.setItem(
+				self.int_timeline_table.rowCount()-1,
+				1,
+				QTableWidgetItem(self.int_per_comboBox.currentText()))						
+
+
+
+
+	def int_add_extra_action(self):
+		
+		self.int_timeline_table.insertRow(self.int_timeline_table.rowCount())		
+
+		self.int_timeline_table.setItem(
+				self.int_timeline_table.rowCount()-1,
+				0,
+				QTableWidgetItem("Extra"))
+
+		self.int_timeline_table.setItem(
+				self.int_timeline_table.rowCount()-1,
+				1,
+				QTableWidgetItem(self.int_extra_comboBox.currentText()))						
 
 
 
