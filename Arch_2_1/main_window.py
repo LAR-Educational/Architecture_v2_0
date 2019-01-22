@@ -103,6 +103,15 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.content_subject_comboBox.currentIndexChanged.connect(self.content_update_tab)
 		self.contenct_clear_questions_button.clicked.connect(self.content_clear_table)
 		
+		
+		#--- Adaptive 
+		self.user_profile = 3
+
+
+
+
+
+
 
 		#--- Knowledge panel
 		self.knowledge_path="./Data/"
@@ -449,7 +458,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 	def content_InsertQuestion(self):
 		
 		self.content_questions_table.insertRow(self.content_questions_table.rowCount())
-		self.content_questions_table.setItem(self.content_questions_table.rowCount()-1,0, QTableWidgetItem(self.content_dif_comboBox.currentText()))
+		self.content_questions_table.setItem(self.content_questions_table.rowCount()-1,0, QTableWidgetItem(str(self.content_dif_comboBox.currentIndex()+1)))
 		
 	
 	def content_DeleteQuestion(self):
@@ -993,12 +1002,15 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		if os.path.isfile(file_name):
 			
 			data=pd.read_csv(file_name)
-			print "trying data", data
+			print "Data\n\n", data
 
-			#dataframe_to_table(data,self.content_questions_table)
+			
 
+		#verificar quantaspergunta do nivel de usuario tem
 
+		#sortear um numero dentro dele
 
+		#comecar os for pras tentativas
 
 
 
