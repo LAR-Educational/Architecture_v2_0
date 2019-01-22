@@ -339,7 +339,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>8</number>
+       <number>9</number>
       </property>
       <property name="iconSize">
        <size>
@@ -821,12 +821,9 @@
                <bool>true</bool>
               </attribute>
               <attribute name="horizontalHeaderDefaultSectionSize">
-               <number>500</number>
+               <number>600</number>
               </attribute>
               <attribute name="horizontalHeaderHighlightSections">
-               <bool>true</bool>
-              </attribute>
-              <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
                <bool>true</bool>
               </attribute>
               <attribute name="horizontalHeaderStretchLastSection">
@@ -835,18 +832,6 @@
               <attribute name="verticalHeaderVisible">
                <bool>false</bool>
               </attribute>
-              <attribute name="verticalHeaderDefaultSectionSize">
-               <number>20</number>
-              </attribute>
-              <attribute name="verticalHeaderMinimumSectionSize">
-               <number>200</number>
-              </attribute>
-              <attribute name="verticalHeaderShowSortIndicator" stdset="0">
-               <bool>true</bool>
-              </attribute>
-              <attribute name="verticalHeaderStretchLastSection">
-               <bool>true</bool>
-              </attribute>
               <column>
                <property name="text">
                 <string>Questions</string>
@@ -854,7 +839,7 @@
               </column>
               <column>
                <property name="text">
-                <string>Answers</string>
+                <string>Expected Answers</string>
                </property>
               </column>
              </widget>
@@ -6917,8 +6902,8 @@
        <attribute name="title">
         <string>PLAN and RUN!</string>
        </attribute>
-       <layout class="QGridLayout" name="gridLayout_48">
-        <item row="0" column="0">
+       <layout class="QGridLayout" name="gridLayout_82">
+        <item row="0" column="1" rowspan="2" colspan="2">
          <widget class="QFrame" name="frame_51">
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
@@ -6990,7 +6975,27 @@
              </property>
              <layout class="QGridLayout" name="gridLayout_53">
               <item row="0" column="0">
+               <widget class="QLabel" name="label_209">
+                <property name="text">
+                 <string>Interaction Name:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QLabel" name="run_int_name_label">
+                <property name="text">
+                 <string>NONE</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0" colspan="2">
                <widget class="QPushButton" name="pushButton_run_activity">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="palette">
                  <palette>
                   <active>
@@ -7431,6 +7436,41 @@
              </layout>
             </widget>
            </item>
+           <item row="2" column="0">
+            <widget class="QFrame" name="frame_80">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>32</height>
+              </size>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_16">
+              <item>
+               <widget class="QLabel" name="label_194">
+                <property name="text">
+                 <string>User:</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="run_recognized_user_label">
+                <property name="text">
+                 <string>Recognized User</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
            <item row="1" column="0" colspan="2">
             <widget class="QFrame" name="frame_55">
              <property name="frameShape">
@@ -7757,41 +7797,6 @@
              </layout>
             </widget>
            </item>
-           <item row="2" column="0">
-            <widget class="QFrame" name="frame_80">
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>32</height>
-              </size>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::StyledPanel</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Raised</enum>
-             </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_16">
-              <item>
-               <widget class="QLabel" name="label_194">
-                <property name="text">
-                 <string>User:</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="run_recognized_user_label">
-                <property name="text">
-                 <string>Recognized User</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
            <item row="3" column="0">
             <widget class="QFrame" name="frame_52">
              <property name="frameShape">
@@ -8096,6 +8101,12 @@
              <layout class="QGridLayout" name="gridLayout_47">
               <item row="0" column="1">
                <widget class="QLabel" name="run_current_topic">
+                <property name="maximumSize">
+                 <size>
+                  <width>107</width>
+                  <height>20</height>
+                 </size>
+                </property>
                 <property name="frameShape">
                  <enum>QFrame::StyledPanel</enum>
                 </property>
@@ -8168,6 +8179,12 @@
            </item>
            <item row="2" column="1">
             <widget class="QFrame" name="frame_85">
+             <property name="maximumSize">
+              <size>
+               <width>271</width>
+               <height>38</height>
+              </size>
+             </property>
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
              </property>
@@ -8177,6 +8194,12 @@
              <layout class="QHBoxLayout" name="horizontalLayout_19">
               <item>
                <widget class="QLabel" name="label_200">
+                <property name="maximumSize">
+                 <size>
+                  <width>49</width>
+                  <height>18</height>
+                 </size>
+                </property>
                 <property name="text">
                  <string>Phase:</string>
                 </property>
@@ -8186,7 +8209,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="label_201">
+               <widget class="QLabel" name="run_phase">
                 <property name="text">
                  <string>Welcome</string>
                 </property>
@@ -8196,28 +8219,75 @@
                </widget>
               </item>
              </layout>
-             <zorder>label_201</zorder>
+             <zorder>run_phase</zorder>
              <zorder>label_200</zorder>
+            </widget>
+           </item>
+           <item row="5" column="0" colspan="2">
+            <widget class="QFrame" name="frame_83">
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_72">
+              <item row="1" column="1">
+               <widget class="QLineEdit" name="run_user_answer"/>
+              </item>
+              <item row="1" column="2">
+               <widget class="QPushButton" name="run_user_say_pushButton">
+                <property name="text">
+                 <string>Say</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_199">
+                <property name="font">
+                 <font>
+                  <pointsize>14</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>User Answers</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </widget>
            </item>
           </layout>
          </widget>
         </item>
-        <item row="0" column="1">
+        <item row="0" column="3" rowspan="2">
          <widget class="QFrame" name="frame_62">
-          <property name="maximumSize">
-           <size>
-            <width>773</width>
-            <height>574</height>
-           </size>
-          </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
           </property>
           <property name="frameShadow">
            <enum>QFrame::Raised</enum>
           </property>
-          <layout class="QGridLayout" name="gridLayout_52">
+          <layout class="QGridLayout" name="gridLayout_73">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_83">
+             <property name="font">
+              <font>
+               <family>Ubuntu</family>
+               <pointsize>22</pointsize>
+              </font>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="text">
+              <string>Robot View</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
            <item row="1" column="0">
             <widget class="QFrame" name="frame_48">
              <property name="maximumSize">
@@ -8237,147 +8307,9 @@
              <property name="frameShadow">
               <enum>QFrame::Raised</enum>
              </property>
-             <layout class="QGridLayout" name="gridLayout_73">
+             <layout class="QGridLayout" name="gridLayout_52">
               <item row="0" column="1">
                <spacer name="verticalSpacer_8">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>40</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item row="4" column="0" colspan="3">
-               <widget class="QFrame" name="frame_83">
-                <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
-                </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Raised</enum>
-                </property>
-                <layout class="QGridLayout" name="gridLayout_72">
-                 <item row="0" column="0">
-                  <widget class="QLabel" name="label_199">
-                   <property name="font">
-                    <font>
-                     <pointsize>14</pointsize>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>User Answers</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="0">
-                  <widget class="QLineEdit" name="run_user_answer"/>
-                 </item>
-                 <item row="1" column="1">
-                  <widget class="QPushButton" name="run_user_say_pushButton">
-                   <property name="text">
-                    <string>Say</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="QLabel" name="img_from_cam">
-                <property name="maximumSize">
-                 <size>
-                  <width>320</width>
-                  <height>240</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="pixmap">
-                 <pixmap resource="imgs.qrc">:/imgs/cub.jpg</pixmap>
-                </property>
-                <property name="scaledContents">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="0" colspan="3">
-               <widget class="QFrame" name="frame_84">
-                <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
-                </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Raised</enum>
-                </property>
-                <layout class="QGridLayout" name="gridLayout_40">
-                 <item row="0" column="2">
-                  <spacer name="horizontalSpacer_36">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item row="0" column="0">
-                  <widget class="QLabel" name="label_103">
-                   <property name="font">
-                    <font>
-                     <pointsize>14</pointsize>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>Robot Saying:</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="4">
-                  <widget class="QPushButton" name="run_next_question_pushButton">
-                   <property name="text">
-                    <string>Next Question</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="0" colspan="5">
-                  <widget class="QLabel" name="robot_speech">
-                   <property name="minimumSize">
-                    <size>
-                     <width>0</width>
-                     <height>47</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <pointsize>14</pointsize>
-                    </font>
-                   </property>
-                   <property name="frameShape">
-                    <enum>QFrame::StyledPanel</enum>
-                   </property>
-                   <property name="text">
-                    <string>&lt;&lt; Robot Speech goes here &gt;&gt;</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="3">
-                  <widget class="QPushButton" name="run_next_topic_pushButton">
-                   <property name="text">
-                    <string>Next Topic</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-              <item row="2" column="1">
-               <spacer name="verticalSpacer_11">
                 <property name="orientation">
                  <enum>Qt::Vertical</enum>
                 </property>
@@ -8402,6 +8334,25 @@
                 </property>
                </spacer>
               </item>
+              <item row="1" column="1">
+               <widget class="QLabel" name="img_from_cam">
+                <property name="maximumSize">
+                 <size>
+                  <width>320</width>
+                  <height>240</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap resource="imgs.qrc">:/imgs/cub.jpg</pixmap>
+                </property>
+                <property name="scaledContents">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
               <item row="1" column="2">
                <spacer name="horizontalSpacer_35">
                 <property name="orientation">
@@ -8415,245 +8366,112 @@
                 </property>
                </spacer>
               </item>
+              <item row="2" column="1">
+               <spacer name="verticalSpacer_11">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
              </layout>
             </widget>
            </item>
-           <item row="1" column="1">
-            <widget class="QFrame" name="run_options_frame">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>165</width>
-               <height>1111</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Ubuntu</family>
-              </font>
-             </property>
+           <item row="2" column="0">
+            <widget class="QFrame" name="frame_61">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
              </property>
              <property name="frameShadow">
               <enum>QFrame::Raised</enum>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_2">
-              <item>
-               <spacer name="verticalSpacer_13">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
+             <layout class="QGridLayout" name="gridLayout_48">
+              <item row="1" column="2">
+               <widget class="QPushButton" name="pushButton_8">
+                <property name="text">
+                 <string>No</string>
                 </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>2</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QFrame" name="frame">
-                <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
-                </property>
-                <layout class="QVBoxLayout" name="verticalLayout_16">
-                 <item>
-                  <widget class="QPushButton" name="pushButton_start_robot_view">
-                   <property name="enabled">
-                    <bool>false</bool>
-                   </property>
-                   <property name="text">
-                    <string>Resume</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="pushButton_stop_robot_view">
-                   <property name="enabled">
-                    <bool>false</bool>
-                   </property>
-                   <property name="text">
-                    <string>Stop</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
                </widget>
               </item>
-              <item>
-               <widget class="QFrame" name="frame_78">
-                <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
+              <item row="1" column="0">
+               <widget class="QPushButton" name="pushButton_10">
+                <property name="text">
+                 <string>Cancel</string>
                 </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Raised</enum>
+                <property name="default">
+                 <bool>false</bool>
                 </property>
-                <layout class="QVBoxLayout" name="verticalLayout_18">
-                 <item>
-                  <widget class="QPushButton" name="run_load_pushButton">
-                   <property name="text">
-                    <string>Load</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="run_facerecog_pushButton">
-                   <property name="text">
-                    <string>Recognize</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="run_emotion_pushButton">
-                   <property name="text">
-                    <string>Emotion</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
+                <property name="flat">
+                 <bool>false</bool>
+                </property>
                </widget>
               </item>
-              <item>
-               <widget class="QFrame" name="frame_76">
-                <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
+              <item row="1" column="3">
+               <widget class="QPushButton" name="pushButton_7">
+                <property name="text">
+                 <string>Yes</string>
                 </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Raised</enum>
-                </property>
-                <layout class="QVBoxLayout" name="verticalLayout_17">
-                 <item>
-                  <widget class="QLabel" name="label_79">
-                   <property name="text">
-                    <string>Picture's Name</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLineEdit" name="run_picname_lineEdit"/>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="run_takepic_pushButton">
-                   <property name="enabled">
-                    <bool>false</bool>
-                   </property>
-                   <property name="text">
-                    <string>Take Picture!</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
                </widget>
               </item>
-              <item>
-               <widget class="QFrame" name="frame_79">
-                <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
+              <item row="0" column="0" colspan="4">
+               <widget class="QLabel" name="label_206">
+                <property name="font">
+                 <font>
+                  <pointsize>14</pointsize>
+                  <weight>50</weight>
+                  <bold>false</bold>
+                 </font>
                 </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Raised</enum>
+                <property name="text">
+                 <string>Supervisor Intervention</string>
                 </property>
-                <layout class="QGridLayout" name="gridLayout_63">
-                 <item row="2" column="1">
-                  <widget class="QPushButton" name="run_pausevid_button">
-                   <property name="enabled">
-                    <bool>false</bool>
-                   </property>
-                   <property name="mouseTracking">
-                    <bool>false</bool>
-                   </property>
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="icon">
-                    <iconset resource="imgs.qrc">
-                     <normaloff>:/imgs/pause.png</normaloff>:/imgs/pause.png</iconset>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="0" colspan="3">
-                  <widget class="QLineEdit" name="run_videoname_lineEdit"/>
-                 </item>
-                 <item row="2" column="0">
-                  <widget class="QPushButton" name="run_recvid_button">
-                   <property name="enabled">
-                    <bool>false</bool>
-                   </property>
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="icon">
-                    <iconset resource="imgs.qrc">
-                     <normaloff>:/imgs/rec.png</normaloff>:/imgs/rec.png</iconset>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="2">
-                  <widget class="QPushButton" name="run_stopvid_button">
-                   <property name="enabled">
-                    <bool>false</bool>
-                   </property>
-                   <property name="mouseTracking">
-                    <bool>false</bool>
-                   </property>
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="icon">
-                    <iconset resource="imgs.qrc">
-                     <normaloff>:/imgs/stop.png</normaloff>:/imgs/stop.png</iconset>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="0" colspan="3">
-                  <widget class="QLabel" name="label_193">
-                   <property name="text">
-                    <string>Video's Name</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
                </widget>
               </item>
-              <item>
-               <spacer name="verticalSpacer_14">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
+              <item row="1" column="1">
+               <widget class="QPushButton" name="pushButton_9">
+                <property name="text">
+                 <string>Next</string>
                 </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>3</height>
-                 </size>
-                </property>
-               </spacer>
+               </widget>
               </item>
              </layout>
             </widget>
            </item>
-           <item row="0" column="0">
-            <widget class="QLabel" name="label_83">
-             <property name="font">
-              <font>
-               <family>Ubuntu</family>
-               <pointsize>22</pointsize>
-              </font>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::StyledPanel</enum>
-             </property>
-             <property name="text">
-              <string>Robot View</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
+          </layout>
+         </widget>
+        </item>
+        <item row="0" column="4" rowspan="3">
+         <widget class="QFrame" name="run_options_frame">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>165</width>
+            <height>1111</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Ubuntu</family>
+           </font>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <item>
             <widget class="QLabel" name="label_84">
              <property name="font">
               <font>
@@ -8669,6 +8487,268 @@
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_13">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>2</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QFrame" name="frame">
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_16">
+              <item>
+               <widget class="QPushButton" name="pushButton_start_robot_view">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string>Resume</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButton_stop_robot_view">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string>Stop</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QFrame" name="frame_78">
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_18">
+              <item>
+               <widget class="QPushButton" name="run_load_pushButton">
+                <property name="text">
+                 <string>Load</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="run_facerecog_pushButton">
+                <property name="text">
+                 <string>Recognize</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="run_emotion_pushButton">
+                <property name="text">
+                 <string>Emotion</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QFrame" name="frame_76">
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_17">
+              <item>
+               <widget class="QLabel" name="label_79">
+                <property name="text">
+                 <string>Picture's Name</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="run_picname_lineEdit"/>
+              </item>
+              <item>
+               <widget class="QPushButton" name="run_takepic_pushButton">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string>Take Picture!</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QFrame" name="frame_79">
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_63">
+              <item row="2" column="1">
+               <widget class="QPushButton" name="run_pausevid_button">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="mouseTracking">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="icon">
+                 <iconset resource="imgs.qrc">
+                  <normaloff>:/imgs/pause.png</normaloff>:/imgs/pause.png</iconset>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0" colspan="3">
+               <widget class="QLineEdit" name="run_videoname_lineEdit"/>
+              </item>
+              <item row="2" column="0">
+               <widget class="QPushButton" name="run_recvid_button">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="icon">
+                 <iconset resource="imgs.qrc">
+                  <normaloff>:/imgs/rec.png</normaloff>:/imgs/rec.png</iconset>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="2">
+               <widget class="QPushButton" name="run_stopvid_button">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="mouseTracking">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="icon">
+                 <iconset resource="imgs.qrc">
+                  <normaloff>:/imgs/stop.png</normaloff>:/imgs/stop.png</iconset>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0" colspan="3">
+               <widget class="QLabel" name="label_193">
+                <property name="text">
+                 <string>Video's Name</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_14">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>3</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="2" column="1" colspan="3">
+         <widget class="QFrame" name="frame_84">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_40">
+           <item row="0" column="2">
+            <spacer name="horizontalSpacer_36">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_103">
+             <property name="font">
+              <font>
+               <pointsize>14</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Robot Saying:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="4">
+            <widget class="QPushButton" name="run_next_question_pushButton">
+             <property name="text">
+              <string>Next Question</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0" colspan="5">
+            <widget class="QLabel" name="robot_speech">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>47</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="text">
+              <string>&lt;&lt; Robot Speech goes here &gt;&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="3">
+            <widget class="QPushButton" name="run_next_topic_pushButton">
+             <property name="text">
+              <string>Next Topic</string>
              </property>
             </widget>
            </item>

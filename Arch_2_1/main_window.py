@@ -30,6 +30,7 @@ from Modules.Vision import predict
 from Modules.Vision import data_process #as dp
 from Modules import content as ct
 from Modules.userhandler import *
+from Modules.evaluationhandler import *
 from Modules.interactionhandler import *
 
 class SessionInfo:
@@ -59,7 +60,7 @@ class SessionInfo:
 
 
 
-class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
+class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 	def __init__(self):
 		# Explaining super is out of the scope of this article
 		# So please google it if you're not familar with it
@@ -83,7 +84,13 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.writeReportButton.clicked.connect(self.writeReportCsv)
 		
 		self.recog_flag = False
-
+		
+		
+		# --- General
+		self.supervisor ="admin"
+		
+		
+		
 		#--- Content panel
 		self.content_path=None
 		self.subs_list = []
@@ -135,14 +142,15 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.int_add_per_button.clicked.connect(self.int_add_per_action)
 		self.int_add_extra_button.clicked.connect(self.int_add_extra_action)
 		self.int_save_button.clicked.connect(self.int_save_action)
-
+		self.int_load_button.clicked.connect(self.int_load_action)
+		self.int_lock_button.clicked.connect(self.int_lock_action)
 
 
 
 
 
 		#--- Plan and Run
-		self.pushButton_run_activity.clicked.connect(self.start_display_image)
+		self.pushButton_run_activity.clicked.connect(self.start_activity)
 		self.pushButton_start_robot_view.clicked.connect(self.resume_display_image)
 		self.pushButton_stop_robot_view.clicked.connect(self.stop_display_image)
 		self.run_facerecog_pushButton.clicked.connect(self.run_facerecog)
@@ -754,6 +762,42 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		self.int_id_show.setText(str(self.sys_vars.interaction_id))
 
+	
+	def int_load_action(self):
+		
+		aux_path = self.act.path+"/"+"Interactions"
+		
+		if len(os.listdir(aux_path)) == 0:
+
+			QMessageBox.information(self, 'Loading Interations',"No Interactions saved" ,QMessageBox.Ok)
+
+			return 0
+
+
+
+
+		filename = QFileDialog.getOpenFileName(self, 'Open File' ,self.act.path+"/"+"Interactions")
+		
+
+		interact = self.interact_database.load_interact(filename)
+
+		self.int_load_button.setEnabled(False)
+		self.int_create_button.setEnabled(False)
+		self.int_cancel_button.setEnabled(True)
+		self.int_change_enable()
+
+
+
+		self.int_ques_per_top.setValue(interact.ques_per_topic)
+		self.int_att_per_ques.setValue(interact.att_per_ques)
+		self.int_name_linedit.setText(interact.name)
+		dataframe_to_table(interact.data, self.int_timeline_table)
+
+
+	
+		self.sub_list = pd.read_csv(os.path.join(self.act.path,"Content","subjects.csv"))
+		#self.sub_list = pd.read_csv(os.path.join(self.act.path,"Content","subjects.csv"))
+		self.int_cont_comboBox.addItems(self.sub_list['subjects'].tolist())
 
 
 
@@ -761,11 +805,32 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 	def int_save_action(self):
 
 		data = table_to_dataframe(self.int_timeline_table)
-		data.to_csv()
+		#data.to_csv()
+
+		#print self.int_ques_per_top.value()
+
+		self.cur_interact = Interaction(0,
+											self.int_ques_per_top.value(),
+											self.int_att_per_ques.value(),
+											self.int_name_linedit.text(),
+											data=data
+												)
+
+		self.interact_database.save_interact(
+						self.cur_interact,
+						self.interact_database.path+"/"+str(self.int_name_linedit.text())+ ".int"
+						)
 
 
 
 
+	def int_lock_action(self):
+		
+		self.int_save_action()
+		self.int_change_enable()
+
+		self.pushButton_run_activity.setEnabled(True)
+		self.run_int_name_label.setText(self.cur_interact.name)
 
 
 	def int_add_cont_action(self):
@@ -835,9 +900,25 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 #-------------------------------------------------- RUN ----------------------------------------
 
-	def start_display_image(self):
+	def start_activity(self):
 		
 		self.capture = cv2.VideoCapture(0)
+
+		if not self.capture.isOpened():
+			QMessageBox.critical(self, "ERROR!", " Unable to open camera!", QMessageBox.Ok)
+			
+			self.interatction_parser()
+			
+			
+			return -1
+    	
+		self.evaluation =  Evaluation(
+								id=self.sys_vars.evaluation_id,
+								date=QDate.currentDate(),
+								start_time=QTime.currentTime(),
+								supervisor=self.supervisor 	
+								)
+
 		self.run_options_frame.setEnabled(True)
 		self.pushButton_start_robot_view.setEnabled(True)
 		self.pushButton_stop_robot_view.setEnabled(True)
@@ -861,6 +942,78 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.run_cont_interator = 0
 		
 		self.run_question_interator = -1
+
+
+
+
+
+	def run_end_activity(self):
+		pass
+
+
+
+
+
+
+	def interatction_parser(self):
+
+		cmds = len(self.cur_interact.data.index)
+		
+		#print len(self.cur_interact.data.index)
+
+
+		for i in range(0,cmds):
+			print i, "  ", self.cur_interact.data.iloc[i]['Type']
+			
+			self.run_phase.setText(self.cur_interact.data.iloc[i]['Type'])
+
+			if self.cur_interact.data.iloc[i]['Type'] == "Content":
+				self.content_interac_template(self.cur_interact.data.iloc[i]['Name'])
+
+			if self.cur_interact.data.iloc[i]['Type'] == "Personal":
+				print "Personal ", self.cur_interact.data.iloc[i]['Name']
+				#self.personal_interact_talk(self.cur_interact.data.iloc[i]['Name'])
+
+			if self.cur_interact.data.iloc[i]['Type'] == "Extra":
+				print "Extra: ", self.cur_interact.data.iloc[i]['Name']
+				#self.extra_interact(self.cur_interact.data.iloc[i]['Name'])
+
+			print "\n\n\n"
+			
+
+	#recieve the Topic To Approach (tta)
+	def content_interac_template(self, tta):
+
+		
+		print "INSIDE CONTET FUNCTON", tta
+		
+		
+		file_name = str(self.content_path + tta +".csv")
+		
+		if os.path.isfile(file_name):
+			
+			data=pd.read_csv(file_name)
+			print "trying data", data
+
+			#dataframe_to_table(data,self.content_questions_table)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	def run_load_models(self):
 		self.students_database.generate_encodings()
@@ -1200,7 +1353,7 @@ class ExampleApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 def main():
     app = QApplication(sys.argv)  # A new instance of QApplication
-    form = ExampleApp()                 # We set the form to be our ExampleApp (design)
+    form = MainApp()                 # We set the form to be our ExampleApp (design)
     form.show()                         # Show the form
     app.exec_()                         # and execute the app
 
