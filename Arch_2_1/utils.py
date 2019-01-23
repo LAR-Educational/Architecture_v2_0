@@ -116,14 +116,19 @@ def dataframe_to_table(df,table):
 
 
 			if ((type(item) is float) 
-				or (type(item) is np.float64) ):
-				#or (type(item) is np.int64)
-				#or (type(item) is int) ):
+				or (type(item) is np.float64) #):
+				or (type(item) is np.int64)
+				or (type(item) is int) ):
 				#print "IFFFFF"
-				item = QString(str(item))
-				if math.isnan(item):# == 'nan':
-				 	#print "IFFFFF   111111111"
+				
+				item = str(item)
+
+				if item == 'nan':
 					item = ''
+				else:
+					item = QString(item)
+				#if math.isnan(item):# == 'nan':
+				 	#print "IFFFFF   111111111"
 			#elif (type(item) is unicode):
 			# 	item = QString(item).toUtf8()
 			
