@@ -102,24 +102,15 @@ def dataframe_to_table(df,table):
     for i in range(len(df.index)):
         for j in range(len(df.columns)):
 			
-			print "Item and Type  ", df.iat[i, j], type(df.iat[i, j])
+			#print "Item and Type  ", df.iat[i, j], type(df.iat[i, j])
 
-				
-			
-			#print df.iat[i, j]
-			#print i, j
-			#print item
-			#item = u''.join((df.iat[i, j])).encode('utf-8')
-			
 			item = df.iat[i, j]
-
 
 
 			if ((type(item) is float) 
 				or (type(item) is np.float64) #):
 				or (type(item) is np.int64)
 				or (type(item) is int) ):
-				#print "IFFFFF"
 				
 				item = str(item)
 
@@ -127,20 +118,8 @@ def dataframe_to_table(df,table):
 					item = ''
 				else:
 					item = QString(item)
-				#if math.isnan(item):# == 'nan':
-				 	#print "IFFFFF   111111111"
-			#elif (type(item) is unicode):
-			# 	item = QString(item).toUtf8()
-			
-			# else:	
-			# 	item = QString((item))#.toUtf8()
-
-			#print 'after '
-			
-			#item = str(item)
-			
-
-			print "AFTER", item, type(item)
+				
+			#print "AFTER", item, type(item)
 
 			table.setItem(i, j, QTableWidgetItem(item))
 
@@ -156,7 +135,7 @@ def qImageToMat(incomingImage):
 
 	try:
 
-		print "try dentro"
+		#print "try dentro"
 		incomingImage = incomingImage.convertToFormat(4)
 
 		width = incomingImage.width()
