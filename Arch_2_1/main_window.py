@@ -356,7 +356,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 					self.content_subject_comboBox.setCurrentIndex(self.content_subject_comboBox.count()-1)
 					file_name = self.act.path +  "/Content/subjects.csv"
 					self.sub_list.to_csv(file_name, index=False)
-
+					clearTable(self.content_questions_table)
+		
 
 
 					break
@@ -472,13 +473,14 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 	def content_clear_table(self):
 
 		#data = table_to_dataframe(self.content_questions_table)
-		data = pd.read_csv("/home/tozadore/Projects/Arch_2/Arch_2_1/Activities/NOVA/Content/subject2.csv")
+		#data = pd.read_csv("/home/tozadore/Projects/Arch_2/Arch_2_1/Activities/NOVA/Content/subject2.csv")
 		
+		clearTable(self.content_questions_table)
 		
 		#print "RETRIEVED: "
 		#print  data
 
-		dataframe_to_table(data,self.content_questions_table)
+		#dataframe_to_table(data,self.content_questions_table)
 
 
 

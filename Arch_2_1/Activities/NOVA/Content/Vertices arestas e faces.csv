@@ -1,7 +1,0 @@
-Difficulty,Question,Expected Answer
-1 - Very Easy,What is a face?,A face is a surface
-1 - Very Easy,What is a vertice?,A vertice is a corner
-2 - Easy,How many faces does have a cube?,6
-3 - Medium,How many vertices does have a pyramid?,5
-4 - Hard,What is the vertice and edge relation?,An edge is a line segment taht connects two vertices
-5 - Very Hard,How many faces does have a figure with 3 vertices?,1 face
