@@ -87,6 +87,11 @@ def table_to_dataframe(table):
 				item = ''
 			else:
 				item = table.item(i,j).text().toUtf8()
+				#print "Before", item, type(item )
+
+				#item = QString.fromUtf8(item)
+				#print "After",  type(item )
+
 			data.ix[i,j] = item
 	
 	return data	
@@ -110,10 +115,17 @@ def dataframe_to_table(df,table):
 				item = ''
 			elif isinstance(item, int):
 				item = QString.number(item)
+			elif isinstance(item, float):
+				item = QString.number(item)
+				if item == 'nan':
+					item = ''
 			else:
 				item = QString(item)
 				
+			#print "AFTER", type(item)
 			#print "AFTER", item, type(item)
+
+			item = QString.fromUtf8(item)
 
 			table.setItem(i, j, QTableWidgetItem(item))
 
