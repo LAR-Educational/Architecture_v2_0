@@ -13,6 +13,7 @@ import time
 import numpy as np
 import pandas as pd
 from utils import *
+import random
 #import utils
 	
 #from PyQt4.QtGui import *
@@ -975,12 +976,12 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		print self.cur_interact.data
 
 		print "TYPE ", type(self.cur_interact.data.iloc[0]['Type'])
-		
+
 		for i in range(0,cmds):
 			print i, "  ", self.cur_interact.data.iloc[i]['Type']
 			
 
-			self.run_phase.setText(self.cur_interact.data.iloc[i]['Type'])
+			self.run_phase.setText(QString.fromUtf8(self.cur_interact.data.iloc[i]['Name']))
 
 			if self.cur_interact.data.iloc[i]['Type'] == "Content":
 				self.content_interac_template(self.cur_interact.data.iloc[i]['Name'])
@@ -1008,14 +1009,39 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		if os.path.isfile(file_name):
 			
 			data=pd.read_csv(file_name)
-			print "Data\n\n", data
+			#print "Data\n\n", data
 
 			
 
 		#verificar quantaspergunta do nivel de usuario tem
-		print data.loc[data['Difficulty'] == 3]
+		print "Question:"
+		#print data.loc[data['Difficulty'] == 3]['Question']
+		
+		#print 
+		
+		for i in range(0,self.cur_interact.ques_per_topic):
+			
+			dfp= data.loc[data['Difficulty'] == self.user_profile]
+
+			possibilities = len(data.loc[data['Difficulty'] == self.user_profile])#['Question']
 
 
+			print"DATA", dfp
+
+			rand = random.randint(0, possibilities-1)
+
+
+			print rand
+			
+			chosen_question = str(dfp.loc[rand]['Question'])
+
+			expected_answer = str(dfp.loc[rand]['Expected Answer'])
+			
+			print "Question", chosen_question
+
+			print "Exp", expected_answer
+
+			print "\n\n"
 
 		#sortear um numero dentro dele
 
