@@ -972,10 +972,14 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		#print len(self.cur_interact.data.index)
 
+		print self.cur_interact.data
 
+		print "TYPE ", type(self.cur_interact.data.iloc[0]['Type'])
+		
 		for i in range(0,cmds):
 			print i, "  ", self.cur_interact.data.iloc[i]['Type']
 			
+
 			self.run_phase.setText(self.cur_interact.data.iloc[i]['Type'])
 
 			if self.cur_interact.data.iloc[i]['Type'] == "Content":
@@ -1009,6 +1013,9 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			
 
 		#verificar quantaspergunta do nivel de usuario tem
+		print data.loc[data['Difficulty'] == 3]
+
+
 
 		#sortear um numero dentro dele
 
