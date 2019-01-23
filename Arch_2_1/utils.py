@@ -106,18 +106,12 @@ def dataframe_to_table(df,table):
 
 			item = df.iat[i, j]
 
-
-			if ((type(item) is float) 
-				or (type(item) is np.float64) #):
-				or (type(item) is np.int64)
-				or (type(item) is int) ):
-				
-				item = str(item)
-
-				if item == 'nan':
-					item = ''
-				else:
-					item = QString(item)
+			if item == 'nan':
+				item = ''
+			elif isinstance(item, int):
+				item = QString.number(item)
+			else:
+				item = QString(item)
 				
 			#print "AFTER", item, type(item)
 
