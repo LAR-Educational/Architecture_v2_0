@@ -7,7 +7,7 @@ import os
 import cv2
 import numpy as np
 import pandas as pd
-
+import math
 
 
 
@@ -63,6 +63,9 @@ def load_table(window, table, dataframe, filename):
 
         QMessageBox.critical(window, "Error!", "File to load does not exist!", QMessageBox.Ok )
 
+
+
+
 def table_to_dataframe(table):
 	
 	row_numb = table.rowCount() 
@@ -80,9 +83,10 @@ def table_to_dataframe(table):
 			#print i,j
 			#print  table.item(i,j)
 			if table.item(i,j) == None:
-				item = 'nan'
+				#item = 'nan'
+				item = ''
 			else:
-				item = str(table.item(i,j).text())
+				item = table.item(i,j).text().toUtf8()
 			data.ix[i,j] = item
 	
 	return data	
@@ -97,14 +101,41 @@ def dataframe_to_table(df,table):
     table.setHorizontalHeaderLabels(df.columns)
     for i in range(len(df.index)):
         for j in range(len(df.columns)):
-			item = str(df.iat[i, j])
+			
+			print "Item and Type  ", df.iat[i, j], type(df.iat[i, j])
+
+				
+			
 			#print df.iat[i, j]
 			#print i, j
 			#print item
-			#item = u''.join((df.iat[i, j])).encode('utf-8').strip()
+			#item = u''.join((df.iat[i, j])).encode('utf-8')
 			
-			if item == 'nan':
-				item = ''
+			item = df.iat[i, j]
+
+
+
+			if ((type(item) is float) 
+				or (type(item) is np.float64) ):
+				#or (type(item) is np.int64)
+				#or (type(item) is int) ):
+				#print "IFFFFF"
+				item = QString(str(item))
+				if math.isnan(item):# == 'nan':
+				 	#print "IFFFFF   111111111"
+					item = ''
+			#elif (type(item) is unicode):
+			# 	item = QString(item).toUtf8()
+			
+			# else:	
+			# 	item = QString((item))#.toUtf8()
+
+			#print 'after '
+			
+			#item = str(item)
+			
+
+			print "AFTER", item, type(item)
 
 			table.setItem(i, j, QTableWidgetItem(item))
 
