@@ -14,6 +14,7 @@ import numpy as np
 import pandas as pd
 from utils import *
 import random
+#from datetime import datetime
 #import utils
 	
 #from PyQt4.QtGui import *
@@ -89,9 +90,15 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		# --- General
 		self.supervisor ="admin"
+		self.cur_user = "Not Identifyed"
 		
-		
-		
+		# --- Dialog
+
+		self.answer_threshold = self.diag_dist_thres_spinBox.value()
+		#print "Thres valeu", self.answer_threshold
+
+
+
 		#--- Content panel
 		self.content_path=None
 		self.subs_list = []
@@ -156,7 +163,9 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.int_lock_button.clicked.connect(self.int_lock_action)
 
 
-
+		#--- Evaluation
+		self.cur_eval = None#Evaluation()
+		self.evaluation_db = EvaluationDatabase()
 
 
 		#--- Plan and Run
@@ -177,7 +186,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.run_next_topic_pushButton.clicked.connect(self.run_next_concept)
 		self.run_user_say_pushButton.clicked.connect(self.run_user_say)
 		#run_next_topic_pushButton
-
+		self.user_ans_flag=False
 
 
 		self.image=None
@@ -186,7 +195,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.out = None# cv2.VideoWriter('output.avi',fourcc, 20.0, (640,480))
 		self.run_record = False
 		self.run_emotion_flag = False
-		self.act = None #"/home/tozadore/Projects/Arch_2/Arch_2_1/Activities/NOVA/Content" #None
+
+		self.act = None #ct.load_Activity("./Activities/NOVA/activity.data")#None #"/home/tozadore/Projects/Arch_2/Arch_2_1/Activities/NOVA/Content" #None
 		self.qRow = 0
 		self.qCol = 0
 
@@ -232,8 +242,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.content_load_subjects()
 
 		self.interact_database = InteractionDatabase(self.act.path)
-
-
+		
 
 
 	def close(self):
@@ -722,6 +731,172 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 
+#-------------------------------------------------- EVAL ----------------------------------------
+
+
+	# def insert_user(self):
+
+	# 	self.frame_18.setEnabled(False)
+	# 	self.user_frame.setEnabled(True)
+	# 	self.user_name_field.setEnabled(True)
+	# 	self.user_id_label.setText(str(self.sys_vars.users_id+1))
+	# 	#self.user_name_field.setFocus()
+	# 	self.user_creation_date.setDate(QDate.currentDate())
+	# 	self.user_bd_field.setDate(QDate.currentDate())
+		
+	# 	#self.user_id_label.setText(str(user2show.id))
+	# 	#self.user_bd_field.setDate()
+	# 	self.user_name_field.setText("")
+	# 	self.user_last_name_field.setText("")
+	# 	self.user_school_year.setValue(0)
+	# 	self.user_image.setPixmap(QPixmap("GUI/user2.png"))
+	# 	#self.user_last_name_field.setText(str())
+	# 	#self.user_last_name_field.setText(str())
+	# 	#self.user_last_name_field.setText(str())
+
+	# 	self.user_sport.setText("")
+	# 	self.user_team.setText("")
+	# 	self.user_toy.setText("")
+	# 	self.user_game.setText("")
+	# 	self.user_dance.setText("")
+	# 	self.user_music.setText("")
+	# 	self.user_hobby.setText("")
+	# 	self.user_food.setText("")
+
+
+		
+
+	def delete_eval(self):
+
+		#print self.students_database.index_table[self.st_db_index_table.currentRow()]
+		#print self.st_db_index_table.currentRow()
+
+		# print self.students_database.users[self.st_db_index_table.currentRow()]
+		eval2kill = self.evaluation_db.evaluations_list[self.eval_index_table.currentRow()]
+
+		self.evaluation_db.delete_eval(eval2kill)
+		dataframe_to_table(self.evaluation_db.index_table, self.eval_index_table)
+
+	
+
+	def eval_cancel(self):
+
+		self.frame_26.setEnabled(True)
+		self.eval_frame.setEnabled(False)
+
+
+		#self.log_text.setText(self.user_name_field.text())	
+		
+	# def __init__(self, id, first_name, last_name, bday='None',
+    #             scholl_year='None', picture='None', preferences={}, img = None, creation_Date=None):
+	
+	# def setPreferences(self, sport='None', team='None', toy='None', game='None', 
+    #                    dance='None', music='None', hobby='None', food='None'):
+
+	
+	
+	
+	'''def eval_confirm_entry(self):
+		
+		
+		
+		aux = Evaluation(int(self.eval_id_label.text()),
+			(self.eval_date.date()),
+			(self.eval_user_id_label.text()),
+			self.eval_user_name.text(),
+			#str(self.user_bd_field.textFromDateTime("dd:mm:yyyy")),
+			self.eval_duration.time(),
+			self.eval_start.time(),
+
+			
+			)
+
+		aux.setPreferences(
+			self.user_sport.text(),
+			self.user_team.text(),
+			self.user_toy.text(),
+			self.user_game.text(),
+			self.user_dance.text(),
+			self.user_music.text(),
+			self.user_hobby.text(),
+			self.user_food.text())
+
+		if self.students_database.insert_user(aux)	> 0:
+			self.sys_vars.add('user')
+		
+		dataframe_to_table(self.students_database.index_table, self.st_db_index_table)
+		
+		self.user_frame.setEnabled(False)
+		self.frame_18.setEnabled(True)
+	'''
+	
+
+
+	def user_open(self):
+
+		#self.st_db_index_table.setEnabled(False)
+		self.frame_26.setEnabled(False)
+		self.eval_frame.setEnabled(True)
+		
+		#self.user_frame.setEnabled(True)
+		
+		# Get the user in the selected row of the users table
+		self.cur_eval = self.evaluation_db.evaluations_list[self.eval_index_table.currentRow()]
+
+
+		self.eval_user_id_label.setText(self.cur_eval.user_id)
+		self.eval_date.setDate(self.cur_eval.date)
+		self.eval_duration.setTime(self.cur_eval.duration)
+		self.eval_start.setTime(self.cur_eval.start)
+		self.eval_end.setTime(self.cur_eval.end)
+		self.eval_supervisor.setText(self.cur_eval.supervisor)
+		self.eval_user_name(self.cur_eval.user_name)
+		self.eval_concept_textField.setText(self.cur_eval.concept)
+		
+		if(len(self.cur_eval.topics)==0):
+			print "ERROR: Topics empty"
+		
+		else:
+			self.eval_subject_comboBox.addItems(self.cur_eval.topics)
+
+			index_list = range(0,len(self.cur_eval.topics[0].questions))
+
+			self.eval_questions_comboBox.addItems(index_list)
+
+			index_list = range(0,len(self.cur_eval.topics[0].questions[0].attempts))
+
+			#Ideia: Fazer um listner para os 3 combobox para atulizar o Topics validation tab
+
+			#self.eval_quest_lineEdit.setText(self.cur_eval.topics[])
+
+
+
+
+
+		self.user_id_label.setText(str(user2show.id))
+		#self.user_bd_field.setDate()
+		self.user_name_field.setText(str(user2show.first_name))
+		self.user_last_name_field.setText(str(user2show.last_name))
+		#print user2show.bday
+		#self.user_bd_field.setDate(QDate.fromString(user2show.bday,"dd/MM/yyyy"))
+		#self.user_creation_date.setDate(QDate.fromString(user2show.creation_date,"dd/MM/yyyy"))
+		self.user_bd_field.setDate(user2show.bday)
+		self.user_creation_date.setDate(user2show.creation_date)
+		#self.user_last_name_field.setText(str())
+		#self.user_last_name_field.setText(str())
+		#self.user_last_name_field.setText(str())
+
+		self.user_sport.setText(user2show.preferences['sport'])
+		self.user_team.setText(user2show.preferences['team'])
+		self.user_toy.setText(user2show.preferences['toy'])
+		self.user_game.setText(user2show.preferences['game'])
+		self.user_dance.setText(user2show.preferences['dance'])
+		self.user_music.setText(user2show.preferences['music'])
+		self.user_hobby.setText(user2show.preferences['hobby'])
+		self.user_food.setText(user2show.preferences['food'])
+
+		self.log_text.setText(self.user_creation_date.date().toString('dd/MM/yyyy'))
+
 
 
 
@@ -960,6 +1135,17 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 	def run_end_activity(self):
+		
+		self.cur_eval.end_time=QTime.currentTime()
+		self.cur_eval.user_name = self.cur_user
+		#self.cur_eval.
+		#self.cur_eval.
+		#self.cur_eval.
+		
+		if self.envaluation_db.insert_eval(self.cur_eval):
+			self.sys_vars.add('evaluation')
+		
+		
 		pass
 
 
@@ -997,57 +1183,123 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			print "\n\n\n"
 			
 
+
+
+
+
+
+
+
 	#recieve the Topic To Approach (tta)
 	def content_interac_template(self, tta):
 
 		
 		print "INSIDE CONTET FUNCTON", tta
 		
-		
+		topic = Topic(self.sub_list[self.sub_list['subjects']==tta]['concepts'])
+		att = Attempt()
+		#print "Concept", topic.concept
+
+
+		# Load the table with questions and expected answers
 		file_name = str(self.content_path + tta +".csv")
 		
-		if os.path.isfile(file_name):
-			
+		#if os.path.isfile(file_name):
+
+		try:	
 			data=pd.read_csv(file_name)
 			#print "Data\n\n", data
-
+		except:
+			raise
 			
-
-		#verificar quantaspergunta do nivel de usuario tem
-		print "Question:"
-		#print data.loc[data['Difficulty'] == 3]['Question']
-		
-		#print 
-		
+		quest = Question()
+		# Start the loop for the question number of the interaction
 		for i in range(0,self.cur_interact.ques_per_topic):
 			
-			dfp= data.loc[data['Difficulty'] == self.user_profile]
 
+			print "Question number: ", i
+
+			# Select the possibilities according to the user profile detected
+			dfp= data.loc[data['Difficulty'] == self.user_profile]
 			possibilities = len(data.loc[data['Difficulty'] == self.user_profile])#['Question']
 
+			#Reset the index of resulting possibilities (Original will overflow dataframe)
+			dfp=dfp.reset_index(drop=True)
 
-			print"DATA", dfp
-
+			#print"Index after", dfp.index
+			#Randomly choose a question in possibilities range
 			rand = random.randint(0, possibilities-1)
 
-
-			print rand
-			
+			# attribute variables
 			chosen_question = str(dfp.loc[rand]['Question'])
-
 			expected_answer = str(dfp.loc[rand]['Expected Answer'])
+
+			# Store the raffled question and exp answer
+			quest.question=chosen_question			
+			quest.exp_ans=expected_answer
+
+
+			#Loop for attempt
+			for j in range(0, self.cur_interact.att_per_ques):
+
+				print "Question:", chosen_question
+				self.robot_speech.setText(chosen_question)
+				print "Exp: ", expected_answer
+
+				t1 = time.time()
+
+				# Wait for the user answer: Change to verbal answer soon
+				while not self.user_ans_flag:
+					
+					#self.label_132.setText(str(time.time("hh:mm:ss")))
+					QCoreApplication.processEvents()
+					#time.sleep(0.05)
+
+				self.user_ans_flag = False
+
+				
+				# Get user answer from GUI
+				user_answer = str(self.run_user_answer.text().toUtf8())
 			
-			print "Question", chosen_question
+				print "User ans: ", user_answer
 
-			print "Exp", expected_answer
+				# Calculate answer similarity
+				dist =  (self.diag_sys.levenshtein_long_two_strings(user_answer,expected_answer))
+			
+				print "DIST", dist, "Tresh", self.answer_threshold
+				#print type(dist), type(self.answer_threshold)
 
-			print "\n\n"
+				self.run_correctness.setText(str(dist))
 
-		#sortear um numero dentro dele
+				att.given_ans = user_answer
+				att.time2ans = time.time() - t1
 
-		#comecar os for pras tentativas
+				print "TIME TO ANS:", att.time2ans 
+
+				if dist < self.answer_threshold:
+					self.log("ANSWER IS CORRET")
+
+					att.system_consideration = True
+					quest.insert_attempt(att)	
+					self.robot_speech.text("Congratulations. You did!")
+					time.sleep(3)
+					break
+
+				else:
+					self.log("ANSWER IS WRONG")
+
+					att.system_consideration = False
+					quest.insert_attempt(att)
+					self.robot_speech.text("Not Correct. Lets Try again!")
+					time.sleep(3)
+
+			# Insert current question in topic 
+			topic.insert_question(quest)
 
 
+		# Insert current topic in eval
+		self.cur_eval.insert_topic(topic)
+		print "\n\n"
 
 
 
@@ -1303,20 +1555,20 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 	def run_user_say(self):
 		
-		user_answer = str(self.run_user_answer.text())
-		expected_answer = str(self.run_current_topic_data['Expected Answer'][self.run_question_interator])
+		#user_answer = str(self.run_user_answer.text())
+		#expected_answer = str(self.run_current_topic_data['Expected Answer'][self.run_question_interator])
 
-		dist =  str(self.diag_sys.levenshtein_long_two_strings(user_answer,expected_answer))
+		#dist =  str(self.diag_sys.levenshtein_long_two_strings(user_answer,expected_answer))
 		
 		# print "user", user_answer
 		# print "ex", expected_answer
 		# print "dist", dist
 		# print
 		
-		self.run_correctness.setText(dist)
-		self.log(dist)
-
-
+		#self.run_correctness.setText(dist)
+		#self.log(dist)
+		self.run_user_answer.clear()
+		self.user_ans_flag=True
 
 
 
