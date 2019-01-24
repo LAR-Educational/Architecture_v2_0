@@ -30,7 +30,8 @@ class EvaluationDatabase():
             #print self.index_table
             # print "SIZE:", len(self.index_table.index)
 
-        else:    
+        else:  
+            os.mkdir(self.path)  
             self.index_table = pd.DataFrame(columns=['Id', 'Date', 'Student Name'])
             self.index_table.to_csv(self.index_path, index=False)
 
