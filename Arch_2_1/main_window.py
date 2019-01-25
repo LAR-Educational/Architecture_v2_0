@@ -832,7 +832,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 	
 
 
-	def user_open(self):
+	def eval_open(self):
 
 		#self.st_db_index_table.setEnabled(False)
 		self.frame_26.setEnabled(False)
@@ -873,31 +873,56 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 
-		self.user_id_label.setText(str(user2show.id))
-		#self.user_bd_field.setDate()
-		self.user_name_field.setText(str(user2show.first_name))
-		self.user_last_name_field.setText(str(user2show.last_name))
-		#print user2show.bday
-		#self.user_bd_field.setDate(QDate.fromString(user2show.bday,"dd/MM/yyyy"))
-		#self.user_creation_date.setDate(QDate.fromString(user2show.creation_date,"dd/MM/yyyy"))
-		self.user_bd_field.setDate(user2show.bday)
-		self.user_creation_date.setDate(user2show.creation_date)
-		#self.user_last_name_field.setText(str())
-		#self.user_last_name_field.setText(str())
-		#self.user_last_name_field.setText(str())
+		
 
-		self.user_sport.setText(user2show.preferences['sport'])
-		self.user_team.setText(user2show.preferences['team'])
-		self.user_toy.setText(user2show.preferences['toy'])
-		self.user_game.setText(user2show.preferences['game'])
-		self.user_dance.setText(user2show.preferences['dance'])
-		self.user_music.setText(user2show.preferences['music'])
-		self.user_hobby.setText(user2show.preferences['hobby'])
-		self.user_food.setText(user2show.preferences['food'])
-
-		self.log_text.setText(self.user_creation_date.date().toString('dd/MM/yyyy'))
+		self.log_text.setText(self.eval_date.date().toString('dd/MM/yyyy') + " Opened eval of date:")
 
 
+
+
+	def eval_update_tab(self):
+		
+		#text= str(self.sub_list['concepts'][self.content_subject_comboBox.currentIndex()])
+		
+		tp_id=self.eval_subject_comboBox.currentIndex()
+		qt_id=self.eval_quest_comboBox.currentIndex()
+		att_id=self.eval_att_comboBox.currentIndex()
+
+		aux_att = self.cur_eval.topics[tp_id].questions[qt_id].attempts[att_id] #Attempt()
+
+		self.eval_concept_textField.setText(self.cur_eval.topic.concept)
+		self.eval_quest_lineEdit.setText(self.cur_eval.topics[tp_id].questions[qt_id].question )
+		self.eval_exp_lineEdit.setText(self.cur_eval.topics[tp_id].questions[qt_id].exp_ans )
+		self.eval_gave_ans_lineEdit.setText(self.cur_eval.topics[tp_id].questions[qt_id].attempts.given_ans )
+		self.eval_time2ans=aux_att.time2ans
+		self.eval_ans_sup_comboBox=aux_att.supervisor_consideration 
+		self.eval_ans_sys_comboBox=aux_att.system_consideration 
+		self.eval_sys_was_comboBox=aux_att.sytem_was 
+
+		self.content_concept.setText(text)
+		file_name = str(self.content_path + self.content_subject_comboBox.currentText()+".csv")
+		
+		if os.path.isfile(file_name):
+			data=pd.read_csv(file_name)
+			#print "trying data", data
+
+			dataframe_to_table(data,self.content_questions_table)
+
+			self.log("Subject loaded: " + self.content_subject_comboBox.currentText())
+			
+
+		else:	
+			self.log("WARNING TABLE <<"+file_name +">>  FILE DO NOT EXIST")
+			labels = []
+			for i in range(0,3):
+				labels.append(str(self.content_questions_table.horizontalHeaderItem(i).text()))
+			
+			data = 	pd.DataFrame(columns=labels, index=range(0))
+
+			#print data
+
+			data.to_csv(self.content_path + self.content_subject_comboBox.currentText()+".csv", index=False)
+			data.to_csv(file_name, index=False)
 
 
 
