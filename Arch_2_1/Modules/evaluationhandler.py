@@ -49,7 +49,7 @@ class EvaluationDatabase():
         
         for item in self.index_table.Id:#['Id']:
             #print item
-            self.evaluations_list.append(self.load_user( os.path.join(self.path,str(item),str(item)+".eval")))
+            self.evaluations_list.append(self.load_eval( os.path.join(self.path,str(item),str(item)+".eval")))
         
         
         #print self.users
@@ -65,7 +65,7 @@ class EvaluationDatabase():
             #raise NameError('Trying to insert user with id "{}". User already exists!'.format(new_user.id))
             self.save_eval(new_eval, path +"/" +str(new_eval.id)+".eval")
             self.index_table.to_csv(self.index_path, index=False)
-            self.index_table.loc[self.index_table.Id==new_eval.id] =[new_eval.id, new_eval.first_name,new_eval.last_name]
+            self.index_table.loc[self.index_table.Id==new_eval.id] =[new_eval.id, new_eval.date.toString("dd.MM.yy"), new_eval.user_name]
             self.index_table.to_csv(self.index_path, index=False)
             print "EVALUATION ALREADY EXIST. UPDATING"
             return -1
@@ -75,12 +75,11 @@ class EvaluationDatabase():
             os.mkdir(path)
             os.mkdir(path+"/imgs")
             #insert in table
-            self.index_table.loc[self.size] =[new_eval.id, new_eval.first_name, new_eval.last_name]
+            self.index_table.loc[self.size] =[new_eval.id, new_eval.date.toString("dd.MM.yy"), new_eval.user_name]
             self.size += 1
             self.evaluations_list.append(new_eval)
             print "EVALUATION INSERT DONE"
-
-            self.save_evaluation(new_user, path +"/" +str(new_eval.id)+".eval")
+            self.save_eval(new_eval, path +"/" +str(new_eval.id)+".eval")
             self.index_table.to_csv(self.index_path, index=False)
             #print self.index_table
             return 1
@@ -93,7 +92,7 @@ class EvaluationDatabase():
         path = self.path + str(new_eval.id)
         
         if not os.path.exists(path):
-            raise NameError('Trying to delete evaluation with id "{}". Evalutaion NOT exists!'.format(new_user.id))
+            raise NameError('Trying to delete evaluation with id "{}". Evalutaion NOT exists!'.format(new_eval.id))
             #print "USER EXIST"
         
         #else:
@@ -137,7 +136,8 @@ class Evaluation:
     def __init__(self, id, 
                 date, user_id=None, 
                 user_name=None, 
-                topics=[], 
+                topics=[],
+                tp_names=[], 
                 duration=None,
                 start_time=None,
                 end_time=None,
@@ -152,6 +152,7 @@ class Evaluation:
         self.user_id = user_id
         self.user_name=user_name
         self.topics=topics
+        self.tp_names=tp_names
         self.duration=duration
         self.start_time=start_time
         self.end_time=end_time
@@ -190,8 +191,8 @@ class Question:
 
 class Attempt:
 
-    def __init__(self, given_ans=None, time2ans=None, system_consideration=None,
-                    supervisor_consideration=None, sytem_was=None):
+    def __init__(self, given_ans=None, time2ans=None, system_consideration=-1,
+                    supervisor_consideration=-1, sytem_was=-1):
         self.given_ans=given_ans
         self.time2ans=time2ans
         self.system_consideration=system_consideration
