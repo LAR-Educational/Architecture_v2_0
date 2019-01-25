@@ -140,7 +140,10 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#--- Student
 		
 		self.students_database = UserDatabase()
-		dataframe_to_table(self.students_database.index_table, self.st_db_index_table)
+		
+		if os.path.exists("Usuarios"):
+			dataframe_to_table(self.students_database.index_table, self.st_db_index_table)
+
 		self.user_new_button.clicked.connect( self.insert_user)
 		self.user_cancel_button.clicked.connect( self.user_cancel)
 		self.user_ok_button.clicked.connect( self.user_confirm_entry)
@@ -148,6 +151,17 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.user_open_table_button.clicked.connect( self.user_open)
 		self.user_choose_pic_button.clicked.connect( self.user_choose_pic)
 		self.user_aux_img = None
+
+
+
+		#--- Evaluation
+		self.cur_eval = None#Evaluation()
+		self.evaluation_db = EvaluationDatabase()
+		if os.path.exists("Evaluations"):
+			dataframe_to_table(self.evaluation_db.index_table, self.eval_index_table)
+		
+		self.eval_open_button.clicked.connect( self.eval_open)
+		self.eval_delete_button.clicked.connect( self.delete_eval)
 
 
 		#--- Interaction
@@ -160,14 +174,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.int_add_extra_button.clicked.connect(self.int_add_extra_action)
 		self.int_save_button.clicked.connect(self.int_save_action)
 		self.int_load_button.clicked.connect(self.int_load_action)
+
 		self.int_lock_button.clicked.connect(self.int_lock_action)
-
-
-		#--- Evaluation
-		self.cur_eval = None#Evaluation()
-		self.evaluation_db = EvaluationDatabase()
-
-
 		#--- Plan and Run
 		self.pushButton_run_activity.clicked.connect(self.start_activity)
 		self.pushButton_start_robot_view.clicked.connect(self.resume_display_image)
@@ -844,31 +852,43 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.cur_eval = self.evaluation_db.evaluations_list[self.eval_index_table.currentRow()]
 
 
-		self.eval_user_id_label.setText(self.cur_eval.user_id)
-		self.eval_date.setDate(self.cur_eval.date)
-		self.eval_duration.setTime(self.cur_eval.duration)
-		self.eval_start.setTime(self.cur_eval.start)
-		self.eval_end.setTime(self.cur_eval.end)
+		#self.eval_user_id_label.setText(self.cur_eval.user_id)
+		self.eval_date.setDate(self.cur_eval.date)#QDate.fromString(self.cur_eval.date.toString(),"dd.MM.yyyy"))
+		#self.eval_duration.setTime(self.cur_eval.duration)
+		self.eval_start.setTime(self.cur_eval.start_time)
+		self.eval_end.setTime(self.cur_eval.end_time)
 		self.eval_supervisor.setText(self.cur_eval.supervisor)
-		self.eval_user_name(self.cur_eval.user_name)
-		self.eval_concept_textField.setText(self.cur_eval.concept)
+		self.eval_user_name.setText(self.cur_eval.user_name)
+		#self.eval_concept_textField.setText(self.cur_eval.concept)
 		
 		if(len(self.cur_eval.topics)==0):
 			print "ERROR: Topics empty"
 		
 		else:
-			self.eval_subject_comboBox.addItems(self.cur_eval.topics)
 
-			index_list = range(0,len(self.cur_eval.topics[0].questions))
+			#print self.cur_eval.tp_names
+
+
+
+			self.eval_subject_comboBox.addItems(self.cur_eval.tp_names)
+
+			index_list = range(1,len(self.cur_eval.topics[0].questions))
+
+			index_list=["{}".format(x) for x in index_list]
 
 			self.eval_questions_comboBox.addItems(index_list)
 
-			index_list = range(0,len(self.cur_eval.topics[0].questions[0].attempts))
+			index_list = range(1,len(self.cur_eval.topics[0].questions[0].attempts))
+
+			index_list=["{}".format(x) for x in index_list]
+
+			self.eval_att_comboBox.addItems(index_list)
 
 			#Ideia: Fazer um listner para os 3 combobox para atulizar o Topics validation tab
 
 			#self.eval_quest_lineEdit.setText(self.cur_eval.topics[])
 
+			self.eval_update_tab()
 
 
 
@@ -885,44 +905,48 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#text= str(self.sub_list['concepts'][self.content_subject_comboBox.currentIndex()])
 		
 		tp_id=self.eval_subject_comboBox.currentIndex()
-		qt_id=self.eval_quest_comboBox.currentIndex()
+		qt_id=self.eval_questions_comboBox.currentIndex()
 		att_id=self.eval_att_comboBox.currentIndex()
 
 		aux_att = self.cur_eval.topics[tp_id].questions[qt_id].attempts[att_id] #Attempt()
 
-		self.eval_concept_textField.setText(self.cur_eval.topic.concept)
+		self.eval_concept_textField.setText(self.cur_eval.topics[tp_id].concept[0])
 		self.eval_quest_lineEdit.setText(self.cur_eval.topics[tp_id].questions[qt_id].question )
 		self.eval_exp_lineEdit.setText(self.cur_eval.topics[tp_id].questions[qt_id].exp_ans )
-		self.eval_gave_ans_lineEdit.setText(self.cur_eval.topics[tp_id].questions[qt_id].attempts.given_ans )
-		self.eval_time2ans=aux_att.time2ans
-		self.eval_ans_sup_comboBox=aux_att.supervisor_consideration 
-		self.eval_ans_sys_comboBox=aux_att.system_consideration 
-		self.eval_sys_was_comboBox=aux_att.sytem_was 
+		self.eval_gave_ans_lineEdit.setText(self.cur_eval.topics[tp_id].questions[qt_id].attempts[att_id].given_ans )
+		self.eval_time2ans.setTime(aux_att.time2ans)
+		self.eval_ans_sup_comboBox.setCurrentIndex(aux_att.supervisor_consideration) 
+		self.eval_ans_sys_comboBox.setCurrentIndex(aux_att.system_consideration) 
+		self.eval_sys_was_comboBox.setCurrentIndex(aux_att.sytem_was) 
 
-		self.content_concept.setText(text)
-		file_name = str(self.content_path + self.content_subject_comboBox.currentText()+".csv")
+
+
+
+
+		# self.content_concept.setText(text)
+		# file_name = str(self.content_path + self.content_subject_comboBox.currentText()+".csv")
 		
-		if os.path.isfile(file_name):
-			data=pd.read_csv(file_name)
-			#print "trying data", data
+		# if os.path.isfile(file_name):
+		# 	data=pd.read_csv(file_name)
+		# 	#print "trying data", data
 
-			dataframe_to_table(data,self.content_questions_table)
+		# 	dataframe_to_table(data,self.content_questions_table)
 
-			self.log("Subject loaded: " + self.content_subject_comboBox.currentText())
+		# 	self.log("Subject loaded: " + self.content_subject_comboBox.currentText())
 			
 
-		else:	
-			self.log("WARNING TABLE <<"+file_name +">>  FILE DO NOT EXIST")
-			labels = []
-			for i in range(0,3):
-				labels.append(str(self.content_questions_table.horizontalHeaderItem(i).text()))
+		# else:	
+		# 	self.log("WARNING TABLE <<"+file_name +">>  FILE DO NOT EXIST")
+		# 	labels = []
+		# 	for i in range(0,3):
+		# 		labels.append(str(self.content_questions_table.horizontalHeaderItem(i).text()))
 			
-			data = 	pd.DataFrame(columns=labels, index=range(0))
+		# 	data = 	pd.DataFrame(columns=labels, index=range(0))
 
-			#print data
+		# 	#print data
 
-			data.to_csv(self.content_path + self.content_subject_comboBox.currentText()+".csv", index=False)
-			data.to_csv(file_name, index=False)
+		# 	data.to_csv(self.content_path + self.content_subject_comboBox.currentText()+".csv", index=False)
+		# 	data.to_csv(file_name, index=False)
 
 
 
@@ -1124,7 +1148,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			
 			return -1
     	
-		self.evaluation =  Evaluation(
+		self.cur_eval =  Evaluation(
 								id=self.sys_vars.evaluation_id,
 								date=QDate.currentDate(),
 								start_time=QTime.currentTime(),
@@ -1155,6 +1179,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		self.run_question_interator = -1
 
+		# Start interaction engine
+		self.interatction_parser()
 
 
 
@@ -1167,7 +1193,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#self.cur_eval.
 		#self.cur_eval.
 		
-		if self.envaluation_db.insert_eval(self.cur_eval):
+		if self.evaluation_db.insert_eval(self.cur_eval):
 			self.sys_vars.add('evaluation')
 		
 		
@@ -1206,7 +1232,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				#self.extra_interact(self.cur_interact.data.iloc[i]['Name'])
 
 			print "\n\n\n"
-			
+
+		self.run_end_activity()	
 
 
 
@@ -1219,9 +1246,10 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 	def content_interac_template(self, tta):
 
 		
-		print "INSIDE CONTET FUNCTON", tta
+		print "INSIDE CONTENT FUNCTON", tta
 		
 		topic = Topic(self.sub_list[self.sub_list['subjects']==tta]['concepts'])
+		self.cur_eval.tp_names.append(str(tta))
 		att = Attempt()
 		#print "Concept", topic.concept
 
@@ -1273,6 +1301,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 				t1 = time.time()
 
+				self.run_exp_ans.setText(expected_answer)
+
 				# Wait for the user answer: Change to verbal answer soon
 				while not self.user_ans_flag:
 					
@@ -1301,13 +1331,16 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 				print "TIME TO ANS:", att.time2ans 
 
+				self.run_under_ans.setText(user_answer)
+
+
 				if dist < self.answer_threshold:
 					self.log("ANSWER IS CORRET")
 
 					att.system_consideration = True
 					quest.insert_attempt(att)	
-					self.robot_speech.text("Congratulations. You did!")
-					time.sleep(3)
+					self.robot_speech.setText("Congratulations. You did!")
+					#time.sleep(3)
 					break
 
 				else:
@@ -1315,8 +1348,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 					att.system_consideration = False
 					quest.insert_attempt(att)
-					self.robot_speech.text("Not Correct. Lets Try again!")
-					time.sleep(3)
+					self.robot_speech.setText("Not Correct. Lets Try again!")
+					#time.sleep(3)
 
 			# Insert current question in topic 
 			topic.insert_question(quest)
