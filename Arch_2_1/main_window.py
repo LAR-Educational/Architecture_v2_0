@@ -162,6 +162,9 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		self.eval_open_button.clicked.connect( self.eval_open)
 		self.eval_delete_button.clicked.connect( self.delete_eval)
+		self.eval_topic_comboBox.currentIndexChanged.connect(self.eval_update_tab)
+		self.eval_questions_comboBox.currentIndexChanged.connect(self.eval_update_tab)
+		self.eval_att_comboBox.currentIndexChanged.connect(self.eval_update_tab)
 
 
 		#--- Interaction
@@ -870,7 +873,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 
-			self.eval_subject_comboBox.addItems(self.cur_eval.tp_names)
+			self.eval_topic_comboBox.addItems(self.cur_eval.tp_names)
 
 			index_list = range(1,len(self.cur_eval.topics[0].questions))
 
@@ -904,17 +907,17 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		#text= str(self.sub_list['concepts'][self.content_subject_comboBox.currentIndex()])
 		
-		tp_id=self.eval_subject_comboBox.currentIndex()
+		tp_id=self.eval_topic_comboBox.currentIndex()
 		qt_id=self.eval_questions_comboBox.currentIndex()
 		att_id=self.eval_att_comboBox.currentIndex()
 
 		aux_att = self.cur_eval.topics[tp_id].questions[qt_id].attempts[att_id] #Attempt()
 
-		self.eval_concept_textField.setText(self.cur_eval.topics[tp_id].concept[0])
+		self.eval_concept_textField.setText(self.cur_eval.topics[tp_id].concept)
 		self.eval_quest_lineEdit.setText(self.cur_eval.topics[tp_id].questions[qt_id].question )
 		self.eval_exp_lineEdit.setText(self.cur_eval.topics[tp_id].questions[qt_id].exp_ans )
 		self.eval_gave_ans_lineEdit.setText(self.cur_eval.topics[tp_id].questions[qt_id].attempts[att_id].given_ans )
-		self.eval_time2ans.setTime(aux_att.time2ans)
+		self.eval_time2ans.setTime(QTime.fromString(str(aux_att.time2ans),"mm:ss"))
 		self.eval_ans_sup_comboBox.setCurrentIndex(aux_att.supervisor_consideration) 
 		self.eval_ans_sys_comboBox.setCurrentIndex(aux_att.system_consideration) 
 		self.eval_sys_was_comboBox.setCurrentIndex(aux_att.sytem_was) 
@@ -1067,7 +1070,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		self.pushButton_run_activity.setEnabled(True)
 		self.run_int_name_label.setText(self.cur_interact.name)
-
+		self.modules_tabWidget.setCurrentIndex(9)
 
 	def int_add_cont_action(self):
 
@@ -1197,7 +1200,9 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			self.sys_vars.add('evaluation')
 		
 		
-		pass
+		self.modules_tabWidget.setCurrentIndex(7)
+
+		dataframe_to_table(self.evaluation_db.index_table, self.eval_index_table)
 
 
 
@@ -1210,7 +1215,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		#print len(self.cur_interact.data.index)
 
-		print self.cur_interact.data
+		#print self.cur_interact.data
 
 		print "TYPE ", type(self.cur_interact.data.iloc[0]['Type'])
 
@@ -1247,8 +1252,12 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		
 		print "INSIDE CONTENT FUNCTON", tta
+		#print self.sub_list
+
+		text = str(self.sub_list[self.sub_list['subjects']==tta]['concepts'])
 		
-		topic = Topic(self.sub_list[self.sub_list['subjects']==tta]['concepts'])
+		#print str(text)
+		topic = Topic(text)
 		self.cur_eval.tp_names.append(str(tta))
 		att = Attempt()
 		#print "Concept", topic.concept
@@ -1315,7 +1324,10 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				
 				# Get user answer from GUI
 				user_answer = str(self.run_user_answer.text().toUtf8())
-			
+
+				#clear textedit
+				self.run_user_answer.clear()
+
 				print "User ans: ", user_answer
 
 				# Calculate answer similarity
@@ -1337,7 +1349,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				if dist < self.answer_threshold:
 					self.log("ANSWER IS CORRET")
 
-					att.system_consideration = True
+					att.system_consideration = 1
 					quest.insert_attempt(att)	
 					self.robot_speech.setText("Congratulations. You did!")
 					#time.sleep(3)
@@ -1346,7 +1358,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				else:
 					self.log("ANSWER IS WRONG")
 
-					att.system_consideration = False
+					att.system_consideration = 0
 					quest.insert_attempt(att)
 					self.robot_speech.setText("Not Correct. Lets Try again!")
 					#time.sleep(3)
@@ -1436,6 +1448,9 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		if (self.recog_flag):
 			self.image, name = self.students_database.face_recognition(self.image)
+			
+			self.cur_user=name
+			 
 			if name:
 				self.run_recognized_user_label.setText(name)
 
@@ -1625,7 +1640,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		#self.run_correctness.setText(dist)
 		#self.log(dist)
-		self.run_user_answer.clear()
+		
 		self.user_ans_flag=True
 
 
