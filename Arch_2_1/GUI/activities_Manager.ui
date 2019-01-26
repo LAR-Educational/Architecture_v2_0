@@ -4214,7 +4214,7 @@
            </size>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>2</number>
           </property>
           <widget class="QWidget" name="tab_16">
            <attribute name="title">
@@ -4997,7 +4997,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QComboBox" name="eval_subject_comboBox">
+                   <widget class="QComboBox" name="eval_topic_comboBox">
                     <property name="minimumSize">
                      <size>
                       <width>341</width>
@@ -5115,21 +5115,21 @@
                     </item>
                     <item>
                      <property name="text">
-                      <string>Correct</string>
-                     </property>
-                     <property name="icon">
-                      <iconset>
-                       <selectedon>:/imgs/correct.jpg</selectedon>
-                      </iconset>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
                       <string>Wrong</string>
                      </property>
                      <property name="icon">
                       <iconset>
                        <selectedon>:/imgs/wrong.png</selectedon>
+                      </iconset>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Correct</string>
+                     </property>
+                     <property name="icon">
+                      <iconset>
+                       <selectedon>:/imgs/correct.jpg</selectedon>
                       </iconset>
                      </property>
                     </item>
@@ -5146,21 +5146,21 @@
                    <widget class="QComboBox" name="eval_ans_sys_comboBox">
                     <item>
                      <property name="text">
-                      <string>Correct</string>
-                     </property>
-                     <property name="icon">
-                      <iconset>
-                       <selectedon>:/imgs/correct.jpg</selectedon>
-                      </iconset>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
                       <string>Wrong</string>
                      </property>
                      <property name="icon">
                       <iconset>
                        <selectedon>:/imgs/wrong.png</selectedon>
+                      </iconset>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Correct</string>
+                     </property>
+                     <property name="icon">
+                      <iconset>
+                       <selectedon>:/imgs/correct.jpg</selectedon>
                       </iconset>
                      </property>
                     </item>
@@ -5182,21 +5182,21 @@
                     </item>
                     <item>
                      <property name="text">
-                      <string>Correct</string>
-                     </property>
-                     <property name="icon">
-                      <iconset>
-                       <selectedon>:/imgs/correct.jpg</selectedon>
-                      </iconset>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
                       <string>Wrong</string>
                      </property>
                      <property name="icon">
                       <iconset>
                        <selectedon>:/imgs/wrong.png</selectedon>
+                      </iconset>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Correct</string>
+                     </property>
+                     <property name="icon">
+                      <iconset>
+                       <selectedon>:/imgs/correct.jpg</selectedon>
                       </iconset>
                      </property>
                     </item>
@@ -5286,7 +5286,7 @@
                <item row="0" column="0">
                 <widget class="QLabel" name="label_216">
                  <property name="text">
-                  <string>Numer of Topics</string>
+                  <string>Number of Topics</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignCenter</set>
@@ -5629,7 +5629,7 @@
                      </font>
                     </property>
                     <property name="text">
-                     <string>Anwers</string>
+                     <string>Answers</string>
                     </property>
                     <property name="alignment">
                      <set>Qt::AlignCenter</set>
@@ -8732,7 +8732,7 @@
        <enum>QFrame::Raised</enum>
       </property>
       <layout class="QGridLayout" name="gridLayout_64">
-       <item row="0" column="0">
+       <item row="2" column="0">
         <widget class="QLabel" name="label_78">
          <property name="maximumSize">
           <size>
@@ -8752,7 +8752,7 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
+       <item row="2" column="1">
         <widget class="QLabel" name="log_text">
          <property name="text">
           <string>LOG TEXT</string>
