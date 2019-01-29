@@ -10,6 +10,7 @@ from shutil import rmtree
 import face_recognition
 from utils import qImageToMat
 import cv2
+import re
 
 
 
@@ -69,7 +70,7 @@ class UserDatabase():
             
             #generate user Pic in CV.Mat format
             if (new_user.img is not None):
-                cv2.imwrite(path +"/" +str(new_user.first_name)+".png", new_user.img) # qImageToMat(new_user.img.toImage()))
+                cv2.imwrite(path +"/" +str(new_user.id)+".png", new_user.img) # qImageToMat(new_user.img.toImage()))
             
             print "USER EXIST. UPDATING"
             return -1
@@ -89,7 +90,7 @@ class UserDatabase():
             #generate user Pic in CV.Mat format
             if (new_user.img is not None):
                 #                                                                   A imagem esta(ESTAVA) em pixmap
-                cv2.imwrite(path +"/" +str(new_user.first_name)+".png", new_user.img) #qImageToMat(new_user.img.toImage()))
+                cv2.imwrite(path +"/"+str(new_user.id)+".png", new_user.img) #qImageToMat(new_user.img.toImage()))
             
             
             print "USER INSERT DONE"
@@ -139,16 +140,18 @@ class UserDatabase():
     
     def generate_encodings(self):
 
-        path = "images"
-        files = os.listdir(path)
-    
-        for item in files:
-            aux = face_recognition.load_image_file(path +"/"+ item)
-            aux_encoding = face_recognition.face_encodings(aux)[0]
-            self.known_face_names.append(item.replace(".png",""))
-            self.known_face_encodings.append(aux_encoding)
+        path = "Usuarios"
+        folders = [x for x in os.listdir(path) if re.match(r"[0-9]+", x)]
+        # files = os.listdir(path)
 
-        #print len(self.known_face_names)
+        for f in folders:
+            try:
+                image = face_recognition.load_image_file(path+"/"+f+"/"+f+".png")
+                encoded = face_recognition.face_encodings(image)[0]
+                self.known_face_names.append(f)
+                self.known_face_encodings.append(encoded)
+            except Exception:
+                pass
     
     
     def face_recognition(self, frame):
