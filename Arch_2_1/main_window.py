@@ -24,7 +24,7 @@ import activities_Manager # This file holds our MainWindow and all design relate
 
 
 from Modules import vars as core
-from Modules import dialog as ds
+# from Modules import dialog as ds
 #from Modules import motion as mt
 #from Modules import vision #as vs
 from Modules import emotion
@@ -73,7 +73,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.setupUi(self)  # This is defined in design.py file automatically
 
 		self.sys_vars = core.SystemVariablesControl()
-		self.diag_sys = ds.DialogSystem(False, False)
+		# self.diag_sys = ds.DialogSystem(False, False)
 
 		QTextCodec.setCodecForCStrings(QTextCodec.codecForName("utf8"))
 
@@ -699,7 +699,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.log_text.setText(self.user_creation_date.date().toString('dd/MM/yyyy'))
 
 		#aux_pic = "Usuarios/18014/Daniel.png"
-		aux_pic = "Usuarios/"+ str(user2show.id) +"/"+ str(user2show.first_name) +".png"
+		aux_pic = "Usuarios/"+ str(user2show.id) +"/"+str(user2show.id) +".png"
 		
 		#print"PIC NAME",  aux_pic
 
