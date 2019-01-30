@@ -1185,15 +1185,14 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		self.run_question_interator = -1
 
-		self.knowledge_general = table_to_dataframe(self.knowledge_general_table)
+		self.knowledge_general_df = table_to_dataframe(self.knowledge_general_table)
 		
 		
-		self.interact_recognize_person()
 		
 		#self.interact_know_person()
 		
 		# Start interaction engine
-		#self.interatction_parser()
+		self.interatction_parser()
 
 
 
@@ -1220,6 +1219,14 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 	def interatction_parser(self):
+
+		core.info("Wait image load")
+		for i in range(0,10):
+			QCoreApplication.processEvents()
+		core.info("Done Wait ")
+			
+		self.interact_recognize_person()
+		print "Recognized"
 
 		cmds = len(self.cur_interact.data.index)
 		
@@ -1248,7 +1255,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 			print "\n\n\n"
 
-		self.run_end_activity()	
+		#self.run_end_activity()	
 
 
 
@@ -1257,37 +1264,49 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 	def personal_interact_talk(self, talk_subject):
 
+		pref  = self.cur_user.preferences[str(talk_subject).lower()]
+
+		print pref 
+
 		ind = self.knowledge_general_df.index[self.knowledge_general_df['Concept'] == talk_subject]
 
 		print ind, type(ind)
 
-		if talk_subject in self.knowledge_general_df:
-			self.log("NAO TEM NA BASE")
+
+
+		if talk_subject in self.knowledge_general_df['Concept']:
+			self.log("TEM NA BASE")
 
 		else:
-			self.robot_say()
+			self.robot_say("TEM NA BASE")
 
 
 
 	def interact_recognize_person(self):
 		self.students_database.generate_encodings()
-		self.recog_flag=True
+		#self.recog_flag=True
 		self.cur_user = None
 
 		while self.cur_user is None:
 
-			self.image, self.recog_user_id = self.students_database.face_recognition(self.image)
-				
-			self.cur_user= self.students_database.get_user(self.recog_user_id)
-				
-			if self.cur_user is not None:
-				self.run_recognized_user_label.setText(self.cur_user.first_name)
-				self.log("USER DETECTED")
+			if self.image is not None:
+				self.image, self.recog_user_id = self.students_database.face_recognition(self.image)
+					
+				self.cur_user= self.students_database.get_user(self.recog_user_id)
+					
+				if self.cur_user is not None:
+					self.run_recognized_user_label.setText(self.cur_user.first_name)
+					self.log("USER DETECTED")
 
+				else:
+					QCoreApplication.processEvents()
+
+					self.log("USER NOT DETECTED")
 			else:
-				self.log("USER NOT DETECTED")
+				QCoreApplication.processEvents()
+				core.war("Image is None")
 
-		self.recog_flag=False
+		#self.recog_flag=False
 		
 
 
@@ -1474,6 +1493,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 	def run_facerecog(self):
 		self.recog_flag=True
 		self.run_emotion_pushButton.setEnabled(False)
+		#self.interact_recognize_person()
 
 
 	def run_att_emo(self):
