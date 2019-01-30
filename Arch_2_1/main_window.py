@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 #from PyQt4 import QtGui, QtCore # Import the PyQt4 module we'll need
 
 from PyQt4.QtCore import *
@@ -24,9 +27,9 @@ import activities_Manager # This file holds our MainWindow and all design relate
 
 
 from Modules import vars as core
-from Modules import dialog as ds
+from Modules import dialog #as ds
 #from Modules import motion as mt
-#from Modules import vision #as vs
+from Modules import vision #as vs
 from Modules import emotion
 from Modules.Vision import predict
 from Modules.Vision import data_process #as dp
@@ -72,8 +75,17 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		self.setupUi(self)  # This is defined in design.py file automatically
 
+
+
+		# GENERAL!!
+
+		self.robot = None
+		self.vs= None
+		#self.ds=None
+
+
 		self.sys_vars = core.SystemVariablesControl()
-		self.diag_sys = ds.DialogSystem(False, False)
+		self.diag_sys = dialog.DialogSystem(False, False)
 
 		QTextCodec.setCodecForCStrings(QTextCodec.codecForName("utf8"))
 
@@ -90,12 +102,18 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		# --- General
 		self.supervisor ="admin"
-		self.cur_user = "Not Identifyed"
+		self.cur_user = None
 		
 		# --- Dialog
 
 		self.answer_threshold = self.diag_dist_thres_spinBox.value()
 		#print "Thres valeu", self.answer_threshold
+
+
+
+		#--- Vision panel
+
+
 
 
 
@@ -135,7 +153,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.know_per_button_del.clicked.connect( lambda: delete_item_table(self.knowledge_personal_table))
 		self.know_per_button_save.clicked.connect( lambda: save_table(self, self.knowledge_personal_table,self.know_per_df,self.knowledge_path+"personal_knowledge.csv"))
 		self.know_per_button_load.clicked.connect( lambda: load_table(self, self.knowledge_personal_table,self.know_per_df,self.knowledge_path+"personal_knowledge.csv"))
-
+		self.knowledge_general_df = pd.read_csv( "Data/general_knowledge.csv" , sep="|", encoding='utf-8')
+		
 
 		#--- Student
 		
@@ -179,6 +198,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.int_load_button.clicked.connect(self.int_load_action)
 
 		self.int_lock_button.clicked.connect(self.int_lock_action)
+		
+		
 		#--- Plan and Run
 		self.pushButton_run_activity.clicked.connect(self.start_activity)
 		self.pushButton_start_robot_view.clicked.connect(self.resume_display_image)
@@ -191,11 +212,14 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#self.run_videoname_lineEdit.textChanged.connect( lambda: self.line_edit_text_changed(self.run_videoname_lineEdit,self.run_recvid_button	 ))
 		self.run_recvid_button.clicked.connect(self.run_start_recording_video)
 		self.run_stopvid_button.clicked.connect(self.run_stop_recording_video)
+		self.run_robot_connect_button.clicked.connect(self.run_connect_robot_action)
 		self.deviation_times=[]
 
 		self.run_next_question_pushButton.clicked.connect(self.run_next_question)
 		self.run_next_topic_pushButton.clicked.connect(self.run_next_concept)
 		self.run_user_say_pushButton.clicked.connect(self.run_user_say)
+		self.run_end_activity_button.clicked.connect(self.run_end_activity)
+		
 		#run_next_topic_pushButton
 		self.user_ans_flag=False
 
@@ -257,6 +281,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 	def close(self):
+		if self.robot is not None:
+			self.vis_sys.unsub(0)
 		exit()
 		#self.destroy()
 
@@ -699,7 +725,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.log_text.setText(self.user_creation_date.date().toString('dd/MM/yyyy'))
 
 		#aux_pic = "Usuarios/18014/Daniel.png"
-		aux_pic = "Usuarios/"+ str(user2show.id) +"/"+ str(user2show.first_name) +".png"
+		aux_pic = "Usuarios/"+ str(user2show.id) +"/"+str(user2show.id) +".png"
 		
 		#print"PIC NAME",  aux_pic
 
@@ -1084,7 +1110,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.int_timeline_table.setItem(
 				self.int_timeline_table.rowCount()-1,
 				1,
-				QTableWidgetItem(self.int_cont_comboBox.currentText()))						
+				QTabpersonal_interact_talkleWidgetItem(self.int_cont_comboBox.currentText()))						
 
 
 	def int_add_per_action(self):
@@ -1141,16 +1167,17 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 	def start_activity(self):
 		
-		self.capture = cv2.VideoCapture(0)
+		if self.robot is None:
+			self.capture = cv2.VideoCapture(0)
 
-		if not self.capture.isOpened():
-			QMessageBox.critical(self, "ERROR!", " Unable to open camera!", QMessageBox.Ok)
+			if not self.capture.isOpened():
+				QMessageBox.critical(self, "ERROR!", " Unable to open camera!", QMessageBox.Ok)
+				
+				self.interatction_parser()
+				
+				
+				return -1
 			
-			self.interatction_parser()
-			
-			
-			return -1
-    	
 		self.cur_eval =  Evaluation(
 								id=self.sys_vars.evaluation_id,
 								date=QDate.currentDate(),
@@ -1182,6 +1209,15 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		self.run_question_interator = -1
 
+
+			
+		if self.robot is not None:
+			self.vis_sys.subscribe(0)
+
+		
+		
+		#self.interact_know_person()
+		
 		# Start interaction engine
 		self.interatction_parser()
 
@@ -1190,19 +1226,25 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 	def run_end_activity(self):
 		
-		self.cur_eval.end_time=QTime.currentTime()
-		self.cur_eval.user_name = self.cur_user
-		#self.cur_eval.
-		#self.cur_eval.
-		#self.cur_eval.
-		
-		if self.evaluation_db.insert_eval(self.cur_eval):
-			self.sys_vars.add('evaluation')
-		
-		
-		self.modules_tabWidget.setCurrentIndex(7)
+		if self.robot is not None:
+			self.vis_sys.unsub(0)
 
-		dataframe_to_table(self.evaluation_db.index_table, self.eval_index_table)
+		self.timer.stop()
+
+		#self.cur_eval.
+		#self.cur_eval.
+		#self.cur_eval.
+		
+		# self.cur_eval.end_time=QTime.currentTime()
+		# self.cur_eval.user_name = self.cur_user
+
+		# if self.evaluation_db.insert_eval(self.cur_eval):
+		# 	self.sys_vars.add('evaluation')
+		
+		
+		# self.modules_tabWidget.setCurrentIndex(7)
+
+		# dataframe_to_table(self.evaluation_db.index_table, self.eval_index_table)
 
 
 
@@ -1210,6 +1252,14 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 	def interatction_parser(self):
+
+		core.info("Wait image load")
+		for i in range(0,10):
+			QCoreApplication.processEvents()
+		core.info("Done Wait ")
+			
+		self.interact_recognize_person()
+		print "Recognized"
 
 		cmds = len(self.cur_interact.data.index)
 		
@@ -1220,7 +1270,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		print "TYPE ", type(self.cur_interact.data.iloc[0]['Type'])
 
 		for i in range(0,cmds):
-			print i, "  ", self.cur_interact.data.iloc[i]['Type']
+			core.info("Inside parser " + str(i) + "  " + self.cur_interact.data.iloc[i]['Type'])
 			
 
 			self.run_phase.setText(QString.fromUtf8(self.cur_interact.data.iloc[i]['Name']))
@@ -1229,8 +1279,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				self.content_interac_template(self.cur_interact.data.iloc[i]['Name'])
 
 			if self.cur_interact.data.iloc[i]['Type'] == "Personal":
-				print "Personal ", self.cur_interact.data.iloc[i]['Name']
-				#self.personal_interact_talk(self.cur_interact.data.iloc[i]['Name'])
+				print "Personal", self.cur_interact.data.iloc[i]['Name']
+				self.personal_interact_talk(self.cur_interact.data.iloc[i]['Name'])
 
 			if self.cur_interact.data.iloc[i]['Type'] == "Extra":
 				print "Extra: ", self.cur_interact.data.iloc[i]['Name']
@@ -1238,7 +1288,110 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 			print "\n\n\n"
 
-		self.run_end_activity()	
+		#self.run_end_activity()	
+
+
+
+
+
+
+	def personal_interact_talk(self, talk_subject):
+
+		core.info("Inside personal interact")
+
+		pref  = self.cur_user.preferences[str(talk_subject).lower()]
+
+		print pref 
+
+		if pref == "":
+			self.robot_say("Ele ainda não tem esse campo")
+		else:
+			self.robot_say("Ele gosta de " + pref)
+			
+			concept_list = self.knowledge_general_df['Concept'].tolist()
+			
+			if pref in concept_list:	
+				self.robot_say("Eu sei o que é isso!")
+				ind = concept_list.index(pref)	
+				
+				tosay = self.knowledge_general_df['Definition'][ind]
+				
+				#print str(tosay)
+				
+				#print type(tosay)
+
+				self.robot_say((tosay))
+
+		return
+
+
+		ind = self.knowledge_general_df.index[self.knowledge_general_df['Concept'] == talk_subject]
+
+		print ind, type(ind)
+
+
+
+		if talk_subject in self.knowledge_general_df['Concept']:
+			self.robot_say("TEM NA BASE")
+
+		else:
+			self.robot_say("NÃO TEM NA BASE")
+
+
+
+	def interact_recognize_person(self):
+		self.students_database.generate_encodings()
+		#self.recog_flag=True
+		self.cur_user = None
+
+		while self.cur_user is None:
+
+			if self.image is not None:
+				self.image, self.recog_user_id = self.students_database.face_recognition(self.image)
+					
+				self.cur_user= self.students_database.get_user(self.recog_user_id)
+					
+				if self.cur_user is not None:
+					self.run_recognized_user_label.setText(self.cur_user.first_name)
+					self.log("USER DETECTED")
+
+				else:
+					QCoreApplication.processEvents()
+
+					self.log("USER NOT DETECTED")
+			else:
+				QCoreApplication.processEvents()
+				core.war("Image is None")
+
+		#self.recog_flag=False
+		
+
+
+
+
+	def interact_know_person(self):
+		
+		self.robot_say("Eu não conheço você. Qual seu nome?", False)
+		name = self.user_input()
+
+		self.robot_say("Sobrenome", False)
+		last_name = self.user_input()
+
+		
+		self.cur_user = User(self.sys_vars.users_id+1,
+						name,
+						last_name,
+						bday=QDate.currentDate(),
+						img=self.image,
+						creation_date=QDate.currentDate())
+
+
+		self.cur_user.setPreferences()
+
+		if self.students_database.insert_user(self.cur_user)	> 0:
+			self.sys_vars.add('user')
+
+		self.log("User " + name + " added!")
 
 
 
@@ -1313,17 +1466,18 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				self.run_exp_ans.setText(expected_answer)
 
 				# Wait for the user answer: Change to verbal answer soon
-				while not self.user_ans_flag:
+				# while not self.user_ans_flag:
 					
-					#self.label_132.setText(str(time.time("hh:mm:ss")))
-					QCoreApplication.processEvents()
-					#time.sleep(0.05)
+				# 	#self.label_132.setText(str(time.time("hh:mm:ss")))
+				# 	QCoreApplication.processEvents()
+				# 	#time.sleep(0.05)
 
-				self.user_ans_flag = False
+				# self.user_ans_flag = False
 
-				
+
+
 				# Get user answer from GUI
-				user_answer = str(self.run_user_answer.text().toUtf8())
+				user_answer = self.user_input()
 
 				#clear textedit
 				self.run_user_answer.clear()
@@ -1396,6 +1550,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 	def run_facerecog(self):
 		self.recog_flag=True
 		self.run_emotion_pushButton.setEnabled(False)
+		#self.interact_recognize_person()
 
 
 	def run_att_emo(self):
@@ -1441,18 +1596,25 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 	def update_frame(self):
-		ret, self.image=self.capture.read()
+		
+		# IF robot not connected
+		#ret, self.image=self.capture.read()
+
+		self.image = self.vis_sys.get_img(0)
+
 		self.image = cv2.flip(self.image,1)
 		#cv2.imshow("testwindow",self.image )
 		#cv2.waitKey()
 
 		if (self.recog_flag):
-			self.image, name = self.students_database.face_recognition(self.image)
+			self.image, self.recog_user_id = self.students_database.face_recognition(self.image)
 			
-			self.cur_user=name
+			#self.cur_user= self.students_database.get_user(self.recog_user_id)
 			 
-			if name:
-				self.run_recognized_user_label.setText(name)
+			if self.recog_user_id:
+				self.run_recognized_user_label.setText(self.recog_user_id)
+			else:
+				self.log("USER NOT DETECTED")
 
 		if (self.run_emotion_flag):
 			self.image = self.run_attention_emotion_thread(self.image)
@@ -1644,11 +1806,22 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.user_ans_flag=True
 
 
-
-
-
-
+	def run_connect_robot_action(self):
+		
+		robot_ip = str(self.run_robot_ip_comboBox.currentText())
+		robot_port = int(self.run_robot_port.text())
+		self.robot=core.Robot(robot_ip, robot_port)
+		self.vis_sys = vision.VisionSystem(self.robot)
+		self.diag_sys = dialog.DialogSystem(self.robot, None)
+		self.diag_sys.say("Estou Online.", False)
+		core.info("Robot Connected")
 	
+
+
+
+
+
+
 	### ------------ CLOCK
 
 	def showTime(self):
@@ -1710,11 +1883,34 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 
-	def robot_say(self, text):
+	def robot_say(self, text, block = True):
+
+		if self.robot is not None:
+			self.diag_sys.say(text, block=block)
 
 		self.robot_speech.setText(str(  text ))
 
 
+
+
+	def user_input(self):
+		"""
+		Wait user to answer in the correct 
+		field and press corresponding button
+		"""
+
+		self.user_ans_flag = False
+
+
+		while not self.user_ans_flag:
+				
+			#self.label_132.setText(str(time.time("hh:mm:ss")))
+			QCoreApplication.processEvents()
+			#time.sleep(0.05)
+
+		self.user_ans_flag = False
+		
+		return str(self.run_user_answer.text().toUtf8())
 
 	@pyqtSlot(str)
 	def line_edit_text_changed(self, line, button):

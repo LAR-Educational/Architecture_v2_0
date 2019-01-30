@@ -22,8 +22,8 @@ teddy_ip="169.254.178.70"
 dolores_ip="169.254.65.171"
 actual_ip="169.254.201.16"
 
-robotIp=teddy_ip
-port = 9559
+#robotIp=teddy_ip
+#port = 9559
 #robotIp=current_ip
 
 flag_log = True
@@ -259,35 +259,36 @@ def load_classes(file_name):
 
 
 class Robot:
-	
-	#naoConected = 
 
-	def __init__(self, roboIp, port, robot_name = "Tédi", defaultLanguage = 'Brazilian'):
-		try:
-			self.tts = ALProxy("ALTextToSpeech", robotIp, port)
-			self.behavior = ALProxy("ALBehaviorManager", robotIp, port)
-			self.motors =  ALProxy("ALMotion", robotIp, port)
-			self.posture = ALProxy("ALRobotPosture", robotIp, port)
-			self.camera = ALProxy("ALVideoDevice", robotIp, port)
-			self.disattention = False
-			self.name = robot_name
-			self.tts.setLanguage(defaultLanguage)
-			self.animatedSpeechProxy = ALProxy("ALAnimatedSpeech", robotIp, port)
-			self.speechSpeed = 0.5
-			self.volume = 0.4
-			self.tts.setVolume(self.volume)
+    #naoConected = 
 
-			self.leds = ALProxy("ALLeds", robotIp, port)
-			self.group = ['FaceLed0', 'FaceLed1', 'FaceLed2', 'FaceLed3', 'FaceLed4',
-			              'FaceLed5', 'FaceLed6', 'FaceLed7']
-			self.leds.createGroup('eyes', self.group)
-			 
+    def __init__(self, robotIp, port, robot_name = "Tédi", defaultLanguage = 'Brazilian'):
+        try:
+            self.tts = ALProxy("ALTextToSpeech", robotIp, port)
+            self.behavior = ALProxy("ALBehaviorManager", robotIp, port)
+            self.motors =  ALProxy("ALMotion", robotIp, port)
+            self.posture = ALProxy("ALRobotPosture", robotIp, port)
+            self.camera = ALProxy("ALVideoDevice", robotIp, port)
+            self.disattention = False
+            self.name = robot_name
+            self.tts.setLanguage(defaultLanguage)
+            self.animatedSpeechProxy = ALProxy("ALAnimatedSpeech", robotIp, port)
+            self.speechSpeed = 0.5
+            self.volume = 1
+            self.tts.setVolume(self.volume)
 
-		except:
-			print "Unexpected error conneting NAO"
-			#return False
-    		#raise
-    		
+            self.leds = ALProxy("ALLeds", robotIp, port)
+            self.group = ['FaceLed0', 'FaceLed1', 'FaceLed2', 'FaceLed3', 'FaceLed4',
+                        'FaceLed5', 'FaceLed6', 'FaceLed7']
+            self.leds.createGroup('eyes', self.group)
+
+
+
+        except Exception, e :
+            er("Unexpected error conneting NAO: " + str(e))
+            #return False
+            raise
+
   		
 '''
     		
@@ -376,7 +377,7 @@ def war(stringToPrint):
     if debug:
             print bcolors.WARNING + "[W] " + stringToPrint + bcolors.ENDC
 
-def error(stringToPrint):   
+def er(stringToPrint):   
     
     if debug:
             print bcolors.FAIL + "[E] " + stringToPrint + bcolors.ENDC
