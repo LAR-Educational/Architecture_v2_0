@@ -26,7 +26,7 @@ import activities_Manager # This file holds our MainWindow and all design relate
 from Modules import vars as core
 from Modules import dialog as ds
 #from Modules import motion as mt
-#from Modules import vision #as vs
+from Modules import vision #as vs
 from Modules import emotion
 from Modules.Vision import predict
 from Modules.Vision import data_process #as dp
@@ -699,7 +699,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.log_text.setText(self.user_creation_date.date().toString('dd/MM/yyyy'))
 
 		#aux_pic = "Usuarios/18014/Daniel.png"
-		aux_pic = "Usuarios/"+ str(user2show.id) +"/"+ str(user2show.first_name) +".png"
+		aux_pic = "Usuarios/"+ str(user2show.id) +"/"+str(user2show.id) +".png"
 		
 		#print"PIC NAME",  aux_pic
 
