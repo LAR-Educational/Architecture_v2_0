@@ -10,6 +10,7 @@ from shutil import rmtree
 import face_recognition
 from utils import qImageToMat
 import cv2
+import re
 
 
 
@@ -53,7 +54,25 @@ class UserDatabase():
         
         #print self.users
         
+
+
+
+
+
+    def get_user(self, user_id):
+
+        path = "Usuarios/"+str(user_id)+"/"+str(user_id)+".data"
+
+        print "PATH", path 
+
+        if os.path.exists(path):
+            print "USER EXISTS!!!"
+            return self.load_user(path)
         
+        else:
+            print "USER DONT EXISTS"
+            return None
+
 
 
     def insert_user(self, new_user):
@@ -69,7 +88,7 @@ class UserDatabase():
             
             #generate user Pic in CV.Mat format
             if (new_user.img is not None):
-                cv2.imwrite(path +"/" +str(new_user.first_name)+".png", new_user.img) # qImageToMat(new_user.img.toImage()))
+                cv2.imwrite(path +"/" +str(new_user.id)+".png", new_user.img) # qImageToMat(new_user.img.toImage()))
             
             print "USER EXIST. UPDATING"
             return -1
@@ -89,7 +108,7 @@ class UserDatabase():
             #generate user Pic in CV.Mat format
             if (new_user.img is not None):
                 #                                                                   A imagem esta(ESTAVA) em pixmap
-                cv2.imwrite(path +"/" +str(new_user.first_name)+".png", new_user.img) #qImageToMat(new_user.img.toImage()))
+                cv2.imwrite(path +"/"+str(new_user.id)+".png", new_user.img) #qImageToMat(new_user.img.toImage()))
             
             
             print "USER INSERT DONE"
@@ -139,16 +158,18 @@ class UserDatabase():
     
     def generate_encodings(self):
 
-        path = "images"
-        files = os.listdir(path)
-    
-        for item in files:
-            aux = face_recognition.load_image_file(path +"/"+ item)
-            aux_encoding = face_recognition.face_encodings(aux)[0]
-            self.known_face_names.append(item.replace(".png",""))
-            self.known_face_encodings.append(aux_encoding)
+        path = "Usuarios"
+        folders = [x for x in os.listdir(path) if re.match(r"[0-9]+", x)]
+        # files = os.listdir(path)
 
-        #print len(self.known_face_names)
+        for f in folders:
+            try:
+                image = face_recognition.load_image_file(path+"/"+f+"/"+f+".png")
+                encoded = face_recognition.face_encodings(image)[0]
+                self.known_face_names.append(f)
+                self.known_face_encodings.append(encoded)
+            except Exception:
+                pass
     
     
     def face_recognition(self, frame):
@@ -161,9 +182,12 @@ class UserDatabase():
         #while True:
         # Grab a single frame of video
         #ret, frame = video_capture.read()
-
-        # Resize frame of video to 1/4 size for faster face recognition processing
-        small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
+        try:
+            # Resize frame of video to 1/4 size for faster face recognition processing
+            small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
+        except :
+            print "ERROR: Frame is None"
+            raise
 
         # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)
         rgb_small_frame = small_frame[:, :, ::-1]
@@ -231,8 +255,8 @@ class User():
         self.creation_date = creation_date
     
     
-    def setPreferences(self, sport='None', team='None', toy='None', game='None', 
-                        dance='None', music='None', hobby='None', food='None'):
+    def setPreferences(self, sport='', team='', toy='', game='', 
+                        dance='', music='', hobby='', food=''):
         self.preferences['sport']=sport
         self.preferences['team']=team
         self.preferences['toy']=toy

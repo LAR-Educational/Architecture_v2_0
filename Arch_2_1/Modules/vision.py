@@ -21,7 +21,10 @@ import time
 # subscribe top camera
 AL_kTopCamera = 0
 AL_kQVGA = 1            # 320x240
-#AL_kQVGA = 0            # 160x120
+#AL_kQVGA = 0           # 160x120
+AL_kVGA = 2				# 640*480
+AL_k4VGA = 3			# 1280*960
+
 
 AL_kBGRColorSpace = 13
 
@@ -38,19 +41,20 @@ class VisionSystem:
 	def __init__(self, robot):
 		self.robot=robot
 		#print "ROBOT INSIDE VS : ", robot
-	
+		
 
 
 	def subscribe(self,camId):
 		
-		nameId = self.robot.camera.subscribeCamera("Tozadore", camId, AL_kQVGA, AL_kBGRColorSpace, 10)
-		print "Subscribed in ", nameId
-		return nameId
+		self.subId = self.robot.camera.subscribeCamera(
+			"Tozadore", camId, AL_kVGA, AL_kBGRColorSpace, 10)
+		core.info("Subscribed in " + self.subId )
+		#return nameId
 
 
 
 	def unsub(self,subId):
-		self.robot.camera.unsubscribe(subId)
+		self.robot.camera.unsubscribe(self.subId)
 
 
 
@@ -112,21 +116,21 @@ class VisionSystem:
 
 	def get_img(self, camId=AL_kTopCamera):
 		
-		subId = self.subscribe(camId)   
+		#subId = self.subscribe(camId)   
 		
-		result = self.robot.camera.getImageRemote(subId)
+		result = self.robot.camera.getImageRemote(self.subId)
 	   
 	   # create image
 		width = result[0]
 		height = result[1]
 		image = np.zeros((height, width, 3), np.uint8)
 		
-		key=0    
+		#key=0    
 		
 		#while key!=27:
 		    
 		# get image
-		result = self.robot.camera.getImageRemote(subId)
+		#result = self.robot.camera.getImageRemote(self.subId)
 		
 		if result == None:
 		    print 'cannot capture.'
@@ -154,7 +158,7 @@ class VisionSystem:
 		    #            break
 		    #        
 		
-		self.unsub(subId)
+		#self.unsub(subId)
 		return image
 
 

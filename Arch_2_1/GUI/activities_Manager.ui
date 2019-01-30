@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1449</width>
-    <height>853</height>
+    <height>850</height>
    </rect>
   </property>
   <property name="font">
@@ -312,7 +312,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>7</number>
+       <number>9</number>
       </property>
       <property name="iconSize">
        <size>
@@ -6104,6 +6104,46 @@
                   <pointsize>14</pointsize>
                  </font>
                 </property>
+                <item>
+                 <property name="text">
+                  <string>Sport</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Dance</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Team</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Music</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Game</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Hobby</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Toy</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Food</string>
+                 </property>
+                </item>
                </widget>
               </item>
               <item row="0" column="0" colspan="2">
@@ -6820,6 +6860,12 @@
             <height>0</height>
            </size>
           </property>
+          <property name="maximumSize">
+           <size>
+            <width>556</width>
+            <height>16777215</height>
+           </size>
+          </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
           </property>
@@ -6857,24 +6903,39 @@
                </widget>
               </item>
               <item row="1" column="1">
-               <widget class="QLineEdit" name="lineEdit_14">
+               <widget class="QLineEdit" name="run_robot_port">
                 <property name="text">
-                 <string>992</string>
+                 <string>9559</string>
                 </property>
                </widget>
               </item>
               <item row="1" column="2">
-               <widget class="QPushButton" name="pushButton_4">
+               <widget class="QPushButton" name="run_robot_connect_button">
                 <property name="text">
-                 <string>Default</string>
+                 <string>Connect</string>
                 </property>
                </widget>
               </item>
               <item row="0" column="1" colspan="2">
-               <widget class="QLineEdit" name="lineEdit_13">
-                <property name="text">
-                 <string>169.254.206.242</string>
+               <widget class="QComboBox" name="run_robot_ip_comboBox">
+                <property name="editable">
+                 <bool>true</bool>
                 </property>
+                <item>
+                 <property name="text">
+                  <string>169.254.178.70</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>10.62.6.284</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>169.254.206.242</string>
+                 </property>
+                </item>
                </widget>
               </item>
              </layout>
@@ -6896,20 +6957,10 @@
                 </property>
                </widget>
               </item>
-              <item row="0" column="1">
-               <widget class="QLabel" name="run_int_name_label">
-                <property name="text">
-                 <string>NONE</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
               <item row="1" column="0" colspan="2">
                <widget class="QPushButton" name="pushButton_run_activity">
                 <property name="enabled">
-                 <bool>false</bool>
+                 <bool>true</bool>
                 </property>
                 <property name="palette">
                  <palette>
@@ -7348,11 +7399,34 @@
                 </property>
                </widget>
               </item>
+              <item row="1" column="2">
+               <widget class="QPushButton" name="run_end_activity_button">
+                <property name="text">
+                 <string>Finish Activity</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="2">
+               <widget class="QLabel" name="run_int_name_label">
+                <property name="text">
+                 <string>NONE</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
              </layout>
             </widget>
            </item>
            <item row="1" column="0" colspan="2">
             <widget class="QFrame" name="frame_86">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>74</height>
+              </size>
+             </property>
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
              </property>
@@ -7652,14 +7726,43 @@
              </layout>
             </widget>
            </item>
-           <item row="3" column="1">
-            <widget class="QFrame" name="frame_85">
+           <item row="2" column="0">
+            <widget class="QFrame" name="frame_80">
              <property name="maximumSize">
               <size>
-               <width>271</width>
-               <height>38</height>
+               <width>16777215</width>
+               <height>32</height>
               </size>
              </property>
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_16">
+              <item>
+               <widget class="QLabel" name="label_194">
+                <property name="text">
+                 <string>User:</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="run_recognized_user_label">
+                <property name="text">
+                 <string>Recognized User</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QFrame" name="frame_85">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
              </property>
@@ -7698,7 +7801,140 @@
              <zorder>label_200</zorder>
             </widget>
            </item>
-           <item row="4" column="1" rowspan="2">
+           <item row="3" column="0">
+            <widget class="QFrame" name="frame_52">
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_46">
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_101">
+                <property name="text">
+                 <string>Emotion:</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_102">
+                <property name="text">
+                 <string>Deviation Count:</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QLabel" name="run_emotion_label">
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="text">
+                 <string>Neutral</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QLabel" name="run_deviation_count">
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="text">
+                 <string>0</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_107">
+                <property name="text">
+                 <string>Correct Ans:</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QLabel" name="run_correctness">
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="text">
+                 <string>0</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QLabel" name="run_current_topic">
+                <property name="maximumSize">
+                 <size>
+                  <width>107</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="text">
+                 <string>Topic</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_104">
+                <property name="text">
+                 <string>Subject:</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QLabel" name="label_111">
+                <property name="text">
+                 <string>Question #:</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1">
+               <widget class="QLabel" name="run_question_number">
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="text">
+                 <string>0</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="3" column="1">
             <widget class="QFrame" name="frame_56">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -7919,174 +8155,6 @@
               </item>
               <item row="5" column="1">
                <widget class="QLabel" name="clock_display">
-                <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
-                </property>
-                <property name="text">
-                 <string>0</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item row="3" column="0">
-            <widget class="QFrame" name="frame_80">
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>32</height>
-              </size>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::StyledPanel</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Raised</enum>
-             </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_16">
-              <item>
-               <widget class="QLabel" name="label_194">
-                <property name="text">
-                 <string>User:</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="run_recognized_user_label">
-                <property name="text">
-                 <string>Recognized User</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item row="4" column="0" rowspan="2">
-            <widget class="QFrame" name="frame_52">
-             <property name="frameShape">
-              <enum>QFrame::StyledPanel</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Raised</enum>
-             </property>
-             <layout class="QGridLayout" name="gridLayout_46">
-              <item row="0" column="0">
-               <widget class="QLabel" name="label_101">
-                <property name="text">
-                 <string>Emotion:</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_102">
-                <property name="text">
-                 <string>Deviation Count:</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="QLabel" name="run_emotion_label">
-                <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
-                </property>
-                <property name="text">
-                 <string>Neutral</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="QLabel" name="run_deviation_count">
-                <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
-                </property>
-                <property name="text">
-                 <string>0</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="0">
-               <widget class="QLabel" name="label_107">
-                <property name="text">
-                 <string>Correct Ans:</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="1">
-               <widget class="QLabel" name="run_correctness">
-                <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
-                </property>
-                <property name="text">
-                 <string>0</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="1">
-               <widget class="QLabel" name="run_current_topic">
-                <property name="maximumSize">
-                 <size>
-                  <width>107</width>
-                  <height>20</height>
-                 </size>
-                </property>
-                <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
-                </property>
-                <property name="text">
-                 <string>Topic</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="label_104">
-                <property name="text">
-                 <string>Subject:</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="0">
-               <widget class="QLabel" name="label_111">
-                <property name="text">
-                 <string>Question #:</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="1">
-               <widget class="QLabel" name="run_question_number">
                 <property name="frameShape">
                  <enum>QFrame::StyledPanel</enum>
                 </property>
@@ -8586,6 +8654,9 @@
               </item>
               <item>
                <widget class="QPushButton" name="run_facerecog_pushButton">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="text">
                  <string>Recognize</string>
                 </property>
@@ -8770,7 +8841,7 @@
      <x>0</x>
      <y>0</y>
      <width>1449</width>
-     <height>25</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuMenu">
@@ -8830,6 +8901,214 @@
    </property>
   </action>
  </widget>
+ <tabstops>
+  <tabstop>user_name_field</tabstop>
+  <tabstop>user_last_name_field</tabstop>
+  <tabstop>user_bd_field</tabstop>
+  <tabstop>user_school_year</tabstop>
+  <tabstop>user_creation_date</tabstop>
+  <tabstop>user_sport</tabstop>
+  <tabstop>user_dance</tabstop>
+  <tabstop>user_team</tabstop>
+  <tabstop>user_music</tabstop>
+  <tabstop>user_toy</tabstop>
+  <tabstop>user_hobby</tabstop>
+  <tabstop>user_game</tabstop>
+  <tabstop>user_food</tabstop>
+  <tabstop>user_cancel_button</tabstop>
+  <tabstop>user_ok_button</tabstop>
+  <tabstop>spinBox</tabstop>
+  <tabstop>dial</tabstop>
+  <tabstop>comboBox</tabstop>
+  <tabstop>spinBox_3</tabstop>
+  <tabstop>speechSpeed_HorizontalSlider</tabstop>
+  <tabstop>diag_dist_thres_spinBox</tabstop>
+  <tabstop>distThresHorizontalSlider</tabstop>
+  <tabstop>levModeComboBox</tabstop>
+  <tabstop>dialog_tabWidget</tabstop>
+  <tabstop>insertQuestion_Button</tabstop>
+  <tabstop>clearQuestions_Button</tabstop>
+  <tabstop>saveQuestions_Button</tabstop>
+  <tabstop>loadQuestions_Button</tabstop>
+  <tabstop>sysQuestionsTable</tabstop>
+  <tabstop>textEdit_3</tabstop>
+  <tabstop>textEdit_5</tabstop>
+  <tabstop>pushButton_23</tabstop>
+  <tabstop>pushButton_34</tabstop>
+  <tabstop>tableWidget_5</tabstop>
+  <tabstop>pushButton_27</tabstop>
+  <tabstop>pushButton_26</tabstop>
+  <tabstop>pushButton_25</tabstop>
+  <tabstop>tableWidget_6</tabstop>
+  <tabstop>pushButton_28</tabstop>
+  <tabstop>pushButton_29</tabstop>
+  <tabstop>pushButton_30</tabstop>
+  <tabstop>tableWidget_7</tabstop>
+  <tabstop>pushButton_31</tabstop>
+  <tabstop>pushButton_32</tabstop>
+  <tabstop>pushButton_33</tabstop>
+  <tabstop>content_insert_question_button</tabstop>
+  <tabstop>contenct_clear_questions_button</tabstop>
+  <tabstop>content_dif_comboBox</tabstop>
+  <tabstop>content_delete_question_button</tabstop>
+  <tabstop>content_questions_table</tabstop>
+  <tabstop>contenct_newSubj_button</tabstop>
+  <tabstop>content_subject_comboBox</tabstop>
+  <tabstop>content_saveSub_button</tabstop>
+  <tabstop>content_delete_button</tabstop>
+  <tabstop>content_concept</tabstop>
+  <tabstop>comboBox_2</tabstop>
+  <tabstop>epoch_Box</tabstop>
+  <tabstop>steps_Box</tabstop>
+  <tabstop>train_cnn_Button</tabstop>
+  <tabstop>comboBox_11</tabstop>
+  <tabstop>epoch_Box_2</tabstop>
+  <tabstop>doubleSpinBox</tabstop>
+  <tabstop>comboBox_13</tabstop>
+  <tabstop>epoch_Box_3</tabstop>
+  <tabstop>train_cnn_Button_3</tabstop>
+  <tabstop>comboBox_12</tabstop>
+  <tabstop>steps_Box_3</tabstop>
+  <tabstop>epoch_Box_4</tabstop>
+  <tabstop>doubleSpinBox_2</tabstop>
+  <tabstop>deleteDbButton</tabstop>
+  <tabstop>buildTreeButton</tabstop>
+  <tabstop>augButton</tabstop>
+  <tabstop>increaseDbButton</tabstop>
+  <tabstop>wrongAns_horizontalSlider</tabstop>
+  <tabstop>wrongAns_timeTol_spinBox</tabstop>
+  <tabstop>learningTime_doubleSpinBox</tabstop>
+  <tabstop>learningTime_horizontalSlider</tabstop>
+  <tabstop>minNei_spinBox</tabstop>
+  <tabstop>minNei_horizontalSlider</tabstop>
+  <tabstop>face_dev_activation</tabstop>
+  <tabstop>actNum_horizontalSlider</tabstop>
+  <tabstop>timeTol_horizontalSlider</tabstop>
+  <tabstop>timeTol_doubleSpinBox</tabstop>
+  <tabstop>emoModel_comboBox</tabstop>
+  <tabstop>negEmoAct__spinBox</tabstop>
+  <tabstop>negEmoAct_horizontalSlider</tabstop>
+  <tabstop>emoFreq_spinBox</tabstop>
+  <tabstop>emoFreq_horizontalSlider</tabstop>
+  <tabstop>gamaWeight</tabstop>
+  <tabstop>betaWeight</tabstop>
+  <tabstop>alfaWeight</tabstop>
+  <tabstop>knowledge_general_table</tabstop>
+  <tabstop>know_gen_button_new</tabstop>
+  <tabstop>know_gen_button_del</tabstop>
+  <tabstop>know_gen_button_save</tabstop>
+  <tabstop>know_gen_button_load</tabstop>
+  <tabstop>knowledge_personal_table</tabstop>
+  <tabstop>know_per_button_new</tabstop>
+  <tabstop>know_per_button_del</tabstop>
+  <tabstop>know_per_button_save</tabstop>
+  <tabstop>know_per_button_load</tabstop>
+  <tabstop>writeReportButton</tabstop>
+  <tabstop>reportLoadButton</tabstop>
+  <tabstop>tableView</tabstop>
+  <tabstop>user_new_button</tabstop>
+  <tabstop>user_del_button</tabstop>
+  <tabstop>user_open_table_button</tabstop>
+  <tabstop>st_db_index_table</tabstop>
+  <tabstop>modules_tabWidget</tabstop>
+  <tabstop>comboBox_3</tabstop>
+  <tabstop>created_date</tabstop>
+  <tabstop>exitButton</tabstop>
+  <tabstop>edited_lineEdit</tabstop>
+  <tabstop>created_lineEdit</tabstop>
+  <tabstop>pushButton_3</tabstop>
+  <tabstop>loadactButton</tabstop>
+  <tabstop>pushButton_2</tabstop>
+  <tabstop>editButton</tabstop>
+  <tabstop>user_choose_pic_button</tabstop>
+  <tabstop>path_lineEdit</tabstop>
+  <tabstop>edited_date</tabstop>
+  <tabstop>name_lineEdit</tabstop>
+  <tabstop>newButton</tabstop>
+  <tabstop>desc_lineEdit</tabstop>
+  <tabstop>eval_index_table</tabstop>
+  <tabstop>eval_new_button</tabstop>
+  <tabstop>eval_delete_button</tabstop>
+  <tabstop>eval_open_button</tabstop>
+  <tabstop>eval_frame</tabstop>
+  <tabstop>eval_duration</tabstop>
+  <tabstop>eval_date</tabstop>
+  <tabstop>eval_start</tabstop>
+  <tabstop>eval_end</tabstop>
+  <tabstop>lineEdit</tabstop>
+  <tabstop>eval_supervisor</tabstop>
+  <tabstop>eval_user_name</tabstop>
+  <tabstop>eval_gen_stats_button</tabstop>
+  <tabstop>eval_ok_button</tabstop>
+  <tabstop>eval_cancel_button</tabstop>
+  <tabstop>eval_observation</tabstop>
+  <tabstop>eval_quest_lineEdit</tabstop>
+  <tabstop>eval_exp_lineEdit</tabstop>
+  <tabstop>eval_gave_ans_lineEdit</tabstop>
+  <tabstop>eval_topic_comboBox</tabstop>
+  <tabstop>eval_questions_comboBox</tabstop>
+  <tabstop>eval_att_comboBox</tabstop>
+  <tabstop>eval_concept_textField</tabstop>
+  <tabstop>eval_ans_sup_comboBox</tabstop>
+  <tabstop>eval_ans_sys_comboBox</tabstop>
+  <tabstop>eval_sys_was_comboBox</tabstop>
+  <tabstop>eval_time2ans</tabstop>
+  <tabstop>pushButton_5</tabstop>
+  <tabstop>pushButton</tabstop>
+  <tabstop>eval_generate_graph</tabstop>
+  <tabstop>eval_subject_comboBox_2</tabstop>
+  <tabstop>comboBox_8</tabstop>
+  <tabstop>comboBox_10</tabstop>
+  <tabstop>pushButton_6</tabstop>
+  <tabstop>checkBox_6</tabstop>
+  <tabstop>checkBox_7</tabstop>
+  <tabstop>checkBox_3</tabstop>
+  <tabstop>checkBox_2</tabstop>
+  <tabstop>checkBox_8</tabstop>
+  <tabstop>checkBox_9</tabstop>
+  <tabstop>int_add_per_button</tabstop>
+  <tabstop>int_per_comboBox</tabstop>
+  <tabstop>int_cont_comboBox</tabstop>
+  <tabstop>int_add_cont_button</tabstop>
+  <tabstop>int_add_extra_button</tabstop>
+  <tabstop>int_extra_comboBox</tabstop>
+  <tabstop>int_ques_per_top</tabstop>
+  <tabstop>int_name_linedit</tabstop>
+  <tabstop>int_save_button</tabstop>
+  <tabstop>int_att_per_ques</tabstop>
+  <tabstop>int_lock_button</tabstop>
+  <tabstop>int_create_button</tabstop>
+  <tabstop>int_load_button</tabstop>
+  <tabstop>int_cancel_button</tabstop>
+  <tabstop>int_timeline_table</tabstop>
+  <tabstop>pushButton_17</tabstop>
+  <tabstop>run_robot_port</tabstop>
+  <tabstop>run_robot_connect_button</tabstop>
+  <tabstop>pushButton_run_activity</tabstop>
+  <tabstop>alfaWeight_doubleSpinBox_2</tabstop>
+  <tabstop>betaWeight_doubleSpinBox_2</tabstop>
+  <tabstop>gamaWeight_doubleSpinBox_2</tabstop>
+  <tabstop>verticalSlider_3</tabstop>
+  <tabstop>run_next_question_pushButton</tabstop>
+  <tabstop>run_next_topic_pushButton</tabstop>
+  <tabstop>pushButton_9</tabstop>
+  <tabstop>pushButton_7</tabstop>
+  <tabstop>pushButton_10</tabstop>
+  <tabstop>pushButton_8</tabstop>
+  <tabstop>run_user_answer</tabstop>
+  <tabstop>run_user_say_pushButton</tabstop>
+  <tabstop>pushButton_start_robot_view</tabstop>
+  <tabstop>pushButton_stop_robot_view</tabstop>
+  <tabstop>run_load_pushButton</tabstop>
+  <tabstop>run_facerecog_pushButton</tabstop>
+  <tabstop>run_emotion_pushButton</tabstop>
+  <tabstop>run_picname_lineEdit</tabstop>
+  <tabstop>run_takepic_pushButton</tabstop>
+  <tabstop>run_pausevid_button</tabstop>
+  <tabstop>run_videoname_lineEdit</tabstop>
+  <tabstop>run_recvid_button</tabstop>
+  <tabstop>run_stopvid_button</tabstop>
+ </tabstops>
  <resources>
   <include location="imgs.qrc"/>
   <include location="imgs.qrc"/>
