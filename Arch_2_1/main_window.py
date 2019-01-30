@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 #from PyQt4 import QtGui, QtCore # Import the PyQt4 module we'll need
 
 from PyQt4.QtCore import *
@@ -90,7 +93,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		# --- General
 		self.supervisor ="admin"
-		self.cur_user = "Not Identifyed"
+		self.cur_user = None
 		
 		# --- Dialog
 
@@ -1183,8 +1186,14 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.run_question_interator = -1
 
 		self.knowledge_general = table_to_dataframe(self.knowledge_general_table)
+		
+		
+		self.interact_recognize_person()
+		
+		#self.interact_know_person()
+		
 		# Start interaction engine
-		self.interatction_parser()
+		#self.interatction_parser()
 
 
 
@@ -1244,6 +1253,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 
+
+
 	def personal_interact_talk(self, talk_subject):
 
 		ind = self.knowledge_general_df.index[self.knowledge_general_df['Concept'] == talk_subject]
@@ -1255,6 +1266,60 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		else:
 			self.robot_say()
+
+
+
+	def interact_recognize_person(self):
+		self.students_database.generate_encodings()
+		self.recog_flag=True
+		self.cur_user = None
+
+		while self.cur_user is None:
+
+			self.image, self.recog_user_id = self.students_database.face_recognition(self.image)
+				
+			self.cur_user= self.students_database.get_user(self.recog_user_id)
+				
+			if self.cur_user is not None:
+				self.run_recognized_user_label.setText(self.cur_user.first_name)
+				self.log("USER DETECTED")
+
+			else:
+				self.log("USER NOT DETECTED")
+
+		self.recog_flag=False
+		
+
+
+
+
+	def interact_know_person(self):
+		
+		self.robot_say("Hi. I dont know you. Whats is your name?")
+		name = self.user_input()
+
+		self.robot_say("Last name")
+		last_name = self.user_input()
+
+		
+		self.cur_user = User(self.sys_vars.users_id+1,
+						name,
+						last_name,
+						bday=QDate.currentDate(),
+						img=self.image,
+						creation_date=QDate.currentDate())
+
+
+		self.cur_user.setPreferences()
+
+		if self.students_database.insert_user(self.cur_user)	> 0:
+			self.sys_vars.add('user')
+
+		self.log("User " + name + " added!")
+
+
+
+
 
 
 
@@ -1325,17 +1390,18 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				self.run_exp_ans.setText(expected_answer)
 
 				# Wait for the user answer: Change to verbal answer soon
-				while not self.user_ans_flag:
+				# while not self.user_ans_flag:
 					
-					#self.label_132.setText(str(time.time("hh:mm:ss")))
-					QCoreApplication.processEvents()
-					#time.sleep(0.05)
+				# 	#self.label_132.setText(str(time.time("hh:mm:ss")))
+				# 	QCoreApplication.processEvents()
+				# 	#time.sleep(0.05)
 
-				self.user_ans_flag = False
+				# self.user_ans_flag = False
 
-				
+
+
 				# Get user answer from GUI
-				user_answer = str(self.run_user_answer.text().toUtf8())
+				user_answer = self.user_input()
 
 				#clear textedit
 				self.run_user_answer.clear()
@@ -1459,12 +1525,14 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#cv2.waitKey()
 
 		if (self.recog_flag):
-			self.image, name = self.students_database.face_recognition(self.image)
+			self.image, self.recog_user_id = self.students_database.face_recognition(self.image)
 			
-			self.cur_user=name
+			#self.cur_user= self.students_database.get_user(self.recog_user_id)
 			 
-			if name:
-				self.run_recognized_user_label.setText(name)
+			if self.recog_user_id:
+				self.run_recognized_user_label.setText(self.recog_user_id)
+			else:
+				self.log("USER NOT DETECTED")
 
 		if (self.run_emotion_flag):
 			self.image = self.run_attention_emotion_thread(self.image)
@@ -1727,6 +1795,26 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.robot_speech.setText(str(  text ))
 
 
+
+
+	def user_input(self):
+		"""
+		Wait user to answer in the correct 
+		field and press corresponding button
+		"""
+
+		self.user_ans_flag = False
+
+
+		while not self.user_ans_flag:
+				
+			#self.label_132.setText(str(time.time("hh:mm:ss")))
+			QCoreApplication.processEvents()
+			#time.sleep(0.05)
+
+		self.user_ans_flag = False
+		
+		return str(self.run_user_answer.text().toUtf8())
 
 	@pyqtSlot(str)
 	def line_edit_text_changed(self, line, button):

@@ -3056,7 +3056,7 @@ class Ui_MainWindow(object):
         self.run_int_name_label.setObjectName(_fromUtf8("run_int_name_label"))
         self.gridLayout_53.addWidget(self.run_int_name_label, 0, 1, 1, 1)
         self.pushButton_run_activity = QtGui.QPushButton(self.frame_58)
-        self.pushButton_run_activity.setEnabled(False)
+        self.pushButton_run_activity.setEnabled(True)
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -3859,7 +3859,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuHelp.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.modules_tabWidget.setCurrentIndex(6)
+        self.modules_tabWidget.setCurrentIndex(9)
         self.dialog_tabWidget.setCurrentIndex(0)
         self.content_dif_comboBox.setCurrentIndex(0)
         self.comboBox_2.setCurrentIndex(4)

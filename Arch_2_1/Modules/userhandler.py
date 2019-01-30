@@ -54,7 +54,25 @@ class UserDatabase():
         
         #print self.users
         
+
+
+
+
         
+    def get_user(self, user_id):
+
+        path = "Usuarios/"+str(user_id)+"/"+str(user_id)+".data"
+
+        print "PATH", path 
+
+        if os.path.exists(path):
+            print "USER EXISTS!!!"
+            return self.load_user(path)
+        
+        else:
+            print "USER DONT EXISTS"
+            return None
+
 
 
     def insert_user(self, new_user):
@@ -234,8 +252,8 @@ class User():
         self.creation_date = creation_date
     
     
-    def setPreferences(self, sport='None', team='None', toy='None', game='None', 
-                        dance='None', music='None', hobby='None', food='None'):
+    def setPreferences(self, sport='', team='', toy='', game='', 
+                        dance='', music='', hobby='', food=''):
         self.preferences['sport']=sport
         self.preferences['team']=team
         self.preferences['toy']=toy
