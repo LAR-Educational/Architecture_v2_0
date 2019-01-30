@@ -312,7 +312,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>6</number>
+       <number>9</number>
       </property>
       <property name="iconSize">
        <size>
@@ -6909,7 +6909,7 @@
               <item row="1" column="0" colspan="2">
                <widget class="QPushButton" name="pushButton_run_activity">
                 <property name="enabled">
-                 <bool>false</bool>
+                 <bool>true</bool>
                 </property>
                 <property name="palette">
                  <palette>
