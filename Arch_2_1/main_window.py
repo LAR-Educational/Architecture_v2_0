@@ -1084,7 +1084,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.int_timeline_table.setItem(
 				self.int_timeline_table.rowCount()-1,
 				1,
-				QTableWidgetItem(self.int_cont_comboBox.currentText()))						
+				QTabpersonal_interact_talkleWidgetItem(self.int_cont_comboBox.currentText()))						
 
 
 	def int_add_per_action(self):
@@ -1182,6 +1182,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		self.run_question_interator = -1
 
+		self.knowledge_general = table_to_dataframe(self.knowledge_general_table)
 		# Start interaction engine
 		self.interatction_parser()
 
@@ -1230,7 +1231,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 			if self.cur_interact.data.iloc[i]['Type'] == "Personal":
 				print "Personal ", self.cur_interact.data.iloc[i]['Name']
-				#self.personal_interact_talk(self.cur_interact.data.iloc[i]['Name'])
+				self.personal_interact_talk(self.cur_interact.data.iloc[i]['Name'])
 
 			if self.cur_interact.data.iloc[i]['Type'] == "Extra":
 				print "Extra: ", self.cur_interact.data.iloc[i]['Name']
@@ -1243,6 +1244,17 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 
+	def personal_interact_talk(self, talk_subject):
+
+		ind = self.knowledge_general_df.index[self.knowledge_general_df['Concept'] == talk_subject]
+
+		print ind, type(ind)
+
+		if talk_subject in self.knowledge_general_df:
+			self.log("NAO TEM NA BASE")
+
+		else:
+			self.robot_say()
 
 
 
