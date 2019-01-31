@@ -1,3 +1,7 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
@@ -8,7 +12,7 @@ import cv2
 import numpy as np
 import pandas as pd
 import math
-
+import duckduckgo as ddg
 
 
 
@@ -241,3 +245,38 @@ def table_to_file(table_name, file_name):
 				writer.writerow(row_data)
 
 
+personal_translate={
+		'sport':"Qual o seu esporte preferido?",
+		'music':"Qual a sua música preferida?",
+		'dance':"Qual a sua dança preferida?",
+		'team':"Qual o seu time de futebol preferido?",
+		'toy':"Qual o seu brinquedo preferido?",
+		'hobby':"O que você gosta de fazer no tempo livre?",
+		'game':"Qual a sua brincadeira preferida?",
+		'food':"Qual a sua comida preferida?",
+}
+
+
+
+def search_engine(query):
+
+	print "Processing query!"
+
+	return ddg.query(query, kad='pt_BR').abstract.text
+
+
+
+
+	
+
+
+
+
+
+
+
+
+if __name__=='__main__':
+
+		if(search_engine('Carrinho de ferro'))=='':#, type(search_engine('santos').encode('utf-8'))
+			print "YES"
