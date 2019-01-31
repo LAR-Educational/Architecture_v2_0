@@ -133,6 +133,9 @@ class fileHelper(object):
         # Retira os espaços extras.
         ret = re.sub(r'\s{2,}|[\t\n\r\f\v]', ' ', ret)
 
+        # Retira os espaços extras.
+        ret = re.sub('=', ' ', ret)
+        
         if(found):
             # Separa as sentenças que foram requisitadas.
             temp = ret

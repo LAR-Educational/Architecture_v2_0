@@ -143,6 +143,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.knowledge_path="./Data/"
 		# DataFrames of General and Personal data
 		self.know_gen_df=None
+		self.knowledge_general_df = pd.read_csv( "Data/general_knowledge.csv" , sep="|", encoding='utf-8')
 		self.know_gen_button_new.clicked.connect( lambda: insert_item_table(self.knowledge_general_table))
 		self.know_gen_button_del.clicked.connect( lambda: delete_item_table(self.knowledge_general_table))
 		self.know_gen_button_save.clicked.connect( lambda: save_table(self, self.knowledge_general_table,self.know_gen_df,self.knowledge_path+"general_knowledge.csv"))
@@ -153,7 +154,6 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.know_per_button_del.clicked.connect( lambda: delete_item_table(self.knowledge_personal_table))
 		self.know_per_button_save.clicked.connect( lambda: save_table(self, self.knowledge_personal_table,self.know_per_df,self.knowledge_path+"personal_knowledge.csv"))
 		self.know_per_button_load.clicked.connect( lambda: load_table(self, self.knowledge_personal_table,self.know_per_df,self.knowledge_path+"personal_knowledge.csv"))
-		self.knowledge_general_df = pd.read_csv( "Data/general_knowledge.csv" , sep="|", encoding='utf-8')
 		
 
 		#--- Student
@@ -248,8 +248,10 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.layoutVertical.addWidget(self.writeReportButton)
 		
 		
-
-
+		#Short cuts:
+		self.load_file()
+		self.int_load_action()
+		self.int_lock_action()
 
 
 
@@ -257,9 +259,10 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 	def load_file(self):
 		
-		filename = QFileDialog.getOpenFileName(self, 'Open File', './Activities/NOVA')
+		#filename = QFileDialog.getOpenFileName(self, 'Open File', './Activities/NOVA')
+		#self.act=ct.load_Activity(filename)
 		
-		self.act=ct.load_Activity(filename)
+		self.act=ct.load_Activity("./Activities/NOVA/activity.data")#None #"/home/tozadore/Projects/Arch_2/Arch_2_1/Activities/NOVA/Content" #None
 		
 		#self.name_lineEdit.setText(self.act.name)
 		#self.desc_lineEdit.setText(self.act.description)		
@@ -416,15 +419,6 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 	def content_save(self):
-		#<<<<<<< HEAD
-		#		file_name = self.act.path +  "/Content" +"/"+self.content_subject_comboBox.currentText()+".csv"
-
-				#table_to_file(self.content_questions_table, file_name)
-		#		sub_name = str(self.content_subject_comboBox.currentText())
-		#		sub_conc = str(self.content_concept.toPlainText())
-		#		self.sub_list.loc[self.content_subject_comboBox.currentIndex()] = [sub_name,sub_conc]
-		#=======
-		#>>>>>>> a6cb02fec78079ad08f4744019e0a6d9e90861eb
 		
 		ret = QMessageBox.question(self, "Saving Content!", "Are you sure you want to overwrite this content?", QMessageBox.Cancel | QMessageBox.Ok )
 			
@@ -568,6 +562,44 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			#self.content_subject_comboBox.setCurrentIndex(self.content_subject_comboBox.count()-1)
 			self.log("Content <<" + cont_name + ">> deleted!")
 			
+
+
+
+
+#-------------------------------------------------- KNOWLEDGE ----------------------------------------
+
+
+	def know_add_information(self, concept):
+
+		core.info("Inside add informatiion")
+
+		definition = search_engine(concept)
+		
+		if definition =='':
+			core.war("String returned in duckduckgo is EMPTY")
+			return None
+
+		else:
+			size = len(self.knowledge_general_df.index)
+
+			self.knowledge_general_df.loc[size]=[concept, definition]
+
+			print self.knowledge_general_df.loc[size]
+
+			self.knowledge_general_df.to_csv("Data/general_knowledge.csv" , sep="|", encoding='utf-8', index=False) 
+			
+			dataframe_to_table(self.knowledge_general_df, self.knowledge_general_table)
+
+			return definition
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1040,9 +1072,10 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 
-
-		filename = QFileDialog.getOpenFileName(self, 'Open File' ,self.act.path+"/"+"Interactions")
+		#/home/tozadore/Projects/Arch_2/Arch_2_1/Activities/NOVA/Interactions
+		#filename = QFileDialog.getOpenFileName(self, 'Open File' ,self.act.path+"/"+"Interactions")
 		
+		filename = self.act.path+"/"+"Interactions/0.int"
 
 		interact = self.interact_database.load_interact(filename)
 
@@ -1299,43 +1332,57 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		core.info("Inside personal interact")
 
-		pref  = self.cur_user.preferences[str(talk_subject).lower()]
+		talk_subject = str(talk_subject).lower()
 
-		print pref 
+		pref  = self.cur_user.preferences[talk_subject]
 
+		#print pref 
+		self.robot_say("Vamos conversar um pouco")
+
+		#não tem cadastrado ainda
 		if pref == "":
-			self.robot_say("Ele ainda não tem esse campo")
+			self.robot_say(personal_translate[talk_subject])
+			pref = self.user_input().encode('utf-8')
+			self.cur_user.add_preference(talk_subject, pref)
+			self.students_database.insert_user(self.cur_user)
+			core.info("USER UPDATED")
+
+		# Já tem cadastrado
 		else:
-			self.robot_say("Ele gosta de " + pref)
+			print type(pref)
+			if type(pref) is QString:
+				print "TRUE"
+				pref = str(pref.toUtf8())
+
+			pref = pref.decode('utf-8').strip()
+			pref = pref.encode('utf-8')
+
+			self.robot_say("Você gosta de " + pref )
 			
-			concept_list = self.knowledge_general_df['Concept'].tolist()
+		concept_list = self.knowledge_general_df['Concept'].tolist()
+		
+		if pref in concept_list:	
+			self.robot_say("Eu sei o que é isso!")
+			ind = concept_list.index(pref)	
 			
-			if pref in concept_list:	
-				self.robot_say("Eu sei o que é isso!")
-				ind = concept_list.index(pref)	
-				
-				tosay = self.knowledge_general_df['Definition'][ind]
-				
-				#print str(tosay)
-				
-				#print type(tosay)
+			#tosay = u' '.join(self.knowledge_general_df['Definition'][ind]).encode('utf-8')
+			tosay = (self.knowledge_general_df['Definition'][ind]).encode('utf-8')
+			
+			#print "STRING" ,tosay,  type(tosay)
+			#print	
 
-				self.robot_say((tosay))
-
-		return
-
-
-		ind = self.knowledge_general_df.index[self.knowledge_general_df['Concept'] == talk_subject]
-
-		print ind, type(ind)
-
-
-
-		if talk_subject in self.knowledge_general_df['Concept']:
-			self.robot_say("TEM NA BASE")
-
+			self.robot_say((tosay))
+		
 		else:
-			self.robot_say("NÃO TEM NA BASE")
+			self.robot_say("Vou pesquisar na internet!")
+			
+			tosay=self.know_add_information(pref).encode('utf-8') 
+			
+			if tosay is not None:
+				self.robot_say(tosay)
+			else:
+				self.robot_say("Não consegui encontrar nada sobre isso. Vou procurar melhor e depois te falo")	
+
 
 
 
