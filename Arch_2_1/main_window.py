@@ -429,7 +429,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			index_file =  self.act.path +  "/Content/subjects.csv"
 			#table_to_file(self.content_questions_table, file_name)
 			sub_name = str(self.content_subject_comboBox.currentText())
-			sub_conc = str(self.content_concept.toPlainText())
+			sub_conc = str(self.content_concept.toPlainText().toUtf8())#encode('utf-8')
 			self.sub_list.loc[self.content_subject_comboBox.currentIndex()] = [sub_name,sub_conc]
 			self.sub_list.to_csv(index_file, index=False)
 
