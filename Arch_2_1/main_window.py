@@ -1359,8 +1359,10 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 			self.robot_say("Você gosta de " + pref )
 			
-		concept_list = self.knowledge_general_df['Concept'].tolist()
+		concept_list = [ x.encode('utf-8')for x in self.knowledge_general_df['Concept'].tolist() ]
 		
+		
+
 		if pref in concept_list:	
 			self.robot_say("Eu sei o que é isso!")
 			ind = concept_list.index(pref)	
@@ -1376,10 +1378,10 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		else:
 			self.robot_say("Vou pesquisar na internet!")
 			
-			tosay=self.know_add_information(pref).encode('utf-8') 
+			tosay=self.know_add_information(pref) 
 			
 			if tosay is not None:
-				self.robot_say(tosay)
+				self.robot_say(tosay.encode('utf-8'))
 			else:
 				self.robot_say("Não consegui encontrar nada sobre isso. Vou procurar melhor e depois te falo")	
 
