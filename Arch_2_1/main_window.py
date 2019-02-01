@@ -1290,7 +1290,11 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		for i in range(0,10):
 			QCoreApplication.processEvents()
 		core.info("Done Wait ")
-			
+
+		# Não conehce ainda
+		#self.interact_know_person()
+
+		#Já conhece
 		self.interact_recognize_person()
 		print "Recognized"
 
@@ -1947,19 +1951,43 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		Wait user to answer in the correct 
 		field and press corresponding button
 		"""
+		core.info("Inside User input ")
 
-		self.user_ans_flag = False
 
+		print "Input Option", core.input_option
 
-		while not self.user_ans_flag:
-				
-			#self.label_132.setText(str(time.time("hh:mm:ss")))
-			QCoreApplication.processEvents()
-			#time.sleep(0.05)
-
-		self.user_ans_flag = False
+		# IF MIC
+		if core.input_option > 0 :
+			
+			ret = self.diag_sys.getFromMic_Pt()
 		
-		return str(self.run_user_answer.text().toUtf8())
+		# IF text
+		else:
+			self.user_ans_flag = False
+
+			while not self.user_ans_flag:
+					
+				#self.label_132.setText(str(time.time("hh:mm:ss")))
+				QCoreApplication.processEvents()
+				#time.sleep(0.05)
+
+			self.user_ans_flag = False
+			
+			ret = str(self.run_user_answer.text().toUtf8())
+			self.run_user_answer.setText("")
+
+
+		return ret 
+
+
+
+
+
+
+
+
+
+
 
 	@pyqtSlot(str)
 	def line_edit_text_changed(self, line, button):
