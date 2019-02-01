@@ -256,27 +256,42 @@ personal_translate={
 		'food':"Qual a sua comida preferida?",
 }
 
+sports_dict = {
+	'natação':'natação pura',
+	'ginastica': 'ginastica artistica'
+}
+
+teams_dict = {
+	'são paulo':'são paulo futebol clube',
+	'santos': 'santos futebol clube',
+	'flamengo': 'clube de regatas do flamengo',
+	'fluminense':'fluminense futebol clube',
+	'botafogo': 'botafogo de futebol e regatas',
+	'cruzeiro': 'cruzeiro esporte clube',
+	'são carlos': 'são carlos futebol clube',
+}
+
+hobbies_dict = {
+	'dormir': 'pt.wikipedia:sono',
+	'comer': 'pt.wikipedia:comer'
+}
+
+dance_dict = {
+	'funk': 'funk carioca'
+}
+
+#termos com problema (futebol, handebol, esconde-esconde, balé, ).
+#axé retorna em ingles
 
 
 def search_engine(query):
 
-	print "Processing query!"
+	print "Processing query !"
 
 	return ddg.query(query, kad='pt_BR').abstract.text
 
-
-
-
 	
-
-
-
-
-
-
-
-
 if __name__=='__main__':
 
-		if(search_engine('Carrinho de ferro'))=='':#, type(search_engine('santos').encode('utf-8'))
+		if(search_engine('bla'))=='':#, type(search_engine('santos').encode('utf-8'))
 			print "YES"
