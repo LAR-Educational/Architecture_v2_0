@@ -17,6 +17,7 @@ import numpy as np
 import pandas as pd
 from utils import *
 import random
+import threading
 #from datetime import datetime
 #import utils
 	
@@ -34,6 +35,7 @@ from Modules import emotion
 from Modules.Vision import predict
 from Modules.Vision import data_process #as dp
 from Modules import content as ct
+from Modules import adaption
 from Modules.userhandler import *
 from Modules.evaluationhandler import *
 from Modules.interactionhandler import *
@@ -133,8 +135,10 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#--- Adaptive 
 		self.user_profile = 3
 
-
-
+		#self.emotions = adaption.emotions
+		# self.w = adaption.Weights()
+		# self.op_par = adaption.OperationalParameters()
+		# self.read_values=adaption.ReadValues()
 
 
 
@@ -248,10 +252,10 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.layoutVertical.addWidget(self.writeReportButton)
 		
 		
-		#Short cuts:
+		#Shortcuts:
 		self.load_file()
-		self.int_load_action()
-		self.int_lock_action()
+		#self.int_load_action()
+		#self.int_lock_action()
 
 
 
@@ -640,7 +644,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 
 	def delete_user(self):
-
+self.emotions
 		#print self.students_database.index_table[self.st_db_index_table.currentRow()]
 		#print self.st_db_index_table.currentRow()
 
@@ -660,7 +664,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		#self.log_text.setText(self.user_name_field.text())	
 		
-	# def __init__(self, id, first_name, last_name, bday='None',
+	# def __init__(self, id, first_name, last_name, bday='None',self.emotions
     #             scholl_year='None', picture='None', preferences={}, img = None, creation_Date=None):
 	
 	# def setPreferences(self, sport='None', team='None', toy='None', game='None', 
@@ -671,7 +675,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 	
 	def user_confirm_entry(self):
 		
-		
+		self.emotions
 		#QPixmap qpix = self.user_image.pixmap()
 		image = self.user_image.pixmap().toImage()
 		
@@ -728,12 +732,12 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.user_name_field.setEnabled(True)
 		
 		self.user_frame.setEnabled(True)
-		
+		self.emotions
 		# Get the user in the selected row of the users table
 		user2show = self.students_database.users[self.st_db_index_table.currentRow()]
 
 		self.user_id_label.setText(str(user2show.id))
-		#self.user_bd_field.setDate()
+		#self.user_bd_field.setDate()self.emotions
 		self.user_name_field.setText(str(user2show.first_name))
 		self.user_last_name_field.setText(str(user2show.last_name))
 		#print user2show.bday
@@ -1073,9 +1077,9 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 		#/home/tozadore/Projects/Arch_2/Arch_2_1/Activities/NOVA/Interactions
-		#filename = QFileDialog.getOpenFileName(self, 'Open File' ,self.act.path+"/"+"Interactions")
+		filename = QFileDialog.getOpenFileName(self, 'Open File' ,self.act.path+"/"+"Interactions")
 		
-		filename = self.act.path+"/"+"Interactions/0.int"
+		#filename = self.act.path+"/"+"Interactions/0.int"
 
 		interact = self.interact_database.load_interact(filename)
 
@@ -1143,7 +1147,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.int_timeline_table.setItem(
 				self.int_timeline_table.rowCount()-1,
 				1,
-				QTabpersonal_interact_talkleWidgetItem(self.int_cont_comboBox.currentText()))						
+				QTableWidgetItem(self.int_cont_comboBox.currentText()))						
 
 
 	def int_add_per_action(self):
@@ -1226,26 +1230,32 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.run_takepic_pushButton.setEnabled(True)
 		self.run_recvid_button.setEnabled(True)
 
-		self.timer = QTimer(self)
-		self.timer.timeout.connect(self.update_frame)
-		self.timer.start(5)
+		self.adapt_sys.out_path = str(self.cur_eval.id)
+		
+		self.user_profile=3
+		
+		
+		# self.timer = QTimer(self)
+		# self.timer.timeout.connect(self.update_frame)
+		# self.timer.start(5)
 
-		self.clock_timer = QTimer()
-		self.counter_timer = QTime()
-		self.clock_timer.timeout.connect(self.showTime)
-		self.clock_timer.start(1000)
-		time = QTime.currentTime()
-		#time = time.toString('hh:mm:ss') 
-		self.cur_sess=SessionInfo(time,None)
-		self.counter_timer.start()
+		# self.clock_timer = QTimer()
+		# self.counter_timer = QTime()
+		# self.clock_timer.timeout.connect(self.showTime)
+		# self.clock_timer.start(1000)
+		# time = QTime.currentTime()
+		# #time = time.toString('hh:mm:ss') 
+		# self.cur_sess=SessionInfo(time,None)
+		# self.counter_timer.start()
+		#if self.robot is not None:
+		#	self.vis_sys.subscribe(0)
+		
 		self.run_cont_interator = 0
 		
 		self.run_question_interator = -1
 
 
 			
-		if self.robot is not None:
-			self.vis_sys.subscribe(0)
 
 		
 		
@@ -1268,19 +1278,71 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#self.cur_eval.
 		#self.cur_eval.
 		
-		# self.cur_eval.end_time=QTime.currentTime()
-		# self.cur_eval.user_name = self.cur_user
+		self.cur_eval.end_time=QTime.currentTime()
+		self.cur_eval.user_name = self.cur_user
+		self.cur_eval.dif_profile = self.user_profile
 
-		# if self.evaluation_db.insert_eval(self.cur_eval):
-		# 	self.sys_vars.add('evaluation')
+		if self.evaluation_db.insert_eval(self.cur_eval):
+			self.sys_vars.add('evaluation')
 		
 		
 		# self.modules_tabWidget.setCurrentIndex(7)
 
-		# dataframe_to_table(self.evaluation_db.index_table, self.eval_index_table)
+		 dataframe_to_table(self.evaluation_db.index_table, self.eval_index_table)
 
 
 
+	def run_connect_robot_action(self):
+		
+		robot_ip = str(self.run_robot_ip_comboBox.currentText())
+		robot_port = int(self.run_robot_port.text())
+		self.robot=core.Robot(robot_ip, robot_port)
+
+		self.vis_sys = vision.VisionSystem(self.robot)
+		self.diag_sys = dialog.DialogSystem(self.robot, None)
+		
+		
+		self.w = adaption.Weights(self.alfaWeight.value(),
+								self.betaWeight.value(),
+								self.gamaWeight.value())
+
+		
+		self.op_par = adaption.OperationalParameters(
+										self.face_dev_activation.value(),
+										self.negEmoAct__spinBox.value(),
+										3, #number of words
+										self.learningTime_doubleSpinBox.value(),
+										self.wrongAns_timeTol_spinBox.value())
+
+		
+		self.read_values=adaption.ReadValues()
+
+		self.adapt_sys = adaption.AdaptiveSystem(
+			self.robot,
+			self.op_par,
+			self.w,
+			self.read_values,
+			str(self.cur_eval.id))
+		
+		
+		
+		self.diag_sys.say("Estou Pronto.", False)
+		core.info("Robot Connected")
+
+		self.timer = QTimer(self)
+		self.timer.timeout.connect(self.update_frame)
+		self.timer.start(5)
+
+		self.clock_timer = QTimer()
+		self.counter_timer = QTime()
+		self.clock_timer.timeout.connect(self.showTime)
+		self.clock_timer.start(1000)
+		time = QTime.currentTime()
+		#time = time.toString('hh:mm:ss') 
+		self.cur_sess=SessionInfo(time,None)
+		self.counter_timer.start()
+		if self.robot is not None:
+			self.vis_sys.subscribe(0)
 
 
 
@@ -1457,16 +1519,22 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 	def content_interac_template(self, tta):
 
 		
-		print "INSIDE CONTENT FUNCTON", tta
+		core.info("INSIDE CONTENT FUNCTON " + tta)
 		#print self.sub_list
+
+
+		core.info("Initializing emotion thread")
+		self.run_emotion_flag = True
+
 
 		text = str(self.sub_list[self.sub_list['subjects']==tta]['concepts'])
 		
 		#print str(text)
 		topic = Topic(text)
 		self.cur_eval.tp_names.append(str(tta))
-		att = Attempt()
+		att = Attempt(time2ans=0)
 		#print "Concept", topic.concept
+
 
 
 		# Load the table with questions and expected answers
@@ -1485,7 +1553,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		for i in range(0,self.cur_interact.ques_per_topic):
 			
 
-			print "Question number: ", i
+			core.info("Question number: " + str(i))
 
 			# Select the possibilities according to the user profile detected
 			dfp= data.loc[data['Difficulty'] == self.user_profile]
@@ -1507,11 +1575,13 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			quest.exp_ans=expected_answer
 
 
+
+
 			#Loop for attempt
 			for j in range(0, self.cur_interact.att_per_ques):
 
 				print "Question:", chosen_question
-				self.robot_speech.setText(chosen_question)
+				self.robot_say(chosen_question)
 				print "Exp: ", expected_answer
 
 				t1 = time.time()
@@ -1546,7 +1616,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				self.run_correctness.setText(str(dist))
 
 				att.given_ans = user_answer
-				att.time2ans = time.time() - t1
+				att.time2ans += time.time() - t1
 
 				print "TIME TO ANS:", att.time2ans 
 
@@ -1570,6 +1640,32 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 					self.robot_speech.setText("Not Correct. Lets Try again!")
 					#time.sleep(3)
 
+
+
+			# Setting Adaptive Parameters!
+
+			core.info("Finalizing emotion thread")
+			self.run_emotion_flag = False
+
+			self.read_values.set(self.n_deviations,
+								self.adapt_sys.getBadEmotions(),
+								3 - self.diag_sys.coutingWords(user_answer),
+								att.time2ans,
+								1 - dist)
+
+			# Clear Variables
+			self.n_deviation = 0
+			self.adapt_sys.clear_emo_variables()
+
+			fvalue = self.adapt_sys.adp_function(j)
+			fvalue = self.sys_adap.activation_function(fvalue)
+			self.sys_adap.change_behavior(fvalue)
+
+			self.user_profile = fvalue
+
+			#TROCA O VALOR DO USER PROFILE!!!
+
+			# End of a question cycle
 			# Insert current question in topic 
 			topic.insert_question(quest)
 
@@ -1627,7 +1723,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 	def run_start_recording_video(self):
 		video_name = "Videos/"+ str(self.run_videoname_lineEdit.text())+".avi"
-		self.out =  cv2.VideoWriter(video_name,self.fourcc, 20.0, (640,480))
+		self.out =  cv2.VideoWriter(video_name,self.fourcc, 60.0, (640,480))
 		self.run_record = True 
 		self.run_stopvid_button.setEnabled(True)
 
@@ -1774,7 +1870,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 						self.time_emotion = self.time_diff
 						#core.info("Emotion classified: {}".format(classified_emotion))
 						self.run_emotion_label.setText(classified_emotion)
-						core.emotions[classified_emotion] += 1
+
+						self.adapt_sys.emotions[classified_emotion] += 1
 				except Exception as e:
 					print(e)
 			# if the time difference meets a threshold, count it as a deviation
@@ -1859,15 +1956,6 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.user_ans_flag=True
 
 
-	def run_connect_robot_action(self):
-		
-		robot_ip = str(self.run_robot_ip_comboBox.currentText())
-		robot_port = int(self.run_robot_port.text())
-		self.robot=core.Robot(robot_ip, robot_port)
-		self.vis_sys = vision.VisionSystem(self.robot)
-		self.diag_sys = dialog.DialogSystem(self.robot, None)
-		self.diag_sys.say("Estou Online.", False)
-		core.info("Robot Connected")
 	
 
 
@@ -1936,12 +2024,37 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 
-	def robot_say(self, text, block = True):
-
-		if self.robot is not None:
-			self.diag_sys.say(text, block=block)
+	def robot_say(self, text, block=True):
 
 		self.robot_speech.setText(str(  text ))
+
+		if self.robot is not None:
+		
+			self.user_ans_flag = True
+
+			t1 = threading.Thread(name='robot_say_action', target=self.robot_say_action, args=(text, block))
+			t1.start()
+
+			while self.user_ans_flag:
+
+				QCoreApplication.processEvents()
+
+			#t2 = threading.Thread(name='my_service', target=my_service)
+			#self.robot_say_action(text)
+
+
+
+
+	def robot_say_action(self, text, block ):
+
+		#self.robot_say_block()
+		self.diag_sys.say(text, block=block)
+		self.user_ans_flag = False
+
+
+
+	#def robot_say_block(self,):
+
 
 
 

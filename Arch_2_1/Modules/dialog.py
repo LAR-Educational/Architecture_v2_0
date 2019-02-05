@@ -5,8 +5,8 @@ import vars as core
 import random
 import distance
 import numpy as np
-import matplotlib as mpl
-import matplotlib.pyplot as plt
+#import matplotlib as mpl
+#import matplotlib.pyplot as plt
 import scipy
 #import speech2text as stt
 import time
@@ -326,14 +326,27 @@ class DialogSystem:
 		
 		
 		
+# class ex():
+
+# 	def __init__(self):
+# 		self.var1 = 1
+
+# 	def load(self):	
+# 		self.var2= 2
 		
 		
+
+# def main():
+
+# 	e = ex()
+
+# 	e.load()
+
+# 	print e.var2
+
 		
-		
-		
-		
-		
-		
+# if __name__=="__main__":
+# 	main()	
 		
 		
 		
