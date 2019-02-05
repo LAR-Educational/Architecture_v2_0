@@ -144,6 +144,7 @@ class Evaluation:
                 robot=None,
                 supervisor=None,
                 obs=None,
+                user_dif_profile=None,
                 validation=False,
                 stats = False):
 
@@ -159,6 +160,7 @@ class Evaluation:
         self.robot=robot
         self.supervisor=supervisor
         self.obs=obs
+        self.user_dif_profile=user_dif_profile
         self.validation=validation
         self.stats=stats        
 
