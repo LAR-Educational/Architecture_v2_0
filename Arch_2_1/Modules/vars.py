@@ -133,30 +133,30 @@ def old_sys_control():
 
 
 
-class ReadValues:
-    """
-     Class to hold read values
+# class ReadValues:
+#     """
+#      Class to hold read values
     
-    """
-    def __init__(self, deviations=0, emotionCount=0,
-                 numberWord=0, time2ans=0, sucRate=0):
-        self.deviations = deviations 
-        self.emotionCount = emotionCount  
-        self.numberWord =  numberWord
-        self.time2ans = time2ans
-        self.sucRate = sucRate
+#     """
+#     def __init__(self, deviations=0, emotionCount=0,
+#                  numberWord=0, time2ans=0, sucRate=0):
+#         self.deviations = deviations 
+#         self.emotionCount = emotionCount  
+#         self.numberWord =  numberWord
+#         self.time2ans = time2ans
+#         self.sucRate = sucRate
     
-    def set(self, deviations=0, emotionCount=0,
-                 numberWord=0, time2ans=0, sucRate=0):
-        self.deviations = deviations 
-        self.emotionCount = emotionCount  
-        self.numberWord =  numberWord
-        self.time2ans = time2ans
-        self.sucRate = sucRate
+#     def set(self, deviations=0, emotionCount=0,
+#                  numberWord=0, time2ans=0, sucRate=0):
+#         self.deviations = deviations 
+#         self.emotionCount = emotionCount  
+#         self.numberWord =  numberWord
+#         self.time2ans = time2ans
+#         self.sucRate = sucRate
         
 
 
-userPar = ReadValues()
+# userPar = ReadValues()
 
      
 
@@ -169,8 +169,8 @@ Ykey = 'y'
 classifierType = "all"
 training_path = "modules/vision_components/classifiers/DBIM/alldb"
 
-emotions = {'happy': 0, 'sad': 0, 'angry': 0, 'disgust': 0,
- 	'surprise': 0, 'fear': 0, 'neutral': 0}
+# emotions = {'happy': 0, 'sad': 0, 'angry': 0, 'disgust': 0,
+#  	'surprise': 0, 'fear': 0, 'neutral': 0}
 
 #emotions = {'felicidade': 0, 'tristeza': 0, 'raiva': 0, 'nojo': 0,
  	#'surpresa': 0, 'fear': 0, 'neutra': 0}
@@ -178,27 +178,27 @@ emotions = {'happy': 0, 'sad': 0, 'angry': 0, 'disgust': 0,
 
 
 
-deviation_times = []
+# deviation_times = []
 
 
 
-def getBadEmotions():
+# def getBadEmotions():
 	
-	emo =  emotions['sad'] + emotions['angry'] +  emotions['disgust'] + emotions['fear']     
-	print "Number of bad emotions", emo
+# 	emo =  emotions['sad'] + emotions['angry'] +  emotions['disgust'] + emotions['fear']     
+# 	print "Number of bad emotions", emo
 
-	return emo
+# 	return emo
 
 
-def clear_emo_variables():
+# def clear_emo_variables():
 
-	global emotions
-	for i in emotions.keys():
-		emotions[i] = 0
+# 	global emotions
+# 	for i in emotions.keys():
+# 		emotions[i] = 0
 	
-	#print "DEVIATION", deviation_times
-	global deviation_times
-	del deviation_times[:]
+# 	#print "DEVIATION", deviation_times
+# 	global deviation_times
+# 	del deviation_times[:]
 	
 
 # Default Language
@@ -211,15 +211,15 @@ attention=False
 
 current_path= os.getcwd()
 
-#emotion vars
-labels_dict = {
-    0: 'happy', 1: 'neutral', 2: 'surprise',
-    3: 'fear', 4: 'disgust', 5: 'angry', 6: 'sad'}
+# #emotion vars
+# labels_dict = {
+#     0: 'happy', 1: 'neutral', 2: 'surprise',
+#     3: 'fear', 4: 'disgust', 5: 'angry', 6: 'sad'}
 
 
-translated_emotions = {
-    'happy': 'Feliz', 'neutral': 'neutro', 'surprise': 'surpresa',
-    'fear': 'medo', 'disgust': 'nojo', 'angry': 'raiva', 'sad': 'tristeza'}
+# translated_emotions = {
+#     'happy': 'Feliz', 'neutral': 'neutro', 'surprise': 'surpresa',
+#     'fear': 'medo', 'disgust': 'nojo', 'angry': 'raiva', 'sad': 'tristeza'}
 
 
 

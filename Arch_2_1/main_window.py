@@ -39,6 +39,9 @@ from Modules import adaption
 from Modules.userhandler import *
 from Modules.evaluationhandler import *
 from Modules.interactionhandler import *
+from Modules.Memory import searchwiki  
+
+
 
 class SessionInfo:
 	def __init__(self,initi_time,final_time):
@@ -108,7 +111,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		# --- Dialog
 
-		self.answer_threshold = self.diag_dist_thres_spinBox.value()
+		self.answer_threshold = 1 - self.diag_dist_thres_spinBox.value()
 		#print "Thres valeu", self.answer_threshold
 
 
@@ -577,10 +580,12 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		core.info("Inside add informatiion")
 
-		definition = search_engine(concept)
+		#definition = search_engine(concept)
 		
+		definition = searchwiki.search(concept)
+
 		if definition =='':
-			core.war("String returned in duckduckgo is EMPTY")
+			core.war("String returned is EMPTY")
 			return None
 
 		else:
@@ -644,7 +649,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 
 	def delete_user(self):
-self.emotions
+
 		#print self.students_database.index_table[self.st_db_index_table.currentRow()]
 		#print self.st_db_index_table.currentRow()
 
@@ -732,7 +737,7 @@ self.emotions
 		self.user_name_field.setEnabled(True)
 		
 		self.user_frame.setEnabled(True)
-		self.emotions
+		
 		# Get the user in the selected row of the users table
 		user2show = self.students_database.users[self.st_db_index_table.currentRow()]
 
@@ -917,7 +922,7 @@ self.emotions
 		self.cur_eval = self.evaluation_db.evaluations_list[self.eval_index_table.currentRow()]
 
 
-		#self.eval_user_id_label.setText(self.cur_eval.user_id)
+		self.eval_user_id_label.setText(str(self.cur_eval.user_id))
 		self.eval_date.setDate(self.cur_eval.date)#QDate.fromString(self.cur_eval.date.toString(),"dd.MM.yyyy"))
 		#self.eval_duration.setTime(self.cur_eval.duration)
 		self.eval_start.setTime(self.cur_eval.start_time)
@@ -925,7 +930,7 @@ self.emotions
 		self.eval_supervisor.setText(self.cur_eval.supervisor)
 		self.eval_user_name.setText(self.cur_eval.user_name)
 		#self.eval_concept_textField.setText(self.cur_eval.concept)
-		
+		self.eval_last_dif.setText(str(self.cur_eval.user_dif_profile))
 		if(len(self.cur_eval.topics)==0):
 			print "ERROR: Topics empty"
 		
@@ -1079,7 +1084,7 @@ self.emotions
 		#/home/tozadore/Projects/Arch_2/Arch_2_1/Activities/NOVA/Interactions
 		filename = QFileDialog.getOpenFileName(self, 'Open File' ,self.act.path+"/"+"Interactions")
 		
-		#filename = self.act.path+"/"+"Interactions/0.int"
+		#filename = self.act.path+"/"+"Interactions/1.int"
 
 		interact = self.interact_database.load_interact(filename)
 
@@ -1234,7 +1239,8 @@ self.emotions
 		
 		self.user_profile=3
 		
-		
+		self.run_att_emo()
+
 		# self.timer = QTimer(self)
 		# self.timer.timeout.connect(self.update_frame)
 		# self.timer.start(5)
@@ -1259,7 +1265,7 @@ self.emotions
 
 		
 		
-		#self.interact_know_person()
+		self.interact_know_person()
 		
 		# Start interaction engine
 		self.interatction_parser()
@@ -1279,16 +1285,16 @@ self.emotions
 		#self.cur_eval.
 		
 		self.cur_eval.end_time=QTime.currentTime()
-		self.cur_eval.user_name = self.cur_user
-		self.cur_eval.dif_profile = self.user_profile
+		self.cur_eval.user_name = str(self.cur_user.first_name).decode("utf-8") + " "+ str(self.cur_user.last_name).decode("utf-8")
+		self.cur_eval.user_dif_profile = self.user_profile
 
-		if self.evaluation_db.insert_eval(self.cur_eval):
+		if self.evaluation_db.insert_eval(self.cur_eval) > 0:
 			self.sys_vars.add('evaluation')
 		
 		
 		# self.modules_tabWidget.setCurrentIndex(7)
 
-		 dataframe_to_table(self.evaluation_db.index_table, self.eval_index_table)
+		dataframe_to_table(self.evaluation_db.index_table, self.eval_index_table)
 
 
 
@@ -1302,17 +1308,22 @@ self.emotions
 		self.diag_sys = dialog.DialogSystem(self.robot, None)
 		
 		
-		self.w = adaption.Weights(self.alfaWeight.value(),
-								self.betaWeight.value(),
+		#self.w = adaption.Weights(self.alfaWeight.value(),
+		#						self.betaWeight.value(),
+		#						self.gamaWeight.value())
+		
+		self.w = adaption.Weights(0,
+								0,
 								self.gamaWeight.value())
 
 		
+		# Não esta pegando do painel do adaptavtio algumas coisas!!!
 		self.op_par = adaption.OperationalParameters(
 										self.face_dev_activation.value(),
 										self.negEmoAct__spinBox.value(),
 										3, #number of words
 										self.learningTime_doubleSpinBox.value(),
-										self.wrongAns_timeTol_spinBox.value())
+										1)
 
 		
 		self.read_values=adaption.ReadValues()
@@ -1321,10 +1332,12 @@ self.emotions
 			self.robot,
 			self.op_par,
 			self.w,
-			self.read_values,
-			str(self.cur_eval.id))
+			self.read_values)
+			#str(self.cur_eval.id))
 		
 		
+		core.info("Loading Models!")
+		#self.run_load_models()
 		
 		self.diag_sys.say("Estou Pronto.", False)
 		core.info("Robot Connected")
@@ -1348,10 +1361,10 @@ self.emotions
 
 	def interatction_parser(self):
 
-		core.info("Wait image load")
-		for i in range(0,10):
-			QCoreApplication.processEvents()
-		core.info("Done Wait ")
+		# core.info("Wait image load")
+		# for i in range(0,10):
+		# 	QCoreApplication.processEvents()
+		# core.info("Done Wait ")
 
 		# Não conehce ainda
 		#self.interact_know_person()
@@ -1387,7 +1400,8 @@ self.emotions
 
 			print "\n\n\n"
 
-		#self.run_end_activity()	
+		self.run_final_dialog()		
+		self.run_end_activity()	
 
 
 
@@ -1403,7 +1417,12 @@ self.emotions
 		pref  = self.cur_user.preferences[talk_subject]
 
 		#print pref 
-		self.robot_say("Vamos conversar um pouco")
+		x = random.randint(0,1)
+
+		if x >0:
+			self.robot_say("Vamos conversar um pouco.")
+		else:
+			self.robot_say("Deixa eu te conhecer melhor")
 
 		#não tem cadastrado ainda
 		if pref == "":
@@ -1451,7 +1470,8 @@ self.emotions
 			else:
 				self.robot_say("Não consegui encontrar nada sobre isso. Vou procurar melhor e depois te falo")	
 
-
+		self.robot_say("Porque você gosta disso?")
+		self.user_input()
 
 
 	def interact_recognize_person(self):
@@ -1486,10 +1506,13 @@ self.emotions
 
 	def interact_know_person(self):
 		
-		self.robot_say("Eu não conheço você. Qual seu nome?", False)
+		self.robot_say("Olá amiguinho. Nós ainda não nos conhecemos. Eu me chamo Tédi.") 
+		
+		
+		self.robot_say("Qual seu nome?", False)
 		name = self.user_input()
 
-		self.robot_say("Sobrenome", False)
+		self.robot_say("E seu Sobrenome?", False)
 		last_name = self.user_input()
 
 		
@@ -1507,6 +1530,9 @@ self.emotions
 			self.sys_vars.add('user')
 
 		self.log("User " + name + " added!")
+
+		self.robot_say("Certo. Muito prazer, " + name)
+		self.robot_say("Vamos começar as atividades")
 
 
 
@@ -1535,6 +1561,7 @@ self.emotions
 		att = Attempt(time2ans=0)
 		#print "Concept", topic.concept
 
+		self.robot_say(text)
 
 
 		# Load the table with questions and expected answers
@@ -1554,7 +1581,7 @@ self.emotions
 			
 
 			core.info("Question number: " + str(i))
-
+			core.war("PROFILE :" + str(self.user_profile))
 			# Select the possibilities according to the user profile detected
 			dfp= data.loc[data['Difficulty'] == self.user_profile]
 			possibilities = len(data.loc[data['Difficulty'] == self.user_profile])#['Question']
@@ -1580,7 +1607,7 @@ self.emotions
 			#Loop for attempt
 			for j in range(0, self.cur_interact.att_per_ques):
 
-				print "Question:", chosen_question
+				#print "Question:", chosen_question
 				self.robot_say(chosen_question)
 				print "Exp: ", expected_answer
 
@@ -1605,7 +1632,7 @@ self.emotions
 				#clear textedit
 				self.run_user_answer.clear()
 
-				print "User ans: ", user_answer
+				#print "User ans: ", user_answer
 
 				# Calculate answer similarity
 				dist =  (self.diag_sys.levenshtein_long_two_strings(user_answer,expected_answer))
@@ -1624,20 +1651,23 @@ self.emotions
 
 
 				if dist < self.answer_threshold:
-					self.log("ANSWER IS CORRET")
+					#self.log("ANSWER IS CORRET")
 
 					att.system_consideration = 1
 					quest.insert_attempt(att)	
-					self.robot_speech.setText("Congratulations. You did!")
+					self.robot_say("Parabéns. Você acertou!")
+					#self.robot_speech.setText("Congratulations. You did!")
 					#time.sleep(3)
 					break
 
 				else:
-					self.log("ANSWER IS WRONG")
+					#self.log("ANSWER IS WRONG")
 
 					att.system_consideration = 0
 					quest.insert_attempt(att)
-					self.robot_speech.setText("Not Correct. Lets Try again!")
+					self.robot_say("Que pena. Eu acho que você errou!")
+
+					#self.robot_speech.setText("Not Correct. Lets Try again!")
 					#time.sleep(3)
 
 
@@ -1651,20 +1681,20 @@ self.emotions
 								self.adapt_sys.getBadEmotions(),
 								3 - self.diag_sys.coutingWords(user_answer),
 								att.time2ans,
-								1 - dist)
+								dist)
 
 			# Clear Variables
 			self.n_deviation = 0
 			self.adapt_sys.clear_emo_variables()
 
 			fvalue = self.adapt_sys.adp_function(j)
-			fvalue = self.sys_adap.activation_function(fvalue)
-			self.sys_adap.change_behavior(fvalue)
+			fvalue = self.adapt_sys.activation_function(fvalue)
+			self.adapt_sys.change_behavior(fvalue)
 
-			self.user_profile = fvalue
+			self.user_profile = self.adapt_sys.robot_communication_profile+1
 
 			#TROCA O VALOR DO USER PROFILE!!!
-
+			
 			# End of a question cycle
 			# Insert current question in topic 
 			topic.insert_question(quest)
@@ -1677,9 +1707,14 @@ self.emotions
 
 
 
+	def run_final_dialog(self):
 
-
-
+		self.robot_say("Bom! Por hoje é isso")
+		self.robot_say("Foi um prazer brincar com você, " + self.cur_user.first_name, block=False)
+		try:
+			self.robot.behavior.runBehavior("Untitled/hi")
+		except:
+			core.er("DEU MERDA NO TCHAU")
 
 
 
@@ -1688,7 +1723,7 @@ self.emotions
 
 
 	def run_load_models(self):
-		self.students_database.generate_encodings()
+		#self.students_database.generate_encodings()
 		self.run_facerecog_pushButton.setEnabled(True)
 		self.run_emotion_pushButton.setEnabled(True)
 		self.emotion_classifier = emotion.Classifier()
@@ -1703,7 +1738,7 @@ self.emotions
 
 
 	def run_att_emo(self):
-		self.run_emotion_flag=True
+		#self.run_emotion_flag=True
 		self.run_facerecog_pushButton.setEnabled(False)
 		self.n_deviations = self.time_disattention = 0
 		# static measuring time, dynamic measuring time, time on atention, time for emotion classifier
@@ -2064,15 +2099,30 @@ self.emotions
 		Wait user to answer in the correct 
 		field and press corresponding button
 		"""
-		core.info("Inside User input ")
+		#core.info("Inside User input ")
 
 
-		print "Input Option", core.input_option
+		#print "Input Option", core.input_option
 
 		# IF MIC
 		if core.input_option > 0 :
-			
-			ret = self.diag_sys.getFromMic_Pt()
+
+
+			if self.robot is not None:
+		
+				#self.user_ans_flag = True
+
+				#t1 = threading.Thread(name='wait', target=self.get_ans_mic)
+				#t1.start()
+
+				ret = self.diag_sys.getFromMic_Pt()
+
+				#self.user_ans_flag = False
+
+				#t1.join()
+
+
+	
 		
 		# IF text
 		else:
@@ -2093,10 +2143,10 @@ self.emotions
 		return ret 
 
 
+	def get_ans_mic(self):
 
-
-
-
+		while self.user_ans_flag:
+			QCoreApplication.processEvents()
 
 
 

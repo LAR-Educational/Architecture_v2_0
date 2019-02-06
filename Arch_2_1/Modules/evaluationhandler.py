@@ -84,6 +84,10 @@ class EvaluationDatabase():
             #print self.index_table
             return 1
 
+
+
+
+
     # NAO ESTA TIRANDO O USER DA LISTA DE USUARIOS DA RAM
     # APENAS QUANDO REINICIALIZA O PROGRAMA - Resolvi de um jeito bem porco.
     def delete_eval(self, new_eval):
