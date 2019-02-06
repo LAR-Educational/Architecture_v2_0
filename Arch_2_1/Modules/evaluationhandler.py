@@ -80,6 +80,7 @@ class EvaluationDatabase():
             self.evaluations_list.append(new_eval)
             print "EVALUATION INSERT DONE"
             self.save_eval(new_eval, path +"/" +str(new_eval.id)+".eval")
+            print "PATH", self.index_path
             self.index_table.to_csv(self.index_path, index=False)
             #print self.index_table
             return 1
