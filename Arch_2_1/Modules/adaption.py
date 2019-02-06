@@ -18,6 +18,8 @@ def normalize(read_val, max_val, min_val=0, floor=0, roof=1):
 	Normalize two numbers betwenn floor to roof
 	"""
 	#return float((read_val*roof)/max_val)
+	if max_val == 0 :
+		return  0
 	return float ( (roof-floor)/(max_val-min_val)*(read_val-max_val)+ roof )
 
 
@@ -84,7 +86,7 @@ class AdaptiveSystem:
 		self.read_values = read_values		
 		#flag_log=core.flag_log
 		self.robot_communication_profile_list=['Sit','Sit','Crouch','StandInit','Stand']
-		self.robot_communication_profile = 3
+		self.robot_communication_profile = 2
 		self.deviation_times = []
 		
 		self.out_path = str(out_path) #Path to write the output
@@ -95,7 +97,7 @@ class AdaptiveSystem:
 
 
 
-	def adp_function(self, adaptive_frame, evaluation_path, fadp_previous_value = 0):
+	def adp_function(self, adaptive_frame, fadp_previous_value = 0):
 	
 		#calculating the alpha vector
 	
@@ -109,9 +111,12 @@ class AdaptiveSystem:
 		core.info("Beta :" + str(beta)) 
 	
 		#calculating the gama vector
-		gama = (normalize(self.read_values.time2ans, self.op_par.max_time2ans) + 
-			 normalize(self.read_values.sucRate, self.op_par.min_suc_rate) )/2
+		# gama = (normalize(self.read_values.time2ans, self.op_par.max_time2ans) + 
+		# 	 normalize(self.read_values.sucRate, self.op_par.min_suc_rate) )/2
 		
+		gama = normalize(self.read_values.sucRate, self.op_par.min_suc_rate) 
+		
+
 		core.info("Gama :" + str(gama)) 
 	
 	
@@ -127,7 +132,7 @@ class AdaptiveSystem:
 		core.info("Final: " + str(fadp))				
 		
 		if self.out_path is not None:
-			path_name = os.path.join( "Log", "AdaptiveLogs", "results.txt") 
+			path_name = os.path.join( "Log", "AdaptiveLogs", self.out_path + "_reads.txt") 
 			print "Vectors PATH: ", path_name
 			log_file = open(path_name, "a+" )
 			log_file.write(str(adaptive_frame) 
@@ -159,33 +164,33 @@ class AdaptiveSystem:
 
 		if behavior == 0:
 			core.info("Communication profile held!")
-			self.robot.posture.goToPosture(self.robot_communication_profile_list[self.robot_communication_profile-1],1)
+			#self.robot.posture.goToPosture(self.robot_communication_profile_list[self.robot_communication_profile-1],1)
 			return 0
 
 		if behavior < 0:
 			core.info("Decreasing communication profile!")
 			if self.robot.volume < 1:
-				self.robot.volume+=0.2
+				self.robot.volume+=0.1
 			
-			if self.robot_communication_profile > 1: 
+			if self.robot_communication_profile > 0: 
 				self.robot_communication_profile-=1
 		
 		if behavior > 0:
 			core.info("Increasing communication profile!")
 			if self.robot.volume > 0.2:
-				self.robot.volume-=0.2
+				self.robot.volume-=0.1
 			
 			if self.robot_communication_profile < 5: 
 				self.robot_communication_profile+=1
 	
-		self.robot.posture.goToPosture(self.robot_communication_profile_list[self.robot_communication_profile-1],1)
+		#self.robot.posture.goToPosture(self.robot_communication_profile_list[self.robot_communication_profile-1],1)
 		core.info("Adapting to communication profile " + str(self.robot_communication_profile) +" in position " + str(self.robot_communication_profile_list[self.robot_communication_profile-1]))
 		self.robot.tts.setVolume(self.robot.volume)
 		core.info("Volume set to " + str(self.robot.volume))
 		
 		
 		if self.out_path is not None:
-			path_name = os.path.join("Log", "AdaptiveLogs", "behaviors.txt") 
+			path_name = os.path.join("Log", "AdaptiveLogs", self.out_path + "_behaviors.txt") 
 			#print "PATH: ", path_name
 			log_file = open(path_name, "a+" )
 			log_file.write(str(behavior) 
@@ -200,7 +205,7 @@ class AdaptiveSystem:
 	def getBadEmotions(self):
 		
 		emo =  self.emotions['sad'] + self.emotions['angry'] +  self.emotions['disgust'] + self.emotions['fear']     
-		core.info( "Number of bad emotions" +  emo)
+		core.info( "Number of bad emotions" +  str(emo))
 
 		return emo
 

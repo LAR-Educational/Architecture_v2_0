@@ -312,7 +312,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>9</number>
+       <number>3</number>
       </property>
       <property name="iconSize">
        <size>
@@ -2409,12 +2409,9 @@
                </widget>
               </item>
               <item row="0" column="1">
-               <widget class="QSpinBox" name="wrongAns_timeTol_spinBox">
-                <property name="maximum">
-                 <number>5</number>
-                </property>
+               <widget class="QDoubleSpinBox" name="wrongAns_timeTol_doubleSpinBox">
                 <property name="value">
-                 <number>1</number>
+                 <double>0.750000000000000</double>
                 </property>
                </widget>
               </item>
@@ -2447,7 +2444,11 @@
                </widget>
               </item>
               <item row="0" column="1">
-               <widget class="QDoubleSpinBox" name="learningTime_doubleSpinBox"/>
+               <widget class="QDoubleSpinBox" name="learningTime_doubleSpinBox">
+                <property name="value">
+                 <double>15.000000000000000</double>
+                </property>
+               </widget>
               </item>
               <item row="2" column="0" colspan="2">
                <widget class="QSlider" name="learningTime_horizontalSlider">
@@ -3032,7 +3033,7 @@
                  <double>0.000000000000000</double>
                 </property>
                 <property name="value">
-                 <double>0.150000000000000</double>
+                 <double>0.900000000000000</double>
                 </property>
                </widget>
               </item>
@@ -4214,7 +4215,7 @@
            </size>
           </property>
           <property name="currentIndex">
-           <number>2</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tab_16">
            <attribute name="title">
@@ -4562,7 +4563,7 @@
                 </widget>
                </item>
                <item row="3" column="6">
-                <widget class="QLabel" name="label_158">
+                <widget class="QLabel" name="eval_last_dif">
                  <property name="frameShape">
                   <enum>QFrame::StyledPanel</enum>
                  </property>
@@ -4587,7 +4588,7 @@
                <item row="3" column="4" colspan="2">
                 <widget class="QLabel" name="label_152">
                  <property name="text">
-                  <string>Personalizaition</string>
+                  <string>Last Difficult</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignCenter</set>
@@ -8976,7 +8977,7 @@
   <tabstop>augButton</tabstop>
   <tabstop>increaseDbButton</tabstop>
   <tabstop>wrongAns_horizontalSlider</tabstop>
-  <tabstop>wrongAns_timeTol_spinBox</tabstop>
+  <tabstop>wrongAns_timeTol_doubleSpinBox</tabstop>
   <tabstop>learningTime_doubleSpinBox</tabstop>
   <tabstop>learningTime_horizontalSlider</tabstop>
   <tabstop>minNei_spinBox</tabstop>
