@@ -18,8 +18,34 @@ def normalize(read_val, max_val, min_val=0, floor=0, roof=1):
 	Normalize two numbers betwenn floor to roof
 	"""
 	#return float((read_val*roof)/max_val)
+	if max_val == 0 :
+		return  0
 	return float ( (roof-floor)/(max_val-min_val)*(read_val-max_val)+ roof )
 
+
+
+
+class ReadValues:
+    """
+     Class to hold read values
+    
+    """
+    def __init__(self, deviations=0, emotionCount=0,
+                 numberWord=0, time2ans=0, sucRate=0):
+        self.deviations = deviations 
+        self.emotionCount = emotionCount  
+        self.numberWord =  numberWord
+        self.time2ans = time2ans
+        self.sucRate = sucRate
+    
+    def set(self, deviations=0, emotionCount=0,
+                 numberWord=0, time2ans=0, sucRate=0):
+        self.deviations = deviations 
+        self.emotionCount = emotionCount  
+        self.numberWord =  numberWord
+        self.time2ans = time2ans
+        self.sucRate = sucRate
+        
 
 
 
@@ -39,7 +65,6 @@ class OperationalParameters:
 		self.min_suc_rate = min_suc_rate
 		
 		
-		
 
 class Weights:
 
@@ -52,35 +77,46 @@ class Weights:
 
 class AdaptiveSystem:
 
-	def __init__(self, robot, op, w, rv):
+	def __init__(self, robot, op_par, w, read_values, out_path=None):
 	
-	    	self.robot = robot
-	    	#self.path = path
-	    	self.op = op
-	    	self.w = w #weights class
-		self.rv = rv		
-		flag_log=core.flag_log
+		self.robot = robot
+		#self.path = path
+		self.op_par = op_par
+		self.w = w #weights class
+		self.read_values = read_values		
+		#flag_log=core.flag_log
 		self.robot_communication_profile_list=['Sit','Sit','Crouch','StandInit','Stand']
-		self.robot_communication_profile = 3
+		self.robot_communication_profile = 2
+		self.deviation_times = []
+		
+		self.out_path = str(out_path) #Path to write the output
+
+		self.emotions = {'happy': 0, 'sad': 0, 'angry': 0, 'disgust': 0,
+	 	'surprise': 0, 'fear': 0, 'neutral': 0}
+
+
 
 
 	def adp_function(self, adaptive_frame, fadp_previous_value = 0):
 	
 		#calculating the alpha vector
 	
-		alpha = normalize(self.rv.deviations, self.op.max_deviation)
+		alpha = normalize(self.read_values.deviations, self.op_par.max_deviation)
 		core.info("Alpha :" + str(alpha)) 
 	
 		#calculating the beta vector
-		beta = (normalize(self.rv.emotionCount, self.op.max_emotion_count) + 
-			normalize(self.rv.numberWord, self.op.min_number_word) )/2
+		beta = (normalize(self.read_values.emotionCount, self.op_par.max_emotion_count) + 
+			normalize(self.read_values.numberWord, self.op_par.min_number_word) )/2
 		
 		core.info("Beta :" + str(beta)) 
 	
 		#calculating the gama vector
-		gama = (normalize(self.rv.time2ans, self.op.max_time2ans) + 
-			 normalize(self.rv.sucRate, self.op.min_suc_rate) )/2
+		# gama = (normalize(self.read_values.time2ans, self.op_par.max_time2ans) + 
+		# 	 normalize(self.read_values.sucRate, self.op_par.min_suc_rate) )/2
 		
+		gama = normalize(self.read_values.sucRate, self.op_par.min_suc_rate) 
+		
+
 		core.info("Gama :" + str(gama)) 
 	
 	
@@ -95,8 +131,8 @@ class AdaptiveSystem:
 		fadp =  fadp + fadp_previous_value
 		core.info("Final: " + str(fadp))				
 		
-		if core.flag_log:
-			path_name = os.path.join("Log","AdaptiveLogs","vectors_int_"+  str(core.interaction_id)+".dat") 
+		if self.out_path is not None:
+			path_name = os.path.join( "Log", "AdaptiveLogs", self.out_path + "_reads.txt") 
 			print "Vectors PATH: ", path_name
 			log_file = open(path_name, "a+" )
 			log_file.write(str(adaptive_frame) 
@@ -128,33 +164,33 @@ class AdaptiveSystem:
 
 		if behavior == 0:
 			core.info("Communication profile held!")
-			self.robot.posture.goToPosture(self.robot_communication_profile_list[self.robot_communication_profile-1],1)
+			#self.robot.posture.goToPosture(self.robot_communication_profile_list[self.robot_communication_profile-1],1)
 			return 0
 
 		if behavior < 0:
 			core.info("Decreasing communication profile!")
 			if self.robot.volume < 1:
-				self.robot.volume+=0.2
+				self.robot.volume+=0.1
 			
-			if self.robot_communication_profile > 1: 
+			if self.robot_communication_profile > 0: 
 				self.robot_communication_profile-=1
 		
 		if behavior > 0:
 			core.info("Increasing communication profile!")
 			if self.robot.volume > 0.2:
-				self.robot.volume-=0.2
+				self.robot.volume-=0.1
 			
 			if self.robot_communication_profile < 5: 
 				self.robot_communication_profile+=1
 	
-		self.robot.posture.goToPosture(self.robot_communication_profile_list[self.robot_communication_profile-1],1)
+		#self.robot.posture.goToPosture(self.robot_communication_profile_list[self.robot_communication_profile-1],1)
 		core.info("Adapting to communication profile " + str(self.robot_communication_profile) +" in position " + str(self.robot_communication_profile_list[self.robot_communication_profile-1]))
 		self.robot.tts.setVolume(self.robot.volume)
 		core.info("Volume set to " + str(self.robot.volume))
 		
 		
-		if core.flag_log:
-			path_name = os.path.join("Log","AdaptiveLogs","com_prof_int_"+  str(core.interaction_id)+".dat") 
+		if self.out_path is not None:
+			path_name = os.path.join("Log", "AdaptiveLogs", self.out_path + "_behaviors.txt") 
 			#print "PATH: ", path_name
 			log_file = open(path_name, "a+" )
 			log_file.write(str(behavior) 
@@ -166,51 +202,72 @@ class AdaptiveSystem:
 
 
 
+	def getBadEmotions(self):
+		
+		emo =  self.emotions['sad'] + self.emotions['angry'] +  self.emotions['disgust'] + self.emotions['fear']     
+		core.info( "Number of bad emotions" +  str(emo))
+
+		return emo
+
+
+	def clear_emo_variables(self):
+
+		self.emotions
+		for i in self.emotions.keys():
+			self.emotions[i] = 0
+		
+		#print "DEVIATION", deviation_times
+		#global deviation_times
+		del self.deviation_times[:]
+			
 
 
 
-def main():
 
-	key = ""
-	fa = 0
 
-	w = Weights(0.5, 0.2, 0.3 )	
-	#w = Weights(0.3, 0.1, 0.2 )	
+# def main():
 
-	op = OperationalParameters (max_deviation=5.0, max_emotion_count=3, 
-									min_number_word=1 , max_time2ans=10, min_suc_rate=1)
+
+# 	key = ""
+# 	fa = 0
+
+# 	w = Weights(0.5, 0.2, 0.3 )	
+# 	#w = Weights(0.3, 0.1, 0.2 )	
+
+# 	op = OperationalParameters (max_deviation=5.0, max_emotion_count=3, 
+# 									min_number_word=1 , max_time2ans=10, min_suc_rate=1)
 	
-	while(key!="e"):
+# 	while(key!="e"):
 
-		#print "test", normalize(1.75,5)
-
-	
-		rv= core.ReadValues(deviations=random.randint(0, 5), emotionCount=random.randint(0, 3), 
-						numberWord=random.randint(0,1), time2ans=random.randint(0, 10),							sucRate=random.randint(0, 1)	)
+# 		#print "test", normalize(1.75,5)
 
 	
-		#print "on main", op.max_deviation
-		#print "weights", w.alpha
-		#print "rv.deviations", rv.deviations
-	
-	
-	
-		adpt = AdaptiveSystem(op=op, w=w, rv=rv)
+# 		read_values= core.ReadValues(deviations=random.randint(0, 5), emotionCount=random.randint(0, 3), 
+# 						numberWord=random.randint(0,1), time2ans=random.randint(0, 10),							sucRate=random.randint(0, 1)	)
 
-		fc = adpt.adp_function()
-		core.info( "Fadp: " + str(fc) )
+	
+# 		#print "on main", op.max_deviation
+# 		#print "weights", w.alpha
+# 		#print "read_values.deviations", read_values.deviations
+	
+	
+	
+# 		adpt = AdaptiveSystem(op=op, w=w, read_values=read_values)
+
+# 		fc = adpt.adp_function()
+# 		core.info( "Fadp: " + str(fc) )
 		
 		
-		act = adpt.activation_function(fc)
-		core.info( "Activation: " + str(act) )
+# 		act = adpt.activation_function(fc)
+# 		core.info( "Activation: " + str(act) )
 		
-		key=raw_input("Key: ")
+# 		key=raw_input("Key: ")
 
-		fa = fc
+# 		fa = fc
 
 
-if __name__ == "__main__":
-	main()
+# if __name__ == "__main__":
+# 	main()
 
 
 

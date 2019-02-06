@@ -9,7 +9,7 @@ from Modules import vars as core
 from Modules import disattention
 from Modules import adaption
 
-'''
+#'''
 
 def read_hist():
 	arq = open("Activities/Historias/indices.txt" , "r")
@@ -56,9 +56,12 @@ def play(robot, ds, att, max_hist=3):
 	
 	w = adaption.Weights(0.2, 0.2, 0.6 )	
 	
-	op = adaption.OperationalParameters (max_deviation=3, max_emotion_count=125, 
-		min_number_word=11 , max_time2ans=40, min_suc_rate=1)
-	
+	op = adaption.OperationalParameters (max_deviation=3, 
+										max_emotion_count=125, 
+										min_number_word=11 , 
+										max_time2ans=40, 
+										min_suc_rate=1)
+									
 	
 	adp = adaption.AdaptiveSystem(robot, op,w,core.userPar)
 	
@@ -155,16 +158,16 @@ def play(robot, ds, att, max_hist=3):
 			fileLog.write("\nExpected Answer " + hist_dict[i][gap+indice])
 			fileLog.write("\nUser Answer " + answer)
 		        
-                        ds.say("A resposta que eu esperava é: "+ hist_dict[i][gap+indice], animated=False )
+            ds.say("A resposta que eu esperava é: "+ hist_dict[i][gap+indice], animated=False )
 
 			total_rate+=real_rate
 						
 			fileLog.write("\nRate: " + str(real_rate) )
 			fileLog.write("\n")
 			
-                        #att._continue()
-			
-                        #print core.emotions
+			#att._continue()
+
+			#print core.emotions
 			#print core.deviation_times
 			totalWords += ds.coutingWords(answer)
 			#leds.fadeRGB('eyes', 'white', 0.1)		
@@ -219,6 +222,6 @@ def play(robot, ds, att, max_hist=3):
 
 
 
-'''
+#'''
 
 

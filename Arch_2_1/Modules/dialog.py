@@ -5,8 +5,8 @@ import vars as core
 import random
 import distance
 import numpy as np
-import matplotlib as mpl
-import matplotlib.pyplot as plt
+#import matplotlib as mpl
+#import matplotlib.pyplot as plt
 import scipy
 #import speech2text as stt
 import time
@@ -187,7 +187,9 @@ class DialogSystem:
 				#print(st)
 				
 			except sr.UnknownValueError:
-				self.say("Não consegui entender o que você disse. Repita por favor")
+				self.say("Não consegui entender o que você disse.")
+				self.say("Repita por favor", block=False)
+				
 			except sr.RequestError as e:
 				self.say("Estou com um problema de conexão com a internet. Vou tentar de novo. ; {0}".format(e))
 		self.robot.leds.fadeRGB('eyes', 'white', 0.1)
@@ -226,8 +228,8 @@ class DialogSystem:
 	def levenshtein_long_two_strings(self, string_one, string_two, print_flag=False):
 		string_one =  re.sub(r'[^\w\s]','',string_one)
 		string_two =  re.sub(r'[^\w\s]','',string_two)
-		string_one.lower()
-		string_two.lower()
+		string_one = string_one.lower()
+		string_two = string_two.lower()
 		
 		ans = distance.nlevenshtein(string_one, string_two, method=2)
 		#print "Score: " + str(distance.levenshtein(string_one, element))
@@ -326,14 +328,27 @@ class DialogSystem:
 		
 		
 		
+# class ex():
+
+# 	def __init__(self):
+# 		self.var1 = 1
+
+# 	def load(self):	
+# 		self.var2= 2
 		
 		
+
+# def main():
+
+# 	e = ex()
+
+# 	e.load()
+
+# 	print e.var2
+
 		
-		
-		
-		
-		
-		
+# if __name__=="__main__":
+# 	main()	
 		
 		
 		
