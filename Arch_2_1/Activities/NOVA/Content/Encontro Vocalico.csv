@@ -1,11 +1,11 @@
 Difficulty,Question,Expected Answer
-1,A palavra: CUIDADO. Tem um ditongo ou um hiato?,Ditongo
-2,A palavra: SAÍDA. Tem um ditongo ou um hiato?,Hiato.
-2,Ditongo são duas vogais na mesma sílaba ou em sílabas separadas?,Na mesma sílaba.
-3,Na palavra: QUAISQUER. Há um ditongo?,Não
-3,Na palavra: QUAISQUER. Há um tritongo?,Sim
-3,Porque na palavra SAÍDA há um hiato?,Porque o A e o I ficam em sílabas separadas
-4,Entre as palavras: PRAIA. e SAGUÃO em qual delas há um tritongo?,Saguão
+1,A palavra. CUIDADO. Tem um ditongo? ou um hiato?,Ditongo
+2,A palavra: SAÍDA. Tem um ditongo? ou um hiato?,Hiato.
+2,Ditongo são duas vogais na mesma sílaba? ou em sílabas separadas?,Na mesma sílaba.
+3,Na palavra. QUAISQUER. Há um ditongo? Sim ou não?,Não
+3,Na palavra: QUAISQUER. Há um tritongo? Sim ou não?,Sim
+3,Porque na palavra. SAÍDA. há um hiato?,Porque o A e o I ficam em sílabas separadas
+4,Entre as palavras: PRAIA. e. SAGUÃO. em qual delas há um tritongo?,Saguão
 4,Na palavra: CUIDADO. há um tritongo? Porquê?,Não porque o U e o I ficam em sílabas separadas
 5,GOIABA e PRAIA têm tritongo?,Não
 5,Porque na palavra CADEIA Não há um tritongo?,Porque ficam em sílabas separadas.

@@ -6,7 +6,7 @@ import warnings
 
 warnings.simplefilter("ignore", UserWarning)
 
-DEFAULT_ANSWER = 'Me desculpe amiguinho, mas não consigo te reponder isso.'.decode('utf-8')
+DEFAULT_ANSWER = 'Me desculpe amiguinho, mas não consigo te responder isso.'.decode('utf-8')
 
 def search(query, section='', sentences=0):
 
