@@ -80,9 +80,14 @@ class EvaluationDatabase():
             self.evaluations_list.append(new_eval)
             print "EVALUATION INSERT DONE"
             self.save_eval(new_eval, path +"/" +str(new_eval.id)+".eval")
+            print "PATH", self.index_path
             self.index_table.to_csv(self.index_path, index=False)
             #print self.index_table
             return 1
+
+
+
+
 
     # NAO ESTA TIRANDO O USER DA LISTA DE USUARIOS DA RAM
     # APENAS QUANDO REINICIALIZA O PROGRAMA - Resolvi de um jeito bem porco.
@@ -144,6 +149,7 @@ class Evaluation:
                 robot=None,
                 supervisor=None,
                 obs=None,
+                user_dif_profile=None,
                 validation=False,
                 stats = False):
 
@@ -159,6 +165,7 @@ class Evaluation:
         self.robot=robot
         self.supervisor=supervisor
         self.obs=obs
+        self.user_dif_profile=user_dif_profile
         self.validation=validation
         self.stats=stats        
 
