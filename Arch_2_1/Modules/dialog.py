@@ -188,7 +188,7 @@ class DialogSystem:
 				
 			except sr.UnknownValueError:
 				self.say("Não consegui entender o que você disse.")
-				self.say("Repita por favor", block=False)
+				self.say("Repita por favor")
 				
 			except sr.RequestError as e:
 				self.say("Estou com um problema de conexão com a internet. Vou tentar de novo. ; {0}".format(e))

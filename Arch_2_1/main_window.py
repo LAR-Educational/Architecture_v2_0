@@ -114,7 +114,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		# --- Dialog
 
-		self.answer_threshold = 1 - self.diag_dist_thres_spinBox.value()
+		self.answer_threshold = 1 - 0.60#self.diag_dist_thres_spinBox.value()
 		#print "Thres valeu", self.answer_threshold
 
 
@@ -603,7 +603,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		else:
 			size = len(self.knowledge_general_df.index)
 
-			self.knowledge_general_df.loc[size]=[concept, definition]
+			self.knowledge_general_df.loc[size]=[concept.decode('utf-8'), definition]
 
 			#print self.knowledge_general_df.loc[size]
 
@@ -692,7 +692,6 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 	
 	def user_confirm_entry(self):
 		
-		self.emotions
 		#QPixmap qpix = self.user_image.pixmap()
 		image = self.user_image.pixmap().toImage()
 		
@@ -713,8 +712,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#cv2.waitKey(0)
 
 		aux = User(int(self.user_id_label.text()),
-			str(self.user_name_field.text()),
-			str(self.user_last_name_field.text()),
+			(self.user_name_field.text()).toUtf8(),
+			(self.user_last_name_field.text()).toUtf8(),
 			#str(self.user_bd_field.textFromDateTime("dd:mm:yyyy")),
 			bday=(self.user_bd_field.date()),
 			scholl_year=str(self.user_school_year.text()),
@@ -1272,15 +1271,19 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		self.run_question_interator = -1
 
-		self.robot.motors.wakeUp()
+		
+		
+		
+		
+		#self.robot.motors.wakeUp()
 			
 
 		
 		# Não conehce
-		self.interact_know_person()
+		#self.interact_know_person()
 		
 		#Já conhece
-		#self.interact_recognize_person()
+		self.interact_recognize_person()
 		
 		# Start interaction engine
 		self.interatction_parser()
@@ -1391,7 +1394,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		#print self.cur_interact.data
 
-		print "TYPE ", type(self.cur_interact.data.iloc[0]['Type'])
+		#print "TYPE ", type(self.cur_interact.data.iloc[0]['Type'])
 
 		for i in range(0,cmds):
 			core.info("Inside parser " + str(i) + "  " + self.cur_interact.data.iloc[i]['Type'])
@@ -1451,40 +1454,49 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				#print "TRUE"
 				pref = str(pref.toUtf8())
 
-			pref = pref.decode('utf-8').strip()
+			pref = pref.decode('utf-8')#.strip()
 			pref = pref.encode('utf-8')
 
 			self.robot_say("Você gosta de " + pref )
 			
-		concept_list = [ x.encode('utf-8')for x in self.knowledge_general_df['Concept'].tolist() ]
+		concept_list = [ x.encode('utf-8') for x in self.knowledge_general_df['Concept'].tolist() ]
+		#concept_list = [ x.decode('utf-8')for x in self.knowledge_general_df['Concept'].tolist() ]
 		
-		
+		#print "PREF", pref
+		#print "CONCEPT", concept_list
 
-		if pref in concept_list:	
-			self.robot_say("Eu sei o que é isso!")
-			ind = concept_list.index(pref)	
-			
-			#tosay = u' '.join(self.knowledge_general_df['Definition'][ind]).encode('utf-8')
-			tosay = (self.knowledge_general_df['Definition'][ind]).encode('utf-8')
-			
-			#print "STRING" ,tosay,  type(tosay)
-			#print	
-
-			self.robot_say((tosay))
+		if pref == "não sei".decode('utf-8'):
+			self.robot_say("Não tem problema.")
 		
-		else:
-			self.robot_say("Só um momento. Eu não conheço nada sobre isso ainda. Vou pesquisar na internet!", False)
+		else:	
+			pref = pref.encode('utf-8')
 			
-			tosay=self.know_add_information(pref) 
+			if pref in concept_list:	
+			#if pref in concept_list:	
+				self.robot_say("Eu sei o que é isso!")
+				ind = concept_list.index(pref)#).decode('utf-8'))	
+				
+				#tosay = u' '.join(self.knowledge_general_df['Definition'][ind]).encode('utf-8')
+				tosay = (self.knowledge_general_df['Definition'][ind]).encode('utf-8')
+				
+				#print "STRING" ,tosay,  type(tosay)
+				#print	
+
+				self.robot_say((tosay))
 			
-			if tosay is not None:
-				self.robot_say("Pronto!")
-				self.robot_say(tosay.encode('utf-8'))
 			else:
-				self.robot_say("Não consegui encontrar nada sobre isso. Vou procurar melhor e depois te falo")	
+				self.robot_say("Só um momento. Eu não conheço nada sobre isso ainda. Vou pesquisar na internet!", False)
+				
+				tosay=self.know_add_information(pref) 
+				
+				if tosay is not None:
+					self.robot_say("Pronto!")
+					self.robot_say(tosay.encode('utf-8'))
+				else:
+					self.robot_say("Não consegui encontrar nada sobre isso. Vou procurar melhor e depois te falo")	
 
-		self.robot_say("Porque você gosta disso?")
-		self.user_input()
+			self.robot_say("Porque você gosta disso?")
+			self.user_input()
 
 
 	def interact_recognize_person(self):
@@ -1577,6 +1589,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		att = Attempt(time2ans=0)
 		#print "Concept", topic.concept
 
+		self.robot_say("Agora vamos praticar gramática um pouco. Preste atenção na explicação.")
+
 		self.robot_say(text)
 
 
@@ -1590,11 +1604,14 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			#print "Data\n\n", data
 		except:
 			raise
+
 			
 		quest = Question()
 		# Start the loop for the question number of the interaction
 		for i in range(0,self.cur_interact.ques_per_topic):
 			
+			self.robot_say("Preste atenção para pergunta:")
+
 
 			core.info("Question number: " + str(i))
 			core.war("PROFILE :" + str(self.user_profile))
@@ -1725,12 +1742,14 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 	def run_final_dialog(self):
 
-		self.robot_say("Bom! Por hoje é isso")
+		self.robot_say("Por hoje é isso")
 		self.robot.behavior.runBehavior('animations/Stand/Gestures/Hey_1')
 		self.robot_say("Foi um prazer brincar com você, " + self.cur_user.first_name, block=False)
+		self.robot_say("Até mais")
+
 		#self.robot.behavior.runBehavior("hi/hi")
 		
-		print "PAssou"
+		#print "PAssou"
 		self.robot.motors.rest()
 
 		# try:
