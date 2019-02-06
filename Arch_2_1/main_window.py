@@ -92,6 +92,9 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.sys_vars = core.SystemVariablesControl()
 		self.diag_sys = dialog.DialogSystem(False, False)
 
+		self.sys_vars.add('evaluation')
+
+
 		QTextCodec.setCodecForCStrings(QTextCodec.codecForName("utf8"))
 
 		self.loadactButton.clicked.connect(self.load_file)
@@ -1260,12 +1263,15 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		self.run_question_interator = -1
 
-
+		self.robot.motors.wakeUp()
 			
 
 		
-		
+		# Não conehce
 		self.interact_know_person()
+		
+		#Já conhece
+		#self.interact_recognize_person()
 		
 		# Start interaction engine
 		self.interatction_parser()
@@ -1285,7 +1291,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#self.cur_eval.
 		
 		self.cur_eval.end_time=QTime.currentTime()
-		self.cur_eval.user_name = str(self.cur_user.first_name).decode("utf-8") + " "+ str(self.cur_user.last_name).decode("utf-8")
+		self.cur_eval.user_name = (self.cur_user.first_name) + " "+ (self.cur_user.last_name)
 		self.cur_eval.user_dif_profile = self.user_profile
 
 		if self.evaluation_db.insert_eval(self.cur_eval) > 0:
@@ -1337,7 +1343,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		
 		core.info("Loading Models!")
-		#self.run_load_models()
+		self.run_load_models()
 		
 		self.diag_sys.say("Estou Pronto.", False)
 		core.info("Robot Connected")
@@ -1358,7 +1364,6 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			self.vis_sys.subscribe(0)
 
 
-
 	def interatction_parser(self):
 
 		# core.info("Wait image load")
@@ -1369,9 +1374,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		# Não conehce ainda
 		#self.interact_know_person()
 
-		#Já conhece
-		self.interact_recognize_person()
-		print "Recognized"
+		
 
 		cmds = len(self.cur_interact.data.index)
 		
@@ -1434,9 +1437,9 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		# Já tem cadastrado
 		else:
-			print type(pref)
+			#print type(pref)
 			if type(pref) is QString:
-				print "TRUE"
+				#print "TRUE"
 				pref = str(pref.toUtf8())
 
 			pref = pref.decode('utf-8').strip()
@@ -1461,16 +1464,17 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			self.robot_say((tosay))
 		
 		else:
-			self.robot_say("Vou pesquisar na internet!")
+			self.robot_say("Só um momento. Vou pesquisar na internet!")
 			
 			tosay=self.know_add_information(pref) 
 			
 			if tosay is not None:
+				self.robot_say("Achei!")
 				self.robot_say(tosay.encode('utf-8'))
 			else:
 				self.robot_say("Não consegui encontrar nada sobre isso. Vou procurar melhor e depois te falo")	
 
-		self.robot_say("Porque você gosta disso?")
+		self.robot_say("Porque você gosta disso?", False)
 		self.user_input()
 
 
@@ -1510,10 +1514,10 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		
 		self.robot_say("Qual seu nome?", False)
-		name = self.user_input()
+		name = self.user_input()#.decode('utf-8')
 
 		self.robot_say("E seu Sobrenome?", False)
-		last_name = self.user_input()
+		last_name = self.user_input()#.decode('utf-8')
 
 		
 		self.cur_user = User(self.sys_vars.users_id+1,
@@ -1552,9 +1556,12 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		core.info("Initializing emotion thread")
 		self.run_emotion_flag = True
 
-
-		text = str(self.sub_list[self.sub_list['subjects']==tta]['concepts'])
+		ind = self.sub_list[self.sub_list['subjects']==tta].index[0]
 		
+		text = self.sub_list['concepts'].iloc[ind]
+		
+
+
 		#print str(text)
 		topic = Topic(text)
 		self.cur_eval.tp_names.append(str(tta))
@@ -1710,11 +1717,21 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 	def run_final_dialog(self):
 
 		self.robot_say("Bom! Por hoje é isso")
+		self.robot.behavior.runBehavior('animations/Stand/Gestures/Hey_1')
 		self.robot_say("Foi um prazer brincar com você, " + self.cur_user.first_name, block=False)
-		try:
-			self.robot.behavior.runBehavior("Untitled/hi")
-		except:
-			core.er("DEU MERDA NO TCHAU")
+		#self.robot.behavior.runBehavior("hi/hi")
+		
+		print "PAssou"
+		self.robot.motors.rest()
+
+		# try:
+		# except OSError as err:
+		# 	print("OS error: {0}".format(err))
+		# except ValueError:
+		# 	print("Could not convert data to an integer.")
+		# except:
+		# 	print("Unexpected error:", sys.exc_info()[0])
+		# 	core.er("DEU MERDA NO TCHAU")
 
 
 
@@ -2115,7 +2132,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				#t1 = threading.Thread(name='wait', target=self.get_ans_mic)
 				#t1.start()
 
-				ret = self.diag_sys.getFromMic_Pt()
+				ret = self.diag_sys.getFromMic_Pt()#.decode('utf-8')
 
 				#self.user_ans_flag = False
 

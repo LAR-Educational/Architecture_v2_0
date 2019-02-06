@@ -3876,7 +3876,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuHelp.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.modules_tabWidget.setCurrentIndex(3)
+        self.modules_tabWidget.setCurrentIndex(8)
         self.dialog_tabWidget.setCurrentIndex(0)
         self.content_dif_comboBox.setCurrentIndex(0)
         self.comboBox_2.setCurrentIndex(4)
