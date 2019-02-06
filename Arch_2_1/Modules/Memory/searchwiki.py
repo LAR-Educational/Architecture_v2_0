@@ -6,13 +6,13 @@ import warnings
 
 warnings.simplefilter("ignore", UserWarning)
 
-DEFAULT_ANSWER = 'Me desculpe amiguinho, mas não consigo te reponder isso.'
+DEFAULT_ANSWER = 'Me desculpe amiguinho, mas não consigo te reponder isso.'.decode('utf-8')
 
 def search(query, section='', sentences=0):
 
 
     try:
-        query = query.decode('utf-8')
+        query = query#.decode('utf-8')
         section = section.decode('utf-8')
     except UnicodeDecodeError as e:
         print(e)

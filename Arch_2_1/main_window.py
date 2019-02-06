@@ -92,7 +92,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.sys_vars = core.SystemVariablesControl()
 		self.diag_sys = dialog.DialogSystem(False, False)
 
-		self.sys_vars.add('evaluation')
+		#self.sys_vars.add('user')
 
 
 		QTextCodec.setCodecForCStrings(QTextCodec.codecForName("utf8"))
@@ -587,6 +587,15 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		definition = searchwiki.search(concept)
 
+		tt= self.diag_sys.coutingWords(definition)
+
+		if tt > 25:
+			frases = definition.split(".")
+			frase_final = frases[0] +"." + frases[1]+ "."
+
+			definition = frase_final
+
+		
 		if definition =='':
 			core.war("String returned is EMPTY")
 			return None
@@ -596,7 +605,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 			self.knowledge_general_df.loc[size]=[concept, definition]
 
-			print self.knowledge_general_df.loc[size]
+			#print self.knowledge_general_df.loc[size]
 
 			self.knowledge_general_df.to_csv("Data/general_knowledge.csv" , sep="|", encoding='utf-8', index=False) 
 			
@@ -1430,7 +1439,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#não tem cadastrado ainda
 		if pref == "":
 			self.robot_say(personal_translate[talk_subject])
-			pref = self.user_input().encode('utf-8')
+			pref = self.user_input().decode('utf-8')
 			self.cur_user.add_preference(talk_subject, pref)
 			self.students_database.insert_user(self.cur_user)
 			core.info("USER UPDATED")
@@ -1464,17 +1473,17 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			self.robot_say((tosay))
 		
 		else:
-			self.robot_say("Só um momento. Vou pesquisar na internet!")
+			self.robot_say("Só um momento. Eu não conheço nada sobre isso ainda. Vou pesquisar na internet!", False)
 			
 			tosay=self.know_add_information(pref) 
 			
 			if tosay is not None:
-				self.robot_say("Achei!")
+				self.robot_say("Pronto!")
 				self.robot_say(tosay.encode('utf-8'))
 			else:
 				self.robot_say("Não consegui encontrar nada sobre isso. Vou procurar melhor e depois te falo")	
 
-		self.robot_say("Porque você gosta disso?", False)
+		self.robot_say("Porque você gosta disso?")
 		self.user_input()
 
 
@@ -2135,7 +2144,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				ret = self.diag_sys.getFromMic_Pt()#.decode('utf-8')
 
 				#self.user_ans_flag = False
-
+				self.run_under_ans.setText(ret)
 				#t1.join()
 
 
