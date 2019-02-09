@@ -945,9 +945,13 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		if(len(self.cur_eval.topics)==0):
 			print "ERROR: Topics empty"
 		
+
+
+
 		else:
 
 			#print self.cur_eval.tp_names
+			print self.cur_eval.topics
 
 
 
