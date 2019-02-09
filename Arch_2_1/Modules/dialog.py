@@ -191,7 +191,8 @@ class DialogSystem:
 				self.say("Repita por favor")
 				
 			except sr.RequestError as e:
-				self.say("Estou com um problema de conexão com a internet. Vou tentar de novo. ; {0}".format(e))
+				self.say("Estou com um problema de conexão com a internet. Vou tentar de novo.")
+				core.er("{0}".format(e))
 		self.robot.leds.fadeRGB('eyes', 'white', 0.1)
 		
 		

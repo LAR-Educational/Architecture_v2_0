@@ -1275,15 +1275,15 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		
 		
-		#self.robot.motors.wakeUp()
+		self.robot.motors.wakeUp()
 			
 
 		
 		# Não conehce
-		#self.interact_know_person()
+		self.interact_know_person()
 		
 		#Já conhece
-		self.interact_recognize_person()
+		#self.interact_recognize_person()
 		
 		# Start interaction engine
 		self.interatction_parser()
@@ -1465,7 +1465,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#print "PREF", pref
 		#print "CONCEPT", concept_list
 
-		if pref == "não sei".decode('utf-8'):
+		if pref == "não sei".decode('utf-8') or pref == "não tenho".decode('utf-8') or pref == "eu não tenho".decode('utf-8'):
 			self.robot_say("Não tem problema.")
 		
 		else:	
@@ -1558,7 +1558,12 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		self.robot_say("Certo. Muito prazer, " + name)
 		self.robot_say("Vamos começar as atividades")
-
+		
+		try:
+			self.run_recognized_user_label.setText(name)
+			
+		except expression as identifier:
+			pass
 
 
 
@@ -1572,7 +1577,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		core.info("INSIDE CONTENT FUNCTON " + tta)
 		#print self.sub_list
-
+		
+		self.preview_profile = 3	
 
 		core.info("Initializing emotion thread")
 		self.run_emotion_flag = True
@@ -1615,6 +1621,16 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 			core.info("Question number: " + str(i))
 			core.war("PROFILE :" + str(self.user_profile))
+
+			try:
+				self.label_126.setText(str(self.user_profile))
+				self.verticalSlider_3.setValue(self.user_profile)
+				self.label_129.setText(str(self.preview_profile)) 
+				self.label_128.setText(str(i+1))
+			
+			except expression as identifier:
+				pass
+
 			# Select the possibilities according to the user profile detected
 			dfp= data.loc[data['Difficulty'] == self.user_profile]
 			possibilities = len(data.loc[data['Difficulty'] == self.user_profile])#['Question']
@@ -1724,6 +1740,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			fvalue = self.adapt_sys.activation_function(fvalue)
 			self.adapt_sys.change_behavior(fvalue)
 
+			self.preview_profile = self.user_profile 
 			self.user_profile = self.adapt_sys.robot_communication_profile+1
 
 			#TROCA O VALOR DO USER PROFILE!!!
