@@ -239,10 +239,31 @@ def emo_prefs():
 	plt.show()
 
 
+def GUI_teach_test():
+
+    av = [3.555555556,	3.777777778,	3.444444444,	3.777777778,	3.888888889,	3.111111111,	3.555555556,	3.333333333]
+    sd = [1.013793755,	0.9718253158,	0.8819171037,	0.8333333333,	0.6009252126,	0.6009252126,	0.7264831573,	0.8660254038] 
+    
+    
+    
+    x =  range(1,len(av)+1)
+    
+    plt.bar(x, av, width=0.45, color = 'aquamarine', align="center", yerr=sd, ecolor="k")
+    for i in x:
+        plt.text(x[i-1]+0.1, av[i-1]+0.1, "{:.2f}".format(av[i-1]), fontsize=14 ) 
+
+    plt.title("Teachers' Answer", fontsize=28)
+    plt.ylabel("Average teachers' score", fontsize=16)
+    plt.xlabel("Question number", fontsize=16)
+    #plt.gca().yaxis.grid(True)
+    plt.xticks(x)
+    plt.savefig("teachers.png")
+    plt.show()
 
 
 if __name__=="__main__":
-        #emo_prefs()
-        #make_from_path()
-        #users()
-	make()
+    #emo_prefs()
+    #make_from_path()
+    #users()
+	#make()
+    GUI_teach_test()
