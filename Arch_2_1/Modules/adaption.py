@@ -266,7 +266,14 @@ class AdaptiveSystem:
 # 		fa = fc
 
 
-# if __name__ == "__main__":
+def test():
+	print normalize(3,5,1)
+
+if __name__ == "__main__":
+
+	 test()
+
+
 # 	main()
 
 

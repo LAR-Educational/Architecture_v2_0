@@ -90,7 +90,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 		self.sys_vars = core.SystemVariablesControl()
-		self.diag_sys = dialog.DialogSystem(False, False)
+		#self.diag_sys = dialog.DialogSystem(False, False)
 
 		#self.sys_vars.add('user')
 
@@ -1328,7 +1328,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		self.vis_sys = vision.VisionSystem(self.robot)
 		self.diag_sys = dialog.DialogSystem(self.robot, None)
-		
+		self.embeddings = self.diag_sys.load()		
 		
 		#self.w = adaption.Weights(self.alfaWeight.value(),
 		#						self.betaWeight.value(),
@@ -1690,7 +1690,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				#print "User ans: ", user_answer
 
 				# Calculate answer similarity
-				dist =  (self.diag_sys.levenshtein_long_two_strings(user_answer,expected_answer))
+				dist =  (self.diag_sys.adaptation_funct(self.embeddings, user_answer,expected_answer))
 			
 				print "DIST", dist, "Tresh", self.answer_threshold
 				#print type(dist), type(self.answer_threshold)
