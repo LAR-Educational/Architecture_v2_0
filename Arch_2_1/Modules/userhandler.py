@@ -157,10 +157,8 @@ class UserDatabase():
 
     
     def generate_encodings(self):
-
-        path = "Usuarios"
+        path = 'Usuarios'
         folders = [x for x in os.listdir(path) if re.match(r"[0-9]+", x)]
-        # files = os.listdir(path)
 
         for f in folders:
             try:
@@ -168,10 +166,20 @@ class UserDatabase():
                 encoded = face_recognition.face_encodings(image)[0]
                 self.known_face_names.append(f)
                 self.known_face_encodings.append(encoded)
-            except Exception:
+                
+                imgs_path = path + '/' + f + '/imgs'
+                try:
+                    imgs_folder = os.listdir(imgs_path)    
+                    for img in imgs_folder:
+                        image = face_recognition.load_image_file(imgs_folder+'/'+img)
+                        encoded = face_recognition.face_encodings(image)[0]
+                        self.known_face_names.append(f)
+                        self.known_face_encodings.append(encoded)
+                except:
+                    pass
+            except:
                 pass
-    
-    
+
     def face_recognition(self, frame):
         # Initialize some variables
         face_locations = []
