@@ -1617,6 +1617,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 			
 		quest = Question()
+
+
 		# Start the loop for the question number of the interaction
 		for i in range(0,self.cur_interact.ques_per_topic):
 			
@@ -1724,6 +1726,9 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 					#time.sleep(3)
 
 
+				# End of a question cycle
+				# Insert current question in topic 
+				topic.insert_question(quest)
 
 			# Setting Adaptive Parameters!
 
@@ -1749,9 +1754,6 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 			#TROCA O VALOR DO USER PROFILE!!!
 			
-			# End of a question cycle
-			# Insert current question in topic 
-			topic.insert_question(quest)
 
 
 		# Insert current topic in eval
