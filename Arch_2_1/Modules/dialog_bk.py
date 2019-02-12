@@ -1,7 +1,7 @@
 # coding=UTF-8
 
 
-#import vars as core 
+import vars as core 
 import random
 import distance
 import numpy as np
@@ -17,27 +17,11 @@ from difflib import SequenceMatcher
 import os
 import re
 import sys
-from sys import path
-path.append("/media/tozadore/DATA/assin")
-
-
-import adaption
-
-from pprint import pprint
-
-
-# pretty print it for now
-# pprint(path)
-
-import testss
-
-
-# testss.myprint()
 
 def open_file (file_name):
 	with open(file_name) as f:
         	file_read = f.read().splitlines() 
-        	f.close()
+        	f.close();
 	return file_read 
 
 
@@ -52,10 +36,9 @@ class DialogSystem:
 		self.default_language = language
 		#self.setLang(self.default_language)
 		# set the local configuration
-		#self.configuration = {"bodyLanguageMode":"contextual"}
-		#self.input_option = core.input_option 
-	def __init__(self):
-		pass
+		self.configuration = {"bodyLanguageMode":"contextual"}
+
+		self.input_option = core.input_option 
 
 	#funtion say
 	def say(self, str2say, block=True, animated=True):
@@ -204,9 +187,12 @@ class DialogSystem:
 				#print(st)
 				
 			except sr.UnknownValueError:
-				self.say("Não consegui entender o que você disse. Repita por favor")
+				self.say("Não consegui entender o que você disse.")
+				self.say("Repita por favor")
+				
 			except sr.RequestError as e:
-				self.say("Estou com um problema de conexão com a internet. Vou tentar de novo. ; {0}".format(e))
+				self.say("Estou com um problema de conexão com a internet. Vou tentar de novo.")
+				core.er("{0}".format(e))
 		self.robot.leds.fadeRGB('eyes', 'white', 0.1)
 		
 		
@@ -241,12 +227,11 @@ class DialogSystem:
 
 
 	def levenshtein_long_two_strings(self, string_one, string_two, print_flag=False):
-		print "----------Using edit distance----------"
 		string_one =  re.sub(r'[^\w\s]','',string_one)
 		string_two =  re.sub(r'[^\w\s]','',string_two)
 		string_one = string_one.lower()
 		string_two = string_two.lower()
-
+		
 		ans = distance.nlevenshtein(string_one, string_two, method=2)
 		#print "Score: " + str(distance.levenshtein(string_one, element))
 	
@@ -254,8 +239,7 @@ class DialogSystem:
 			print "Normfor element in questions_list:alizado: " + str(compare) 
 			print "Sentence: " + element 
 			print "Index number: ", i , "\n"
-		
-		print ("Similarity: " + str(ans) + "\n")
+				
 		return ans
 
 	def levenshtein_short_two_strings(self, string_one, string_two, print_flag=False):
@@ -333,38 +317,41 @@ class DialogSystem:
 		
 		return sentence
 
-	def load(self):
-		ob = testss.Embeddings()
-		return ob
-	
-	def embeddings_test(self, sentence_one, sentence_two):
-		testss.embeddings_compare(sentence_one, sentence_two)
-	
-	def adaptation_funct(self, embedding, sentence_one, sentence_two):
-		sentence_one = sentence_one.decode("utf-8")
-		sentence_two = sentence_two.decode("utf-8")
-		try:
-			value = float('%.2f'%embedding.embeddings_compare(sentence_one, sentence_two))
-			print "value before", value
-			value =  adaption.normalize(value,4.33, 1.12)
-			print "value norm", value
-			return 1 - value
 
-		except Exception as e:
-			print e
-			return self.levenshtein_long_two_strings(sentence_one, sentence_two)
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+# class ex():
 
+# 	def __init__(self):
+# 		self.var1 = 1
 
-if __name__ == "__main__":
-	d = DialogSystem()
-	teste = d.load()
-	while 1:	
-		firstSetence = raw_input("Enter the first sentence\n")
-		secondSetence = raw_input("Enter the second sentence\n")
-		value = d.adaptation_funct(teste, firstSetence, secondSetence)
-		#print d.levenshtein_long_two_strings(firstSetence, secondSetence)
-	
-		print "final:", value
+# 	def load(self):	
+# 		self.var2= 2
+		
+		
+
+# def main():
+
+# 	e = ex()
+
+# 	e.load()
+
+# 	print e.var2
+
+		
+# if __name__=="__main__":
+# 	main()	
+		
+		
 		
 	'''	
 	def repeat():
