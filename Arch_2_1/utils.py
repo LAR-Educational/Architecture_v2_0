@@ -192,7 +192,15 @@ def cvmat_to_qimg(image):
 	return  QPixmap((QImage(image.data, width, height, bytesPerLine, QImage.Format_RGB888)).rgbSwapped())
 
 
+positive_list = ['sim','está','certo', 'ok', 'exato']
 
+def check_positive_afirmation(string, list = positive_list):
+
+	for i in list:
+		if i in string:
+			return True
+
+	return False	
 
 
 
@@ -290,8 +298,33 @@ def search_engine(query):
 
 	return ddg.query(query, kad='pt_BR').abstract.text
 
-	
-if __name__=='__main__':
 
-		if(search_engine('bla'))=='':#, type(search_engine('santos').encode('utf-8'))
-			print "YES"
+
+def hole():
+	
+	str2say = 'repita'
+	
+
+	
+
+
+	vector = str2say.split(' ')
+
+	last = vector[-1]
+	
+	first = ''
+	
+	for i in range(0,len(vector)-1):
+		first += vector[i] + " "
+
+	print first
+	print last
+
+
+if __name__=='__main__':
+	
+	hole()
+
+	
+		# if(search_engine('bla'))=='':#, type(search_engine('santos').encode('utf-8'))
+		# 	print "YES"
