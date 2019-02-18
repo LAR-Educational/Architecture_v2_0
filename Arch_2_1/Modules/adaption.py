@@ -163,30 +163,39 @@ class AdaptiveSystem:
 		
 
 		if behavior == 0:
-			core.info("Communication profile held!")
-			#self.robot.posture.goToPosture(self.robot_communication_profile_list[self.robot_communication_profile-1],1)
+			if (self.robot is not None):
+
+				core.info("Communication profile held!")
+				#self.robot.posture.goToPosture(self.robot_communication_profile_list[self.robot_communication_profile-1],1)
 			return 0
 
 		if behavior < 0:
 			core.info("Decreasing communication profile!")
-			if self.robot.volume < 1:
-				self.robot.volume+=0.1
+			if (self.robot is not None):
+					
+				if (self.robot.volume < 1):
+					self.robot.volume+=0.1
+				
+				if self.robot_communication_profile > 0 : 
+					self.robot_communication_profile-=1
 			
-			if self.robot_communication_profile > 0: 
-				self.robot_communication_profile-=1
-		
 		if behavior > 0:
 			core.info("Increasing communication profile!")
-			if self.robot.volume > 0.2:
-				self.robot.volume-=0.1
-			
-			if self.robot_communication_profile < 5: 
-				self.robot_communication_profile+=1
-	
+			if (self.robot is not None):
+
+				if self.robot.volume > 0.2 and (self.robot is not None):
+					self.robot.volume-=0.1
+				
+				if self.robot_communication_profile < 5: 
+					self.robot_communication_profile+=1
+		
 		#self.robot.posture.goToPosture(self.robot_communication_profile_list[self.robot_communication_profile-1],1)
 		core.info("Adapting to communication profile " + str(self.robot_communication_profile) +" in position " + str(self.robot_communication_profile_list[self.robot_communication_profile-1]))
-		self.robot.tts.setVolume(self.robot.volume)
-		core.info("Volume set to " + str(self.robot.volume))
+		
+		if  (self.robot is not None):
+			self.robot.tts.setVolume(self.robot.volume)
+		
+			core.info("Volume set to " + str(self.robot.volume))
 		
 		
 		if self.out_path is not None:

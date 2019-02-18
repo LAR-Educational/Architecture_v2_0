@@ -190,6 +190,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			dataframe_to_table(self.evaluation_db.index_table, self.eval_index_table)
 		
 		self.eval_open_button.clicked.connect( self.eval_open)
+		self.eval_cancel_button.clicked.connect(self.eval_cancel)
 		self.eval_delete_button.clicked.connect( self.delete_eval)
 		self.eval_topic_comboBox.currentIndexChanged.connect(self.eval_update_tab)
 		self.eval_questions_comboBox.currentIndexChanged.connect(self.eval_update_tab)
@@ -260,8 +261,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		#Shortcuts:
 		self.load_file()
-		#self.int_load_action()
-		#self.int_lock_action()
+		self.int_load_action()
+		self.int_lock_action()
 
 
 
@@ -700,7 +701,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#img = cv2.Mat(image.rows(),image.cols(),CV_8UC3,image.scanline())
 		
 		try:
-			print "try"
+			#print "try"
 			img = qImageToMat(image)
 			
 		except Exception as e:
@@ -750,7 +751,10 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.user_frame.setEnabled(True)
 		
 		# Get the user in the selected row of the users table
+
 		user2show = self.students_database.users[self.st_db_index_table.currentRow()]
+
+		self.cur_user = user2show
 
 		self.user_id_label.setText(str(user2show.id))
 		#self.user_bd_field.setDate()self.emotions
@@ -939,9 +943,11 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.eval_start.setTime(self.cur_eval.start_time)
 		self.eval_end.setTime(self.cur_eval.end_time)
 		self.eval_supervisor.setText(self.cur_eval.supervisor)
-		self.eval_user_name.setText(self.cur_eval.user_name)
+		self.eval_user_name.setText(str(self.cur_eval.user_name))
 		#self.eval_concept_textField.setText(self.cur_eval.concept)
 		self.eval_last_dif.setText(str(self.cur_eval.user_dif_profile))
+		
+		
 		if(len(self.cur_eval.topics)==0):
 			print "ERROR: Topics empty"
 		
@@ -951,22 +957,18 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		else:
 
 			#print self.cur_eval.tp_names
-			print self.cur_eval.topics
+			#print self.cur_eval.topics
 
 
 
 			self.eval_topic_comboBox.addItems(self.cur_eval.tp_names)
 
-			index_list = range(1,len(self.cur_eval.topics[0].questions))
-
+			index_list = range(1,len(self.cur_eval.topics[0].questions)+1)
 			index_list=["{}".format(x) for x in index_list]
-
 			self.eval_questions_comboBox.addItems(index_list)
 
-			index_list = range(1,len(self.cur_eval.topics[0].questions[0].attempts))
-
+			index_list = range( 1 ,len(self.cur_eval.topics[0].questions[0].attempts)+1)
 			index_list=["{}".format(x) for x in index_list]
-
 			self.eval_att_comboBox.addItems(index_list)
 
 			#Ideia: Fazer um listner para os 3 combobox para atulizar o Topics validation tab
@@ -1097,9 +1099,9 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 		#/home/tozadore/Projects/Arch_2/Arch_2_1/Activities/NOVA/Interactions
-		filename = QFileDialog.getOpenFileName(self, 'Open File' ,self.act.path+"/"+"Interactions")
+		#filename = QFileDialog.getOpenFileName(self, 'Open File' ,self.act.path+"/"+"Interactions")
 		
-		#filename = self.act.path+"/"+"Interactions/1.int"
+		filename = self.act.path+"/"+"Interactions/3q.int"
 
 		interact = self.interact_database.load_interact(filename)
 
@@ -1224,16 +1226,16 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 	def start_activity(self):
 		
-		if self.robot is None:
-			self.capture = cv2.VideoCapture(0)
+		# if self.robot is None:
+		# 	self.capture = cv2.VideoCapture(0)
 
-			if not self.capture.isOpened():
-				QMessageBox.critical(self, "ERROR!", " Unable to open camera!", QMessageBox.Ok)
+		# 	if not self.capture.isOpened():
+		# 		QMessageBox.critical(self, "ERROR!", " Unable to open camera!", QMessageBox.Ok)
 				
-				self.interatction_parser()
+		# 		self.interatction_parser()
 				
 				
-				return -1
+		# 		return -1
 			
 		self.cur_eval =  Evaluation(
 								id=self.sys_vars.evaluation_id,
@@ -1254,8 +1256,13 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		self.user_profile=3
 		
-		self.run_att_emo()
+		self.timer.start()
+		self.counter_timer.restart()
 
+		
+		# Emotion not running
+		#self.run_att_emo()
+		
 		# self.timer = QTimer(self)
 		# self.timer.timeout.connect(self.update_frame)
 		# self.timer.start(5)
@@ -1275,19 +1282,16 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		self.run_question_interator = -1
 
-		
-		
-		
-		
-		self.robot.motors.wakeUp()
 			
-
 		
+		#WAKEUP
+		#self.robot.motors.wakeUp()
+				
 		# Não conehce
-		self.interact_know_person()
+		#self.interact_know_person()
 		
 		#Já conhece
-		#self.interact_recognize_person()
+		self.interact_recognize_person()
 		
 		# Start interaction engine
 		self.interatction_parser()
@@ -1297,8 +1301,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 	def run_end_activity(self):
 		
-		if self.robot is not None:
-			self.vis_sys.unsub(0)
+		# if self.robot is not None:
+		# 	self.vis_sys.unsub(0)
 
 		self.timer.stop()
 
@@ -1306,7 +1310,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#self.cur_eval.
 		#self.cur_eval.
 		
-		self.cur_eval.end_time=QTime.currentTime()
+		self.cur_eval.end_time = QTime.currentTime()
 		self.cur_eval.user_name = (self.cur_user.first_name) + " "+ (self.cur_user.last_name)
 		self.cur_eval.user_dif_profile = self.user_profile
 
@@ -1324,11 +1328,40 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		robot_ip = str(self.run_robot_ip_comboBox.currentText())
 		robot_port = int(self.run_robot_port.text())
-		self.robot=core.Robot(robot_ip, robot_port)
+		
+		try:
+			self.robot=core.Robot(robot_ip, robot_port)
+		except:
+			ret = QMessageBox.critical(self, "Error!", "ROBOT NOT CONNECT!\n Continue with computer resources?", 
+									QMessageBox.Cancel | QMessageBox.Ok )
+			
+			if ret == QMessageBox.Ok:
+
+				if self.robot is None:
+					self.capture = cv2.VideoCapture(0)
+					core.info("CAMERA OPENED")
+
+					if not self.capture.isOpened():
+						QMessageBox.critical(self, "ERROR!", " Unable to open camera!", QMessageBox.Ok)
+						
+						#self.interatction_parser()
+						
+						core.er("CAMERA NOT CONNECTED")
+						return -1
+			else:
+				core.info("Aborting due to camera issues.")
+				self.log("Aborting due to camera issues.")	
+				return -1
+		
+			
+			
+			
+			#return	
 
 		self.vis_sys = vision.VisionSystem(self.robot)
 		self.diag_sys = dialog.DialogSystem(self.robot, None)
-		self.embeddings = self.diag_sys.load()		
+		#self.embeddings = self.diag_sys.load()		
+		self.embeddings = None#self.diag_sys.load()		
 		
 		#self.w = adaption.Weights(self.alfaWeight.value(),
 		#						self.betaWeight.value(),
@@ -1359,10 +1392,12 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		
 		core.info("Loading Models!")
-		self.run_load_models()
+		#self.run_load_models()
 		
-		self.diag_sys.say("Estou Pronto.", False)
+		#self.diag_sys.say("Estou Pronto.", False)
+		self.robot_say("Estou Pronto.", False)
 		core.info("Robot Connected")
+
 
 		self.timer = QTimer(self)
 		self.timer.timeout.connect(self.update_frame)
@@ -1376,6 +1411,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#time = time.toString('hh:mm:ss') 
 		self.cur_sess=SessionInfo(time,None)
 		self.counter_timer.start()
+		
 		if self.robot is not None:
 			self.vis_sys.subscribe(0)
 
@@ -1438,14 +1474,14 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#print pref 
 		x = random.randint(0,1)
 
-		if x >0:
-			self.robot_say("Vamos conversar um pouco.")
+		if x > 0:
+			self.robot_say("Deixe-me se lembro do que você gosta")
 		else:
-			self.robot_say("Deixa eu te conhecer melhor")
+			self.robot_say("Você me contou do que gostava. deixa eu lembrar.")
 
 		#não tem cadastrado ainda
 		if pref == "":
-			self.robot_say(personal_translate[talk_subject])
+			self.robot_say(personal_translate[talk_subject], ask=True)
 			pref = self.user_input().decode('utf-8')
 			self.cur_user.add_preference(talk_subject, pref)
 			self.students_database.insert_user(self.cur_user)
@@ -1458,8 +1494,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				#print "TRUE"
 				pref = str(pref.toUtf8())
 
-			pref = pref.decode('utf-8')#.strip()
-			pref = pref.encode('utf-8')
+			#pref = pref.decode('utf-8')#.strip()
+			#pref = pref.encode('utf-8')
 
 			self.robot_say("Você gosta de " + pref )
 			
@@ -1472,9 +1508,13 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		if pref == "não sei".decode('utf-8') or pref == "não tenho".decode('utf-8') or pref == "eu não tenho".decode('utf-8'):
 			self.robot_say("Não tem problema.")
 		
-		else:	
-			pref = pref.encode('utf-8')
-			
+		else:
+			try:	
+				pref = pref.encode('utf-8')
+			except:
+				pass 
+
+				
 			if pref in concept_list:	
 			#if pref in concept_list:	
 				self.robot_say("Eu sei o que é isso!")
@@ -1486,7 +1526,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				#print "STRING" ,tosay,  type(tosay)
 				#print	
 
-				self.robot_say((tosay))
+				self.robot_say(tosay)
 			
 			else:
 				self.robot_say("Só um momento. Eu não conheço nada sobre isso ainda. Vou pesquisar na internet!", False)
@@ -1499,14 +1539,36 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				else:
 					self.robot_say("Não consegui encontrar nada sobre isso. Vou procurar melhor e depois te falo")	
 
-			self.robot_say("Porque você gosta disso?")
-			self.user_input()
+			# self.robot_say("Porque você gosta disso?")
+			# self.user_input()
 
 
 	def interact_recognize_person(self):
-		self.students_database.generate_encodings()
+
+		#self.students_database.generate_encodings()
 		#self.recog_flag=True
-		self.cur_user = None
+		#self.cur_user = None
+
+
+		self.robot_say("Eu me lembro de você.")
+		
+		nome = self.cur_user.first_name.encode('utf-8')
+		
+		self.robot_say("Você se chama " + nome)
+		self.robot_say("É um prazer brincar com você de novo.")
+		
+		sport = self.cur_user.preferences['sport'].encode('utf-8')
+		self.robot_say("Eu lembro que seu esporte preferido é " + sport)
+		
+		music = self.cur_user.preferences['food'].encode('utf-8')
+		self.robot_say("E que você também gosta de comer " + music)
+		#self.robot_say("Não é mesmo?")
+
+
+
+
+
+		return True	
 
 		while self.cur_user is None:
 
@@ -1585,7 +1647,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.preview_profile = 3	
 
 		core.info("Initializing emotion thread")
-		self.run_emotion_flag = True
+		#self.run_emotion_flag = True
 
 		ind = self.sub_list[self.sub_list['subjects']==tta].index[0]
 		
@@ -1593,37 +1655,36 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 
 
-		#print str(text)
 		topic = Topic(text)
 		self.cur_eval.tp_names.append(str(tta))
-		att = Attempt(time2ans=0)
-		#print "Concept", topic.concept
-
-		self.robot_say("Agora vamos praticar gramática um pouco. Preste atenção na explicação.")
-
+		
+		
+		#Explicação!!!!
+		#self.robot_say("Agora vamos praticar gramática. Preste atenção na explicação.")
+		self.robot_say("Vamos estudar um pouco de gramática. Atenção para a explicação.")
 		self.robot_say(text)
 
 
 		# Load the table with questions and expected answers
 		file_name = str(self.content_path + tta +".csv")
 		
-		#if os.path.isfile(file_name):
-
+		
 		try:	
 			data=pd.read_csv(file_name)
-			#print "Data\n\n", data
 		except:
 			raise
-
-			
-		quest = Question()
 
 
 		# Start the loop for the question number of the interaction
 		for i in range(0,self.cur_interact.ques_per_topic):
 			
-			self.robot_say("Preste atenção para pergunta:")
+			
+			#reset question object
+			quest = None
+			quest = Question()
+			quest.attempts = []
 
+			self.robot_say("Preste atenção para pergunta:")
 
 			core.info("Question number: " + str(i))
 			core.war("PROFILE :" + str(self.user_profile))
@@ -1656,33 +1717,51 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			quest.question=chosen_question			
 			quest.exp_ans=expected_answer
 
-
-
-
+		
 			#Loop for attempt
 			for j in range(0, self.cur_interact.att_per_ques):
 
-				#print "Question:", chosen_question
-				self.robot_say(chosen_question)
-				print "Exp: ", expected_answer
+				att = None
+				att = Attempt()
 
-				t1 = time.time()
+				#print "Question:", chosen_question
+				print "Exp: ", expected_answer
 
 				self.run_exp_ans.setText(expected_answer)
 
-				# Wait for the user answer: Change to verbal answer soon
-				# while not self.user_ans_flag:
+				t1 = time.time()
+
+			
+				# Loop for repete question
+				repete_flag = True
+				while repete_flag:
+					self.robot_say(chosen_question,ask=False)
+					user_answer = self.user_input()
+
+					if ("repetir" in user_answer): 
+						repete_flag = True
+					else:
+						repete_flag = False
+
+				# Loop for understand right
+				repete_flag = True
+				while repete_flag: 
 					
-				# 	#self.label_132.setText(str(time.time("hh:mm:ss")))
-				# 	QCoreApplication.processEvents()
-				# 	#time.sleep(0.05)
+					self.robot_say("Eu entendi que sua resposta foi:")
+					self.robot_say(user_answer)
+					self.robot_say("Estou certo?", block=False)
+					
+					yes_not = self.user_input()
 
-				# self.user_ans_flag = False
+					if check_positive_afirmation(yes_not):
+						self.robot_say("Certo")
+						repete_flag = False
+					else:
+						self.robot_say("Vamos tentar de novo")
+						self.robot_say("Pode repetir", block= False)
+						user_answer = self.user_input()
 
 
-
-				# Get user answer from GUI
-				user_answer = self.user_input()
 
 				#clear textedit
 				self.run_user_answer.clear()
@@ -1698,7 +1777,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				self.run_correctness.setText(str(dist))
 
 				att.given_ans = user_answer
-				att.time2ans += time.time() - t1
+				#att.time2ans = time.time() - t1
+				att.time2ans = time.time() - t1
 
 				print "TIME TO ANS:", att.time2ans 
 
@@ -1706,37 +1786,42 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 				if dist < self.answer_threshold:
-					#self.log("ANSWER IS CORRET")
-
+					
 					att.system_consideration = 1
 					quest.insert_attempt(att)	
-					self.robot_say("Parabéns. Você acertou!")
-					#self.robot_speech.setText("Congratulations. You did!")
-					#time.sleep(3)
-					break
+					self.robot_say("Parabéns. A resposta que eu esperava e a que você deu me parecem iguais!")
+					#self.robot_say("Eu notei que existe uma difereçna entre a resposta que eu esperava e a que você deu.")
+#					#self.robot_say("Pois Eu esperava a resposta:")
+					#self.robot_say(expected_answer)
+					#self.robot_say("E eu entendi que você respondeu:")
+					#self.robot_say(user_answer)
+
 
 				else:
-					#self.log("ANSWER IS WRONG")
-
+					
 					att.system_consideration = 0
 					quest.insert_attempt(att)
-					self.robot_say("Que pena. Eu acho que você errou!")
+					self.robot_say("Eu notei que existe uma diferença entre a resposta que eu esperava e a que você deu.")
+					self.robot_say("Eu esperava a resposta:")
+					self.robot_say(expected_answer)
+					self.robot_say("E eu entendi que você respondeu:")
+					self.robot_say(user_answer)
 
-					#self.robot_speech.setText("Not Correct. Lets Try again!")
-					#time.sleep(3)
+					self.robot_say("Não se preocupe. Espero que você acerte próxima.")
 
 
-				# End of a question cycle
-				# Insert current question in topic 
-				topic.insert_question(quest)
+
+			# End of a question cycle
+			# Insert current question in topic 
+			topic.insert_question(quest)
 
 			# Setting Adaptive Parameters!
 
-			core.info("Finalizing emotion thread")
-			self.run_emotion_flag = False
+			#core.info("Finalizing emotion thread")
+			#self.run_emotion_flag = False
 
-			self.read_values.set(self.n_deviations,
-								self.adapt_sys.getBadEmotions(),
+			self.read_values.set(0, #self.n_deviations,
+								0, #self.adapt_sys.getBadEmotions(),
 								3 - self.diag_sys.coutingWords(user_answer),
 								att.time2ans,
 								dist)
@@ -1766,14 +1851,16 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 	def run_final_dialog(self):
 
 		self.robot_say("Por hoje é isso")
-		self.robot.behavior.runBehavior('animations/Stand/Gestures/Hey_1')
+		if (self.robot is not None):
+			self.robot.behavior.runBehavior('animations/Stand/Gestures/Hey_1')
 		self.robot_say("Foi um prazer brincar com você, " + self.cur_user.first_name, block=False)
 		self.robot_say("Até mais")
 
 		#self.robot.behavior.runBehavior("hi/hi")
 		
 		#print "PAssou"
-		self.robot.motors.rest()
+		if (self.robot is not None):
+			self.robot.motors.rest()
 
 		# try:
 		# except OSError as err:
@@ -2127,15 +2214,16 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 
-	def robot_say(self, text, block=True):
+	def robot_say(self, text, ask =False, block=True):
 
 		self.robot_speech.setText(str(  text ))
+		core.nao_say(text)
 
 		if self.robot is not None:
 		
 			self.user_ans_flag = True
 
-			t1 = threading.Thread(name='robot_say_action', target=self.robot_say_action, args=(text, block))
+			t1 = threading.Thread(name='robot_say_action', target=self.robot_say_action, args=(text, ask, block))
 			t1.start()
 
 			while self.user_ans_flag:
@@ -2148,10 +2236,10 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 
-	def robot_say_action(self, text, block ):
+	def robot_say_action(self, text, ask, block ):
 
 		#self.robot_say_block()
-		self.diag_sys.say(text, block=block)
+		self.diag_sys.say(str2say=text,ask=ask, block=block)
 		self.user_ans_flag = False
 
 

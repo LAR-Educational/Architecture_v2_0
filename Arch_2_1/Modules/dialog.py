@@ -1,7 +1,7 @@
 # coding=UTF-8
 
 
-#import vars as core 
+import vars as core 
 import random
 import distance
 import numpy as np
@@ -26,8 +26,7 @@ import adaption
 from pprint import pprint
 
 
-# pretty print it for now
-# pprint(path)
+#pprint(path)
 
 import testss
 
@@ -50,23 +49,79 @@ class DialogSystem:
 		#self.questions = open_file(os.path.join(path,'questions.txt'))
 		#self.answers = open_file(os.path.join(path,'answers.txt'))
 		self.default_language = language
-		#self.setLang(self.default_language)
+		
+		if robot is not None:
+			self.setLang(self.default_language)
 		# set the local configuration
-		#self.configuration = {"bodyLanguageMode":"contextual"}
-		#self.input_option = core.input_option 
-	def __init__(self):
-		pass
+		self.configuration = {"bodyLanguageMode":"contextual"}
+		self.input_option = core.input_option 
+	
+	# def __init__(self):
+	# 	pass
 
 	#funtion say
-	def say(self, str2say, block=True, animated=True):
+	def say(self, str2say, ask=False, block=True, animated=True):
 		""" Function to make the robot say (if connected) 
 			str2say = string to say
 			block = if the call will block next steps
 		"""
+		#core.nao_say(str2say)
 		
-		core.nao_say(str2say)
-		
-		
+		if ask:
+			#print str2say
+
+			
+			vector = str2say.split(' ')
+
+			last = vector[-1]
+			
+			first = ''
+			
+			for i in range(0,len(vector)-1):
+				first += vector[i] + " "
+
+
+			if first ==' ':
+				
+				if animated:
+					self.robot.animatedSpeechProxy.post.say(last, self.configuration)
+				
+				else:
+					self.robot.tts.post.say(last)
+
+			else:
+
+				if animated:
+					self.robot.animatedSpeechProxy.say(first, self.configuration)
+					self.robot.animatedSpeechProxy.post.say(last, self.configuration)
+				
+				else:
+					self.robot.tts.say(first)
+					self.robot.tts.post.say(last)
+
+		else:
+			if animated:
+				if block:
+					self.robot.animatedSpeechProxy.say(str2say, self.configuration)
+				else:
+					self.robot.animatedSpeechProxy.post.say(str2say, self.configuration)
+			
+			else:
+			
+				if block:
+					self.robot.tts.say(str2say)
+				else:
+					self.robot.tts.post.say(str2say)
+
+
+	#funtion say
+	def raw_say(self, str2say, block=True, animated=True):
+		""" Function to make the robot say (if connected) 
+			str2say = string to say
+			block = if the call will block next steps
+		"""
+	
+
 		if animated:
 			if block:
 				self.robot.animatedSpeechProxy.say(str2say, self.configuration)
@@ -180,9 +235,9 @@ class DialogSystem:
 		st=""
 
 		#while(not st):
-		self.robot.leds.post.fadeRGB('eyes', 'green', 2.5)
 
 		while st =="":
+			self.robot.leds.post.fadeRGB('eyes', 'green', 2.5)
 			with sr.Microphone() as source:
 				r.adjust_for_ambient_noise(source)
 				#self.say("Estou escutando.", block=True)
@@ -201,12 +256,20 @@ class DialogSystem:
 				self.say("Ok! ")
 				
 				print '\nRead sentence:', st
-				#print(st)
+				
+				if (st=="sair"):
+					exit(1)
 				
 			except sr.UnknownValueError:
-				self.say("Não consegui entender o que você disse. Repita por favor")
+				self.say("Não consegui entender.")
+				self.say("Pode repetir?", block=False)
+				self.robot.leds.fadeRGB('eyes', 'white', 0.1)
+		
 			except sr.RequestError as e:
-				self.say("Estou com um problema de conexão com a internet. Vou tentar de novo. ; {0}".format(e))
+				self.say("Estou com um problema de conexão com a internet. Aguarde que vou tentar de novo.")
+				self.robot.leds.fadeRGB('eyes', 'white', 0.1)
+				core.er(e)
+
 		self.robot.leds.fadeRGB('eyes', 'white', 0.1)
 		
 		
@@ -355,7 +418,22 @@ class DialogSystem:
 			return self.levenshtein_long_two_strings(sentence_one, sentence_two)
 
 
+
+
 if __name__ == "__main__":
+	
+	
+	
+	L1 = ["sim", "está"]
+	L2 = "si está correto"
+ 	
+	ans = [i for i in L1 if i in L2]
+
+	#print check_strings(L2,L1)
+	
+	
+	
+	'''	
 	d = DialogSystem()
 	teste = d.load()
 	while 1:	
@@ -366,7 +444,6 @@ if __name__ == "__main__":
 	
 		print "final:", value
 		
-	'''	
 	def repeat():
 		rd=random.randint(0,2)
 		
