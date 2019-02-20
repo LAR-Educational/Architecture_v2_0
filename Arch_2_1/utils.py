@@ -192,7 +192,7 @@ def cvmat_to_qimg(image):
 	return  QPixmap((QImage(image.data, width, height, bytesPerLine, QImage.Format_RGB888)).rgbSwapped())
 
 
-positive_list = ['sim','está','certo', 'ok', 'exato']
+positive_list = ['sim','certo','certa', 'ok', 'exato', 'correto', 'correta', 'acertou']
 
 def check_positive_afirmation(string, list = positive_list):
 

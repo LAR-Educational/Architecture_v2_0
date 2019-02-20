@@ -261,8 +261,11 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		#Shortcuts:
 		self.load_file()
-		self.int_load_action()
-		self.int_lock_action()
+		self.shortcut = True
+		
+		if self.shortcut:
+			self.int_load_action()
+			self.int_lock_action()
 
 
 
@@ -1096,12 +1099,12 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 			return 0
 
-
-
-		#/home/tozadore/Projects/Arch_2/Arch_2_1/Activities/NOVA/Interactions
-		#filename = QFileDialog.getOpenFileName(self, 'Open File' ,self.act.path+"/"+"Interactions")
+		if self.shortcut:
+			filename = self.act.path+"/"+"Interactions/Complete_2.int"
+		else:
+			#/home/tozadore/Projects/Arch_2/Arch_2_1/Activities/NOVA/Interactions
+			filename = QFileDialog.getOpenFileName(self, 'Open File' ,self.act.path+"/"+"Interactions")
 		
-		filename = self.act.path+"/"+"Interactions/3q.int"
 
 		interact = self.interact_database.load_interact(filename)
 
@@ -1285,7 +1288,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			
 		
 		#WAKEUP
-		#self.robot.motors.wakeUp()
+		self.robot.motors.wakeUp()
 				
 		# Não conehce
 		#self.interact_know_person()
@@ -1360,8 +1363,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		self.vis_sys = vision.VisionSystem(self.robot)
 		self.diag_sys = dialog.DialogSystem(self.robot, None)
-		#self.embeddings = self.diag_sys.load()		
-		self.embeddings = None#self.diag_sys.load()		
+		self.embeddings = self.diag_sys.load()		
+		#self.embeddings = None#self.diag_sys.load()		
 		
 		#self.w = adaption.Weights(self.alfaWeight.value(),
 		#						self.betaWeight.value(),
@@ -1475,13 +1478,13 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		x = random.randint(0,1)
 
 		if x > 0:
-			self.robot_say("Deixe-me se lembro do que você gosta")
+			self.robot_say("Deixe-me ver se lembro do que você gosta")
 		else:
 			self.robot_say("Você me contou do que gostava. deixa eu lembrar.")
 
 		#não tem cadastrado ainda
 		if pref == "":
-			self.robot_say(personal_translate[talk_subject], ask=True)
+			self.robot_say(personal_translate[talk_subject])
 			pref = self.user_input().decode('utf-8')
 			self.cur_user.add_preference(talk_subject, pref)
 			self.students_database.insert_user(self.cur_user)
@@ -1552,16 +1555,54 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		self.robot_say("Eu me lembro de você.")
 		
-		nome = self.cur_user.first_name.encode('utf-8')
-		
-		self.robot_say("Você se chama " + nome)
+		try:
+			nome = str(self.cur_user.first_name)
+			self.robot_say("Você se chama " + nome)
+		except:
+			nome = self.cur_user.first_name.encode('utf-8')
+			self.robot_say("Você se chama " + nome)
+
 		self.robot_say("É um prazer brincar com você de novo.")
+
 		
-		sport = self.cur_user.preferences['sport'].encode('utf-8')
-		self.robot_say("Eu lembro que seu esporte preferido é " + sport)
+		sport = self.cur_user.preferences['sport']
 		
-		music = self.cur_user.preferences['food'].encode('utf-8')
-		self.robot_say("E que você também gosta de comer " + music)
+		# if type(sport) == QtCore.QString:
+		# 	sport = sport.toUtf8()
+		
+		#else:
+
+		#sport = self.cur_user.preferences['sport'].toUtf8()
+		#sport = str(self.cur_user.preferences['sport'])
+	
+		
+		try:
+			self.robot_say("Eu lembro que seu esporte preferido é " + sport)
+		except:	
+			try:
+				self.robot_say("Eu lembro que seu esporte preferido é " + sport.encode('utf-8'))
+			except:
+				pass
+
+
+		music = (self.cur_user.preferences['food'])#.toUtf8()
+		
+		# if type(music) == QtCore.QString:
+		# 	music = music.toUtf8()
+		
+		try:
+			self.robot_say("E que você também gosta de comer " + music)
+		except:
+			try:
+				self.robot_say("E que você também gosta de comer " + music.encode('utf-8'))
+			except:
+				pass
+
+		#sport = self.cur_user.preferences['sport'].encode('utf-8')
+		#self.robot_say("Eu lembro que seu esporte preferido é " + sport)
+		
+		#music = self.cur_user.preferences['food'].encode('utf-8')
+		#self.robot_say("E que você também gosta de comer " + music)
 		#self.robot_say("Não é mesmo?")
 
 
@@ -1656,6 +1697,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 		topic = Topic(text)
+		topic.questions =[]
 		self.cur_eval.tp_names.append(str(tta))
 		
 		
@@ -1684,7 +1726,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			quest = Question()
 			quest.attempts = []
 
-			self.robot_say("Preste atenção para pergunta:")
+			self.robot_say("Preste atenção para pergunta.")
+			self.robot_say("Se você não entender, pode pedir pra eu repetir")
 
 			core.info("Question number: " + str(i))
 			core.war("PROFILE :" + str(self.user_profile))
@@ -1699,6 +1742,12 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				pass
 
 			# Select the possibilities according to the user profile detected
+
+			if self.user_profile > 5:
+				self.user_profile = 5
+			elif self.user_profile < 1:
+				self.user_profile = 1
+
 			dfp= data.loc[data['Difficulty'] == self.user_profile]
 			possibilities = len(data.loc[data['Difficulty'] == self.user_profile])#['Question']
 
@@ -1707,6 +1756,10 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 			#print"Index after", dfp.index
 			#Randomly choose a question in possibilities range
+
+			#if possibilities >=5
+
+
 			rand = random.randint(0, possibilities-1)
 
 			# attribute variables
@@ -1738,8 +1791,14 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 					self.robot_say(chosen_question,ask=False)
 					user_answer = self.user_input()
 
-					if ("repetir" in user_answer): 
+					if ("repetir" in user_answer):
 						repete_flag = True
+
+					elif ("repete" in user_answer):
+						repete_flag = True
+					elif ("repita" in user_answer):
+						repete_flag = True
+
 					else:
 						repete_flag = False
 
@@ -1749,16 +1808,16 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 					
 					self.robot_say("Eu entendi que sua resposta foi:")
 					self.robot_say(user_answer)
-					self.robot_say("Estou certo?", block=False)
+					self.robot_say("Estou certo?")
 					
 					yes_not = self.user_input()
 
 					if check_positive_afirmation(yes_not):
-						self.robot_say("Certo")
+						#self.robot_say("Certo")
 						repete_flag = False
 					else:
 						self.robot_say("Vamos tentar de novo")
-						self.robot_say("Pode repetir", block= False)
+						self.robot_say("Pode repetir")
 						user_answer = self.user_input()
 
 
@@ -1807,7 +1866,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 					self.robot_say("E eu entendi que você respondeu:")
 					self.robot_say(user_answer)
 
-					self.robot_say("Não se preocupe. Espero que você acerte próxima.")
+					self.robot_say("Não se preocupe. Eu também estou aprendendo.")
 
 
 
