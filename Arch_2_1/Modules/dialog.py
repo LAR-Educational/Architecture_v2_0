@@ -261,14 +261,14 @@ class DialogSystem:
 					exit(1)
 				
 			except sr.UnknownValueError:
-				self.say("Não consegui entender.")
-				self.say("Pode repetir?", block=False)
+				self.say("Não consegui entender. Pode repetir?")
+				#self.say("Pode repetir?", block=False)
 				self.robot.leds.fadeRGB('eyes', 'white', 0.1)
 		
 			except sr.RequestError as e:
 				self.say("Estou com um problema de conexão com a internet. Aguarde que vou tentar de novo.")
 				self.robot.leds.fadeRGB('eyes', 'white', 0.1)
-				core.er(e)
+				core.er(str(e))
 
 		self.robot.leds.fadeRGB('eyes', 'white', 0.1)
 		
