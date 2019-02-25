@@ -268,7 +268,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			self.int_lock_action()
 
 
-
+		self.correct_evals()
 
 
 	def load_file(self):
@@ -2364,6 +2364,14 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			QCoreApplication.processEvents()
 
 
+
+	def correct_evals(self):
+		
+		for item in self.evaluation_db.evaluations_list:
+			
+			if len(item.topics) >2:
+				pprint(vars(item))
+				print 
 
 
 
