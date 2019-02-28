@@ -268,7 +268,7 @@ class DialogSystem:
 			except sr.RequestError as e:
 				self.say("Estou com um problema de conexão com a internet. Aguarde que vou tentar de novo.")
 				self.robot.leds.fadeRGB('eyes', 'white', 0.1)
-				core.er(str(e))
+				#core.er(str(e))
 
 		self.robot.leds.fadeRGB('eyes', 'white', 0.1)
 		

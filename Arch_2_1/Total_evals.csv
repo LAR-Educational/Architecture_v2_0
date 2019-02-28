@@ -1,0 +1,193 @@
+Name,Duration,Topic,Question_number,Dificult,question,exp_ans,under_ans,sys_was,Time_to_answer
+Ana Shake,552.0,Digrafo,3.0,0.0,Na palavra. ELOQUÊNCIA. tem dígrafo ou hiato?,Hiato,tem um dígrafo,0.0,91.07706594467163
+Ana Shake,552.0,Digrafo,2.0,0.0,Na palavra. LINGUIÇA. tem dígrafo ou ditongo?,Ditongo,tem um ditongo,0.0,36.73698306083679
+Ana Shake,552.0,Digrafo,1.0,0.0,Na palavra. LINGUIÇA. tem dígrafo ou ditongo?,Ditongo,tem um dígrafo,0.0,42.815918922424316
+Ana Shake,552.0,Encontro Vocalico,3.0,0.0,Na palavra: QUAISQUER. Há um tritongo? Sim ou não?,Sim,sim tem um tritongo,0.0,33.54078388214111
+Ana Shake,552.0,Encontro Vocalico,2.0,0.0,A palavra: SAÍDA. Tem um ditongo? ou um hiato?,Hiato.,tem um hiato,0.0,32.36369585990906
+Ana Shake,552.0,Encontro Vocalico,1.0,0.0,Na palavra. QUAISQUER. Há um ditongo? Sim ou não?,Não,sim,0.0,109.91954493522644
+Laís Batman,646.0,Digrafo,3.0,0.0,Na palavra. CACHORRO. tem quantos dígrafos?,2,da palavra cachorro só tem um dígrafo,0.0,87.56014800071716
+Laís Batman,646.0,Digrafo,2.0,0.0,"Na palavra. QUEIXO. tem dígrafo, encontro consonantal ou ditongo?",Dígrafo,na palavra queijo tem um,0.0,113.41549706459045
+Laís Batman,646.0,Digrafo,1.0,0.0,Na palavra. CACHORRO. tem quantos dígrafos?,2,2,1.0,34.82666897773743
+Laís Batman,646.0,Encontro Vocalico,3.0,0.0,A palavra: SAÍDA. Tem um ditongo? ou um hiato?,Hiato.,a palavra saída tem um hiato,1.0,28.680236101150513
+Laís Batman,646.0,Encontro Vocalico,2.0,0.0,Porque na palavra. SAÍDA. há um hiato?,Porque as vogais ficam em sílabas separadas,porque o alho e eles estão separados,0.0,65.35042595863342
+Laís Batman,646.0,Encontro Vocalico,1.0,0.0,Porque na palavra. SAÍDA. há um hiato?,Porque as vogais ficam em sílabas separadas,porque na palavra saída como separa a sílaba ou as sílabas é ruim ficar sozinho no meio da sílaba e o raio ficam separados,1.0,69.88825297355652
+Yaris Hernandes,492.0,Digrafo,3.0,0.0,Na palavra. CACHORRO. tem quantos dígrafos?,2,2,1.0,31.640238046646118
+Yaris Hernandes,492.0,Digrafo,2.0,0.0,Na palavra. PSIQUIATRA. tem encontro consonantal ou ditongo?,Encontro consonantal,ditongo,0.0,63.56393003463745
+Yaris Hernandes,492.0,Digrafo,1.0,0.0,"Na palavra. QUEIXO. tem dígrafo, encontro consonantal ou ditongo?",Dígrafo,ditongo,0.0,38.708436012268066
+Yaris Hernandes,492.0,Encontro Vocalico,3.0,0.0,Na palavra: QUAISQUER. Há um tritongo? Sim ou não?,Sim,sim,1.0,35.67577600479126
+Yaris Hernandes,492.0,Encontro Vocalico,2.0,0.0,Ditongo são duas vogais na mesma sílaba? ou em sílabas separadas?,Na mesma sílaba.,são palavras são vogais que estão na mesma sílaba,1.0,46.0947630405426
+Yaris Hernandes,492.0,Encontro Vocalico,1.0,0.0,Porque na palavra. SAÍDA. há um hiato?,Porque as vogais ficam em sílabas separadas,eu não lembro,1.0,50.556007862091064
+Catarina quiz de Almeida Poli,763.0,Digrafo,3.0,0.0,Na palavra. CACHORRO. tem quantos dígrafos?,2,2,1.0,31.640238046646118
+Catarina quiz de Almeida Poli,763.0,Digrafo,2.0,0.0,Na palavra. PSIQUIATRA. tem encontro consonantal ou ditongo?,Encontro consonantal,ditongo,0.0,63.56393003463745
+Catarina quiz de Almeida Poli,763.0,Digrafo,1.0,0.0,"Na palavra. QUEIXO. tem dígrafo, encontro consonantal ou ditongo?",Dígrafo,ditongo,0.0,38.708436012268066
+Catarina quiz de Almeida Poli,763.0,Encontro Vocalico,3.0,0.0,Na palavra: QUAISQUER. Há um tritongo? Sim ou não?,Sim,sim,1.0,35.67577600479126
+Catarina quiz de Almeida Poli,763.0,Encontro Vocalico,2.0,0.0,Ditongo são duas vogais na mesma sílaba? ou em sílabas separadas?,Na mesma sílaba.,são palavras são vogais que estão na mesma sílaba,1.0,46.0947630405426
+Catarina quiz de Almeida Poli,763.0,Encontro Vocalico,1.0,0.0,Porque na palavra. SAÍDA. há um hiato?,Porque as vogais ficam em sílabas separadas,eu não lembro,0.0,50.556007862091064
+Ana Beatriz Mendonça Keller,479.0,Digrafo,3.0,0.0,Na palavra. CACHORRO. tem quantos dígrafos?,2,2,1.0,31.640238046646118
+Ana Beatriz Mendonça Keller,479.0,Digrafo,2.0,0.0,Na palavra. PSIQUIATRA. tem encontro consonantal ou ditongo?,Encontro consonantal,ditongo,0.0,63.56393003463745
+Ana Beatriz Mendonça Keller,479.0,Digrafo,1.0,0.0,"Na palavra. QUEIXO. tem dígrafo, encontro consonantal ou ditongo?",Dígrafo,ditongo,0.0,38.708436012268066
+Ana Beatriz Mendonça Keller,479.0,Encontro Vocalico,3.0,0.0,Na palavra: QUAISQUER. Há um tritongo? Sim ou não?,Sim,sim,1.0,35.67577600479126
+Ana Beatriz Mendonça Keller,479.0,Encontro Vocalico,2.0,0.0,Ditongo são duas vogais na mesma sílaba? ou em sílabas separadas?,Na mesma sílaba.,são palavras são vogais que estão na mesma sílaba,1.0,46.0947630405426
+Ana Beatriz Mendonça Keller,479.0,Encontro Vocalico,1.0,0.0,Porque na palavra. SAÍDA. há um hiato?,Porque as vogais ficam em sílabas separadas,eu não lembro,0.0,50.556007862091064
+Sofia top,534.0,Digrafo,3.0,0.0,Na palavra. PASSEIO. tem dígrafo ou encontro consonantal?,Dígrafo,tem dígrafo,1.0,58.32554912567139
+Sofia top,534.0,Digrafo,2.0,0.0,Na palavra. PSICÓLOGO. tem quantos encontros consonantais?,Um,tenham,0.0,79.58385491371155
+Sofia top,534.0,Digrafo,1.0,0.0,Na palavra. PEDRA. tem dígrafo ou encontro consonantal,Encontro consonantal,tem encontro consonantal,1.0,35.59118914604187
+Sofia top,534.0,Encontro Vocalico,3.0,0.0,Na palavra: QUAISQUER. Há um tritongo? Sim ou não?,Sim,não,0.0,33.766189098358154
+Sofia top,534.0,Encontro Vocalico,2.0,0.0,Ditongo são duas vogais na mesma sílaba? ou em sílabas separadas?,Na mesma sílaba.,são vogais na mesma sílaba,1.0,34.18629288673401
+Sofia top,534.0,Encontro Vocalico,1.0,0.0,Na palavra. QUAISQUER. Há um ditongo? Sim ou não?,Não,sim tem um ditongo,0.0,76.47227692604065
+Manuela Reis Moura,603.0,Digrafo,3.0,0.0,Na palavra. ELOQUÊNCIA. tem dígrafo ou hiato?,Hiato,dígrafo,0.0,42.05536103248596
+Manuela Reis Moura,603.0,Digrafo,2.0,0.0,"Na palavra. QUEIXO. tem dígrafo, encontro consonantal ou ditongo?",Dígrafo,dígrafo,1.0,104.71509313583374
+Manuela Reis Moura,603.0,Digrafo,1.0,0.0,Na palavra. CACHORRO. tem quantos dígrafos?,2,2,1.0,42.480287075042725
+Manuela Reis Moura,603.0,Encontro Vocalico,3.0,0.0,A palavra: SAÍDA. Tem um ditongo? ou um hiato?,Hiato.,um hiato,1.0,30.185154914855957
+Manuela Reis Moura,603.0,Encontro Vocalico,2.0,0.0,Ditongo são duas vogais na mesma sílaba? ou em sílabas separadas?,Na mesma sílaba.,em sílabas separadas,0.0,77.21202802658081
+Manuela Reis Moura,603.0,Encontro Vocalico,1.0,0.0,Porque na palavra. SAÍDA. há um hiato?,Porque as vogais ficam em sílabas separadas,não sei,0.0,90.21738696098328
+Vitória Bortolini,727.0,Digrafo,3.0,0.0,Na palavra. PASSEIO. tem dígrafo ou encontro consonantal?,Dígrafo,dígrafo,1.0,59.384154081344604
+Vitória Bortolini,727.0,Digrafo,2.0,0.0,Na palavra. GUERRA. tem quantos dígrafos?,2,um dígrafo,0.0,131.55967593193054
+Vitória Bortolini,727.0,Digrafo,1.0,0.0,Na palavra. PEDRA. tem dígrafo ou encontro consonantal,Encontro consonantal,palavras com encontro consonantal,1.0,183.11403799057007
+Vitória Bortolini,727.0,Encontro Vocalico,3.0,0.0,Na palavra. QUAISQUER. Há um ditongo? Sim ou não?,Não,acho que não,0.0,45.6787211894989
+Vitória Bortolini,727.0,Encontro Vocalico,2.0,0.0,Ditongo são duas vogais na mesma sílaba? ou em sílabas separadas?,Na mesma sílaba.,são duas vogais na mesma sílaba,1.0,38.25899696350098
+Vitória Bortolini,727.0,Encontro Vocalico,1.0,0.0,Na palavra. QUAISQUER. Há um ditongo? Sim ou não?,Não,sim você está certo,0.0,124.89771008491516
+Samuel Rocha,528.0,Digrafo,3.0,0.0,Na palavra. PASSEIO. tem dígrafo ou encontro consonantal?,Dígrafo,dígrafo,1.0,59.384154081344604
+Samuel Rocha,528.0,Digrafo,2.0,0.0,Na palavra. GUERRA. tem quantos dígrafos?,2,um dígrafo,0.0,131.55967593193054
+Samuel Rocha,528.0,Digrafo,1.0,0.0,Na palavra. PEDRA. tem dígrafo ou encontro consonantal,Encontro consonantal,palavras com encontro consonantal,1.0,183.11403799057007
+Samuel Rocha,528.0,Encontro Vocalico,3.0,0.0,Na palavra. QUAISQUER. Há um ditongo? Sim ou não?,Não,acho que não,0.0,45.6787211894989
+Samuel Rocha,528.0,Encontro Vocalico,2.0,0.0,Ditongo são duas vogais na mesma sílaba? ou em sílabas separadas?,Na mesma sílaba.,são duas vogais na mesma sílaba,1.0,38.25899696350098
+Samuel Rocha,528.0,Encontro Vocalico,1.0,0.0,Na palavra. QUAISQUER. Há um ditongo? Sim ou não?,Não,sim você está certo,0.0,124.89771008491516
+João Gabriel,472.0,Digrafo,3.0,0.0,Na palavra. PASSEIO. tem dígrafo ou encontro consonantal?,Dígrafo,dígrafo,1.0,59.384154081344604
+João Gabriel,472.0,Digrafo,2.0,0.0,Na palavra. GUERRA. tem quantos dígrafos?,2,um dígrafo,0.0,131.55967593193054
+João Gabriel,472.0,Digrafo,1.0,0.0,Na palavra. PEDRA. tem dígrafo ou encontro consonantal,Encontro consonantal,palavras com encontro consonantal,1.0,183.11403799057007
+João Gabriel,472.0,Encontro Vocalico,3.0,0.0,Na palavra. QUAISQUER. Há um ditongo? Sim ou não?,Não,acho que não,0.0,45.6787211894989
+João Gabriel,472.0,Encontro Vocalico,2.0,0.0,Ditongo são duas vogais na mesma sílaba? ou em sílabas separadas?,Na mesma sílaba.,são duas vogais na mesma sílaba,1.0,38.25899696350098
+João Gabriel,472.0,Encontro Vocalico,1.0,0.0,Na palavra. QUAISQUER. Há um ditongo? Sim ou não?,Não,sim você está certo,0.0,124.89771008491516
+Manuela lavezzo Valverde,803.0,Digrafo,3.0,0.0,Na palavra. PASSEIO. tem dígrafo ou encontro consonantal?,Dígrafo,dígrafo,1.0,59.384154081344604
+Manuela lavezzo Valverde,803.0,Digrafo,2.0,0.0,Na palavra. GUERRA. tem quantos dígrafos?,2,um dígrafo,0.0,131.55967593193054
+Manuela lavezzo Valverde,803.0,Digrafo,1.0,0.0,Na palavra. PEDRA. tem dígrafo ou encontro consonantal,Encontro consonantal,palavras com encontro consonantal,1.0,183.11403799057007
+Manuela lavezzo Valverde,803.0,Encontro Vocalico,3.0,0.0,Na palavra. QUAISQUER. Há um ditongo? Sim ou não?,Não,acho que não,0.0,45.6787211894989
+Manuela lavezzo Valverde,803.0,Encontro Vocalico,2.0,0.0,Ditongo são duas vogais na mesma sílaba? ou em sílabas separadas?,Na mesma sílaba.,são duas vogais na mesma sílaba,1.0,38.25899696350098
+Manuela lavezzo Valverde,803.0,Encontro Vocalico,1.0,0.0,Na palavra. QUAISQUER. Há um ditongo? Sim ou não?,Não,sim você está certo,0.0,124.89771008491516
+Helena Helena Dalla Costa,592.0,Digrafo,3.0,0.0,Na palavra. CARROÇA. tem dígrafo ou encontro consonantal?,Dígrafo,dígrafo,1.0,49.56622290611267
+Helena Helena Dalla Costa,592.0,Digrafo,2.0,0.0,Na palavra. CACHORRO. tem quantos dígrafos?,2,3 dígrafos,0.0,73.95085716247559
+Helena Helena Dalla Costa,592.0,Digrafo,1.0,0.0,"Na palavra. QUEIXO. tem dígrafo, encontro consonantal ou ditongo?",Dígrafo,encontro consonantal,0.0,61.45045614242554
+Helena Helena Dalla Costa,592.0,Encontro Vocalico,3.0,0.0,Na palavra: QUAISQUER. Há um tritongo? Sim ou não?,Sim,Acho que sim,1.0,98.4324848651886
+Helena Helena Dalla Costa,592.0,Encontro Vocalico,2.0,0.0,A palavra: SAÍDA. Tem um ditongo? ou um hiato?,Hiato.,hiato,1.0,48.47100305557251
+Helena Helena Dalla Costa,592.0,Encontro Vocalico,1.0,0.0,Na palavra: QUAISQUER. Há um tritongo? Sim ou não?,Sim,acho que não,0.0,42.843871116638184
+o meu nome é Lili guaraná,585.0,Digrafo,3.0,0.0,Na palavra. GUERRA. tem quantos dígrafos?,Dois,2,0.0,31.73626399040222
+o meu nome é Lili guaraná,585.0,Digrafo,2.0,0.0,Na palavra. PEDRA. tem dígrafo ou encontro consonantal,Encontro consonantal,tem um encontro consonantal,1.0,73.4251480102539
+o meu nome é Lili guaraná,585.0,Digrafo,1.0,0.0,Na palavra. GUERRA. tem quantos dígrafos?,Dois,2,0.0,39.860026836395264
+o meu nome é Lili guaraná,585.0,Encontro Vocalico,3.0,0.0,Porque na palavra. SAÍDA. há um hiato?,Porque as vogais ficam em sílabas separadas,porque na sílaba de saída é a saída aí eu estou separado,0.0,157.63168692588806
+o meu nome é Lili guaraná,585.0,Encontro Vocalico,2.0,0.0,Entre as palavras: PRAIA. e. SAGUÃO. em qual delas há um tritongo?,Saguão,Taboão,0.0,121.62909603118896
+o meu nome é Lili guaraná,585.0,Encontro Vocalico,1.0,0.0,Na palavra: QUAISQUER. Há um tritongo? Sim ou não?,Sim,sim,1.0,50.60114312171936
+Arthur Bento,666.0,Digrafo,3.0,0.0,Na palavra. GUERRA. tem quantos dígrafos?,Dois,2,0.0,31.73626399040222
+Arthur Bento,666.0,Digrafo,2.0,0.0,Na palavra. PEDRA. tem dígrafo ou encontro consonantal,Encontro consonantal,tem um encontro consonantal,1.0,73.4251480102539
+Arthur Bento,666.0,Digrafo,1.0,0.0,Na palavra. GUERRA. tem quantos dígrafos?,Dois,2,0.0,39.860026836395264
+Arthur Bento,666.0,Encontro Vocalico,3.0,0.0,Porque na palavra. SAÍDA. há um hiato?,Porque as vogais ficam em sílabas separadas,porque na sílaba de saída é a saída aí eu estou separado,0.0,157.63168692588806
+Arthur Bento,666.0,Encontro Vocalico,2.0,0.0,Entre as palavras: PRAIA. e. SAGUÃO. em qual delas há um tritongo?,Saguão,Taboão,0.0,121.62909603118896
+Arthur Bento,666.0,Encontro Vocalico,1.0,0.0,Na palavra: QUAISQUER. Há um tritongo? Sim ou não?,Sim,sim,1.0,50.60114312171936
+Samuel endereço,942.0,Digrafo,3.0,0.0,Na palavra. GUERRA. tem quantos dígrafos?,Dois,2,0.0,31.73626399040222
+Samuel endereço,942.0,Digrafo,2.0,0.0,Na palavra. PEDRA. tem dígrafo ou encontro consonantal,Encontro consonantal,tem um encontro consonantal,1.0,73.4251480102539
+Samuel endereço,942.0,Digrafo,1.0,0.0,Na palavra. GUERRA. tem quantos dígrafos?,Dois,2,0.0,39.860026836395264
+Samuel endereço,942.0,Encontro Vocalico,3.0,0.0,Porque na palavra. SAÍDA. há um hiato?,Porque as vogais ficam em sílabas separadas,porque na sílaba de saída é a saída aí eu estou separado,0.0,157.63168692588806
+Samuel endereço,942.0,Encontro Vocalico,2.0,0.0,Entre as palavras: PRAIA. e. SAGUÃO. em qual delas há um tritongo?,Saguão,Taboão,0.0,121.62909603118896
+Samuel endereço,942.0,Encontro Vocalico,1.0,0.0,Na palavra: QUAISQUER. Há um tritongo? Sim ou não?,Sim,sim,1.0,50.60114312171936
+Kalil Pedro,742.0,Digrafo,3.0,0.0,Na palavra. GUERRA. tem quantos dígrafos?,Dois,2,0.0,31.73626399040222
+Kalil Pedro,742.0,Digrafo,2.0,0.0,Na palavra. PEDRA. tem dígrafo ou encontro consonantal,Encontro consonantal,tem um encontro consonantal,1.0,73.4251480102539
+Kalil Pedro,742.0,Digrafo,1.0,0.0,Na palavra. GUERRA. tem quantos dígrafos?,Dois,2,0.0,39.860026836395264
+Kalil Pedro,742.0,Encontro Vocalico,3.0,0.0,Porque na palavra. SAÍDA. há um hiato?,Porque as vogais ficam em sílabas separadas,porque na sílaba de saída é a saída aí eu estou separado,0.0,157.63168692588806
+Kalil Pedro,742.0,Encontro Vocalico,2.0,0.0,Entre as palavras: PRAIA. e. SAGUÃO. em qual delas há um tritongo?,Saguão,Taboão,0.0,121.62909603118896
+Kalil Pedro,742.0,Encontro Vocalico,1.0,0.0,Na palavra: QUAISQUER. Há um tritongo? Sim ou não?,Sim,sim,1.0,50.60114312171936
+alô bravo,654.0,Digrafo,3.0,0.0,Na palavra. GUERRA. tem quantos dígrafos?,Dois,2,0.0,31.73626399040222
+alô bravo,654.0,Digrafo,2.0,0.0,Na palavra. PEDRA. tem dígrafo ou encontro consonantal,Encontro consonantal,tem um encontro consonantal,1.0,73.4251480102539
+alô bravo,654.0,Digrafo,1.0,0.0,Na palavra. GUERRA. tem quantos dígrafos?,Dois,2,0.0,39.860026836395264
+alô bravo,654.0,Encontro Vocalico,3.0,0.0,Porque na palavra. SAÍDA. há um hiato?,Porque as vogais ficam em sílabas separadas,porque na sílaba de saída é a saída aí eu estou separado,0.0,157.63168692588806
+alô bravo,654.0,Encontro Vocalico,2.0,0.0,Entre as palavras: PRAIA. e. SAGUÃO. em qual delas há um tritongo?,Saguão,Taboão,0.0,121.62909603118896
+alô bravo,654.0,Encontro Vocalico,1.0,0.0,Na palavra: QUAISQUER. Há um tritongo? Sim ou não?,Sim,sim,1.0,50.60114312171936
+Júlia Paris,145.0,Digrafo,3.0,0.0,Na palavra. GUERRA. tem quantos dígrafos?,Dois,2,0.0,31.73626399040222
+Júlia Paris,145.0,Digrafo,2.0,0.0,Na palavra. PEDRA. tem dígrafo ou encontro consonantal,Encontro consonantal,tem um encontro consonantal,1.0,73.4251480102539
+Júlia Paris,145.0,Digrafo,1.0,0.0,Na palavra. GUERRA. tem quantos dígrafos?,Dois,2,0.0,39.860026836395264
+Júlia Paris,145.0,Encontro Vocalico,3.0,0.0,Porque na palavra. SAÍDA. há um hiato?,Porque as vogais ficam em sílabas separadas,porque na sílaba de saída é a saída aí eu estou separado,0.0,157.63168692588806
+Júlia Paris,145.0,Encontro Vocalico,2.0,0.0,Entre as palavras: PRAIA. e. SAGUÃO. em qual delas há um tritongo?,Saguão,Taboão,0.0,121.62909603118896
+Júlia Paris,145.0,Encontro Vocalico,1.0,0.0,Na palavra: QUAISQUER. Há um tritongo? Sim ou não?,Sim,sim,1.0,50.60114312171936
+Davi No Silêncio,690.0,Digrafo,3.0,0.0,Na palavra. GUERRA. tem quantos dígrafos?,Dois,2,0.0,31.73626399040222
+Davi No Silêncio,690.0,Digrafo,2.0,0.0,Na palavra. PEDRA. tem dígrafo ou encontro consonantal,Encontro consonantal,tem um encontro consonantal,1.0,73.4251480102539
+Davi No Silêncio,690.0,Digrafo,1.0,0.0,Na palavra. GUERRA. tem quantos dígrafos?,Dois,2,0.0,39.860026836395264
+Davi No Silêncio,690.0,Encontro Vocalico,3.0,0.0,Porque na palavra. SAÍDA. há um hiato?,Porque as vogais ficam em sílabas separadas,porque na sílaba de saída é a saída aí eu estou separado,0.0,157.63168692588806
+Davi No Silêncio,690.0,Encontro Vocalico,2.0,0.0,Entre as palavras: PRAIA. e. SAGUÃO. em qual delas há um tritongo?,Saguão,Taboão,0.0,121.62909603118896
+Davi No Silêncio,690.0,Encontro Vocalico,1.0,0.0,Na palavra: QUAISQUER. Há um tritongo? Sim ou não?,Sim,sim,1.0,50.60114312171936
+Mário Paulo,736.0,Digrafo,3.0,0.0,Na palavra. ALTILOQUÊNCIA. tem dígrafo ou hiato?,Hiato,tem um hiato,1.0,91.41203498840332
+Mário Paulo,736.0,Digrafo,2.0,0.0,Na palavra. ELOQUÊNCIA. tem dígrafo ou hiato?,Hiato,tem um hiato,1.0,151.42116808891296
+Mário Paulo,736.0,Digrafo,1.0,0.0,Na palavra. LINGUIÇA. tem dígrafo ou ditongo?,Ditongo,tem ditongo,1.0,107.29877710342407
+Mário Paulo,736.0,Encontro Vocalico,3.0,0.0,Porque na palavra. SAÍDA. há um hiato?,Porque as vogais ficam em sílabas separadas,Por que as vogais ficam em sílabas diferentes sílabas separadas,1.0,55.903568983078
+Mário Paulo,736.0,Encontro Vocalico,2.0,0.0,Na palavra: CUIDADO. há um tritongo? Porquê?,Não porque as vogais ficam em sílabas separadas,não,0.0,82.996013879776
+Mário Paulo,736.0,Encontro Vocalico,1.0,0.0,Na palavra: QUAISQUER. Há um tritongo? Sim ou não?,Sim,sim,1.0,57.021018981933594
+Maicon anda sobre nós,1141.0,Digrafo,3.0,0.0,Na palavra. PEDRA. tem dígrafo ou encontro consonantal,Encontro consonantal,sim,0.0,35.6072518825531
+Maicon anda sobre nós,1141.0,Digrafo,2.0,0.0,Na palavra. CACHORRO. tem quantos dígrafos?,Dois,tem um dígrafo,0.0,42.57267999649048
+Maicon anda sobre nós,1141.0,Digrafo,1.0,0.0,Na palavra. PEDRA. tem dígrafo ou encontro consonantal,Encontro consonantal,tem um encontro consonantal,1.0,75.14919781684875
+Maicon anda sobre nós,1141.0,Encontro Vocalico,3.0,0.0,Na palavra. QUAISQUER. Há um ditongo? Sim ou não?,Não,sim você tá certa,0.0,77.4648859500885
+Maicon anda sobre nós,1141.0,Encontro Vocalico,2.0,0.0,Ditongo são duas vogais na mesma sílaba? ou em sílabas separadas?,Na mesma sílaba.,na mesma sílaba,1.0,31.42891502380371
+Maicon anda sobre nós,1141.0,Encontro Vocalico,1.0,0.0,Na palavra. QUAISQUER. Há um ditongo? Sim ou não?,Não,sim,0.0,142.4754810333252
+Olavo gregolin,638.0,Digrafo,3.0,0.0,Na palavra. PEDRA. tem dígrafo ou encontro consonantal,Encontro consonantal,sim,0.0,35.6072518825531
+Olavo gregolin,638.0,Digrafo,2.0,0.0,Na palavra. CACHORRO. tem quantos dígrafos?,Dois,tem um dígrafo,0.0,42.57267999649048
+Olavo gregolin,638.0,Digrafo,1.0,0.0,Na palavra. PEDRA. tem dígrafo ou encontro consonantal,Encontro consonantal,tem um encontro consonantal,1.0,75.14919781684875
+Olavo gregolin,638.0,Encontro Vocalico,3.0,0.0,Na palavra. QUAISQUER. Há um ditongo? Sim ou não?,Não,sim você tá certa,0.0,77.4648859500885
+Olavo gregolin,638.0,Encontro Vocalico,2.0,0.0,Ditongo são duas vogais na mesma sílaba? ou em sílabas separadas?,Na mesma sílaba.,na mesma sílaba,1.0,31.42891502380371
+Olavo gregolin,638.0,Encontro Vocalico,1.0,0.0,Na palavra. QUAISQUER. Há um ditongo? Sim ou não?,Não,sim,0.0,142.4754810333252
+alô bravo,877.0,Digrafo,3.0,0.0,Na palavra. LIXO. tem dígrafo? Sim ou não?,Não,comprei não tu não atende,0.0,113.30953884124756
+alô bravo,877.0,Digrafo,2.0,0.0,Na palavra. CARROÇA. tem dígrafo ou encontro consonantal?,Dígrafo,encontro consonantal,0.0,34.83430600166321
+alô bravo,877.0,Digrafo,1.0,0.0,Na palavra. CACHORRO. tem quantos dígrafos?,Dois,tem dinheiro,0.0,40.18970799446106
+alô bravo,877.0,Encontro Vocalico,3.0,0.0,A palavra: SAÍDA. Tem um ditongo? ou um hiato?,Hiato.,hiato,1.0,37.83177995681763
+alô bravo,877.0,Encontro Vocalico,2.0,0.0,Na palavra: QUAISQUER. Há um tritongo? Sim ou não?,Sim,ditongo,0.0,39.20322895050049
+alô bravo,877.0,Encontro Vocalico,1.0,0.0,Na palavra. QUAISQUER. Há um ditongo? Sim ou não?,Não,junto,0.0,77.88885688781738
+alô bravo,101.0,Digrafo,3.0,0.0,Na palavra. LIXO. tem dígrafo? Sim ou não?,Não,comprei não tu não atende,0.0,113.30953884124756
+alô bravo,101.0,Digrafo,2.0,0.0,Na palavra. CARROÇA. tem dígrafo ou encontro consonantal?,Dígrafo,encontro consonantal,0.0,34.83430600166321
+alô bravo,101.0,Digrafo,1.0,0.0,Na palavra. CACHORRO. tem quantos dígrafos?,Dois,tem dinheiro,0.0,40.18970799446106
+alô bravo,101.0,Encontro Vocalico,3.0,0.0,A palavra: SAÍDA. Tem um ditongo? ou um hiato?,Hiato.,hiato,1.0,37.83177995681763
+alô bravo,101.0,Encontro Vocalico,2.0,0.0,Na palavra: QUAISQUER. Há um tritongo? Sim ou não?,Sim,ditongo,0.0,39.20322895050049
+alô bravo,101.0,Encontro Vocalico,1.0,0.0,Na palavra. QUAISQUER. Há um ditongo? Sim ou não?,Não,junto,0.0,77.88885688781738
+Sofia BluCarros,495.0,Digrafo,3.0,0.0,Na palavra. LIXO. tem dígrafo? Sim ou não?,Não,comprei não tu não atende,0.0,113.30953884124756
+Sofia BluCarros,495.0,Digrafo,2.0,0.0,Na palavra. CARROÇA. tem dígrafo ou encontro consonantal?,Dígrafo,encontro consonantal,0.0,34.83430600166321
+Sofia BluCarros,495.0,Digrafo,1.0,0.0,Na palavra. CACHORRO. tem quantos dígrafos?,Dois,tem dinheiro,0.0,40.18970799446106
+Sofia BluCarros,495.0,Encontro Vocalico,3.0,0.0,A palavra: SAÍDA. Tem um ditongo? ou um hiato?,Hiato.,hiato,1.0,37.83177995681763
+Sofia BluCarros,495.0,Encontro Vocalico,2.0,0.0,Na palavra: QUAISQUER. Há um tritongo? Sim ou não?,Sim,ditongo,0.0,39.20322895050049
+Sofia BluCarros,495.0,Encontro Vocalico,1.0,0.0,Na palavra. QUAISQUER. Há um ditongo? Sim ou não?,Não,junto,0.0,77.88885688781738
+André André contrabaixo Naamã,594.0,Digrafo,3.0,0.0,Na palavra. LIXO. tem dígrafo? Sim ou não?,Não,comprei não tu não atende,0.0,113.30953884124756
+André André contrabaixo Naamã,594.0,Digrafo,2.0,0.0,Na palavra. CARROÇA. tem dígrafo ou encontro consonantal?,Dígrafo,encontro consonantal,0.0,34.83430600166321
+André André contrabaixo Naamã,594.0,Digrafo,1.0,0.0,Na palavra. CACHORRO. tem quantos dígrafos?,Dois,tem dinheiro,0.0,40.18970799446106
+André André contrabaixo Naamã,594.0,Encontro Vocalico,3.0,0.0,A palavra: SAÍDA. Tem um ditongo? ou um hiato?,Hiato.,hiato,1.0,37.83177995681763
+André André contrabaixo Naamã,594.0,Encontro Vocalico,2.0,0.0,Na palavra: QUAISQUER. Há um tritongo? Sim ou não?,Sim,ditongo,0.0,39.20322895050049
+André André contrabaixo Naamã,594.0,Encontro Vocalico,1.0,0.0,Na palavra. QUAISQUER. Há um ditongo? Sim ou não?,Não,junto,0.0,77.88885688781738
+Júnior lalala,576.0,Digrafo,3.0,0.0,Na palavra. ELOQUÊNCIA. tem dígrafo ou hiato?,Hiato,hiato,1.0,31.053478956222534
+Júnior lalala,576.0,Digrafo,2.0,0.0,Na palavra. ELOQUÊNCIA. tem dígrafo ou hiato?,Hiato,hiato,1.0,33.77381205558777
+Júnior lalala,576.0,Digrafo,1.0,0.0,Na palavra. PSIQUIATRA. tem encontro consonantal ou ditongo?,Encontro consonantal,encontro consonantal,1.0,85.10672307014465
+Júnior lalala,576.0,Encontro Vocalico,3.0,0.0,Na palavra: QUAISQUER. Há um tritongo? Sim ou não?,Sim,Acho que sim,1.0,31.46424102783203
+Júnior lalala,576.0,Encontro Vocalico,2.0,0.0,Ditongo são duas vogais na mesma sílaba? ou em sílabas separadas?,Na mesma sílaba.,na mesma sílaba,1.0,89.84032201766968
+Júnior lalala,576.0,Encontro Vocalico,1.0,0.0,Na palavra. QUAISQUER. Há um ditongo? Sim ou não?,Não,Acho que sim,0.0,115.73061895370483
+alô bravo,553.0,Digrafo,3.0,0.0,Na palavra. LINGUIÇA. tem dígrafo ou ditongo?,Ditongo,dígrafo,0.0,42.064176082611084
+alô bravo,553.0,Digrafo,2.0,0.0,Na palavra. ALTILOQUÊNCIA. tem dígrafo ou hiato?,Hiato,aonde gata,0.0,80.43079710006714
+alô bravo,553.0,Digrafo,1.0,0.0,Na palavra. LINGUIÇA. tem dígrafo ou ditongo?,Ditongo,ditongo,1.0,38.17597699165344
+alô bravo,553.0,Encontro Vocalico,3.0,0.0,Na palavra: QUAISQUER. Há um tritongo? Sim ou não?,Sim,sim obrigado,1.0,70.9693341255188
+alô bravo,553.0,Encontro Vocalico,2.0,0.0,Ditongo são duas vogais na mesma sílaba? ou em sílabas separadas?,Na mesma sílaba.,na mesma sílaba,1.0,38.99228501319885
+alô bravo,553.0,Encontro Vocalico,1.0,0.0,Na palavra. QUAISQUER. Há um ditongo? Sim ou não?,Não,sim é um ditongo,0.0,56.79634404182434
+Flora montanha,632.0,Digrafo,3.0,0.0,Na palavra. PASSEIO. tem dígrafo ou encontro consonantal?,Dígrafo,dígrafo,1.0,52.411601066589355
+Flora montanha,632.0,Digrafo,2.0,0.0,Na palavra. PSICÓLOGO. tem quantos encontros consonantais?,Um,apenas um,0.0,116.95969295501709
+Flora montanha,632.0,Digrafo,1.0,0.0,Na palavra. PEDRA. tem dígrafo ou encontro consonantal,Encontro consonantal,encontro consonantal,1.0,44.188586950302124
+Flora montanha,632.0,Encontro Vocalico,3.0,0.0,Na palavra. QUAISQUER. Há um ditongo? Sim ou não?,Sim,leão,0.0,82.57027506828308
+Flora montanha,632.0,Encontro Vocalico,2.0,0.0,Entre as palavras: PRAIA. e. SAGUÃO. em qual delas há um tritongo?,Saguão,nas duas,0.0,36.2178008556366
+Flora montanha,632.0,Encontro Vocalico,1.0,0.0,Porque na palavra. SAÍDA. há um hiato?,Porque as vogais ficam em sílabas separadas,porque estou em sílabas separadas,1.0,82.9437210559845
+meu nome é Pedro azedo da Costa Reis,436.0,Digrafo,3.0,0.0,Na palavra. ELOQUÊNCIA. tem dígrafo ou hiato?,Hiato,dígrafo,0.0,35.83224892616272
+meu nome é Pedro azedo da Costa Reis,436.0,Digrafo,2.0,0.0,Na palavra. ALTILOQUÊNCIA. tem dígrafo ou hiato?,Hiato,hiato,1.0,31.266513109207153
+meu nome é Pedro azedo da Costa Reis,436.0,Digrafo,1.0,0.0,Na palavra. ALTILOQUÊNCIA. tem dígrafo ou hiato?,Hiato,hiato,1.0,61.837697982788086
+meu nome é Pedro azedo da Costa Reis,436.0,Encontro Vocalico,3.0,0.0,GOIABA e PRAIA têm tritongo?,Não,não,0.0,35.587677001953125
+meu nome é Pedro azedo da Costa Reis,436.0,Encontro Vocalico,2.0,0.0,Entre as palavras: PRAIA. e. SAGUÃO. em qual delas há um tritongo?,Saguão,saguão,1.0,44.66731286048889
+meu nome é Pedro azedo da Costa Reis,436.0,Encontro Vocalico,1.0,0.0,Na palavra: QUAISQUER. Há um tritongo? Sim ou não?,Sim,sim,1.0,30.358816862106323
+Pedro câmera Amaral,668.0,Digrafo,3.0,0.0,Na palavra. PEDRA. tem dígrafo ou encontro consonantal,Encontro consonantal,Minion,0.0,52.85611414909363
+Pedro câmera Amaral,668.0,Digrafo,2.0,0.0,Na palavra. CACHORRO. tem quantos dígrafos?,Dois,2,0.0,64.8051381111145
+Pedro câmera Amaral,668.0,Digrafo,1.0,0.0,Na palavra. PSIQUIATRA. tem encontro consonantal ou ditongo?,Encontro consonantal,ditongo,1.0,77.02140188217163
+Pedro câmera Amaral,668.0,Encontro Vocalico,3.0,0.0,Na palavra: QUAISQUER. Há um tritongo? Sim ou não?,Sim,sim,0.0,55.33197808265686
+Pedro câmera Amaral,668.0,Encontro Vocalico,2.0,0.0,Ditongo são duas vogais na mesma sílaba? ou em sílabas separadas?,Na mesma sílaba.,na mesma sílaba,1.0,96.54813694953918
+Pedro câmera Amaral,668.0,Encontro Vocalico,1.0,0.0,Na palavra: QUAISQUER. Há um tritongo? Sim ou não?,Sim,não,0.0,87.16344213485718
+Mateus Henrique,538.0,Digrafo,3.0,0.0,Na palavra: ALTILOQUÊNCIA. tem dígrafo ou hiato?,Hiato,hiato,1.0,43.173590898513794
+Mateus Henrique,538.0,Digrafo,2.0,0.0,"Na palavra: QUEIXO. tem dígrafo, encontro consonantal ou ditongo?",Dígrafo,dígrafo,1.0,51.03636884689331
+Mateus Henrique,538.0,Digrafo,1.0,0.0,Na palavra: ELOQUÊNCIA. tem dígrafo ou hiato?,Hiato,dígrafo,1.0,80.28506278991699
+Mateus Henrique,538.0,Encontro Vocalico,3.0,0.0,Porque na palavra CADEIA Não há um tritongo?,Porque ficam em sílabas separadas.,porque só tem duas vogais juntas,0.0,41.28812599182129
+Mateus Henrique,538.0,Encontro Vocalico,2.0,0.0,Entre as palavras: PRAIA. e. SAGUÃO. em qual delas há um tritongo?,Saguão,saguão,1.0,36.60999917984009
+Mateus Henrique,538.0,Encontro Vocalico,1.0,0.0,Na palavra. QUAISQUER. Há um ditongo? Sim ou não?,Sim,mas vou sim,1.0,73.86899900436401

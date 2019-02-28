@@ -65,8 +65,8 @@ class EvaluationDatabase():
             #raise NameError('Trying to insert user with id "{}". User already exists!'.format(new_user.id))
             self.save_eval(new_eval, path +"/" +str(new_eval.id)+".eval")
             self.index_table.to_csv(self.index_path, index=False)
-            self.index_table.loc[self.index_table.Id==new_eval.id] =[new_eval.id, new_eval.date.toString("dd.MM.yy"), new_eval.user_name]
-            self.index_table.to_csv(self.index_path, index=False)
+            #self.index_table.loc[self.index_table.Id==new_eval.id] =[new_eval.id, new_eval.date.toString("dd.MM.yy"), new_eval.user_name]
+            #self.index_table.to_csv(self.index_path, index=False)
             print "EVALUATION ALREADY EXIST. UPDATING"
             return -1
         
