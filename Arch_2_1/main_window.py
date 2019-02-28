@@ -195,6 +195,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.eval_topic_comboBox.currentIndexChanged.connect(self.eval_update_tab)
 		self.eval_questions_comboBox.currentIndexChanged.connect(self.eval_update_tab)
 		self.eval_att_comboBox.currentIndexChanged.connect(self.eval_update_tab)
+		self.eval_ans_sup_comboBox.currentIndexChanged.connect(self.eval_validation_change)
+		
 
 
 		#--- Interaction
@@ -261,14 +263,15 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		#Shortcuts:
 		self.load_file()
-		self.shortcut = True
+		self.shortcut = False
 		
 		if self.shortcut:
 			self.int_load_action()
 			self.int_lock_action()
 
 
-		self.correct_evals()
+		#self.evals_to_csv()
+		#exit()
 
 
 	def load_file(self):
@@ -961,7 +964,10 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 			#print self.cur_eval.tp_names
 			#print self.cur_eval.topics
-
+			self.eval_topic_comboBox.clear()
+			self.eval_questions_comboBox.clear()
+			self.eval_topic_comboBox.clear()
+			self.eval_att_comboBox.clear()
 
 
 			self.eval_topic_comboBox.addItems(self.cur_eval.tp_names)
@@ -994,20 +1000,50 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		#text= str(self.sub_list['concepts'][self.content_subject_comboBox.currentIndex()])
 		
-		tp_id=self.eval_topic_comboBox.currentIndex()
-		qt_id=self.eval_questions_comboBox.currentIndex()
-		att_id=self.eval_att_comboBox.currentIndex()
+		
+		
+		self.tp_id=self.eval_topic_comboBox.currentIndex()
+		self.qt_id=self.eval_questions_comboBox.currentIndex()
+		self.att_id=self.eval_att_comboBox.currentIndex()
 
-		aux_att = self.cur_eval.topics[tp_id].questions[qt_id].attempts[att_id] #Attempt()
+		aux_att = self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id] #Attempt()
 
-		self.eval_concept_textField.setText(self.cur_eval.topics[tp_id].concept)
-		self.eval_quest_lineEdit.setText(self.cur_eval.topics[tp_id].questions[qt_id].question )
-		self.eval_exp_lineEdit.setText(self.cur_eval.topics[tp_id].questions[qt_id].exp_ans )
-		self.eval_gave_ans_lineEdit.setText(self.cur_eval.topics[tp_id].questions[qt_id].attempts[att_id].given_ans )
+		self.eval_concept_textField.setText(self.cur_eval.topics[self.tp_id].concept)
+		self.eval_quest_lineEdit.setText(self.cur_eval.topics[self.tp_id].questions[self.qt_id].question )
+		self.eval_exp_lineEdit.setText(self.cur_eval.topics[self.tp_id].questions[self.qt_id].exp_ans )
+		self.eval_gave_ans_lineEdit.setText(self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].given_ans )
 		self.eval_time2ans.setTime(QTime.fromString(str(aux_att.time2ans),"mm:ss"))
 		self.eval_ans_sup_comboBox.setCurrentIndex(aux_att.supervisor_consideration) 
 		self.eval_ans_sys_comboBox.setCurrentIndex(aux_att.system_consideration) 
 		self.eval_sys_was_comboBox.setCurrentIndex(aux_att.sytem_was) 
+
+
+
+	def eval_validation_change(self):
+
+		if self.eval_ans_sys_comboBox.currentIndex() ==  self.eval_ans_sup_comboBox.currentIndex():
+			result = 1
+		else:
+			result = 0
+		
+		
+		#print result, self.eval_ans_sys_comboBox.currentIndex(),  self.eval_ans_sup_comboBox.currentIndex()
+
+		self.eval_sys_was_comboBox.setCurrentIndex(result)
+
+		self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].sytem_was = result
+		self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].supervisor_consideration = self.eval_ans_sup_comboBox.currentIndex()
+		self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].system_consideration = self.eval_ans_sys_comboBox.currentIndex()
+		# self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id]
+		self.evaluation_db.insert_eval(self.cur_eval)
+
+
+
+
+
+
+
+
 
 
 
@@ -2367,11 +2403,65 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 	def correct_evals(self):
 		
-		for item in self.evaluation_db.evaluations_list:
+		for item in range(len(self.evaluation_db.evaluations_list)):
 			
-			if len(item.topics) >2:
-				pprint(vars(item))
-				print 
+			if len(self.evaluation_db.evaluations_list[item].topics) >2:
+				#print 
+
+				#while len(self.evaluation_db.evaluations_list[item].topics) >2 :
+				print "Deleting"
+				del self.evaluation_db.evaluations_list[item].topics[2:len(self.evaluation_db.evaluations_list[item].topics)]
+				del self.evaluation_db.evaluations_list[item].tp_names[2:len(self.evaluation_db.evaluations_list[item].tp_names)]
+
+				pprint(vars(self.evaluation_db.evaluations_list[item]))
+				self.evaluation_db.insert_eval(self.evaluation_db.evaluations_list[item])
+
+
+
+	def evals_to_csv(self):
+
+		
+		df = pd.DataFrame(columns=("Name", "Duration", "Topic", "Question_number", "Dificult",	"question", "exp_ans", "under_ans", "sys_was", "Time_to_answer"))
+		
+		print df
+		t=0
+		for item in range(len(self.evaluation_db.evaluations_list)):
+			
+			#pprint((self.evaluation_db.evaluations_list[item].date)) 
+			
+			if self.evaluation_db.evaluations_list[item].date == QDate(2019,2,18) or self.evaluation_db.evaluations_list[item].date == QDate(2019,2,19):
+				
+				aux = self.evaluation_db.evaluations_list[item]
+				name = aux.user_name
+				duration = aux.start_time.secsTo(aux.end_time)
+
+
+				for tp in range(len(aux.topics)):
+					
+					topic_name = aux.tp_names[tp]
+					
+					for q in range(len(aux.topics[tp].questions)):
+
+						question = aux.topics[tp].questions[q]
+						att = question.attempts[0]
+						#df.loc[item]= [name, duration, topic_name, q+1, 0, question.question, question.exp_ans, att.given_ans, att.sytem_was, att.time2ans]
+						df.loc[-1]= [name, duration, topic_name, q+1, 0, question.question, question.exp_ans, att.given_ans, att.system_consideration, att.time2ans]
+						# 
+						df.index = df.index + 1  # shifting index
+						df = df.sort_index()  # sorting by index
+					#pass
+				
+				#pass
+
+
+		df.to_csv("Total_evals.csv", index=False)
+
+
+
+
+
+
+
 
 
 
