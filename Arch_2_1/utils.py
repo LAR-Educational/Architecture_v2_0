@@ -361,7 +361,7 @@ def generate_graph():
 	my_xticks = ["V.E. 1", "V.E. 2", "V.E. T3", "D. 1", "D. 5", "D. 6"]
 	
 
-	'''
+	#'''
 	plt.figure(1)
 
 
@@ -398,7 +398,7 @@ def generate_graph():
 	plt.ylabel("Number of occurrences", fontsize=20)
 	plt.grid(True, linewidth=.15)
 	plt.show()
-	'''
+	#'''
 
 	plt.figure(2)
 
@@ -408,13 +408,13 @@ def generate_graph():
 	plt.xticks(x, my_xticks)
 
 	y=sup_good
-	plt.plot(x, y, 'o--', color='b', markersize=12, label="Supervisor right classification")
+	plt.plot(x, y, 'o--', color='b', markersize=12, label="Classified as right")
 	for a,b in zip(x, y): 
-		plt.text(a-0.15, b+0.8, str(b))
-		
+		plt.text(a-0.05, b+1.0, str(b))
+
 	
 	y=sup_bad
-	plt.plot(x, y, 's--', color='r', markersize=12, label="Supervisor right classification")
+	plt.plot(x, y, 's--', color='r', markersize=12, label="Classified as wrong")
 	for a,b in zip(x, y): 
 		plt.text(a-0.081, b-1.5, str(b))
 	
@@ -434,48 +434,13 @@ def generate_graph():
 	plt.xlim(0,7)
 	plt.ylim(-1,22)
 
-	plt.title("System Classifications", fontsize=32)
+	plt.title("Supervisor Classifications", fontsize=32)
 
 	plt.xlabel("Topic_Question Number", fontsize=16)
 	plt.ylabel("Number of occurrences", fontsize=20)
 	plt.grid(True, linewidth=.15)
 	plt.show()
 	
-
-
-
-	return 
-
-
-
-	rights = df[ (df['System_was']==1) ]
-
-	wrongs = df[ (df['System_was']==0) ]
-
-	miss = df[ (df['System_was']==-1) ]
-
-	r = len(rights.index)
-	w = len(wrongs.index)
-	m = len(miss.index)
-
-	labels = ["Right Classification", "Wrong Classification", "Wrong due to Speech to Text Mistake"] 
-	sizes = [r,w,m]
-	colors = ['paleturquoise', 'lightcoral', 'lemonchiffon', 'gold', 'lightskyblue']
-	explode = [0.1,0,0]
-	fig1, ax1 = plt.subplots()
-	ax1.pie(sizes, labels=labels, autopct='%1.1f%%', colors= colors,
-			shadow=True, startangle=90, explode=explode)
-	
-	ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-
-	plt.show()
-
-	print r,w,m
-
-	ac = (float(r)/float(r+w))
-
-	print ac
-
 
 
 
@@ -489,7 +454,7 @@ def generate_graph_frequency():
 	#rights = df[ (df['Question_number']==1) & (df['System_was']==1) ]
 
 
-	mat = np.zeros((6,5))
+	mat = np.zeros((5,6))
 
 
 	for i in range(1,4):
@@ -501,11 +466,11 @@ def generate_graph_frequency():
 		a4 = df[ (df['Question_number']==i) & (df['Dificult']==4) & (df['Topic']=='Encontro Vocalico') ] 
 		a5 = df[ (df['Question_number']==i) & (df['Dificult']==5) & (df['Topic']=='Encontro Vocalico') ] 
 		
-		mat[i-1,0] = len(a1.index)
-		mat[i-1,1] = len(a2.index)
-		mat[i-1,2] = len(a3.index)
-		mat[i-1,3] = len(a4.index)
-		mat[i-1,4] = len(a5.index)
+		mat[0,i-1] = len(a1.index)
+		mat[1,i-1] = len(a2.index)
+		mat[2,i-1] = len(a3.index)
+		mat[3,i-1] = len(a4.index)
+		mat[4,i-1] = len(a5.index)
 
 
 	# for i in range(1,4):
@@ -521,19 +486,102 @@ def generate_graph_frequency():
 		a4 = df[ (df['Question_number']==i) & (df['Dificult']==4) & (df['Topic']=='Digrafo') ] 
 		a5 = df[ (df['Question_number']==i) & (df['Dificult']==5) & (df['Topic']=='Digrafo') ] 
 		
-		mat[i+2,0] = len(a1.index)
-		mat[i+2,1] = len(a2.index)
-		mat[i+2,2] = len(a3.index)
-		mat[i+2,3] = len(a4.index)
-		mat[i+2,4] = len(a5.index)
+		mat[0,i+2] = len(a1.index)
+		mat[1,i+2] = len(a2.index)
+		mat[2,i+2] = len(a3.index)
+		mat[3,i+2] = len(a4.index)
+		mat[4,i+2] = len(a5.index)
 
-
-	a5 = df[ (df['Dificult']==5) ] 
-
-
-	
-	print a5  
 	print mat 
+
+	w =0
+
+	cor = [ 'aqua', 'dodgerblue','b', 'darkviolet', 'indigo']
+	cor2 = [ 'paleturquoise', 'cyan','springgreen', 'green', 'darkgreen']
+
+	labels = range(1,6) 	
+	
+	plt.figure(1)
+	x=range(1,7)
+
+	#x = [1, 2, 3, 4, 5, 6]
+	my_xticks = ["V.E. 1", "V.E. 2", "V.E. T3", "D. 1", "D. 5", "D. 6"]
+	
+	plt.xticks(x, my_xticks)
+
+	print labels
+	#return 
+	for i in range(5):
+
+		y = mat[i]
+		plt.plot(x, y, 'o--', color=cor2[i], markersize=10, label=i+1)
+		for a,b in zip(x, y): 
+			plt.text(a+0.15, b-0.1, str(int(b)))	
+			
+			
+
+
+		# for j in range(5):
+		# 	x=(i-2*w)+1
+		# 	y = mat[i,j]
+		# 	plt.plot(x, y, '--', color=cor[j], markersize=10)
+			# for a,b in zip(x, y): 
+			# 	plt.text(a-0.05, b+1.5, str(b))
+			
+
+	plt.legend(title='Difficulty', loc='upper right', 
+		numpoints = 1,
+		shadow=True,
+		handlelength=1.5, 
+		fontsize=12)
+
+
+	plt.xlim(0,7)
+	plt.ylim(-1,33)
+
+	plt.title("Questions' Difficulty Occurrences", fontsize=32)
+
+	plt.xlabel("Topic_Question Number", fontsize=18)
+	plt.ylabel("Number of occurrences", fontsize=22)
+	plt.show()
+
+
+
+def generate_pie():
+
+	df = pd.read_csv("final_evals.csv")
+
+	rights = df[ (df['System_was']==1) ]
+
+	wrongs = df[ (df['System_was']==0) ]
+
+	miss = df[ (df['System_was']==-1) ]
+
+	r = len(rights.index)
+	w = len(wrongs.index)
+	m = len(miss.index)
+
+	labels = ["Right Classification", "Wrong Classification", "Listening Problem"] 
+	sizes = [r,w,m]
+	colors = ['paleturquoise', 'lightcoral', 'lemonchiffon', 'gold', 'lightskyblue']
+	explode = [0.1,0,0]
+	#fig1, ax1 = plt.subplots()
+	
+	plt.rcParams['font.size'] = 16.0
+
+	plt.pie(sizes, labels=labels, autopct='%1.1f%%', colors= colors,
+			shadow=True, startangle=90, explode=explode)
+	
+	plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+	plt.title("System Overall Accuracy", fontsize=32)
+	plt.show()
+
+	print r,w,m
+
+	ac = (float(r)/float(r+w))
+
+	print ac
 
 
 
@@ -548,7 +596,8 @@ def hole():
 if __name__=='__main__':
 	
 	#generate_graph()
-	generate_graph_frequency()
+	#generate_graph_frequency()
+	generate_pie()
 	
 		# if(search_engine('bla'))=='':#, type(search_engine('santos').encode('utf-8'))
 		# 	print "YES"
