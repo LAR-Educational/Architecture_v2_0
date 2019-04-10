@@ -19,6 +19,8 @@ import matplotlib.patches as mpatches
 import numpy as np
 
 
+cor = [ 'aqua', 'dodgerblue','b', 'darkviolet', 'indigo']
+cor2 = [ 'paleturquoise', 'cyan','springgreen', 'green', 'darkgreen']
 
 
 ### -------------------------- GLOBALS -----------------------
@@ -304,6 +306,298 @@ def search_engine(query):
 
 
 
+
+
+
+def generate_all_graph():
+
+
+
+
+	df = pd.read_csv("final_evals.csv")
+
+
+	#rights = df[ (df['Question_number']==1) & (df['System_was']==1) ]
+
+
+	sys_good = []
+	sys_bad =[]
+	miss = []
+	sup_good=[]
+	sup_bad=[]
+
+	for i in range(1,4):
+
+
+		yg = df[ (df['Question_number']==i) & (df['System_was']==1) & (df['Topic']=='Encontro Vocalico') ] 
+		yb = df[ (df['Question_number']==i) & (df['System_was']==0) & (df['Topic']=='Encontro Vocalico') ] 
+		pg = df[ (df['Question_number']==i) & (df['Supervisor']==1) & (df['System_was']>=0) & (df['Topic']=='Encontro Vocalico') ] 
+		pb = df[ (df['Question_number']==i) & (df['Supervisor']==0) & (df['System_was']>=0) & (df['Topic']=='Encontro Vocalico') ] 
+		sys_good.append( len(yg.index) )
+		sys_bad.append( len(yb.index) )
+		sup_good.append( len(pg.index) )
+		sup_bad.append( len(pb.index) )
+
+		m  = df[ (df['Question_number']==i) & (df['System_was']<0)  & (df['Topic']=='Encontro Vocalico') ] 
+		miss.append( len(m.index) )
+	
+	for i in range(1,4):
+
+
+		yg = df[ (df['Question_number']==i) & (df['System_was']==1) & (df['Topic']=='Digrafo') ] 
+		yb = df[ (df['Question_number']==i) & (df['System_was']==0) & (df['Topic']=='Digrafo') ] 
+		pg = df[ (df['Question_number']==i) & (df['Supervisor']==1) & (df['System_was']>=0) & (df['Topic']=='Digrafo') ] 
+		pb =df[ (df['Question_number']==i) & (df['Supervisor']==0) & (df['System_was']>=0) & (df['Topic']=='Digrafo') ] 
+
+		sys_good.append( len(yg.index) )
+		sys_bad.append( len(yb.index) )
+		sup_good.append( len(pg.index) )
+		sup_bad.append( len(pb.index) )
+
+		m  = df[ (df['Question_number']==i) & (df['System_was']<0)  & (df['Topic']=='Digrafo') ] 
+		miss.append( len(m.index) )
+	
+
+	#print sys_good
+	#print sys_bad
+	#print sup_good
+	#print sup_bad
+
+
+	x = [1, 2, 3, 4, 5, 6]
+	my_xticks = ["V.E. 1", "V.E. 2", "V.E. T3", "D. 1", "D. 5", "D. 6"]
+	
+
+	#'''
+	plt.figure(1)
+
+	plt.subplot(221)
+
+	#plt.subplot(121)
+	plt.xticks(x, my_xticks)
+	y = sys_good
+	plt.plot(x, y, 'o--', color='g',  markersize=12, label="System's correct classifications")
+	for a,b in zip(x, y): 
+		plt.text(a-0.1, b-2.5, str(b))
+
+	y=sys_bad
+	plt.plot(x, y,  's--', color='r', markersize=12, label="System's wrong classifications")
+	for a,b in zip(x, y): 
+		plt.text(a-0.05, b+1.5, str(b))
+
+	y=miss
+	plt.plot(x, y,  'x--', color='y', markersize=12, label="Listening problem")
+	for a,b in zip(x, y): 
+		plt.text(a+0.18, b-0.2, str(b))
+
+
+	plt.legend(loc='upper left', numpoints = 1,#('System right ','System Wrong ','Students right answers','Students wrong answers'),
+           #shadow=True,
+		   #loc=(0.01, 0.8),
+		   #handlelength=1.5, 
+		   fontsize=12)
+
+	plt.xlim(0,7)
+	plt.ylim(-1,35)
+
+	plt.title("System Classifications", fontsize=32)
+
+	plt.xlabel("Topic_Question Number", fontsize=16)
+	plt.ylabel("Number of occurrences", fontsize=20)
+	plt.grid(True, linewidth=.15)
+	#plt.show()
+	#'''
+
+	#plt.figure(2)
+
+	#return
+	
+	plt.subplot(222)
+	plt.xticks(x, my_xticks)
+
+	y=sup_good
+	plt.plot(x, y, 'o--', color='b', markersize=12, label="Classified as right")
+	for a,b in zip(x, y): 
+		plt.text(a-0.05, b+1.0, str(b))
+
+	
+	y=sup_bad
+	plt.plot(x, y, 's--', color='r', markersize=12, label="Classified as wrong")
+	for a,b in zip(x, y): 
+		plt.text(a-0.081, b-1.9, str(b))
+	
+	y=miss
+	plt.plot(x, y,  'x--', color='y', markersize=12, label="Listening problem")
+	for a,b in zip(x, y): 
+		plt.text(a+0.18, b-0.2, str(b))
+
+	
+	plt.legend(loc='upper right', numpoints = 1,#('System right ','System Wrong ','Students right answers','Students wrong answers'),
+		#shadow=True,
+		#loc=(0.01, 0.8),
+		#handlelength=1.5, 
+		fontsize=12)
+
+
+	plt.xlim(0,7)
+	plt.ylim(-1,25)
+
+	plt.title("Supervisor Classifications", fontsize=32)
+
+	plt.xlabel("Topic_Question Number", fontsize=16)
+	plt.ylabel("Number of occurrences", fontsize=20)
+	plt.grid(True, linewidth=.15)
+	#plt.show()
+	
+
+
+
+	# ------------------------------ FREQUENCY
+
+
+	mat = np.zeros((5,6))
+
+
+	for i in range(1,4):
+
+
+		a1 = df[ (df['Question_number']==i) & (df['Dificult']==1) & (df['Topic']=='Encontro Vocalico') ] 
+		a2 = df[ (df['Question_number']==i) & (df['Dificult']==2) & (df['Topic']=='Encontro Vocalico') ] 
+		a3 = df[ (df['Question_number']==i) & (df['Dificult']==3) & (df['Topic']=='Encontro Vocalico') ] 
+		a4 = df[ (df['Question_number']==i) & (df['Dificult']==4) & (df['Topic']=='Encontro Vocalico') ] 
+		a5 = df[ (df['Question_number']==i) & (df['Dificult']==5) & (df['Topic']=='Encontro Vocalico') ] 
+		
+		mat[0,i-1] = len(a1.index)
+		mat[1,i-1] = len(a2.index)
+		mat[2,i-1] = len(a3.index)
+		mat[3,i-1] = len(a4.index)
+		mat[4,i-1] = len(a5.index)
+
+
+	# for i in range(1,4):
+	# 	print i+2
+	
+	# return
+
+	for i in range(1,4):
+
+		a1 = df[ (df['Question_number']==i) & (df['Dificult']==1) & (df['Topic']=='Digrafo') ] 
+		a2 = df[ (df['Question_number']==i) & (df['Dificult']==2) & (df['Topic']=='Digrafo') ] 
+		a3 = df[ (df['Question_number']==i) & (df['Dificult']==3) & (df['Topic']=='Digrafo') ] 
+		a4 = df[ (df['Question_number']==i) & (df['Dificult']==4) & (df['Topic']=='Digrafo') ] 
+		a5 = df[ (df['Question_number']==i) & (df['Dificult']==5) & (df['Topic']=='Digrafo') ] 
+		
+		mat[0,i+2] = len(a1.index)
+		mat[1,i+2] = len(a2.index)
+		mat[2,i+2] = len(a3.index)
+		mat[3,i+2] = len(a4.index)
+		mat[4,i+2] = len(a5.index)
+
+	print mat 
+
+	w =0
+
+	cor = [ 'aqua', 'dodgerblue','b', 'darkviolet', 'indigo']
+	cor2 = [ 'paleturquoise', 'cyan','springgreen', 'green', 'darkgreen']
+
+	labels = range(1,6) 	
+	
+	#plt.figure(1)
+
+	plt.subplot(223)
+
+	x=range(1,7)
+
+	#x = [1, 2, 3, 4, 5, 6]
+	my_xticks = ["V.E. 1", "V.E. 2", "V.E. T3", "D. 1", "D. 5", "D. 6"]
+	
+	plt.xticks(x, my_xticks)
+
+	print labels
+	#return 
+	for i in range(5):
+
+		y = mat[i]
+		plt.plot(x, y, 'o--', color=cor2[i], markersize=10, label=i+1)
+		for a,b in zip(x, y): 
+			plt.text(a+0.15, b-0.1, str(int(b)))	
+			
+			
+
+
+		# for j in range(5):
+		# 	x=(i-2*w)+1
+		# 	y = mat[i,j]
+		# 	plt.plot(x, y, '--', color=cor[j], markersize=10)
+			# for a,b in zip(x, y): 
+			# 	plt.text(a-0.05, b+1.5, str(b))
+			
+
+	plt.legend(title='Difficulty', loc='upper right', 
+		numpoints = 1,
+		shadow=True,
+		handlelength=1.5, 
+		fontsize=12)
+
+
+	plt.xlim(0,7)
+	plt.ylim(-1,35)
+
+	plt.title("Questions' Difficulty Occurrences", fontsize=32)
+
+	plt.xlabel("Topic_Question Number", fontsize=18)
+	plt.ylabel("Number of occurrences", fontsize=22)
+	#plt.show()
+
+
+	plt.subplot(224)
+
+	#--------------------------------- PIE
+
+	rights = df[ (df['System_was']==1) ]
+
+	wrongs = df[ (df['System_was']==0) ]
+
+	miss = df[ (df['System_was']==-1) ]
+
+	r = len(rights.index)
+	w = len(wrongs.index)
+	m = len(miss.index)
+
+	labels = ["Right Classification", "Wrong Classification", "Listening Problem"] 
+	sizes = [r,w,m]
+	colors = ['paleturquoise', 'lightcoral', 'lemonchiffon', 'gold', 'lightskyblue']
+	explode = [0.1,0,0]
+	#fig1, ax1 = plt.subplots()
+	
+	plt.rcParams['font.size'] = 16.0
+
+	plt.pie(sizes, labels=labels, autopct='%1.1f%%', colors= colors,
+			shadow=True, startangle=90, explode=explode)
+	
+	plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+	plt.title("System Overall Accuracy", fontsize=32)
+	
+	
+	
+	
+	
+	plt.show()
+
+	print r,w,m
+
+	ac = (float(r)/float(r+w))
+
+	print ac
+
+
+
+
+
+
+
+
 def generate_graph():
 
 
@@ -549,19 +843,31 @@ def generate_graph_frequency():
 
 def generate_pie():
 
-	df = pd.read_csv("final_evals.csv")
+	# df = pd.read_csv("final_evals.csv")
 
-	rights = df[ (df['System_was']==1) ]
+	# rights = df[ (df['System_was']==1) ]
 
-	wrongs = df[ (df['System_was']==0) ]
+	# wrongs = df[ (df['System_was']==0) ]
 
-	miss = df[ (df['System_was']==-1) ]
+	# miss = df[ (df['System_was']==-1) ]
 
-	r = len(rights.index)
-	w = len(wrongs.index)
-	m = len(miss.index)
 
-	labels = ["Right Classification", "Wrong Classification", "Listening Problem"] 
+	# r = len(rights.index)
+	# w = len(wrongs.index)
+	# m = len(miss.index)
+
+	# 1 e 2
+	# r = 65 	# sys right/student understood/system understood
+	# w = 10
+	# m = 16
+
+	#Total
+	r = 82 	# sys right/student understood/system understood
+	w = 12
+	m = 26
+
+
+	labels = [" Right \n Classifications", "Wrong \nClassifications", "Listening \nProblems"] 
 	sizes = [r,w,m]
 	colors = ['paleturquoise', 'lightcoral', 'lemonchiffon', 'gold', 'lightskyblue']
 	explode = [0.1,0,0]
@@ -574,7 +880,7 @@ def generate_pie():
 	
 	plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
 
-	plt.title("System Overall Accuracy", fontsize=32)
+	plt.title("Accuracy in the 1st meeting", fontsize=32)
 	plt.show()
 
 	print r,w,m
@@ -595,7 +901,7 @@ def hole():
 
 if __name__=='__main__':
 	
-	#generate_graph()
+	#generate_all_graph()
 	#generate_graph_frequency()
 	generate_pie()
 	
