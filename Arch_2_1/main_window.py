@@ -102,8 +102,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.insertQuestion_Button.clicked.connect(self.insertQuestion)
 		self.loadQuestions_Button.clicked.connect(self.loadQuestions_fromFile)
 		self.saveQuestions_Button.clicked.connect(self.saveQuestions_fromFile)
-		self.reportLoadButton.clicked.connect(self.loadReportsCsv)
-		self.writeReportButton.clicked.connect(self.writeReportCsv)
+		#self.reportLoadButton.clicked.connect(self.loadReportsCsv)
+		#self.writeReportButton.clicked.connect(self.writeReportCsv)
 		
 		self.recog_flag = False
 		
@@ -249,16 +249,16 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.qCol = 0
 
 
-		self.model = QStandardItemModel(self)
-		self.tableView.setModel(self.model)
-		self.tableView.horizontalHeader().setStretchLastSection(True)
+		# self.model = QStandardItemModel(self)
+		# self.tableView.setModel(self.model)
+		# self.tableView.horizontalHeader().setStretchLastSection(True)
 
-		self.tableView.setModel(self.model)
-		self.tableView.horizontalHeader().setStretchLastSection(True)
-		self.layoutVertical = QVBoxLayout(self)
-		self.layoutVertical.addWidget(self.tableView)
-		self.layoutVertical.addWidget(self.reportLoadButton)
-		self.layoutVertical.addWidget(self.writeReportButton)
+		# self.tableView.setModel(self.model)
+		# self.tableView.horizontalHeader().setStretchLastSection(True)
+		# self.layoutVertical = QVBoxLayout(self)
+		# self.layoutVertical.addWidget(self.tableView)
+		# self.layoutVertical.addWidget(self.reportLoadButton)
+		# self.layoutVertical.addWidget(self.writeReportButton)
 		
 		
 		#Shortcuts:

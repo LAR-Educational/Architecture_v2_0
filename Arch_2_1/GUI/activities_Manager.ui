@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1449</width>
-    <height>850</height>
+    <height>874</height>
    </rect>
   </property>
   <property name="font">
@@ -3695,26 +3695,81 @@
        <attribute name="title">
         <string>System Reports</string>
        </attribute>
-       <layout class="QGridLayout" name="gridLayout_36">
-        <item row="0" column="1">
-         <widget class="QPushButton" name="writeReportButton">
-          <property name="text">
-           <string>Save</string>
-          </property>
-         </widget>
-        </item>
+       <layout class="QGridLayout" name="gridLayout_6">
         <item row="0" column="0">
-         <widget class="QPushButton" name="reportLoadButton">
+         <widget class="QLabel" name="label_238">
+          <property name="maximumSize">
+           <size>
+            <width>441</width>
+            <height>271</height>
+           </size>
+          </property>
           <property name="text">
-           <string>Load</string>
+           <string/>
+          </property>
+          <property name="pixmap">
+           <pixmap resource="imgs.qrc">:/imgs/sys_class.png</pixmap>
+          </property>
+          <property name="scaledContents">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
-        <item row="1" column="0" colspan="2">
-         <widget class="QTableView" name="tableView">
-          <attribute name="horizontalHeaderCascadingSectionResizes">
+        <item row="0" column="1">
+         <widget class="QLabel" name="label_239">
+          <property name="maximumSize">
+           <size>
+            <width>481</width>
+            <height>271</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="pixmap">
+           <pixmap resource="imgs.qrc">:/imgs/supervisor.png</pixmap>
+          </property>
+          <property name="scaledContents">
            <bool>true</bool>
-          </attribute>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_240">
+          <property name="maximumSize">
+           <size>
+            <width>441</width>
+            <height>281</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="pixmap">
+           <pixmap resource="imgs.qrc">:/imgs/diff.png</pixmap>
+          </property>
+          <property name="scaledContents">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLabel" name="label_241">
+          <property name="maximumSize">
+           <size>
+            <width>381</width>
+            <height>261</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="pixmap">
+           <pixmap resource="imgs.qrc">:/imgs/pie.png</pixmap>
+          </property>
+          <property name="scaledContents">
+           <bool>true</bool>
+          </property>
          </widget>
         </item>
        </layout>
@@ -9366,9 +9421,6 @@
   <tabstop>know_per_button_del</tabstop>
   <tabstop>know_per_button_save</tabstop>
   <tabstop>know_per_button_load</tabstop>
-  <tabstop>writeReportButton</tabstop>
-  <tabstop>reportLoadButton</tabstop>
-  <tabstop>tableView</tabstop>
   <tabstop>user_new_button</tabstop>
   <tabstop>user_del_button</tabstop>
   <tabstop>user_open_table_button</tabstop>
@@ -9471,8 +9523,6 @@
   <tabstop>run_stopvid_button</tabstop>
  </tabstops>
  <resources>
-  <include location="imgs.qrc"/>
-  <include location="imgs.qrc"/>
   <include location="imgs.qrc"/>
  </resources>
  <connections>
