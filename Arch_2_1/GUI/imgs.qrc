@@ -1,5 +1,9 @@
 <RCC>
   <qresource prefix="imgs">
+    <file>pie.png</file>
+    <file>supervisor.png</file>
+    <file>diff.png</file>
+    <file>sys_class.png</file>
     <file>graph1.png</file>
     <file>lines.png</file>
     <file>graph.png</file>
