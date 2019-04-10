@@ -28,7 +28,7 @@ from pprint import pprint
 
 #pprint(path)
 
-import testss
+#import testss
 
 
 # testss.myprint()
@@ -396,12 +396,13 @@ class DialogSystem:
 		
 		return sentence
 
-	def load(self):
-		ob = testss.Embeddings()
-		return ob
+	# DESCOMENTAR
+	#def load(self):
+		#ob = testss.Embeddings()
+		#return ob
 	
-	def embeddings_test(self, sentence_one, sentence_two):
-		testss.embeddings_compare(sentence_one, sentence_two)
+	# def embeddings_test(self, sentence_one, sentence_two):
+	# 	testss.embeddings_compare(sentence_one, sentence_two)
 	
 	def adaptation_funct(self, embedding, sentence_one, sentence_two):
 		sentence_one = sentence_one.decode("utf-8")
