@@ -119,28 +119,6 @@ def make(path = "../BKS/Log/AdaptiveLogs"):
 
 
 
-def users():
-    
-    av = [6.3, 3.4, 6.4, 6.7, 5.6, 6.6, 5.7]
-    sd = [1.059349905,	1.646545205,	0.9660917831,	0.6749485577,	0.8432740427,	0.6992058988,	1.059349905] 
-    
-    
-    
-    x =  range(1,len(av)+1)
-    
-    plt.bar(x, av, width=0.45, color = 'aqua', align="center", yerr=sd, ecolor="k")
-    for i in x:
-        plt.text(x[i-1]+0.1, av[i-1]+0.1, "{:.2f}".format(av[i-1]), fontsize=14 ) 
-
-    plt.title("Users average score by question", fontsize=28)
-    plt.ylabel("Average users' score", fontsize=16)
-    plt.xlabel("Question number", fontsize=16)
-    plt.gca().yaxis.grid(True)
-    plt.xticks(x)
-    plt.savefig("usersAnswers.png")
-    plt.show()
-
-
 
 
 def make_from_path():
@@ -184,6 +162,78 @@ def make_from_path():
 	plt.show()
 
 
+def users():
+
+    av1 = [4.90 ,	3.59,	4.15,	04.09,	1.96]
+    av2 = [4.75, 4.18, 4.34, 4.33, 2.56] 
+
+    sd1 = [0.29, 1.26, 0.88, 0.96, 1.96]
+    sd2 = [0.5, 0.93, 0.74, 0.93, 1.13]
+
+
+    fig, ax = plt.subplots()
+
+    #x =  range(1,len(av1)+1)
+
+    index = np.arange(len(av1)) #0,8)
+	
+
+    bar_width = 0.25
+
+    opacity = 0.4
+    error_config = {'ecolor': '0.3'}
+
+    ax.bar(index-bar_width/1.6, av1, bar_width,
+		            alpha=opacity, color='lime',
+		            yerr=sd1, error_kw=error_config,
+		            label='First session')
+    for i in index:
+        plt.text((index[i-1]+0.1)-bar_width-.01, av1[i-1]+0.1, "{:.2f}".format(av1[i-1]), fontsize=12 ) 
+
+    ax.bar(index+bar_width/1.6, av2, bar_width,
+		            alpha=opacity, color='blue',
+		            yerr=sd2, error_kw=error_config,
+		            label='Second session')
+    for i in index:
+        plt.text((index[i-1]-0.1)+bar_width+.01, av2[i-1]+0.1, "{:.2f}".format(av2[i-1]), fontsize=12 ) 
+
+   
+    plt.text(1.05,5, "*", fontsize=20 ) 
+    plt.text(4.05,4.0, "*", fontsize=20 ) 
+    plt.text(4.,4.7, "* $\it{p-value < 0.5}$", fontsize=13 ) 
+
+
+    #plt.title("Users average score by question", fontsize=28)
+    ax.set_ylabel("Average users' score", fontsize=16)
+    ax.set_xlabel("Question number", fontsize=16)
+    ax.set_title("Users average score by question", fontsize=28)
+    ax.set_xticks(index + bar_width / 2)
+    ax.set_xticklabels(("1 \n Users' \nEnjoyment", '2 \nLearning \n Perception', '3 \nRaport \nBuilding', "4 \nRobot's \nIntelligence", '5 \nContent\n Difficulty'))
+    ax.set_xlim(-.5 , len(index)+.5)
+
+
+    ax.legend()
+    plt.plot()
+    fig.tight_layout()
+    #plt.savefig("emos_pref.png")
+
+    plt.show()
+
+
+
+    '''
+    plt.bar(x, av, width=0.45, color = 'aqua', align="center", yerr=sd, ecolor="k")
+    for i in x:
+        plt.text(x[i-1]+0.1, av[i-1]+0.1, "{:.2f}".format(av[i-1]), fontsize=14 ) 
+
+    plt.ylabel()
+    plt.xlabel()
+    plt.gca().yaxis.grid(True)
+    plt.xticks(x)
+    plt.savefig("usersAnswers.png")
+    plt.show()
+
+    '''
 
 def emo_prefs():
 	
@@ -264,6 +314,6 @@ def GUI_teach_test():
 if __name__=="__main__":
     #emo_prefs()
     #make_from_path()
-    #users()
+    users()
 	#make()
-    GUI_teach_test()
+    #GUI_teach_test()
