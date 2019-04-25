@@ -747,8 +747,9 @@ def generate_graph_frequency():
 
 	#rights = df[ (df['Question_number']==1) & (df['System_was']==1) ]
 
+	max_quest = 3 # 6 if total
 
-	mat = np.zeros((5,6))
+	mat = np.zeros((5,max_quest))
 
 
 	for i in range(1,4):
@@ -772,35 +773,51 @@ def generate_graph_frequency():
 	
 	# return
 
-	for i in range(1,4):
+	# for i in range(1,4):
 
-		a1 = df[ (df['Question_number']==i) & (df['Dificult']==1) & (df['Topic']=='Digrafo') ] 
-		a2 = df[ (df['Question_number']==i) & (df['Dificult']==2) & (df['Topic']=='Digrafo') ] 
-		a3 = df[ (df['Question_number']==i) & (df['Dificult']==3) & (df['Topic']=='Digrafo') ] 
-		a4 = df[ (df['Question_number']==i) & (df['Dificult']==4) & (df['Topic']=='Digrafo') ] 
-		a5 = df[ (df['Question_number']==i) & (df['Dificult']==5) & (df['Topic']=='Digrafo') ] 
+	# 	a1 = df[ (df['Question_number']==i) & (df['Dificult']==1) & (df['Topic']=='Digrafo') ] 
+	# 	a2 = df[ (df['Question_number']==i) & (df['Dificult']==2) & (df['Topic']=='Digrafo') ] 
+	# 	a3 = df[ (df['Question_number']==i) & (df['Dificult']==3) & (df['Topic']=='Digrafo') ] 
+	# 	a4 = df[ (df['Question_number']==i) & (df['Dificult']==4) & (df['Topic']=='Digrafo') ] 
+	# 	a5 = df[ (df['Question_number']==i) & (df['Dificult']==5) & (df['Topic']=='Digrafo') ] 
 		
-		mat[0,i+2] = len(a1.index)
-		mat[1,i+2] = len(a2.index)
-		mat[2,i+2] = len(a3.index)
-		mat[3,i+2] = len(a4.index)
-		mat[4,i+2] = len(a5.index)
+	# 	mat[0,i+2] = len(a1.index)
+	# 	mat[1,i+2] = len(a2.index)
+	# 	mat[2,i+2] = len(a3.index)
+	# 	mat[3,i+2] = len(a4.index)
+	# 	mat[4,i+2] = len(a5.index)
+
+
+
+
+	# Primeiro encontro 
+
+
+	# mat = [	[0,0,3],
+	# 		[0,21,6],
+	# 		[32,3,18],
+	# 		[0,8,4],
+	# 		[0,0,1]]
+
 
 	print mat 
+
+
 
 	w =0
 
 	cor = [ 'aqua', 'dodgerblue','b', 'darkviolet', 'indigo']
-	cor2 = [ 'paleturquoise', 'cyan','springgreen', 'green', 'darkgreen']
+	cor2 = [ 'paleturquoise', 'cyan','springgreen', 'green', 'black'] #darkgreen']
 
-	labels = range(1,6) 	
 	
 	plt.figure(1)
-	x=range(1,7)
 
 	#x = [1, 2, 3, 4, 5, 6]
-	my_xticks = ["V.E. 1", "V.E. 2", "V.E. T3", "D. 1", "D. 5", "D. 6"]
+	my_xticks = ["V.E. 1", "V.E. 2", "V.E. 3"]#, "D. 4", "D. 5", "D. 6"]
+	labels = range(1,len(my_xticks)+1) 	
+	x=range(1,len(my_xticks)+1)
 	
+
 	plt.xticks(x, my_xticks)
 
 	print labels
@@ -830,10 +847,10 @@ def generate_graph_frequency():
 		fontsize=12)
 
 
-	plt.xlim(0,7)
+	plt.xlim(0.8,max_quest+1)
 	plt.ylim(-1,33)
 
-	plt.title("Questions' Difficulty Occurrences", fontsize=32)
+	plt.title("Adaptation timeline in 2nd set", fontsize=32)
 
 	plt.xlabel("Topic_Question Number", fontsize=18)
 	plt.ylabel("Number of occurrences", fontsize=22)
@@ -861,10 +878,16 @@ def generate_pie():
 	# w = 10
 	# m = 16
 
-	#Total
+	#Total 1st time
 	r = 82 	# sys right/student understood/system understood
 	w = 12
 	m = 26
+
+
+	#Total 2nd time
+	# r = 67.5 	
+	# w = 5.2
+	# m = 27.2
 
 
 	labels = [" Right \n Classifications", "Wrong \nClassifications", "Listening \nProblems"] 
@@ -880,7 +903,7 @@ def generate_pie():
 	
 	plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
 
-	plt.title("Accuracy in the 1st meeting", fontsize=32)
+	plt.title("Accuracy in 1st sessions", fontsize=35, y =1.03)
 	plt.show()
 
 	print r,w,m
@@ -888,6 +911,20 @@ def generate_pie():
 	ac = (float(r)/float(r+w))
 
 	print ac
+
+
+
+
+# def compare():
+
+
+# 	r1=
+
+
+
+
+
+
 
 
 
