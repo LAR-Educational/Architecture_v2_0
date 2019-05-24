@@ -18,6 +18,7 @@ import pandas as pd
 from utils import *
 import random
 import threading
+import paramiko
 #from datetime import datetime
 #import utils
 	
@@ -78,6 +79,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		# access variables, methods etc in the design.py file
 		super(self.__class__, self).__init__()
 
+
 		self.setupUi(self)  # This is defined in design.py file automatically
 
 
@@ -87,6 +89,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.robot = None
 		self.vs= None
 		#self.ds=None
+		self.path_nao_records = "/home/nao/"
 
 
 		self.sys_vars = core.SystemVariablesControl()
@@ -112,16 +115,19 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.supervisor ="admin"
 		self.cur_user = None
 		
-		# --- Dialog
 
+
+		# --- Dialog
 		self.answer_threshold = 1 - 0.60#self.diag_dist_thres_spinBox.value()
 		#print "Thres valeu", self.answer_threshold
-
+		entry = self.run_entry_comboBox.itemText( self.run_entry_comboBox.currentIndex())
+		core.input_option = core.input_option_list[str(entry)]
 
 
 		#--- Vision panel
-
-
+		self.display_flag = False
+		#self.run_autovideo_checkBoxvideo_check_change
+		self.run_display_image_radioButton.toggled.connect(lambda:self.video_check_change(self.run_display_image_radioButton))
 
 
 
@@ -263,7 +269,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		#Shortcuts:
 		self.load_file()
-		self.shortcut = False
+		self.shortcut = True# False
 		
 		if self.shortcut:
 			self.int_load_action()
@@ -1136,7 +1142,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			return 0
 
 		if self.shortcut:
-			filename = self.act.path+"/"+"Interactions/Complete_2.int"
+			filename = self.act.path+"/"+"Interactions/d.int"
 		else:
 			#/home/tozadore/Projects/Arch_2/Arch_2_1/Activities/NOVA/Interactions
 			filename = QFileDialog.getOpenFileName(self, 'Open File' ,self.act.path+"/"+"Interactions")
@@ -1275,12 +1281,14 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				
 				
 		# 		return -1
-			
+		del self.cur_eval #=  Evaluation()	
 		self.cur_eval =  Evaluation(
 								id=self.sys_vars.evaluation_id,
 								date=QDate.currentDate(),
 								start_time=QTime.currentTime(),
-								supervisor=self.supervisor 	
+								supervisor=self.supervisor,
+								topics = [],
+								tp_names=[] 	
 								)
 
 		self.run_options_frame.setEnabled(True)
@@ -1298,7 +1306,15 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.timer.start()
 		self.counter_timer.restart()
 
-		
+		if self.nao_connected:
+			if self.run_autovideo_checkBox.isChecked:
+				self.robot.audio_recording.startMicrophonesRecording(
+						self.path_nao_records + "/" + str(self.cur_eval.id)+ ".wav" , 'wav', 16000, (0,0,1,0)
+						)
+				
+				self.robot.video_recording.setFrameRate(10.0)
+				self.robot.video_recording.setResolution(2)
+				self.robot.video_recording.startRecording(self.path_nao_records, str(self.cur_eval.id))
 		# Emotion not running
 		#self.run_att_emo()
 		
@@ -1324,13 +1340,13 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			
 		
 		#WAKEUP
-		self.robot.motors.wakeUp()
+		#self.robot.motors.wakeUp()
 				
 		# Não conehce
 		#self.interact_know_person()
 		
 		#Já conhece
-		self.interact_recognize_person()
+		#self.interact_recognize_person()
 		
 		# Start interaction engine
 		self.interatction_parser()
@@ -1345,32 +1361,59 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		self.timer.stop()
 
+		if self.nao_connected:
+			if self.run_autovideo_checkBox.isChecked:
+				self.robot.audio_recording.stopMicrophonesRecording()
+				self.robot.video_recording.stopRecording()
+
 		#self.cur_eval.
 		#self.cur_eval.
 		#self.cur_eval.
 		
 		self.cur_eval.end_time = QTime.currentTime()
-		self.cur_eval.user_name = (self.cur_user.first_name) + " "+ (self.cur_user.last_name)
+
+		if self.cur_user is not None:		
+			self.cur_eval.user_name = (self.cur_user.first_name) + " "+ (self.cur_user.last_name)
+		else:
+			self.cur_eval.user_name = "None"
 		self.cur_eval.user_dif_profile = self.user_profile
 
 		if self.evaluation_db.insert_eval(self.cur_eval) > 0:
 			self.sys_vars.add('evaluation')
 		
-		
-		# self.modules_tabWidget.setCurrentIndex(7)
+
+		#ssh_transfer()
+		self.flag_ssh = [True]
+		print "antes", self.flag_ssh[0]
+		t1 = threading.Thread(name="ssh", target=ssh_transfer,args=(self.robot_ip, str(self.cur_eval.id), self.flag_ssh))
+		t1.start()
+
+		# while self.flag_ssh[0]:
+		# 	QCoreApplication.processEvents()
+		t1.join()
+		print "DEPOIS", self.flag_ssh[0]
+
 
 		dataframe_to_table(self.evaluation_db.index_table, self.eval_index_table)
 
 
 
+
+
+
+
 	def run_connect_robot_action(self):
 		
-		robot_ip = str(self.run_robot_ip_comboBox.currentText())
+		self.robot_ip = str(self.run_robot_ip_comboBox.currentText())
 		robot_port = int(self.run_robot_port.text())
 		
 		try:
-			self.robot=core.Robot(robot_ip, robot_port)
+			self.robot=core.Robot(self.robot_ip, robot_port)
+			self.nao_connected = True
+
 		except:
+			self.nao_connected = False
+
 			ret = QMessageBox.critical(self, "Error!", "ROBOT NOT CONNECT!\n Continue with computer resources?", 
 									QMessageBox.Cancel | QMessageBox.Ok )
 			
@@ -1399,8 +1442,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		self.vis_sys = vision.VisionSystem(self.robot)
 		self.diag_sys = dialog.DialogSystem(self.robot, None)
-		self.embeddings = self.diag_sys.load()		
-		#self.embeddings = None#self.diag_sys.load()		
+		#self.embeddings = self.diag_sys.load()		
+		self.embeddings = None#self.diag_sys.load()		
 		
 		#self.w = adaption.Weights(self.alfaWeight.value(),
 		#						self.betaWeight.value(),
@@ -1434,9 +1477,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#self.run_load_models()
 		
 		#self.diag_sys.say("Estou Pronto.", False)
-		self.robot_say("Estou Pronto.", False)
-		core.info("Robot Connected")
-
+	
 
 		self.timer = QTimer(self)
 		self.timer.timeout.connect(self.update_frame)
@@ -1453,6 +1494,13 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		if self.robot is not None:
 			self.vis_sys.subscribe(0)
+
+		self.robot_say("Estou Pronto.", False)
+		core.info("Robot Connected")
+
+
+
+
 
 
 	def interatction_parser(self):
@@ -1494,12 +1542,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 			print "\n\n\n"
 
-		self.run_final_dialog()		
+		#self.run_final_dialog()		
 		self.run_end_activity()	
-
-
-
-
 
 
 	def personal_interact_talk(self, talk_subject):
@@ -1669,9 +1713,6 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#self.recog_flag=False
 		
 
-
-
-
 	def interact_know_person(self):
 		
 		self.robot_say("Olá amiguinho. Nós ainda não nos conhecemos. Eu me chamo Tédi.") 
@@ -1707,10 +1748,6 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			
 		except expression as identifier:
 			pass
-
-
-
-
 
 
 
@@ -1886,7 +1923,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 					quest.insert_attempt(att)	
 					self.robot_say("Parabéns. A resposta que eu esperava e a que você deu me parecem iguais!")
 					#self.robot_say("Eu notei que existe uma difereçna entre a resposta que eu esperava e a que você deu.")
-#					#self.robot_say("Pois Eu esperava a resposta:")
+			 		#self.robot_say("Pois Eu esperava a resposta:")
 					#self.robot_say(expected_answer)
 					#self.robot_say("E eu entendi que você respondeu:")
 					#self.robot_say(user_answer)
@@ -2034,12 +2071,14 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		# IF robot not connected
 		#ret, self.image=self.capture.read()
 
-		self.image = self.vis_sys.get_img(0)
+		if self.display_flag:
+			self.image = self.vis_sys.get_img(0)
 
-		self.image = cv2.flip(self.image,1)
+			self.image = cv2.flip(self.image,1)
 		#cv2.imshow("testwindow",self.image )
 		#cv2.waitKey()
 
+		# RECOGNIZING USER
 		if (self.recog_flag):
 			self.image, self.recog_user_id = self.students_database.face_recognition(self.image)
 			
@@ -2050,14 +2089,18 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			else:
 				self.log("USER NOT DETECTED")
 
+
+		# CLASSIFYING EMOTION
 		if (self.run_emotion_flag):
 			self.image = self.run_attention_emotion_thread(self.image)
 
+		# RECORDING VIDEO (NEVER USED)
 		if(self.run_record):
 			frame = self.image #cv2.flip(self.image,-1)
 			self.out.write(frame)
 
-		self.displayImage(self.image)
+		if self.display_flag:
+			self.displayImage(self.image)
 
 
 
@@ -2457,7 +2500,12 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		df.to_csv("Total_evals.csv", index=False)
 
 
-
+	def video_check_change(self, b):
+		
+		if b.isChecked() == True:
+			self.display_flag = True
+		else:
+			self.display_flag = False
 
 
 

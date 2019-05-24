@@ -17,7 +17,7 @@ import duckduckgo as ddg
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import numpy as np
-
+import paramiko
 
 cor = [ 'aqua', 'dodgerblue','b', 'darkviolet', 'indigo']
 cor2 = [ 'paleturquoise', 'cyan','springgreen', 'green', 'darkgreen']
@@ -918,12 +918,63 @@ def generate_pie():
 # def compare():
 
 
-# 	r1=
+# # 	r1=
+
+# def meia_boca():
+
+	
+# 	r = 31 	
+# 	w = 29
+# 	m = 15
+# 	n = 37
+
+# 	labels = ["Bandejao", "Nego jogando Isca", "Ex morador que nao superou sao Carlos","Ex morador que não superou sao Carlos jogando isca"] 
+# 	labels = ["Badeco", "Nego jogando Isca", "Ex morador que nao superou sao Carlos","Ex morador que nao superou \n Sao Carlos jogando isca"] 
+# 	sizes = [r,w,m,n]
+# 	colors = ['paleturquoise', 'lightcoral', 'lemonchiffon', 'gold', 'lightskyblue']
+# 	#explode = [0.1,0,0]
+# 	#fig1, ax1 = plt.subplots()
+	
+# 	plt.rcParams['font.size'] = 16.0
+
+# 	plt.pie(sizes, labels=labels, autopct='%1.1f%%', colors= colors,
+# 			shadow=True, startangle=90)#, explode=explode)
+	
+# 	plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+# 	plt.title("Grupo Rep meia boca", fontsize=35, y =1.03)
+# 	plt.show()
 
 
 
 
 
+def ssh_transfer(robot_ip, file_name, flag):
+	
+	username = "nao"
+	password = "nao"
+	ssh = paramiko.SSHClient()
+	ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+	ssh.connect(robot_ip, username=username, password=password)
+	remote_path = "/home/nao/"+ file_name #+ ".avi"
+	local_path = "Evaluations/" + file_name + "/"+ file_name# + ".avi"
+	
+	print "start ftp"
+
+	ftp_client=ssh.open_sftp()
+	ftp_client.get(remote_path + ".avi", local_path + ".avi")
+	ftp_client.get(remote_path + ".wav", local_path + ".wav")
+	ftp_client.close()
+
+	print "finished file transfer. Cleaning NAO memory"
+	ssh.exec_command("rm " + remote_path + ".avi" )
+	ssh.exec_command("rm " + remote_path + ".wav" )
+
+
+	print "finished ftp	"
+
+	# USED AS REFERENCE
+	flag[0]=False
 
 
 
@@ -937,10 +988,9 @@ def hole():
 
 
 if __name__=='__main__':
-	
+	pass
 	#generate_all_graph()
 	#generate_graph_frequency()
-	generate_pie()
-	
-		# if(search_engine('bla'))=='':#, type(search_engine('santos').encode('utf-8'))
-		# 	print "YES"
+	#generate_pie()
+	# if(search_engine('bla'))=='':#, type(search_engine('santos').encode('utf-8'))
+	# 	print "YES"
