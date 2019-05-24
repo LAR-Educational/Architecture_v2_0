@@ -227,9 +227,9 @@ input_shape = (224,224,3)
 
 
 
-input_option_list = {'mic': 1 , 'key':-1}
+input_option_list = {'Microphone': 1 , 'Keyboard':-1}
 
-input_option = input_option_list['mic'] 
+input_option = input_option_list['Keyboard'] 
 
 '''
 def get_input(ds):
@@ -269,6 +269,15 @@ class Robot:
             self.motors =  ALProxy("ALMotion", robotIp, port)
             self.posture = ALProxy("ALRobotPosture", robotIp, port)
             self.camera = ALProxy("ALVideoDevice", robotIp, port)
+            
+            # video recording parameters: 
+            self.video_recording = ALProxy("ALVideoRecorder", robotIp, port)
+            
+            # Audio recording parameters :(paht, format, channels, (left. right, front, rear) )
+            self.audio_recording = ALProxy("ALAudioRecorder", robotIp, port)
+           
+           
+           
             self.disattention = False
             self.name = robot_name
             self.tts.setLanguage(defaultLanguage)
