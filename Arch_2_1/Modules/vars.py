@@ -227,7 +227,7 @@ input_shape = (224,224,3)
 
 
 
-input_option_list = {'Microphone': 1 , 'Keyboard':-1}
+input_option_list = {'Microphone': 1 , 'Keyboard':-1, 'Woz':0}
 
 input_option = input_option_list['Keyboard'] 
 
