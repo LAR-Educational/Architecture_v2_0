@@ -202,6 +202,11 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.eval_questions_comboBox.currentIndexChanged.connect(self.eval_update_tab)
 		self.eval_att_comboBox.currentIndexChanged.connect(self.eval_update_tab)
 		self.eval_ans_sup_comboBox.currentIndexChanged.connect(self.eval_validation_change)
+		#---- Time eval
+		self.eval_time_questions_comboBox.currentIndexChanged.connect(self.eval_update_time_tab)
+		self.eval_time_att_comboBox.currentIndexChanged.connect(self.eval_update_time_tab)
+		self.eval_time_topic_comboBox.currentIndexChanged.connect(self.eval_update_time_tab)
+		
 		
 
 
@@ -1078,8 +1083,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		min_finish = qt.finished/60
 		#aux1 = QTime(0,min_start,tp.started)
 		#print aux1
-		self.eval_qt_started_timeEdit.setTime(QTime(0,min_start,tp.started))
-		self.eval_qt_finished_timeEdit.setTime(QTime(0,min_finish,tp.finished))
+		self.eval_qt_started_timeEdit.setTime(QTime(0,min_start,qt.started))
+		self.eval_qt_finished_timeEdit.setTime(QTime(0,min_finish,qt.finished))
 
 
 		# ----- ATTEMPT ------
@@ -1090,8 +1095,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		min_finish = att.finished/60
 		#aux1 = QTime(0,min_start,tp.started)
 		#print aux1
-		self.eval_att_started_timeEdit.setTime(QTime(0,min_start,tp.started))
-		self.eval_att_finished_timeEdit.setTime(QTime(0,min_finish,tp.finished))
+		self.eval_att_started_timeEdit.setTime(QTime(0,min_start, att.started))
+		self.eval_att_finished_timeEdit.setTime(QTime(0,min_finish,att.finished))
 
 
 
@@ -2163,9 +2168,14 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#ret, self.image=self.capture.read()
 
 		if self.display_flag:
-			self.image = self.vis_sys.get_img(0)
+			
+			if self.robot is not None:
+				self.image = self.vis_sys.get_img(0)
 
-			self.image = cv2.flip(self.image,1)
+				self.image = cv2.flip(self.image,1)
+			else:
+				ret, self.image=self.capture.read()
+
 		#cv2.imshow("testwindow",self.image )
 		#cv2.waitKey()
 
