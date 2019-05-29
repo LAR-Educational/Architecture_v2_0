@@ -2500,7 +2500,20 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#print "Input Option", core.input_option
 
 		# IF MIC
-		if core.input_option > 0 :
+		if core.input_option == 0 :
+
+			ans = QMessageBox.question(self, "Woz Answer!", "Is the user answer right?", 
+									QMessageBox.Cancel | QMessageBox.Ok )
+			
+			if ans == QMessageBox.Ok:
+
+				ret = True
+				
+			else:
+				ret = False
+
+
+		elif core.input_option > 0 :
 
 
 			if self.robot is not None:
@@ -2520,7 +2533,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 	
 		
 		# IF text
-		else:
+		else :
 			self.user_ans_flag = False
 
 			while not self.user_ans_flag:

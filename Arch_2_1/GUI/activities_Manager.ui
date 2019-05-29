@@ -312,7 +312,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>7</number>
+       <number>9</number>
       </property>
       <property name="iconSize">
        <size>
@@ -9360,6 +9360,11 @@
               </item>
               <item row="5" column="1" colspan="2">
                <widget class="QComboBox" name="run_entry_comboBox">
+                <item>
+                 <property name="text">
+                  <string>Woz</string>
+                 </property>
+                </item>
                 <item>
                  <property name="text">
                   <string>Keyboard</string>
