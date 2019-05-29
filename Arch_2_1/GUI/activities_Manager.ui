@@ -312,7 +312,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>9</number>
+       <number>7</number>
       </property>
       <property name="iconSize">
        <size>
@@ -4454,7 +4454,7 @@
            </size>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>4</number>
           </property>
           <widget class="QWidget" name="tab_16">
            <attribute name="title">
@@ -6253,6 +6253,408 @@
            <attribute name="title">
             <string>Pictures</string>
            </attribute>
+           <widget class="QFrame" name="horizontalFrame_3">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>30</y>
+              <width>830</width>
+              <height>48</height>
+             </rect>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::Panel</enum>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_23">
+             <item>
+              <widget class="QLabel" name="label_242">
+               <property name="text">
+                <string>Topic</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="eval_time_topic_comboBox">
+               <property name="minimumSize">
+                <size>
+                 <width>341</width>
+                 <height>28</height>
+                </size>
+               </property>
+               <property name="editable">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="Line" name="line_30">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_243">
+               <property name="text">
+                <string>Question Number</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="eval_time_questions_comboBox"/>
+             </item>
+             <item>
+              <widget class="Line" name="line_31">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_244">
+               <property name="text">
+                <string>Attempt</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="eval_time_att_comboBox"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QFrame" name="frame_86">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>90</y>
+              <width>391</width>
+              <height>306</height>
+             </rect>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_36">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_91">
+               <property name="minimumSize">
+                <size>
+                 <width>90</width>
+                 <height>18</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>90</width>
+                 <height>18</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>Topic Name:</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLabel" name="eval_time_tp_name_label">
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="text">
+                <string>&lt;NAME&gt;</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0" colspan="2">
+              <widget class="QFrame" name="formFrame">
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_20">
+                <item row="1" column="2">
+                 <widget class="QTimeEdit" name="eval_tp_started_timeEdit">
+                  <property name="readOnly">
+                   <bool>true</bool>
+                  </property>
+                  <property name="displayFormat">
+                   <string>mm:ss</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0" rowspan="2">
+                 <widget class="QLabel" name="label_94">
+                  <property name="font">
+                   <font>
+                    <weight>75</weight>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Topic</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="2">
+                 <widget class="QTimeEdit" name="eval_qt_started_timeEdit">
+                  <property name="readOnly">
+                   <bool>true</bool>
+                  </property>
+                  <property name="currentSection">
+                   <enum>QDateTimeEdit::MinuteSection</enum>
+                  </property>
+                  <property name="displayFormat">
+                   <string>mm:ss</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="7" column="1">
+                 <widget class="QLabel" name="label_90">
+                  <property name="text">
+                   <string>Started</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="1">
+                 <widget class="QLabel" name="label_86">
+                  <property name="text">
+                   <string>Finished</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="8" column="1">
+                 <widget class="QLabel" name="label_93">
+                  <property name="text">
+                   <string>Finished</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QLabel" name="label_85">
+                  <property name="text">
+                   <string>Started</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="1">
+                 <widget class="QLabel" name="label_87">
+                  <property name="text">
+                   <string>Started</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="5" column="1">
+                 <widget class="QLabel" name="label_89">
+                  <property name="text">
+                   <string>Finished</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="2">
+                 <widget class="QTimeEdit" name="eval_tp_finished_timeEdit">
+                  <property name="readOnly">
+                   <bool>true</bool>
+                  </property>
+                  <property name="displayFormat">
+                   <string>mm:ss</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="0" rowspan="2">
+                 <widget class="QLabel" name="label_95">
+                  <property name="font">
+                   <font>
+                    <weight>75</weight>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Question</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="5" column="2">
+                 <widget class="QTimeEdit" name="eval_qt_finished_timeEdit">
+                  <property name="readOnly">
+                   <bool>true</bool>
+                  </property>
+                  <property name="displayFormat">
+                   <string>mm:ss</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="7" column="2">
+                 <widget class="QTimeEdit" name="eval_att_started_timeEdit">
+                  <property name="readOnly">
+                   <bool>true</bool>
+                  </property>
+                  <property name="displayFormat">
+                   <string>mm:ss</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="8" column="2">
+                 <widget class="QTimeEdit" name="eval_att_finished_timeEdit">
+                  <property name="readOnly">
+                   <bool>true</bool>
+                  </property>
+                  <property name="displayFormat">
+                   <string>mm:ss</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="7" column="0" rowspan="2">
+                 <widget class="QLabel" name="label_96">
+                  <property name="font">
+                   <font>
+                    <weight>75</weight>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Attempt</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="0" colspan="4">
+                 <widget class="Line" name="line_32">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item row="6" column="0" colspan="4">
+                 <widget class="Line" name="line_33">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="2">
+                 <widget class="QLabel" name="label_92">
+                  <property name="text">
+                   <string>mm / ss</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="3">
+                 <widget class="QLabel" name="label_97">
+                  <property name="text">
+                   <string>Sec</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="3">
+                 <widget class="QDoubleSpinBox" name="eval_tp_started_doubleSpinBox">
+                  <property name="readOnly">
+                   <bool>true</bool>
+                  </property>
+                  <property name="maximum">
+                   <double>9999.000000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="3">
+                 <widget class="QDoubleSpinBox" name="eval_tp_finished_doubleSpinBox">
+                  <property name="readOnly">
+                   <bool>true</bool>
+                  </property>
+                  <property name="maximum">
+                   <double>9999.989999999999782</double>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="3">
+                 <widget class="QDoubleSpinBox" name="eval_qt_started_doubleSpinBox">
+                  <property name="readOnly">
+                   <bool>true</bool>
+                  </property>
+                  <property name="maximum">
+                   <double>9999.989999999999782</double>
+                  </property>
+                 </widget>
+                </item>
+                <item row="5" column="3">
+                 <widget class="QDoubleSpinBox" name="eval_qt_finished_doubleSpinBox">
+                  <property name="readOnly">
+                   <bool>true</bool>
+                  </property>
+                  <property name="maximum">
+                   <double>9999.989999999999782</double>
+                  </property>
+                 </widget>
+                </item>
+                <item row="7" column="3">
+                 <widget class="QDoubleSpinBox" name="eval_att_started_doubleSpinBox">
+                  <property name="readOnly">
+                   <bool>true</bool>
+                  </property>
+                  <property name="maximum">
+                   <double>9999.989999999999782</double>
+                  </property>
+                 </widget>
+                </item>
+                <item row="8" column="3">
+                 <widget class="QDoubleSpinBox" name="eval_att_finished_doubleSpinBox">
+                  <property name="readOnly">
+                   <bool>true</bool>
+                  </property>
+                  <property name="maximum">
+                   <double>9999.989999999999782</double>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </widget>
           </widget>
          </widget>
         </item>
@@ -7971,6 +8373,35 @@
           </property>
           <layout class="QGridLayout" name="gridLayout_2">
            <item row="3" column="0">
+            <widget class="QFrame" name="frame_80">
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_16">
+              <item>
+               <widget class="QLabel" name="label_194">
+                <property name="text">
+                 <string>User:</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="run_recognized_user_label">
+                <property name="text">
+                 <string>Recognized User</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="4" column="0">
             <widget class="QFrame" name="frame_52">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -8097,35 +8528,6 @@
              </layout>
             </widget>
            </item>
-           <item row="2" column="0">
-            <widget class="QFrame" name="frame_80">
-             <property name="frameShape">
-              <enum>QFrame::StyledPanel</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Raised</enum>
-             </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_16">
-              <item>
-               <widget class="QLabel" name="label_194">
-                <property name="text">
-                 <string>User:</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="run_recognized_user_label">
-                <property name="text">
-                 <string>Recognized User</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
            <item row="0" column="0">
             <widget class="QFrame" name="frame_50">
              <property name="maximumSize">
@@ -8194,7 +8596,7 @@
              </layout>
             </widget>
            </item>
-           <item row="2" column="1">
+           <item row="3" column="1">
             <widget class="QFrame" name="frame_85">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -8234,7 +8636,7 @@
              <zorder>label_200</zorder>
             </widget>
            </item>
-           <item row="3" column="1">
+           <item row="4" column="1">
             <widget class="QFrame" name="frame_56">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -8475,6 +8877,19 @@
              </layout>
             </widget>
            </item>
+           <item row="2" column="0">
+            <spacer name="verticalSpacer_48">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
            <item row="0" column="1">
             <widget class="QFrame" name="frame_58">
              <property name="frameShape">
@@ -8490,7 +8905,7 @@
                  <string>Record Video/Audio</string>
                 </property>
                 <property name="checked">
-                 <bool>true</bool>
+                 <bool>false</bool>
                 </property>
                </widget>
               </item>
@@ -9017,19 +9432,6 @@
               </item>
              </layout>
             </widget>
-           </item>
-           <item row="1" column="0">
-            <spacer name="verticalSpacer_48">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
-            </spacer>
            </item>
           </layout>
          </widget>
