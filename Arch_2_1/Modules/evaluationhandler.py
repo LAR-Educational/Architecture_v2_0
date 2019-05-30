@@ -98,6 +98,7 @@ class EvaluationDatabase():
         
         if not os.path.exists(path):
             raise NameError('Trying to delete evaluation with id "{}". Evalutaion NOT exists!'.format(new_eval.id))
+            #return False
             #print "USER EXIST"
         
         #else:
@@ -115,6 +116,7 @@ class EvaluationDatabase():
         #pass
         self.load_evaluations_list()
 
+        return True
 
 
 
@@ -139,10 +141,11 @@ class EvaluationDatabase():
 class Evaluation:
     
     def __init__(self, id, 
-                date, user_id=None, 
+                date=None, 
+                user_id=None, 
                 user_name=None, 
-                topics=[],
-                tp_names=[], 
+                topics=None,
+                tp_names=None, 
                 duration=None,
                 start_time=None,
                 end_time=None,
@@ -157,8 +160,10 @@ class Evaluation:
         self.date=date
         self.user_id = user_id
         self.user_name=user_name
-        self.topics=topics
-        self.tp_names=tp_names
+        if topics is None:
+            self.topics=[]
+        if tp_names is None:
+            self.tp_names=[]
         self.duration=duration
         self.start_time=start_time
         self.end_time=end_time
@@ -176,20 +181,26 @@ class Evaluation:
 
 class Topic:
 
-    def __init__(self, concept=None, questions=[]):
+    def __init__(self, concept=None, questions=None, started = None, finished = None):
         self.concept=concept
-        self.questions=questions
-
+        if questions is None:
+            self.questions=[]
+        self.started = started
+        self.finished = finished
+        
     def insert_question(self, qt):
         self.questions.append(qt)
 
 
 class Question:
 
-    def __init__(self, question=None, exp_ans=None, attempts=[]):
+    def __init__(self, question=None, exp_ans=None, attempts=None, started = None, finished = None):
         self.question=question
         self.exp_ans=exp_ans
-        self.attempts=attempts
+        if attempts is None:
+            self.attempts=[]
+        self.started = started
+        self.finished = finished
 
     
     def insert_attempt(self, att):
@@ -198,14 +209,16 @@ class Question:
 
 class Attempt:
 
-    def __init__(self, given_ans=None, time2ans=None, system_consideration=-1,
+    def __init__(self, given_ans=None, time2ans=None, started = None, finished = None, system_consideration=-1,
                     supervisor_consideration=-1, sytem_was=-1):
         self.given_ans=given_ans
         self.time2ans=time2ans
+        #self.answered_at_time = answered_at_time
         self.system_consideration=system_consideration
         self.supervisor_consideration=supervisor_consideration
         self.sytem_was=sytem_was
-
+        self.started = started
+        self.finished = finished
 
 
 
