@@ -18,6 +18,7 @@ import pandas as pd
 from utils import *
 import random
 import threading
+import paramiko
 #from datetime import datetime
 #import utils
 	
@@ -78,6 +79,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		# access variables, methods etc in the design.py file
 		super(self.__class__, self).__init__()
 
+
 		self.setupUi(self)  # This is defined in design.py file automatically
 
 
@@ -87,6 +89,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.robot = None
 		self.vs= None
 		#self.ds=None
+		self.path_nao_records = "/home/nao/"
 
 
 		self.sys_vars = core.SystemVariablesControl()
@@ -112,16 +115,19 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.supervisor ="admin"
 		self.cur_user = None
 		
-		# --- Dialog
 
+
+		# --- Dialog
 		self.answer_threshold = 1 - 0.60#self.diag_dist_thres_spinBox.value()
 		#print "Thres valeu", self.answer_threshold
-
+		entry = self.run_entry_comboBox.itemText( self.run_entry_comboBox.currentIndex())
+		core.input_option = core.input_option_list[str(entry)]
 
 
 		#--- Vision panel
-
-
+		self.display_flag = False
+		#self.run_autovideo_checkBoxvideo_check_change
+		self.run_display_image_radioButton.toggled.connect(lambda:self.video_check_change(self.run_display_image_radioButton))
 
 
 
@@ -196,6 +202,11 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.eval_questions_comboBox.currentIndexChanged.connect(self.eval_update_tab)
 		self.eval_att_comboBox.currentIndexChanged.connect(self.eval_update_tab)
 		self.eval_ans_sup_comboBox.currentIndexChanged.connect(self.eval_validation_change)
+		#---- Time eval
+		self.eval_time_questions_comboBox.currentIndexChanged.connect(self.eval_update_time_tab)
+		self.eval_time_att_comboBox.currentIndexChanged.connect(self.eval_update_time_tab)
+		self.eval_time_topic_comboBox.currentIndexChanged.connect(self.eval_update_time_tab)
+		
 		
 
 
@@ -263,7 +274,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		#Shortcuts:
 		self.load_file()
-		self.shortcut = False
+		self.shortcut = True
+		#self.shortcut =  False
 		
 		if self.shortcut:
 			self.int_load_action()
@@ -873,7 +885,15 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		# print self.students_database.users[self.st_db_index_table.currentRow()]
 		eval2kill = self.evaluation_db.evaluations_list[self.eval_index_table.currentRow()]
 
-		self.evaluation_db.delete_eval(eval2kill)
+		try:
+			del self.evaluation_db.evaluations_list[self.eval_index_table.currentRow()]
+			self.evaluation_db.delete_eval(eval2kill)
+			core.info("Evaluation ID  " + str(eval2kill.id) + " deleted!")
+
+		except NameError as error:
+			#print "PIRNT", error.message
+			core.er("Delete Fail: " + error.message)
+
 		dataframe_to_table(self.evaluation_db.index_table, self.eval_index_table)
 
 	
@@ -953,7 +973,13 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#self.eval_concept_textField.setText(self.cur_eval.concept)
 		self.eval_last_dif.setText(str(self.cur_eval.user_dif_profile))
 		
-		
+		# try:
+		# 	print "Topic started", self.cur_eval
+
+		# except expression as identifier:
+		# 	pass
+
+
 		if(len(self.cur_eval.topics)==0):
 			print "ERROR: Topics empty"
 		
@@ -971,20 +997,24 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 			self.eval_topic_comboBox.addItems(self.cur_eval.tp_names)
+			self.eval_time_topic_comboBox.addItems(self.cur_eval.tp_names)
 
 			index_list = range(1,len(self.cur_eval.topics[0].questions)+1)
 			index_list=["{}".format(x) for x in index_list]
 			self.eval_questions_comboBox.addItems(index_list)
+			self.eval_time_questions_comboBox.addItems(index_list)
 
 			index_list = range( 1 ,len(self.cur_eval.topics[0].questions[0].attempts)+1)
 			index_list=["{}".format(x) for x in index_list]
 			self.eval_att_comboBox.addItems(index_list)
+			self.eval_time_att_comboBox.addItems(index_list)
 
 			#Ideia: Fazer um listner para os 3 combobox para atulizar o Topics validation tab
 
 			#self.eval_quest_lineEdit.setText(self.cur_eval.topics[])
 
 			self.eval_update_tab()
+			self.eval_update_time_tab()
 
 
 
@@ -1016,6 +1046,59 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.eval_ans_sup_comboBox.setCurrentIndex(aux_att.supervisor_consideration) 
 		self.eval_ans_sys_comboBox.setCurrentIndex(aux_att.system_consideration) 
 		self.eval_sys_was_comboBox.setCurrentIndex(aux_att.sytem_was) 
+
+	
+	def eval_update_time_tab(self):
+		
+		#text= str(self.sub_list['concepts'][self.content_subject_comboBox.currentIndex()])
+		
+		
+		
+		self.tp_id=self.eval_time_topic_comboBox.currentIndex()
+		self.qt_id=self.eval_time_questions_comboBox.currentIndex()
+		self.att_id=self.eval_time_att_comboBox.currentIndex()
+
+		tp = self.cur_eval.topics[self.tp_id]
+		qt = self.cur_eval.topics[self.tp_id].questions[self.qt_id]
+		att = self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id] #Attempt()
+
+		self.eval_time_tp_name_label.setText(self.cur_eval.tp_names[self.tp_id])
+		
+		self.eval_tp_started_doubleSpinBox.setValue(tp.started)
+		self.eval_tp_finished_doubleSpinBox.setValue(tp.finished)
+
+		min_start = tp.started/60
+		min_finish = tp.finished/60
+		#aux1 = QTime(0,min_start,tp.started)
+		#print aux1
+		self.eval_tp_started_timeEdit.setTime(QTime(0,min_start,tp.started))
+		self.eval_tp_finished_timeEdit.setTime(QTime(0,min_finish,tp.finished))
+
+
+		# ----- QUESTION ------
+		self.eval_qt_started_doubleSpinBox.setValue(qt.started)
+		self.eval_qt_finished_doubleSpinBox.setValue(qt.finished)
+
+		min_start = qt.started/60
+		min_finish = qt.finished/60
+		#aux1 = QTime(0,min_start,tp.started)
+		#print aux1
+		self.eval_qt_started_timeEdit.setTime(QTime(0,min_start,qt.started))
+		self.eval_qt_finished_timeEdit.setTime(QTime(0,min_finish,qt.finished))
+
+
+		# ----- ATTEMPT ------
+		self.eval_att_started_doubleSpinBox.setValue(att.started)
+		self.eval_att_finished_doubleSpinBox.setValue(att.finished)
+
+		min_start = att.started/60
+		min_finish = att.finished/60
+		#aux1 = QTime(0,min_start,tp.started)
+		#print aux1
+		self.eval_att_started_timeEdit.setTime(QTime(0,min_start, att.started))
+		self.eval_att_finished_timeEdit.setTime(QTime(0,min_finish,att.finished))
+
+
 
 
 
@@ -1136,7 +1219,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			return 0
 
 		if self.shortcut:
-			filename = self.act.path+"/"+"Interactions/Complete_2.int"
+			filename = self.act.path+"/"+"Interactions/3q.int"
 		else:
 			#/home/tozadore/Projects/Arch_2/Arch_2_1/Activities/NOVA/Interactions
 			filename = QFileDialog.getOpenFileName(self, 'Open File' ,self.act.path+"/"+"Interactions")
@@ -1275,14 +1358,19 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				
 				
 		# 		return -1
-			
+		del self.cur_eval #=  Evaluation()	
 		self.cur_eval =  Evaluation(
 								id=self.sys_vars.evaluation_id,
 								date=QDate.currentDate(),
 								start_time=QTime.currentTime(),
-								supervisor=self.supervisor 	
+								supervisor=self.supervisor#,
+								#topics = [],
+								#tp_names=[] 	
 								)
-
+		
+		#self.cur_eval.tp_names = []
+		#self.cur_eval.topics = []
+		
 		self.run_options_frame.setEnabled(True)
 		self.pushButton_start_robot_view.setEnabled(True)
 		self.pushButton_stop_robot_view.setEnabled(True)
@@ -1296,9 +1384,23 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.user_profile=3
 		
 		self.timer.start()
-		self.counter_timer.restart()
-
+		#self.counter_timer.restart()
+		self.counter_timer.start()
+		self.clock_timer.start(1000)
 		
+
+
+
+
+		if self.nao_connected:
+			if self.run_autovideo_checkBox.isChecked():
+				self.robot.audio_recording.startMicrophonesRecording(
+						self.path_nao_records + "/" + str(self.cur_eval.id)+ ".wav" , 'wav', 16000, (0,0,1,0)
+						)
+				
+				self.robot.video_recording.setFrameRate(10.0)
+				self.robot.video_recording.setResolution(2)
+				self.robot.video_recording.startRecording(self.path_nao_records, str(self.cur_eval.id))
 		# Emotion not running
 		#self.run_att_emo()
 		
@@ -1324,13 +1426,13 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			
 		
 		#WAKEUP
-		self.robot.motors.wakeUp()
+		#self.robot.motors.wakeUp()
 				
 		# Não conehce
 		#self.interact_know_person()
 		
 		#Já conhece
-		self.interact_recognize_person()
+		#self.interact_recognize_person()
 		
 		# Start interaction engine
 		self.interatction_parser()
@@ -1344,33 +1446,62 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		# 	self.vis_sys.unsub(0)
 
 		self.timer.stop()
+		self.clock_timer.stop()
+		
+		if self.nao_connected:
+			if self.run_autovideo_checkBox.isChecked():
+				self.robot.audio_recording.stopMicrophonesRecording()
+				self.robot.video_recording.stopRecording()
+				
+				#ssh_transfer()
+				self.flag_ssh = [True]
+				print "antes", self.flag_ssh[0]
+				t1 = threading.Thread(name="ssh", target=ssh_transfer,args=(self.robot_ip, str(self.cur_eval.id), self.flag_ssh))
+				t1.start()
+
+				# while self.flag_ssh[0]:
+				# 	QCoreApplication.processEvents()
+				t1.join()
+				print "DEPOIS", self.flag_ssh[0]
+
 
 		#self.cur_eval.
 		#self.cur_eval.
 		#self.cur_eval.
 		
 		self.cur_eval.end_time = QTime.currentTime()
-		self.cur_eval.user_name = (self.cur_user.first_name) + " "+ (self.cur_user.last_name)
+
+		if self.cur_user is not None:		
+			self.cur_eval.user_name = (self.cur_user.first_name) + " "+ (self.cur_user.last_name)
+		else:
+			self.cur_eval.user_name = "None"
 		self.cur_eval.user_dif_profile = self.user_profile
 
 		if self.evaluation_db.insert_eval(self.cur_eval) > 0:
 			self.sys_vars.add('evaluation')
 		
-		
-		# self.modules_tabWidget.setCurrentIndex(7)
+
 
 		dataframe_to_table(self.evaluation_db.index_table, self.eval_index_table)
 
 
 
+
+
+
+
 	def run_connect_robot_action(self):
 		
-		robot_ip = str(self.run_robot_ip_comboBox.currentText())
+		self.robot_ip = str(self.run_robot_ip_comboBox.currentText())
 		robot_port = int(self.run_robot_port.text())
 		
 		try:
-			self.robot=core.Robot(robot_ip, robot_port)
+			self.robot=core.Robot(self.robot_ip, robot_port)
+			self.nao_connected = True
+
 		except:
+			self.nao_connected = False
+
 			ret = QMessageBox.critical(self, "Error!", "ROBOT NOT CONNECT!\n Continue with computer resources?", 
 									QMessageBox.Cancel | QMessageBox.Ok )
 			
@@ -1399,8 +1530,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		self.vis_sys = vision.VisionSystem(self.robot)
 		self.diag_sys = dialog.DialogSystem(self.robot, None)
-		self.embeddings = self.diag_sys.load()		
-		#self.embeddings = None#self.diag_sys.load()		
+		#self.embeddings = self.diag_sys.load()		
+		self.embeddings = None#self.diag_sys.load()		
 		
 		#self.w = adaption.Weights(self.alfaWeight.value(),
 		#						self.betaWeight.value(),
@@ -1434,9 +1565,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#self.run_load_models()
 		
 		#self.diag_sys.say("Estou Pronto.", False)
-		self.robot_say("Estou Pronto.", False)
-		core.info("Robot Connected")
-
+	
 
 		self.timer = QTimer(self)
 		self.timer.timeout.connect(self.update_frame)
@@ -1446,6 +1575,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.counter_timer = QTime()
 		self.clock_timer.timeout.connect(self.showTime)
 		self.clock_timer.start(1000)
+		self.clock_timer.stop()
 		time = QTime.currentTime()
 		#time = time.toString('hh:mm:ss') 
 		self.cur_sess=SessionInfo(time,None)
@@ -1453,6 +1583,13 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		if self.robot is not None:
 			self.vis_sys.subscribe(0)
+
+		self.robot_say("Estou Pronto.", False)
+		core.info("Robot Connected")
+
+
+
+
 
 
 	def interatction_parser(self):
@@ -1494,12 +1631,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 			print "\n\n\n"
 
-		self.run_final_dialog()		
+		#self.run_final_dialog()		
 		self.run_end_activity()	
-
-
-
-
 
 
 	def personal_interact_talk(self, talk_subject):
@@ -1669,9 +1802,6 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#self.recog_flag=False
 		
 
-
-
-
 	def interact_know_person(self):
 		
 		self.robot_say("Olá amiguinho. Nós ainda não nos conhecemos. Eu me chamo Tédi.") 
@@ -1710,10 +1840,6 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 
-
-
-
-
 	#recieve the Topic To Approach (tta)
 	def content_interac_template(self, tta):
 
@@ -1730,12 +1856,14 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		text = self.sub_list['concepts'].iloc[ind]
 		
+		#started_time = QTime.currentTime()
 
 
 		topic = Topic(text)
 		topic.questions =[]
+		#topic.tp_names =[]
 		self.cur_eval.tp_names.append(str(tta))
-		
+		topic.started = self.counter_timer.elapsed()/1000.0
 		
 		#Explicação!!!!
 		#self.robot_say("Agora vamos praticar gramática. Preste atenção na explicação.")
@@ -1761,6 +1889,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			quest = None
 			quest = Question()
 			quest.attempts = []
+			quest.started = self.counter_timer.elapsed()/1000.0
 
 			self.robot_say("Preste atenção para pergunta.")
 			self.robot_say("Se você não entender, pode pedir pra eu repetir")
@@ -1812,7 +1941,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 				att = None
 				att = Attempt()
-
+				att.started = self.counter_timer.elapsed()/1000.0
 				#print "Question:", chosen_question
 				print "Exp: ", expected_answer
 
@@ -1883,10 +2012,11 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				if dist < self.answer_threshold:
 					
 					att.system_consideration = 1
+					att.finished = self.counter_timer.elapsed()/1000.0
 					quest.insert_attempt(att)	
 					self.robot_say("Parabéns. A resposta que eu esperava e a que você deu me parecem iguais!")
 					#self.robot_say("Eu notei que existe uma difereçna entre a resposta que eu esperava e a que você deu.")
-#					#self.robot_say("Pois Eu esperava a resposta:")
+			 		#self.robot_say("Pois Eu esperava a resposta:")
 					#self.robot_say(expected_answer)
 					#self.robot_say("E eu entendi que você respondeu:")
 					#self.robot_say(user_answer)
@@ -1895,6 +2025,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				else:
 					
 					att.system_consideration = 0
+					att.finished = self.counter_timer.elapsed()/1000.0
 					quest.insert_attempt(att)
 					self.robot_say("Eu notei que existe uma diferença entre a resposta que eu esperava e a que você deu.")
 					self.robot_say("Eu esperava a resposta:")
@@ -1907,7 +2038,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 			# End of a question cycle
-			# Insert current question in topic 
+			# Insert current question in topic
+			quest.finished = self.counter_timer.elapsed()/1000.0
 			topic.insert_question(quest)
 
 			# Setting Adaptive Parameters!
@@ -1937,6 +2069,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 		# Insert current topic in eval
+		topic.finished = self.counter_timer.elapsed()/1000.0
 		self.cur_eval.insert_topic(topic)
 		print "\n\n"
 
@@ -2034,12 +2167,19 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		# IF robot not connected
 		#ret, self.image=self.capture.read()
 
-		self.image = self.vis_sys.get_img(0)
+		if self.display_flag:
+			
+			if self.robot is not None:
+				self.image = self.vis_sys.get_img(0)
 
-		self.image = cv2.flip(self.image,1)
+				self.image = cv2.flip(self.image,1)
+			else:
+				ret, self.image=self.capture.read()
+
 		#cv2.imshow("testwindow",self.image )
 		#cv2.waitKey()
 
+		# RECOGNIZING USER
 		if (self.recog_flag):
 			self.image, self.recog_user_id = self.students_database.face_recognition(self.image)
 			
@@ -2050,14 +2190,18 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			else:
 				self.log("USER NOT DETECTED")
 
+
+		# CLASSIFYING EMOTION
 		if (self.run_emotion_flag):
 			self.image = self.run_attention_emotion_thread(self.image)
 
+		# RECORDING VIDEO (NEVER USED)
 		if(self.run_record):
 			frame = self.image #cv2.flip(self.image,-1)
 			self.out.write(frame)
 
-		self.displayImage(self.image)
+		if self.display_flag:
+			self.displayImage(self.image)
 
 
 
@@ -2334,7 +2478,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 	def robot_say_action(self, text, ask, block ):
 
 		#self.robot_say_block()
-		self.diag_sys.say(str2say=text,ask=ask, block=block)
+		#self.diag_sys.say(str2say=text,ask=ask, block=block)
 		self.user_ans_flag = False
 
 
@@ -2356,7 +2500,20 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#print "Input Option", core.input_option
 
 		# IF MIC
-		if core.input_option > 0 :
+		if core.input_option == 0 :
+
+			ans = QMessageBox.question(self, "Woz Answer!", "Is the user answer right?", 
+									QMessageBox.Cancel | QMessageBox.Ok )
+			
+			if ans == QMessageBox.Ok:
+
+				ret = True
+				
+			else:
+				ret = False
+
+
+		elif core.input_option > 0 :
 
 
 			if self.robot is not None:
@@ -2376,7 +2533,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 	
 		
 		# IF text
-		else:
+		else :
 			self.user_ans_flag = False
 
 			while not self.user_ans_flag:
@@ -2457,7 +2614,12 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		df.to_csv("Total_evals.csv", index=False)
 
 
-
+	def video_check_change(self, b):
+		
+		if b.isChecked() == True:
+			self.display_flag = True
+		else:
+			self.display_flag = False
 
 
 
