@@ -22,14 +22,24 @@ class EvaluationDatabase():
         self.index_path = self.path + "index_table.csv"
         self.index_table = pd.DataFrame()
         self.evaluations_list = []
+        self.group_list = []
         #self.known_face_encodings = []
         ##s#elf.known_face_names = []
 
         if os.path.exists(self.index_path):
             self.index_table = pd.read_csv(self.index_path)
+            
+            if  os.path.exists(self.path + "group_list.txt"):
+                inF = open(self.path + "group_list.txt", "r")
+                for line in inF:
+                    self.group_list.append(line)
+                    
+                inF.close()    
+                    
+                print "LENNNN", len(self.group_list)
             #print self.index_table
             # print "SIZE:", len(self.index_table.index)
-
+            
         else:  
             os.mkdir(self.path)  
             self.index_table = pd.DataFrame(columns=['Id', 'Date', 'Student Name'])
@@ -45,6 +55,22 @@ class EvaluationDatabase():
 
 
 
+    def add_evaluation_group(self, new_group):   
+        
+        try:
+            self.group_list.append(new_group) 
+            
+            outF = open(self.path + "group_list.txt", "w")
+        
+            for line in self.group_list:
+            # write line to output file
+                outF.write(line)
+                #outF.write("\n")
+            outF.close()
+            return True
+        except:
+            raise("ERROR ENTERING GROUP")
+
     def load_evaluations_list(self):
         
         for item in self.index_table.Id:#['Id']:
@@ -54,7 +80,7 @@ class EvaluationDatabase():
         
         #print self.users
         
-        
+
 
 
     def insert_eval(self, new_eval):
@@ -152,9 +178,11 @@ class Evaluation:
                 robot=None,
                 supervisor=None,
                 obs=None,
+                group=None,
+                int_id=None,
                 user_dif_profile=None,
                 validation=False,
-                stats = False):
+                stats = None):
 
         self.id=id
         self.date=date
@@ -170,6 +198,8 @@ class Evaluation:
         self.robot=robot
         self.supervisor=supervisor
         self.obs=obs
+        self.group=group
+        self.int_id=int_id
         self.user_dif_profile=user_dif_profile
         self.validation=validation
         self.stats=stats        
@@ -222,6 +252,20 @@ class Attempt:
 
 
 
+
+class Stats:
+
+    def __init__(self, n_topics = -1, qt_tp = -1, time_per_topic = -1, 
+                    mistakes  = -1, total_qt = -1,  right_answers  = -1,
+                    success_rate  = -1, sys_accuracy  = -1):
+        self.n_topics = n_topics 
+        self.qt_tp = qt_tp 
+        self.time_per_topic = time_per_topic  
+        self.mistakes  = mistakes
+        self.total_qt = total_qt 
+        self.right_answers  = right_answers 
+        self.success_rate  = success_rate 
+        self.sys_accuracy  = sys_accuracy
 
 
 def main():
