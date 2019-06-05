@@ -4454,7 +4454,7 @@
            </size>
           </property>
           <property name="currentIndex">
-           <number>4</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tab_16">
            <attribute name="title">
@@ -4934,7 +4934,7 @@
                 </widget>
                </item>
                <item row="1" column="1">
-                <widget class="QLabel" name="label_145">
+                <widget class="QLabel" name="eval_ntopics_lbl">
                  <property name="frameShape">
                   <enum>QFrame::StyledPanel</enum>
                  </property>
@@ -4957,7 +4957,7 @@
                 </widget>
                </item>
                <item row="2" column="1">
-                <widget class="QLabel" name="label_147">
+                <widget class="QLabel" name="eval_qt_per_tp_lbl">
                  <property name="frameShape">
                   <enum>QFrame::StyledPanel</enum>
                  </property>
@@ -4983,7 +4983,7 @@
                 </widget>
                </item>
                <item row="3" column="1">
-                <widget class="QLabel" name="label_146">
+                <widget class="QLabel" name="eval_time_per_tp_lbl">
                  <property name="frameShape">
                   <enum>QFrame::StyledPanel</enum>
                  </property>
@@ -5006,7 +5006,7 @@
                 </widget>
                </item>
                <item row="4" column="1">
-                <widget class="QLabel" name="label_54">
+                <widget class="QLabel" name="eval_mistakes_lbl">
                  <property name="frameShape">
                   <enum>QFrame::StyledPanel</enum>
                  </property>
@@ -5029,7 +5029,7 @@
                 </widget>
                </item>
                <item row="6" column="1">
-                <widget class="QLabel" name="label_161">
+                <widget class="QLabel" name="eval_right_ans_lbl">
                  <property name="frameShape">
                   <enum>QFrame::StyledPanel</enum>
                  </property>
@@ -5042,7 +5042,7 @@
                 </widget>
                </item>
                <item row="7" column="1">
-                <widget class="QLabel" name="label_162">
+                <widget class="QLabel" name="eval_suc_rate_lbl">
                  <property name="frameShape">
                   <enum>QFrame::StyledPanel</enum>
                  </property>
@@ -5055,7 +5055,7 @@
                 </widget>
                </item>
                <item row="5" column="1">
-                <widget class="QLabel" name="label_151">
+                <widget class="QLabel" name="eval_total_qt_lbl">
                  <property name="frameShape">
                   <enum>QFrame::StyledPanel</enum>
                  </property>
@@ -5078,7 +5078,7 @@
                 </widget>
                </item>
                <item row="8" column="1">
-                <widget class="QLabel" name="label_163">
+                <widget class="QLabel" name="eval_sys_accuracy_lbl">
                  <property name="frameShape">
                   <enum>QFrame::StyledPanel</enum>
                  </property>
@@ -8898,25 +8898,32 @@
              <property name="frameShadow">
               <enum>QFrame::Raised</enum>
              </property>
-             <layout class="QGridLayout" name="gridLayout_53">
-              <item row="3" column="0" colspan="3">
-               <widget class="QCheckBox" name="run_autovideo_checkBox">
-                <property name="text">
-                 <string>Record Video/Audio</string>
-                </property>
-                <property name="checked">
-                 <bool>false</bool>
+             <layout class="QGridLayout" name="gridLayout_47">
+              <item row="9" column="0" colspan="3">
+               <widget class="Line" name="line_27">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
                 </property>
                </widget>
               </item>
-              <item row="7" column="0">
-               <widget class="QPushButton" name="run_end_activity_button">
+              <item row="5" column="2">
+               <widget class="QToolButton" name="run_new_eval_group_toolButton">
                 <property name="text">
-                 <string>Finish Activity</string>
+                 <string>...</string>
                 </property>
                </widget>
               </item>
-              <item row="7" column="1" colspan="2">
+              <item row="5" column="0">
+               <widget class="QLabel" name="label_54">
+                <property name="text">
+                 <string>Group:</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="12" column="1" colspan="2">
                <widget class="QPushButton" name="pushButton_run_activity">
                 <property name="enabled">
                  <bool>true</bool>
@@ -9358,13 +9365,51 @@
                 </property>
                </widget>
               </item>
-              <item row="5" column="1" colspan="2">
+              <item row="0" column="0" colspan="3">
+               <widget class="QLabel" name="label_209">
+                <property name="font">
+                 <font>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Interaction Name:</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="7" column="0" colspan="3">
+               <widget class="Line" name="line_29">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+              <item row="8" column="0" colspan="2">
+               <widget class="QCheckBox" name="run_autovideo_checkBox">
+                <property name="text">
+                 <string>Record Video/Audio</string>
+                </property>
+                <property name="checked">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="11" column="0" colspan="3">
+               <widget class="Line" name="line_28">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+              <item row="10" column="1" colspan="2">
                <widget class="QComboBox" name="run_entry_comboBox">
-                <item>
-                 <property name="text">
-                  <string>Woz</string>
-                 </property>
-                </item>
+                <property name="layoutDirection">
+                 <enum>Qt::LeftToRight</enum>
+                </property>
                 <item>
                  <property name="text">
                   <string>Keyboard</string>
@@ -9375,16 +9420,21 @@
                   <string>Microphone</string>
                  </property>
                 </item>
+                <item>
+                 <property name="text">
+                  <string>Woz</string>
+                 </property>
+                </item>
                </widget>
               </item>
-              <item row="6" column="0" colspan="3">
-               <widget class="Line" name="line_28">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
+              <item row="12" column="0">
+               <widget class="QPushButton" name="run_end_activity_button">
+                <property name="text">
+                 <string>Finish Activity</string>
                 </property>
                </widget>
               </item>
-              <item row="5" column="0">
+              <item row="10" column="0">
                <widget class="QLabel" name="label_5">
                 <property name="text">
                  <string>Entry Type</string>
@@ -9394,14 +9444,7 @@
                 </property>
                </widget>
               </item>
-              <item row="4" column="0" colspan="3">
-               <widget class="Line" name="line_27">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0" colspan="2">
+              <item row="1" column="0">
                <widget class="QLabel" name="run_int_name_label">
                 <property name="text">
                  <string>NONE</string>
@@ -9411,10 +9454,16 @@
                 </property>
                </widget>
               </item>
-              <item row="0" column="0" colspan="3">
-               <widget class="QLabel" name="label_209">
+              <item row="3" column="0" colspan="2">
+               <widget class="QLabel" name="label_98">
+                <property name="font">
+                 <font>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
                 <property name="text">
-                 <string>Interaction Name:</string>
+                 <string>Evaluation settings:</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -9428,10 +9477,30 @@
                 </property>
                </widget>
               </item>
+              <item row="5" column="1">
+               <widget class="QComboBox" name="run_group_eval_comboBox"/>
+              </item>
               <item row="2" column="0" colspan="3">
-               <widget class="Line" name="line_29">
+               <widget class="Line" name="line_34">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QLabel" name="label_99">
+                <property name="text">
+                 <string>Interaction ID</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1">
+               <widget class="QSpinBox" name="run_int_id_spinBox">
+                <property name="readOnly">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
@@ -9492,7 +9561,7 @@
      <x>0</x>
      <y>0</y>
      <width>1449</width>
-     <height>26</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuMenu">
