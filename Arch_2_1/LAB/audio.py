@@ -38,7 +38,11 @@ class VideoWindow(QMainWindow):
         openAction.setShortcut('Ctrl+O')
         openAction.setStatusTip('Open movie')
         openAction.triggered.connect(self.openFile)
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> cad28f7c271bf8121375564f9b089f21d91c25f8
         # Create exit action
         exitAction = QAction(QIcon('exit.png'), '&Exit', self)        
         exitAction.setShortcut('Ctrl+Q')
@@ -51,6 +55,10 @@ class VideoWindow(QMainWindow):
         #fileMenu.addAction(newAction)
         fileMenu.addAction(openAction)
         fileMenu.addAction(exitAction)
+<<<<<<< HEAD
+=======
+        #return
+>>>>>>> cad28f7c271bf8121375564f9b089f21d91c25f8
 
         # Create a widget for window contents
         wid = QWidget(self)
