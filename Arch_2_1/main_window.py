@@ -976,7 +976,9 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.eval_user_name.setText(str(self.cur_eval.user_name))
 		#self.eval_concept_textField.setText(self.cur_eval.concept)
 		self.eval_last_dif.setText(str(self.cur_eval.user_dif_profile))
-		
+		self.eval_int_id_spinBox.setValue(self.cur_eval.int_id)
+		self.eval_group_lineEdit.setText(self.cur_eval.group)
+		print "INT ID", self.cur_eval.int_id
 		# try:
 		# 	print "Topic started", self.cur_eval
 
@@ -1191,9 +1193,9 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].system_consideration = self.eval_ans_sys_comboBox.currentIndex()
 		# self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id]
 
-		print "SUP", self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].supervisor_consideration
-		print "SYS", self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].system_consideration
-		print ""
+		# print "SUP", self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].supervisor_consideration
+		# print "SYS", self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].system_consideration
+		# print ""
 		
 		self.evaluation_db.insert_eval(self.cur_eval)
 
