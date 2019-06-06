@@ -36,7 +36,7 @@ class EvaluationDatabase():
                     
                 inF.close()    
                     
-                print "LENNNN", len(self.group_list)
+                #print "LENNNN", len(self.group_list)
             #print self.index_table
             # print "SIZE:", len(self.index_table.index)
             
