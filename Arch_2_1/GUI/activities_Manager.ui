@@ -4454,7 +4454,7 @@
            </size>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>2</number>
           </property>
           <widget class="QWidget" name="tab_16">
            <attribute name="title">
@@ -5942,7 +5942,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="label_108">
+                   <widget class="QLabel" name="eval_std_perf_graph">
                     <property name="text">
                      <string/>
                     </property>
@@ -5988,7 +5988,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="label_168">
+                   <widget class="QLabel" name="eval_time_graph">
                     <property name="text">
                      <string/>
                     </property>
@@ -6034,7 +6034,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="label_170">
+                   <widget class="QLabel" name="eval_evolution_graph">
                     <property name="minimumSize">
                      <size>
                       <width>255</width>
@@ -9634,7 +9634,7 @@
      <x>0</x>
      <y>0</y>
      <width>1449</width>
-     <height>26</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuMenu">
