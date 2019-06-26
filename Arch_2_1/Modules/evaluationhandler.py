@@ -242,8 +242,11 @@ class Question:
 
 class Attempt:
 
-    def __init__(self, given_ans=None, time2ans=None, started = None, finished = None, system_consideration=-1,
-                    supervisor_consideration=-1, sytem_was=-1, ans_dist=None):
+    def __init__(self, given_ans=None, time2ans=None, started = None,
+                 finished = None, system_consideration=-1,
+                 supervisor_consideration=-1, sytem_was=-1, ans_dist=None,
+                 alpha=None, beta=None, gama=None, fvalue=None, profile=None,
+                 read_values=None):
         self.given_ans=given_ans
         self.time2ans=time2ans
         #self.answered_at_time = answered_at_time
@@ -254,7 +257,12 @@ class Attempt:
         self.finished = finished
         self.ans_dist=ans_dist
         #self.ans_threshold=ans_threshold
-       
+        self.alpha=alpha
+        self.beta=beta 
+        self.gama=gama 
+        self.fvalue=fvalue 
+        self.profile=profile
+        self.read_values=read_values
 
 
 
