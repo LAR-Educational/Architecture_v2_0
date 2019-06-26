@@ -215,6 +215,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		self.eval_generate_graph.clicked.connect(self.eval_generate_graph_action)
 
+		self.eval_next_pushButton.clicked.connect(self.eval_next_validation_action)
 
 		#--- Interaction
 
@@ -989,13 +990,15 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		# except expression as identifier:
 		# 	pass
+		if self.cur_eval.validation:
+			self.eval_gen_stats_button.setEnabled(False)
+		else:
+			self.eval_gen_stats_button.setEnabled(True)
 
-
+		
 		if(len(self.cur_eval.topics)==0):
 			print "ERROR: Topics empty"
 		
-
-
 
 		else:
 
@@ -1023,6 +1026,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			#Ideia: Fazer um listner para os 3 combobox para atulizar o Topics validation tab
 
 			#self.eval_quest_lineEdit.setText(self.cur_eval.topics[])
+			
 
 			self.eval_update_tab()
 			self.eval_update_time_tab()
@@ -1041,7 +1045,12 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		#text= str(self.sub_list['concepts'][self.content_subject_comboBox.currentIndex()])
 		
-		
+		max_tp = len(self.cur_eval.topics)
+		max_qt = len(self.cur_eval.topics[0].questions)
+		max_att = len(self.cur_eval.topics[0].questions[0].attempts)
+
+		#if (self.tp_id == max_tp-1) and (self.qt_id == max_qt-1) and (self.att_id == max_att-1):
+		#	self.eval_next_pushButton.setEnabled(False)
 		
 		self.tp_id=self.eval_topic_comboBox.currentIndex()
 		self.qt_id=self.eval_questions_comboBox.currentIndex()
@@ -1057,7 +1066,16 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.eval_ans_sup_comboBox.setCurrentIndex(aux_att.supervisor_consideration) 
 		self.eval_ans_sys_comboBox.setCurrentIndex(aux_att.system_consideration) 
 		self.eval_sys_was_comboBox.setCurrentIndex(aux_att.sytem_was) 
-
+		
+		
+		try:
+			self.eval_dist_progressBar.setValue(100 - (aux_att.ans_dist*100))
+			self.eval_dist_doubleSpinBox.setValue(aux_att.ans_dist)
+			
+		except:
+			print "NAO"
+	
+		self.eval_lcdNumber.display(100 - (100*self.cur_eval.ans_threshold))
 
 		if self.cur_eval.stats is not None:
 
@@ -1070,6 +1088,58 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			#self.eval_suc_rate_lbl.setText(str(round(self.cur_eval.stats.success_rate),2))
 			self.eval_suc_rate_lbl.setText("{:0.2f}".format(self.cur_eval.stats.success_rate))
 			self.eval_sys_accuracy_lbl.setText("{:0.2f}".format(self.cur_eval.stats.sys_accuracy))
+
+
+
+
+	def eval_next_validation_action(self):
+
+		max_tp = len(self.cur_eval.topics)
+		max_qt = len(self.cur_eval.topics[0].questions)
+		max_att = len(self.cur_eval.topics[0].questions[0].attempts)
+
+		if (self.tp_id == max_tp-1) and (self.qt_id == max_qt-1) and (self.att_id == max_att-1):
+			
+			QMessageBox.information(self, "Done!", "All the validation are done!", QMessageBox.Ok )
+			
+			return 
+
+		self.evaluation_db.insert_eval(self.cur_eval)
+		
+		if self.att_id < (max_att-1):
+			self.eval_att_comboBox.setCurrentIndex(self.att_id+1)
+		
+		elif self.qt_id < (max_qt-1):
+			self.eval_questions_comboBox.setCurrentIndex(self.qt_id+1)
+			self.eval_att_comboBox.setCurrentIndex(0)
+		
+		elif  self.tp_id < (max_tp-1):
+			self.eval_topic_comboBox.setCurrentIndex(self.tp_id+1)
+			self.eval_questions_comboBox.setCurrentIndex(0)
+			self.eval_att_comboBox.setCurrentIndex(0)
+		
+		
+
+
+
+
+
+
+	def eval_check_validation(self):
+		max_tp = len(self.cur_eval.topics)
+		max_qt = len(self.cur_eval.topics[0].questions)
+		max_att = len(self.cur_eval.topics[0].questions[0].attempts)
+		
+		for t in range(max_tp):
+			for q in range(max_qt):
+				for a in range(max_att):
+					if self.cur_eval.topics[t].questions[q].attempts[a].supervisor_consideration== -1:
+						return False
+
+		self.cur_eval.validation=True
+		return True			
+
+
 
 
 	
@@ -1126,8 +1196,9 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 	def eval_gen_stats_action(self):
 
-		if self.cur_eval.validation == False:
+		if not self.eval_check_validation():
 			# ERROR
+			QMessageBox.critical(self, "Error!", "Some validation missing!", QMessageBox.Ok )
 			return False
 		
 		max_tp = len(self.cur_eval.topics)
@@ -1181,6 +1252,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		self.eval_update_tab()
 
+		self.eval_gen_stats_button.setEnabled(False)
+
 
 	def eval_validation_change(self):
 
@@ -1203,7 +1276,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		# print "SYS", self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].system_consideration
 		# print ""
 		
-		self.evaluation_db.insert_eval(self.cur_eval)
+		#self.evaluation_db.insert_eval(self.cur_eval)
 
 
 		
@@ -1213,6 +1286,12 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		#print "LIST", tp_qt_x
 		#return
+
+		if self.cur_eval.validation == False:
+			# ERROR
+			QMessageBox.critical(self, "Error!", "Some validation missing!", QMessageBox.Ok )
+			return False
+	
 		
 		labels = [" Right \n Answers", "Wrong \nAnswers"] 
 		sizes = [self.cur_eval.stats.right_answers, self.cur_eval.stats.total_qt - self.cur_eval.stats.right_answers]
@@ -1252,7 +1331,9 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		x = range(len(tp_qt_x))
 
 		#'''
-		plt.figure(1)
+		
+		
+		plt.figure(2)
 
 
 		#plt.subplot(121)
@@ -1260,7 +1341,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		y = times
 		plt.plot(x, y, 'o--', color='g',  markersize=12, label="System's correct classifications")
 		for a,b in zip(x, y): 
-			plt.text(a-0.1, b-2.3, str(b))
+			plt.text(a, b, str(b))
 
 		# y=sys_bad
 		# plt.plot(x, y,  's--', color='r', markersize=12, label="System's wrong classifications")
@@ -1273,21 +1354,28 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		# 	plt.text(a+0.18, b-0.2, str(b))
 
 
-		plt.legend(loc='upper left', numpoints = 1,#('System right ','System Wrong ','Students right answers','Students wrong answers'),
+		#plt.legend(loc='upper left', numpoints = 1,#('System right ','System Wrong ','Students right answers','Students wrong answers'),
 			#shadow=True,
 			#loc=(0.01, 0.8),
 			#handlelength=1.5, 
-			fontsize=12)
+		#	fontsize=12)
 
-		plt.xlim(0,7)
-		plt.ylim(-1,33)
+		#plt.xlim(0,7)
+		#plt.ylim(-1,33)
 
 		plt.title("System Classifications", fontsize=32)
 
 		plt.xlabel("Topic_Question Number", fontsize=16)
 		plt.ylabel("Number of occurrences", fontsize=20)
 		plt.grid(True, linewidth=.15)
+		#plt.show()
+		graph_name = self.evaluation_db.path + str(self.cur_eval.id) + "/student_times_graph"
+		plt.savefig(graph_name)
 		plt.show()
+		pixmap = QPixmap(graph_name)
+   		self.eval_time_graph.setPixmap(pixmap)
+   		self.eval_time_graph.show()
+
 
 
 		# self.content_concept.setText(text)
@@ -1530,7 +1618,9 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 								id=self.sys_vars.evaluation_id,
 								date=QDate.currentDate(),
 								start_time=QTime.currentTime(),
-								supervisor=self.supervisor#,
+								supervisor=self.supervisor,
+								ans_threshold=self.answer_threshold
+								
 								#topics = [],
 								#tp_names=[] 	
 								)
@@ -2173,7 +2263,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				att.given_ans = user_answer
 				#att.time2ans = time.time() - t1
 				att.time2ans = time.time() - t1
-
+				att.ans_dist = dist
 				print "TIME TO ANS:", att.time2ans 
 
 				self.run_under_ans.setText(user_answer)
@@ -2183,6 +2273,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 					
 					att.system_consideration = 1
 					att.finished = self.counter_timer.elapsed()/1000.0
+					#att.ans_dist = dist
 					quest.insert_attempt(att)	
 					self.robot_say("Parabéns. A resposta que eu esperava e a que você deu me parecem iguais!")
 					#self.robot_say("Eu notei que existe uma difereçna entre a resposta que eu esperava e a que você deu.")
@@ -2196,6 +2287,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 					
 					att.system_consideration = 0
 					att.finished = self.counter_timer.elapsed()/1000.0
+					#att.ans_dist = dist
 					quest.insert_attempt(att)
 					self.robot_say("Eu notei que existe uma diferença entre a resposta que eu esperava e a que você deu.")
 					self.robot_say("Eu esperava a resposta:")
@@ -2241,6 +2333,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		# Insert current topic in eval
 		topic.finished = self.counter_timer.elapsed()/1000.0
 		self.cur_eval.insert_topic(topic)
+		
 		print "\n\n"
 
 
