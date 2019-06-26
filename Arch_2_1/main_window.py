@@ -19,6 +19,7 @@ from utils import *
 import random
 import threading
 import paramiko
+import copy
 
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
@@ -1289,10 +1290,141 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		if self.cur_eval.validation == False:
 			# ERROR
+			
 			QMessageBox.critical(self, "Error!", "Some validation missing!", QMessageBox.Ok )
 			return False
 	
 		
+		#self.eval_graph_1()
+		
+		#self.eval_graph_2()
+
+
+	
+		# --------------------------- SYSTEM
+
+
+		profile = []
+		alpha = []
+		beta = []
+		gama = []
+		fvalues = []
+
+		max_tp = len(self.cur_eval.topics)
+		max_qt = len(self.cur_eval.topics[0].questions)
+		max_att = len(self.cur_eval.topics[0].questions[0].attempts)
+		
+		for t in range(max_tp):
+			for q in range(max_qt):
+				for a in range(max_att):
+					aux = self.cur_eval.topics[t].questions[q].attempts[a]
+
+					profile.append(aux.profile)
+					alpha.append(aux.alpha)
+					beta.append(aux.beta)
+					gama.append(aux.gama)
+					fvalues.append(aux.fvalue)
+
+		# my_xticks = tp_qt_x
+		# x = range(len(tp_qt_x))
+
+		#'''
+		
+		tp_qt_x = []
+		times = [] 
+
+		for t in range(0,len(self.cur_eval.topics)):
+			for q in range(0,len(self.cur_eval.topics[0].questions)):
+				tp_qt_x.append("T"+str(t+1)+"_q"+str(q+1))	
+				times.append(self.cur_eval.topics[t].questions[q].finished - self.cur_eval.topics[t].questions[q].started) 
+	
+		#print times
+
+		my_xticks = tp_qt_x
+		x = range(len(tp_qt_x))
+
+		plt.figure(3)
+
+		print alpha
+		print x
+
+		#plt.subplot(121)
+		plt.xticks(x, my_xticks)
+		y = alpha
+		plt.plot(x, y, 'o--', color='g',  markersize=12, label="Alpha")
+		for a,b in zip(x, y): 
+			plt.text(a, b, str(b))
+
+		# y=beta
+		# plt.plot(x, y,  's--', color='r', markersize=12, label="Beta")
+		# for a,b in zip(x, y): 
+		# 	plt.text(a-0.05, b+1.5, str(b))
+
+		# y=gama
+		# plt.plot(x, y,  'x--', color='y', markersize=12, label="Gama")
+		# for a,b in zip(x, y): 
+		# 	plt.text(a+0.18, b-0.2, str(b))
+
+		# y=fvalues
+		# plt.plot(x, y,  '*--', color='y', markersize=12, label="Fvalue")
+		# for a,b in zip(x, y): 
+		# 	plt.text(a+0.18, b-0.2, str(b))
+
+
+		plt.legend(loc='upper left', numpoints = 1,#('System right ','System Wrong ','Students right answers','Students wrong answers'),
+			shadow=True,
+			#loc=(0.01, 0.8),
+			handlelength=1.5, 
+			fontsize=12)
+
+		plt.xlim(-1,len(my_xticks))
+		#plt.ylim(-1,33)
+
+		plt.title("System Variables", fontsize=32)
+
+		plt.xlabel("Topic_Question Number", fontsize=16)
+		plt.ylabel("Value", fontsize=20)
+		plt.grid(True, linewidth=.15)
+		#plt.show()
+		graph_name = self.evaluation_db.path + str(self.cur_eval.id) + "/sys_graph"
+		plt.show()
+		plt.savefig(graph_name)
+		pixmap = QPixmap(graph_name)
+   		self.eval_evolution_graph.setPixmap(pixmap)
+   		self.eval_evolution_graph.show()
+
+
+
+		# self.content_concept.setText(text)
+		# file_name = str(self.content_path + self.content_subject_comboBox.currentText()+".csv")
+		
+		# if os.path.isfile(file_name):
+		# 	data=pd.read_csv(file_name)
+		# 	#print "trying data", data
+
+		# 	dataframe_to_table(data,self.content_questions_table)
+
+		# 	self.log("Subject loaded: " + self.content_subject_comboBox.currentText())
+			
+
+		# else:	
+		# 	self.log("WARNING TABLE <<"+file_name +">>  FILE DO NOT EXIST")
+		# 	labels = []
+		# 	for i in range(0,3):
+		# 		labels.append(str(self.content_questions_table.horizontalHeaderItem(i).text()))
+			
+		# 	data = 	pd.DataFrame(columns=labels, index=range(0))
+
+		# 	#print data
+
+		# 	data.to_csv(self.content_path + self.content_subject_comboBox.currentText()+".csv", index=False)
+		# 	data.to_csv(file_name, index=False)
+
+
+
+
+
+	def eval_graph_1(self):
 		labels = [" Right \n Answers", "Wrong \nAnswers"] 
 		sizes = [self.cur_eval.stats.right_answers, self.cur_eval.stats.total_qt - self.cur_eval.stats.right_answers]
 		
@@ -1316,7 +1448,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
    		self.eval_std_perf_graph.setPixmap(pixmap)
    		self.eval_std_perf_graph.show()
 
-
+	def eval_graph_2(self):
 		tp_qt_x = []
 		times = [] 
 
@@ -1360,7 +1492,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			#handlelength=1.5, 
 		#	fontsize=12)
 
-		#plt.xlim(0,7)
+		plt.xlim(-1,len(my_xticks))
 		#plt.ylim(-1,33)
 
 		plt.title("System Classifications", fontsize=32)
@@ -1371,38 +1503,10 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#plt.show()
 		graph_name = self.evaluation_db.path + str(self.cur_eval.id) + "/student_times_graph"
 		plt.savefig(graph_name)
-		plt.show()
+		#plt.show()
 		pixmap = QPixmap(graph_name)
    		self.eval_time_graph.setPixmap(pixmap)
    		self.eval_time_graph.show()
-
-
-
-		# self.content_concept.setText(text)
-		# file_name = str(self.content_path + self.content_subject_comboBox.currentText()+".csv")
-		
-		# if os.path.isfile(file_name):
-		# 	data=pd.read_csv(file_name)
-		# 	#print "trying data", data
-
-		# 	dataframe_to_table(data,self.content_questions_table)
-
-		# 	self.log("Subject loaded: " + self.content_subject_comboBox.currentText())
-			
-
-		# else:	
-		# 	self.log("WARNING TABLE <<"+file_name +">>  FILE DO NOT EXIST")
-		# 	labels = []
-		# 	for i in range(0,3):
-		# 		labels.append(str(self.content_questions_table.horizontalHeaderItem(i).text()))
-			
-		# 	data = 	pd.DataFrame(columns=labels, index=range(0))
-
-		# 	#print data
-
-		# 	data.to_csv(self.content_path + self.content_subject_comboBox.currentText()+".csv", index=False)
-		# 	data.to_csv(file_name, index=False)
-
 
 
 
@@ -2274,7 +2378,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 					att.system_consideration = 1
 					att.finished = self.counter_timer.elapsed()/1000.0
 					#att.ans_dist = dist
-					quest.insert_attempt(att)	
+					#quest.insert_attempt(att)	
 					self.robot_say("Parabéns. A resposta que eu esperava e a que você deu me parecem iguais!")
 					#self.robot_say("Eu notei que existe uma difereçna entre a resposta que eu esperava e a que você deu.")
 			 		#self.robot_say("Pois Eu esperava a resposta:")
@@ -2288,7 +2392,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 					att.system_consideration = 0
 					att.finished = self.counter_timer.elapsed()/1000.0
 					#att.ans_dist = dist
-					quest.insert_attempt(att)
+					#quest.insert_attempt(att)
 					self.robot_say("Eu notei que existe uma diferença entre a resposta que eu esperava e a que você deu.")
 					self.robot_say("Eu esperava a resposta:")
 					self.robot_say(expected_answer)
@@ -2298,36 +2402,48 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 					self.robot_say("Não se preocupe. Eu também estou aprendendo.")
 
 
+				# Setting Adaptive Parameters!
 
+				#core.info("Finalizing emotion thread")
+				#self.run_emotion_flag = False
+
+				self.read_values.set(0, #self.n_deviations,
+									0, #self.adapt_sys.getBadEmotions(),
+									3 - self.diag_sys.coutingWords(user_answer),
+									att.time2ans,
+									dist)
+
+				# Clear Variables
+				self.n_deviation = 0
+				self.adapt_sys.clear_emo_variables()
+
+				fvalue, aplha, beta, gama = self.adapt_sys.adp_function(j)
+				fvalue = self.adapt_sys.activation_function(fvalue)
+				self.adapt_sys.change_behavior(fvalue)
+
+				self.preview_profile = self.user_profile 
+				self.user_profile = self.adapt_sys.robot_communication_profile+1
+				
+				att.aplha=aplha
+				att.beta=beta
+				att.gama=gama
+				att.fvalue=fvalue
+				att.read_values = copy.deepcopy(self.read_values)
+				att.profile=self.preview_profile
+
+				
+				quest.insert_attempt(att)	
+				
+				
+				#END OF A ATTEMPT CYCLE
+
+
+			
 			# End of a question cycle
-			# Insert current question in topic
+			# Insert current question in topic  
 			quest.finished = self.counter_timer.elapsed()/1000.0
 			topic.insert_question(quest)
 
-			# Setting Adaptive Parameters!
-
-			#core.info("Finalizing emotion thread")
-			#self.run_emotion_flag = False
-
-			self.read_values.set(0, #self.n_deviations,
-								0, #self.adapt_sys.getBadEmotions(),
-								3 - self.diag_sys.coutingWords(user_answer),
-								att.time2ans,
-								dist)
-
-			# Clear Variables
-			self.n_deviation = 0
-			self.adapt_sys.clear_emo_variables()
-
-			fvalue = self.adapt_sys.adp_function(j)
-			fvalue = self.adapt_sys.activation_function(fvalue)
-			self.adapt_sys.change_behavior(fvalue)
-
-			self.preview_profile = self.user_profile 
-			self.user_profile = self.adapt_sys.robot_communication_profile+1
-
-			#TROCA O VALOR DO USER PROFILE!!!
-			
 
 
 		# Insert current topic in eval

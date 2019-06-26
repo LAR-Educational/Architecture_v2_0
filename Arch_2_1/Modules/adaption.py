@@ -143,7 +143,7 @@ class AdaptiveSystem:
 			log_file.write("\n")
 			log_file.close()
 
-		return fadp
+		return fadp, alpha, beta, gama
 	
 	
 	
