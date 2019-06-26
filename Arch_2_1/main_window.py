@@ -19,6 +19,10 @@ from utils import *
 import random
 import threading
 import paramiko
+
+import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
+
 #from datetime import datetime
 #import utils
 	
@@ -201,19 +205,15 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.eval_topic_comboBox.currentIndexChanged.connect(self.eval_update_tab)
 		self.eval_questions_comboBox.currentIndexChanged.connect(self.eval_update_tab)
 		self.eval_att_comboBox.currentIndexChanged.connect(self.eval_update_tab)
-		
-		# Validateion
 		self.eval_ans_sup_comboBox.currentIndexChanged.connect(self.eval_validation_change)
 		self.eval_ans_sys_comboBox.currentIndexChanged.connect(self.eval_validation_change)
-		
 		#---- Time eval
 		self.eval_time_questions_comboBox.currentIndexChanged.connect(self.eval_update_time_tab)
 		self.eval_time_att_comboBox.currentIndexChanged.connect(self.eval_update_time_tab)
 		self.eval_time_topic_comboBox.currentIndexChanged.connect(self.eval_update_time_tab)
 		self.eval_gen_stats_button.clicked.connect(self.eval_gen_stats_action)
 		
-
-		self.eval_next_pushButton.clicked.connect(self.eval_next_action)
+		self.eval_generate_graph.clicked.connect(self.eval_generate_graph_action)
 
 
 		#--- Interaction
@@ -983,13 +983,12 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.eval_last_dif.setText(str(self.cur_eval.user_dif_profile))
 		self.eval_int_id_spinBox.setValue(self.cur_eval.int_id)
 		self.eval_group_lineEdit.setText(self.cur_eval.group)
-		print "INT ID", self.cur_eval.int_id
+		#print "INT ID", self.cur_eval.int_id
 		# try:
 		# 	print "Topic started", self.cur_eval
 
 		# except expression as identifier:
 		# 	pass
-
 
 
 		if(len(self.cur_eval.topics)==0):
@@ -1020,12 +1019,6 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			index_list=["{}".format(x) for x in index_list]
 			self.eval_att_comboBox.addItems(index_list)
 			self.eval_time_att_comboBox.addItems(index_list)
-			
-			try:
-				self.eval_lcdNumber.display(self.cur_eval.ans_threshold)
-			except:
-				self.log("PROBLEMS WITH ANS THRES")
-				pass
 
 			#Ideia: Fazer um listner para os 3 combobox para atulizar o Topics validation tab
 
@@ -1066,14 +1059,6 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.eval_sys_was_comboBox.setCurrentIndex(aux_att.sytem_was) 
 
 
-		try:
-			self.eval_dist_doubleSpinBox.setValue(self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].ans_dist)
-			self.eval_dist_progressBar.setValue(100 - (self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].ans_dist*100))
-		except:
-			self.log("ERROR IN DISTANCE")
-			#pass
-
-
 		if self.cur_eval.stats is not None:
 
 			self.eval_ntopics_lbl.setText(str(self.cur_eval.stats.n_topics))
@@ -1082,8 +1067,9 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			self.eval_mistakes_lbl.setText(str(self.cur_eval.stats.mistakes))
 			self.eval_total_qt_lbl.setText(str(self.cur_eval.stats.total_qt))
 			self.eval_right_ans_lbl.setText(str(self.cur_eval.stats.right_answers))
-			self.eval_suc_rate_lbl.setText(str("{0:.2f}".format(self.cur_eval.stats.success_rate)))
-			self.eval_sys_accuracy_lbl.setText(str("{0:.2f}".format(self.cur_eval.stats.sys_accuracy)))
+			#self.eval_suc_rate_lbl.setText(str(round(self.cur_eval.stats.success_rate),2))
+			self.eval_suc_rate_lbl.setText("{:0.2f}".format(self.cur_eval.stats.success_rate))
+			self.eval_sys_accuracy_lbl.setText("{:0.2f}".format(self.cur_eval.stats.sys_accuracy))
 
 
 	
@@ -1138,16 +1124,10 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.eval_att_finished_timeEdit.setTime(QTime(0,min_finish,att.finished))
 
 
-	
-	
-
-
-
 	def eval_gen_stats_action(self):
 
 		if self.cur_eval.validation == False:
 			# ERROR
-			self.log("ERROR INVALIDATION")
 			return False
 		
 		max_tp = len(self.cur_eval.topics)
@@ -1202,59 +1182,6 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.eval_update_tab()
 
 
-
-	def eval_next_action(self):
-		
-
-		if self.eval_ans_sup_comboBox.currentIndex() == -1 or self.eval_sys_was_comboBox.currentIndex() == -1:
-			QMessageBox.critical(self, "ERROR!", "COMBOBOX EMPTY!", 
-									QMessageBox.Ok )
-			return False
-
-
-
-		self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].supervisor_consideration = self.eval_ans_sup_comboBox.currentIndex()
-		self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].system_consideration = self.eval_ans_sys_comboBox.currentIndex()
-		self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].sytem_was = self.eval_sys_was_comboBox.currentIndex()
-		
-		# self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id]
-
-		# print "SUP", self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].supervisor_consideration
-		# print "SYS", self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].system_consideration
-		# print ""
-		
-		self.evaluation_db.insert_eval(self.cur_eval)
-
-
-		if self.att_id < len(self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts)-1:
-			# if is not the last value in attempt
-			self.eval_att_comboBox.setCurrentIndex(self.att_id+1)
-
-		elif self.qt_id < len(self.cur_eval.topics[self.tp_id].questions)-1:
-			# if is not the last value in qt
-			self.eval_questions_comboBox.setCurrentIndex(self.qt_id+1)
-			self.eval_att_comboBox.setCurrentIndex(0)
-		
-		elif self.tp_id < len(self.cur_eval.topics)-1:
-			# if is not the last value in tp
-			self.eval_topic_comboBox.setCurrentIndex(self.tp_id+1)
-			self.eval_questions_comboBox.setCurrentIndex(0)
-			self.eval_att_comboBox.setCurrentIndex(0)
-		
-		else:
-
-			if self.eval_check_validation():
-				QMessageBox.information(self, "DONE!", "All validation done!", 
-										QMessageBox.Ok )
-				self.cur_eval.validation = True
-				self.evaluation_db.insert_eval(self.cur_eval)
-
-			else:
-				QMessageBox.warning(self, "Ops!", "Some validations remains!\nValidation stil is false.", 
-										QMessageBox.Ok )
-				#self.cur_eval.validation = True
-		
-
 	def eval_validation_change(self):
 
 		if self.eval_ans_sys_comboBox.currentIndex() ==  self.eval_ans_sup_comboBox.currentIndex():
@@ -1267,25 +1194,100 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		self.eval_sys_was_comboBox.setCurrentIndex(result)
 
-		#self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].sytem_was = result
+		self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].sytem_was = result
+		self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].supervisor_consideration = self.eval_ans_sup_comboBox.currentIndex()
+		self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].system_consideration = self.eval_ans_sys_comboBox.currentIndex()
+		# self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id]
+
+		# print "SUP", self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].supervisor_consideration
+		# print "SYS", self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].system_consideration
+		# print ""
+		
+		self.evaluation_db.insert_eval(self.cur_eval)
+
+
 		
 
-	def eval_check_validation(self):
+	def eval_generate_graph_action(self): 
 
-		max_tp = len(self.cur_eval.topics)
-		max_qt = len(self.cur_eval.topics[self.tp_id].questions)
-		max_att= len(self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts)
+		
+		#print "LIST", tp_qt_x
+		#return
+		
+		labels = [" Right \n Answers", "Wrong \nAnswers"] 
+		sizes = [self.cur_eval.stats.right_answers, self.cur_eval.stats.total_qt - self.cur_eval.stats.right_answers]
+		
+		colors = ['blue', 'red', 'lemonchiffon', 'gold', 'lightskyblue']
+		explode = [0.1,0]
+		#fig1, ax1 = plt.subplots()
+		
+		plt.rcParams['font.size'] = 16.0
 
-		for t in range(max_tp):
-			for q in range(max_qt):
-				for a in range(max_att):
-					# if supervisor said the answer was right
-					if self.cur_eval.topics[t].questions[q].attempts[a].supervisor_consideration < 0:
-						return False
-		return True 				
+		plt.pie(sizes, labels=labels, autopct='%1.1f%%', colors= colors,
+				shadow=True, startangle=90, explode=explode)
+		
+		plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+		plt.title("Student's Answers", fontsize=35, y =1.03)
+		
+		graph_name = self.evaluation_db.path + str(self.cur_eval.id) + "/student_performance_graph"
+		plt.savefig(graph_name)
+		#plt.show()
+		pixmap = QPixmap(graph_name)
+   		self.eval_std_perf_graph.setPixmap(pixmap)
+   		self.eval_std_perf_graph.show()
 
 
+		tp_qt_x = []
+		times = [] 
 
+		for t in range(0,len(self.cur_eval.topics)):
+			for q in range(0,len(self.cur_eval.topics[0].questions)):
+				tp_qt_x.append("T"+str(t+1)+"_q"+str(q+1))	
+				times.append(self.cur_eval.topics[t].questions[q].finished - self.cur_eval.topics[t].questions[q].started) 
+	
+		#print times
+
+		my_xticks = tp_qt_x
+		x = range(len(tp_qt_x))
+
+		#'''
+		plt.figure(1)
+
+
+		#plt.subplot(121)
+		plt.xticks(x, my_xticks)
+		y = times
+		plt.plot(x, y, 'o--', color='g',  markersize=12, label="System's correct classifications")
+		for a,b in zip(x, y): 
+			plt.text(a-0.1, b-2.3, str(b))
+
+		# y=sys_bad
+		# plt.plot(x, y,  's--', color='r', markersize=12, label="System's wrong classifications")
+		# for a,b in zip(x, y): 
+		# 	plt.text(a-0.05, b+1.5, str(b))
+
+		# y=miss
+		# plt.plot(x, y,  'x--', color='y', markersize=12, label="Listening problem")
+		# for a,b in zip(x, y): 
+		# 	plt.text(a+0.18, b-0.2, str(b))
+
+
+		plt.legend(loc='upper left', numpoints = 1,#('System right ','System Wrong ','Students right answers','Students wrong answers'),
+			#shadow=True,
+			#loc=(0.01, 0.8),
+			#handlelength=1.5, 
+			fontsize=12)
+
+		plt.xlim(0,7)
+		plt.ylim(-1,33)
+
+		plt.title("System Classifications", fontsize=32)
+
+		plt.xlabel("Topic_Question Number", fontsize=16)
+		plt.ylabel("Number of occurrences", fontsize=20)
+		plt.grid(True, linewidth=.15)
+		plt.show()
 
 
 		# self.content_concept.setText(text)
@@ -1362,7 +1364,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			os.mkdir(path)
 		
 		self.int_id_show.setText(str(self.sys_vars.interaction_id))
-
+		#self.sys_vars.add('interaction')
+		
 	
 	def int_load_action(self):
 		
@@ -1411,13 +1414,14 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		#print self.int_ques_per_top.value()
 
-		self.cur_interact = Interaction(0,
+		self.cur_interact = Interaction(self.sys_vars.interaction_id,
 											self.int_ques_per_top.value(),
 											self.int_att_per_ques.value(),
 											self.int_name_linedit.text(),
 											data=data
 												)
-
+		
+		
 		self.interact_database.save_interact(
 						self.cur_interact,
 						self.interact_database.path+"/"+str(self.int_name_linedit.text())+ ".int"
@@ -1526,8 +1530,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 								id=self.sys_vars.evaluation_id,
 								date=QDate.currentDate(),
 								start_time=QTime.currentTime(),
-								supervisor=self.supervisor,
-								ans_threshold=self.answer_threshold
+								supervisor=self.supervisor#,
 								#topics = [],
 								#tp_names=[] 	
 								)
@@ -2165,13 +2168,12 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				print "DIST", dist, "Tresh", self.answer_threshold
 				#print type(dist), type(self.answer_threshold)
 
-				
 				self.run_correctness.setText(str(dist))
 
 				att.given_ans = user_answer
 				#att.time2ans = time.time() - t1
 				att.time2ans = time.time() - t1
-				att.ans_dist = dist
+
 				print "TIME TO ANS:", att.time2ans 
 
 				self.run_under_ans.setText(user_answer)
