@@ -218,6 +218,28 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		self.eval_next_pushButton.clicked.connect(self.eval_next_validation_action)
 
+		
+		
+		# --- GROUP ASSESSMENT
+		self.grup_eval_update_tab()
+		self.group_generate_button.clicked.connect(self.group_eval_generate_action)
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		#--- Interaction
 
 		self.int_enable = False
@@ -1091,6 +1113,30 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			self.eval_sys_accuracy_lbl.setText("{:0.2f}".format(self.cur_eval.stats.sys_accuracy))
 
 
+	def eval_validation_change(self):
+
+		if self.eval_ans_sys_comboBox.currentIndex() ==  self.eval_ans_sup_comboBox.currentIndex():
+			result = 1
+		else:
+			result = 0
+		
+		
+		#print result, self.eval_ans_sys_comboBox.currentIndex(),  self.eval_ans_sup_comboBox.currentIndex()
+
+		self.eval_sys_was_comboBox.setCurrentIndex(result)
+
+		self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].sytem_was = result
+		self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].supervisor_consideration = self.eval_ans_sup_comboBox.currentIndex()
+		self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].system_consideration = self.eval_ans_sys_comboBox.currentIndex()
+		# self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id]
+
+		# print "SUP", self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].supervisor_consideration
+		# print "SYS", self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].system_consideration
+		# print ""
+		
+		#self.evaluation_db.insert_eval(self.cur_eval)
+
+
 
 
 	def eval_next_validation_action(self):
@@ -1256,29 +1302,6 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.eval_gen_stats_button.setEnabled(False)
 
 
-	def eval_validation_change(self):
-
-		if self.eval_ans_sys_comboBox.currentIndex() ==  self.eval_ans_sup_comboBox.currentIndex():
-			result = 1
-		else:
-			result = 0
-		
-		
-		#print result, self.eval_ans_sys_comboBox.currentIndex(),  self.eval_ans_sup_comboBox.currentIndex()
-
-		self.eval_sys_was_comboBox.setCurrentIndex(result)
-
-		self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].sytem_was = result
-		self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].supervisor_consideration = self.eval_ans_sup_comboBox.currentIndex()
-		self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].system_consideration = self.eval_ans_sys_comboBox.currentIndex()
-		# self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id]
-
-		# print "SUP", self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].supervisor_consideration
-		# print "SYS", self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].system_consideration
-		# print ""
-		
-		#self.evaluation_db.insert_eval(self.cur_eval)
-
 
 		
 
@@ -1295,15 +1318,19 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			return False
 	
 		
-		#self.eval_graph_1()
+		self.eval_graph_1()
 		
-		#self.eval_graph_2()
+		self.eval_graph_2()
+
+		self.eval_graph_3()
 
 
 	
 		# --------------------------- SYSTEM
 
 
+
+	def eval_graph_3(self):
 		profile = []
 		alpha = []
 		beta = []
@@ -1353,22 +1380,22 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		y = alpha
 		plt.plot(x, y, 'o--', color='g',  markersize=12, label="Alpha")
 		for a,b in zip(x, y): 
-			plt.text(a, b, str(b))
+			plt.text(a, b, "{:0.2f}".format(b))
 
-		# y=beta
-		# plt.plot(x, y,  's--', color='r', markersize=12, label="Beta")
-		# for a,b in zip(x, y): 
-		# 	plt.text(a-0.05, b+1.5, str(b))
+		y=beta
+		plt.plot(x, y,  's--', color='r', markersize=12, label="Beta")
+		for a,b in zip(x, y): 
+			plt.text(a, b, "{:0.2f}".format(b))
 
-		# y=gama
-		# plt.plot(x, y,  'x--', color='y', markersize=12, label="Gama")
-		# for a,b in zip(x, y): 
-		# 	plt.text(a+0.18, b-0.2, str(b))
+		y=gama
+		plt.plot(x, y,  'x--', color='y', markersize=12, label="Gama")
+		for a,b in zip(x, y): 
+			plt.text(a, b, "{:0.2f}".format(b))
 
-		# y=fvalues
-		# plt.plot(x, y,  '*--', color='y', markersize=12, label="Fvalue")
-		# for a,b in zip(x, y): 
-		# 	plt.text(a+0.18, b-0.2, str(b))
+		y=fvalues
+		plt.plot(x, y,  '*--', color='y', markersize=12, label="Fvalue")
+		for a,b in zip(x, y): 
+			plt.text(a, b, "{:0.2f}".format(b))
 
 
 		plt.legend(loc='upper left', numpoints = 1,#('System right ','System Wrong ','Students right answers','Students wrong answers'),
@@ -1378,7 +1405,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			fontsize=12)
 
 		plt.xlim(-1,len(my_xticks))
-		#plt.ylim(-1,33)
+		plt.ylim(-.5,1.5)
 
 		plt.title("System Variables", fontsize=32)
 
@@ -1507,6 +1534,43 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		pixmap = QPixmap(graph_name)
    		self.eval_time_graph.setPixmap(pixmap)
    		self.eval_time_graph.show()
+
+
+
+
+	# --- GROUP EVAL
+	def grup_eval_update_tab(self):
+
+		self.group_eval_comboBox.addItems(self.evaluation_db.group_list)
+		#print self.evaluation_db.group_list
+
+
+	def group_eval_generate_action(self):
+
+		group = self.group_eval_comboBox.currentText()
+		table_name="Evaluations/Test1.csv"
+		self.evals_to_csv(group, table_name)
+		
+		dataframe_to_table(pd.read_csv(table_name),self.group_eval_tableWidget)
+		self.group_eval_tableWidget.resizeColumnsToContents()
+		self.group_eval_tableWidget.resizeRowsToContents()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2267,7 +2331,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				self.label_129.setText(str(self.preview_profile)) 
 				self.label_128.setText(str(i+1))
 			
-			except expression as identifier:
+			except:
 				pass
 
 			# Select the possibilities according to the user profile detected
@@ -2417,14 +2481,14 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				self.n_deviation = 0
 				self.adapt_sys.clear_emo_variables()
 
-				fvalue, aplha, beta, gama = self.adapt_sys.adp_function(j)
+				fvalue, alpha, beta, gama = self.adapt_sys.adp_function(j)
 				fvalue = self.adapt_sys.activation_function(fvalue)
 				self.adapt_sys.change_behavior(fvalue)
 
 				self.preview_profile = self.user_profile 
 				self.user_profile = self.adapt_sys.robot_communication_profile+1
 				
-				att.aplha=aplha
+				att.alpha=alpha
 				att.beta=beta
 				att.gama=gama
 				att.fvalue=fvalue
@@ -2970,10 +3034,21 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 
-	def evals_to_csv(self):
+	def evals_to_csv(self, group, table_name):
 
 		
-		df = pd.DataFrame(columns=("Name", "Duration", "Topic", "Question_number", "Dificult",	"question", "exp_ans", "under_ans", "sys_was", "Time_to_answer"))
+		df = pd.DataFrame(columns=(	"Name", 
+									"Duration", 
+									"Topic", 
+									"Question_number", 
+									"Dificult",	
+									"question", 
+									"exp_ans", 
+									"under_ans", 
+									"Sup_ans",
+									"Sys_ans", 
+									"Sys_was",
+									"Time_to_answer"))
 		
 		print df
 		t=0
@@ -2981,7 +3056,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			
 			#pprint((self.evaluation_db.evaluations_list[item].date)) 
 			
-			if self.evaluation_db.evaluations_list[item].date == QDate(2019,2,18) or self.evaluation_db.evaluations_list[item].date == QDate(2019,2,19):
+			#if self.evaluation_db.evaluations_list[item].date == QDate(2019,2,18) or self.evaluation_db.evaluations_list[item].date == QDate(2019,2,19):
+			if self.evaluation_db.evaluations_list[item].group == group:
 				
 				aux = self.evaluation_db.evaluations_list[item]
 				name = aux.user_name
@@ -2997,7 +3073,23 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 						question = aux.topics[tp].questions[q]
 						att = question.attempts[0]
 						#df.loc[item]= [name, duration, topic_name, q+1, 0, question.question, question.exp_ans, att.given_ans, att.sytem_was, att.time2ans]
-						df.loc[-1]= [name, duration, topic_name, q+1, 0, question.question, question.exp_ans, att.given_ans, att.system_consideration, att.time2ans]
+						
+						
+						df.loc[-1]= [	name, 
+										duration, 
+										topic_name, 
+										q+1, 
+										att.profile, 
+										question.question, 
+										question.exp_ans, 
+										att.given_ans,
+										att.supervisor_consideration,
+										att.system_consideration, 
+										att.sytem_was, 
+										att.time2ans]
+
+						
+						
 						# 
 						df.index = df.index + 1  # shifting index
 						df = df.sort_index()  # sorting by index
@@ -3006,7 +3098,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				#pass
 
 
-		df.to_csv("Total_evals.csv", index=False)
+		df.to_csv(table_name, index=False)
 
 
 	def video_check_change(self, b):
