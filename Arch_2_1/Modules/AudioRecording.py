@@ -23,7 +23,6 @@ class AudioRecording:
         self.timetoset = TIMETOSET 
         self.foldername = FOLDERNAME
 
-        self.flag = True
         self.channels = 1
         self.format = pyaudio.paInt16
 
@@ -45,7 +44,7 @@ class AudioRecording:
             audio_data = self.stream.read(self.chunk)
             audio_rms = rms(audio_data, 2)
             audio_db = 20*np.log10(audio_rms)
-            print(audio_db)
+            #print(audio_db)
             if audio_db > self.threshold:
                 end = curr + self.dt
             curr = time.time()
@@ -76,6 +75,7 @@ class AudioRecording:
 
     def listen(self):
 
+        self.flag = True
         if not self.threshold:
             print('Setting threshold, listening {}s...,').format(self.timetoset)
             self.setThreshold()
@@ -86,7 +86,7 @@ class AudioRecording:
             audio_data = self.stream.read(self.chunk) #read size of buffer
             audio_rms = rms(audio_data, 2) #calculate rms_value 2 because data is organized in 16 bits
             audio_db = 20*np.log10(audio_rms)
-            print(audio_db) 
+            #print(audio_db) 
             if audio_db > self.threshold:
                 self.record()
                 print('Listening...')
@@ -108,31 +108,42 @@ class AudioRecording:
 
 class ThreadAudioRecording(Thread):
 
-    def __init__(self, object, num):
+    def __init__(self, object, func):
         Thread.__init__(self)
         self.object = object
-        self.num = num
+        self.func = func
 
     def run(self):
 
-        if self.num == 1:
+        if self.func == 'listen':
             self.object.listen()
-        else:
+        elif self.func == 'stop':
             self.object.stop()
 
-
-if __name__ == "__main__":
-    str = 'rodando'
+def runModule():
 
     audio = AudioRecording()
-    p1 = ThreadAudioRecording(audio, 1)
-    p2 = ThreadAudioRecording(audio, 2)
-    p1.start()
+    str = 'start'
 
-    while(str != 's'):
-	    str = raw_input()
-    p2.start()
+    while(str != 'stop'):
+        th_exec = ThreadAudioRecording(audio, 'listen')
+        th_stop = ThreadAudioRecording(audio, 'stop')
+        th_exec.start()
 
+        while(str != 'stop' and str != 'pause'):
+            str = raw_input()
+
+        th_stop.start()
+        th_exec.join()
+        th_stop.join()
+               
+        if(str == 'pause'):
+            while(str != 'restart' and str != 'stop'):
+                str = raw_input()
+                
+if __name__ == "__main__":
+    
+    runModule()
 
 
 
