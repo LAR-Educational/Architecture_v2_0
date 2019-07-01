@@ -1088,7 +1088,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.eval_time2ans.setTime(QTime.fromString(str(aux_att.time2ans),"mm:ss"))
 		self.eval_ans_sup_comboBox.setCurrentIndex(aux_att.supervisor_consideration) 
 		self.eval_ans_sys_comboBox.setCurrentIndex(aux_att.system_consideration) 
-		self.eval_sys_was_comboBox.setCurrentIndex(aux_att.sytem_was) 
+		self.eval_sys_was_comboBox.setCurrentIndex(aux_att.system_was) 
 		
 		
 		try:
@@ -1125,7 +1125,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		self.eval_sys_was_comboBox.setCurrentIndex(result)
 
-		self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].sytem_was = result
+		self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].system_was = result
 		self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].supervisor_consideration = self.eval_ans_sup_comboBox.currentIndex()
 		self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].system_consideration = self.eval_ans_sys_comboBox.currentIndex()
 		# self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id]
@@ -1550,10 +1550,124 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		group = self.group_eval_comboBox.currentText()
 		table_name="Evaluations/Test1.csv"
 		self.evals_to_csv(group, table_name)
-		
-		dataframe_to_table(pd.read_csv(table_name),self.group_eval_tableWidget)
+
+		self.group_eval_data_table = pd.read_csv(table_name)
+
+		dataframe_to_table(self.group_eval_data_table, self.group_eval_tableWidget)
 		self.group_eval_tableWidget.resizeColumnsToContents()
 		self.group_eval_tableWidget.resizeRowsToContents()
+
+
+	#def group_eval_generate_graphics(self):
+
+		data = self.group_eval_data_table
+
+		int_name = data["Interaction_name"][0]
+
+		aux_int = self.interact_database.load_interact(self.act.path+"/Interactions/"+int_name+".int")
+		#print "PATH _>>>", self.act.path+"/Interactions/"+int_name+".int"
+
+		#print aux_int.data["Type"]=="Content"
+
+		list_content_name = aux_int.data.loc[aux_int.data["Type"]=="Content"]
+
+		#print list_content_name
+
+		list_content_name = list_content_name["Name"].tolist()
+
+		#print list_content_name
+
+
+		# for i in list_content_name:
+		#  	print i
+
+
+
+
+		#rights = df[ (df['Question_number']==1) & (df['System_was']==1) ]
+
+		max_quest = data["Question_number"].unique() # 6 if total
+
+		max_quest =np.sort(max_quest) #.sort()
+
+
+		mat = np.zeros((5,len(max_quest)))
+
+		
+		for i in max_quest:
+
+
+			a1 = data[ (data['Question_number']==i) & (data['Dificult']==1) & (data['Topic']=='Encontro Vocalico') ] 
+			a2 = data[ (data['Question_number']==i) & (data['Dificult']==2) & (data['Topic']=='Encontro Vocalico') ] 
+			a3 = data[ (data['Question_number']==i) & (data['Dificult']==3) & (data['Topic']=='Encontro Vocalico') ] 
+			a4 = data[ (data['Question_number']==i) & (data['Dificult']==4) & (data['Topic']=='Encontro Vocalico') ] 
+			a5 = data[ (data['Question_number']==i) & (data['Dificult']==5) & (data['Topic']=='Encontro Vocalico') ] 
+			
+
+
+			i = int(i)
+
+			mat[0,i-1] = len(a1.index)
+			mat[1,i-1] = len(a2.index)
+			mat[2,i-1] = len(a3.index)
+			mat[3,i-1] = len(a4.index)
+			mat[4,i-1] = len(a5.index)
+
+		cor2 = [ 'paleturquoise', 'cyan','springgreen', 'green', 'black'] #darkgreen']
+
+		
+		plt.figure(1)
+
+		#x = [1, 2, 3, 4, 5, 6]
+		my_xticks = ["V.E. 1", "V.E. 2", "V.E. 3"]#, "D. 4", "D. 5", "D. 6"]
+		labels = range(1,len(my_xticks)+1) 	
+		x=range(1,len(my_xticks)+1)
+		
+
+		plt.xticks(x, my_xticks)
+
+		print labels
+		#return 
+		for i in range(5):
+
+			y = mat[i]
+			plt.plot(x, y, 'o--', color=cor2[i], markersize=10, label=i+1)
+			for a,b in zip(x, y): 
+				plt.text(a+0.15, b-0.1, str(int(b)))	
+				
+				
+
+
+			# for j in range(5):
+			# 	x=(i-2*w)+1
+			# 	y = mat[i,j]
+			# 	plt.plot(x, y, '--', color=cor[j], markersize=10)
+				# for a,b in zip(x, y): 
+				# 	plt.text(a-0.05, b+1.5, str(b))
+				
+
+		plt.legend(title='Difficulty', loc='upper right', 
+			numpoints = 1,
+			shadow=True,
+			handlelength=1.5, 
+			fontsize=12)
+
+
+		#plt.xlim(0.8,max_quest+1)
+		plt.ylim(-1,6)
+
+		plt.title("Adaptation timeline in 2nd set", fontsize=32)
+
+		plt.xlabel("Topic_Question Number", fontsize=18)
+		plt.ylabel("Number of occurrences", fontsize=22)
+		plt.show()
+
+
+
+
+
+
+
 
 
 
@@ -2509,7 +2623,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			topic.insert_question(quest)
 
 
-
+		self.cur_eval.int_name=self.cur_interact.name
 		# Insert current topic in eval
 		topic.finished = self.counter_timer.elapsed()/1000.0
 		self.cur_eval.insert_topic(topic)
@@ -3040,17 +3154,18 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		df = pd.DataFrame(columns=(	"Name", 
 									"Duration", 
 									"Topic", 
+									"Interaction_name", 
 									"Question_number", 
 									"Dificult",	
-									"question", 
-									"exp_ans", 
-									"under_ans", 
+									"Question",
+									"Exp_ans", 
+									"Under_ans", 
 									"Sup_ans",
 									"Sys_ans", 
 									"Sys_was",
 									"Time_to_answer"))
 		
-		print df
+		#print df
 		t=0
 		for item in range(len(self.evaluation_db.evaluations_list)):
 			
@@ -3077,7 +3192,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 						
 						df.loc[-1]= [	name, 
 										duration, 
-										topic_name, 
+										topic_name,
+										aux.int_name, 
 										q+1, 
 										att.profile, 
 										question.question, 
@@ -3085,7 +3201,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 										att.given_ans,
 										att.supervisor_consideration,
 										att.system_consideration, 
-										att.sytem_was, 
+										att.system_was, 
 										att.time2ans]
 
 						

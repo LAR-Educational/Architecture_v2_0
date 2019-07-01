@@ -179,7 +179,7 @@ class Evaluation:
                 supervisor=None,
                 obs=None,
                 group=None,
-                int_id=None,
+                int_name=None,
                 user_dif_profile=None,
                 validation=False,
                 stats = None,
@@ -200,7 +200,7 @@ class Evaluation:
         self.supervisor=supervisor
         self.obs=obs
         self.group=group
-        self.int_id=int_id
+        self.int_name=int_name
         self.user_dif_profile=user_dif_profile
         self.validation=validation
         self.stats=stats 
@@ -244,7 +244,7 @@ class Attempt:
 
     def __init__(self, given_ans=None, time2ans=None, started = None,
                  finished = None, system_consideration=-1,
-                 supervisor_consideration=-1, sytem_was=-1, ans_dist=None,
+                 supervisor_consideration=-1, system_was=-1, ans_dist=None,
                  alpha=None, beta=None, gama=None, fvalue=None, profile=None,
                  read_values=None):
         self.given_ans=given_ans
@@ -252,7 +252,7 @@ class Attempt:
         #self.answered_at_time = answered_at_time
         self.system_consideration=system_consideration
         self.supervisor_consideration=supervisor_consideration
-        self.sytem_was=sytem_was
+        self.system_was=system_was
         self.started = started
         self.finished = finished
         self.ans_dist=ans_dist
