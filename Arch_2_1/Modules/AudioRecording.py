@@ -77,9 +77,8 @@ class AudioRecording:
 
         self.flag = True
         if not self.threshold:
-            print('Setting threshold, listening {}s...,').format(self.timetoset)
             self.setThreshold()
-        print('Threshold set to {}dB').format(self.threshold)
+
         print('Listening...')
 
         while self.flag:    
@@ -95,6 +94,9 @@ class AudioRecording:
         self.flag = False
 
     def setThreshold(self):
+
+        print('Setting threshold, listening {}s...').format(self.timetoset)
+
         record = ''
         curr = time.time()
         end = curr + self.timetoset
@@ -104,7 +106,9 @@ class AudioRecording:
 
         audio_rms = rms(record, 2)
         audio_db = 20*np.log10(audio_rms)
-        self.threshold = audio_db
+        self.threshold = audio_db + 5
+
+        print('Threshold set to {}dB.').format(self.threshold)
 
 class ThreadAudioRecording(Thread):
 
@@ -119,11 +123,19 @@ class ThreadAudioRecording(Thread):
             self.object.listen()
         elif self.func == 'stop':
             self.object.stop()
+        elif self.func == 'set':
+            self.object.setThreshold()
 
 def runModule():
-
+    str = ''
     audio = AudioRecording()
-    str = 'start'
+    
+    th_set = ThreadAudioRecording(audio, 'set')
+    th_set.start()
+    th_set.join()
+   
+    while(str != 'start'):
+        str = raw_input()
 
     while(str != 'stop'):
         th_exec = ThreadAudioRecording(audio, 'listen')
@@ -138,14 +150,9 @@ def runModule():
         th_stop.join()
                
         if(str == 'pause'):
-            while(str != 'restart' and str != 'stop'):
+            while(str != 'start' and str != 'stop'):
                 str = raw_input()
-                
+
 if __name__ == "__main__":
     
     runModule()
-
-
-
-
-
