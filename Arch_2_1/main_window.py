@@ -183,6 +183,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		if os.path.exists("Usuarios"):
 			dataframe_to_table(self.students_database.index_table, self.st_db_index_table)
+			self.st_db_index_table.resizeColumnsToContents()
 
 		self.user_new_button.clicked.connect( self.insert_user)
 		self.user_cancel_button.clicked.connect( self.user_cancel)
@@ -272,8 +273,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.run_robot_connect_button.clicked.connect(self.run_connect_robot_action)
 		self.deviation_times=[]
 
-		self.run_next_question_pushButton.clicked.connect(self.run_next_question)
-		self.run_next_topic_pushButton.clicked.connect(self.run_next_concept)
+		#self.run_next_question_pushButton.clicked.connect(self.run_next_question)
+		#self.run_next_topic_pushButton.clicked.connect(self.run_next_concept)
 		self.run_user_say_pushButton.clicked.connect(self.run_user_say)
 		self.run_end_activity_button.clicked.connect(self.run_end_activity)
 		
