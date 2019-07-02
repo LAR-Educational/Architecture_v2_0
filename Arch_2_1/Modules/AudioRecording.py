@@ -34,6 +34,8 @@ class AudioRecording:
                                   output=True,
                                   frames_per_buffer=self.chunk)
 
+        self.stream.stop_stream()
+
     def record(self):
         print('Exceeded threshold, recording...')
         record = []
@@ -80,6 +82,7 @@ class AudioRecording:
             self.setThreshold()
 
         print('Listening...')
+        self.stream.start_stream()
 
         while self.flag:    
             audio_data = self.stream.read(self.chunk) #read size of buffer
@@ -89,6 +92,9 @@ class AudioRecording:
             if audio_db > self.threshold:
                 self.record()
                 print('Listening...')
+        
+        self.stream.stop_stream()
+        print('Stopped.')
 
     def stop(self):
         self.flag = False
@@ -96,6 +102,7 @@ class AudioRecording:
     def setThreshold(self):
 
         print('Setting threshold, listening {}s...').format(self.timetoset)
+        self.stream.start_stream()
 
         record = ''
         curr = time.time()
@@ -108,7 +115,9 @@ class AudioRecording:
         audio_db = 20*np.log10(audio_rms)
         self.threshold = audio_db + 5
 
+        self.stream.stop_stream()
         print('Threshold set to {}dB.').format(self.threshold)
+        
 
 class ThreadAudioRecording(Thread):
 
@@ -154,5 +163,5 @@ def runModule():
                 str = raw_input()
 
 if __name__ == "__main__":
-    
+
     runModule()
