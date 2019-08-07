@@ -43,33 +43,46 @@ class ReadValues:
 
 
 
-class FuzzyControl:
 
-    def __init__(self):
+class StatesFuzzyControl:
+
+    def __init__(self,  max_gaze=10, #max_posture=10, 
+                        max_words=10, max_emotions=10,
+                        max_success=1, max_tta = 10,
+                        print_flag=False):
+
+        self.print_flag = print_flag
 
         # New Antecedent/Consequent objects hold universe variables and membership
         # functions
+        #self.posture = ctrl.Antecedent(np.arange(0, max_posture+1, 1), 'Posture')
         self.posture = ctrl.Antecedent(np.arange(0, 11, 1), 'Posture')
-        self.gaze = ctrl.Antecedent(np.arange(0, 11, 1), 'Gaze')
+        self.gaze = ctrl.Antecedent(np.arange(0, max_gaze+1, 1), 'Gaze')
         self.attention = ctrl.Consequent(np.arange(0, 11, 1), 'Attention')
 
         # Auto-membership function population is possible with .automf(3, 5, or 7)
         self.posture.automf(3)
         #self.gaze.automf(5)
 
-        self.gaze['rare'] = fuzz.trimf(self.gaze.universe, [0, 2, 4])
-        self.gaze['neutral'] = fuzz.trimf(self.gaze.universe, [2, 5, 7])
-        self.gaze['frequent'] = fuzz.trimf(self.gaze.universe, [5, 10, 10])
+        inf = max_gaze/3
+        av = max_gaze/2
+        sup = max_gaze*2/3
+
+        self.gaze['rare'] = fuzz.trimf(self.gaze.universe, [0, 0, inf+1])
+        self.gaze['neutral'] = fuzz.trimf(self.gaze.universe, [inf-1, av, sup+1])
+        self.gaze['frequent'] = fuzz.trimf(self.gaze.universe, [sup-1, max_gaze, max_gaze])
         
         # Custom membership functions can be built interactively with a familiar,
         # Pythonic API
         self.attention['distracted'] = fuzz.trimf(self.attention.universe, [0, 0, 4])
-        self.attention['medium'] = fuzz.gaussmf(self.attention.universe, 5, 2.3 )
+        self.attention['medium'] = fuzz.trimf(self.attention.universe, [2, 5, 8])
         self.attention['concentrated'] = fuzz.trimf(self.attention.universe, [6, 10, 10])
 
         #self.gaze.view()
         #self.attention.view()
         
+       # return
+
         att_rule1 = ctrl.Rule(self.gaze['rare'] | self.posture['poor'], self.attention['distracted'])
         att_rule2 = ctrl.Rule(self.gaze['neutral'], self.attention['medium'])
         att_rule3 = ctrl.Rule(self.gaze['frequent'] | self.posture['good'], self.attention['concentrated'])
@@ -78,7 +91,7 @@ class FuzzyControl:
 
         self.att_ctrl = ctrl.ControlSystemSimulation(att_ctrl_sys)
 
-
+        #self.att_ctrl.
 
 
         #------------------ COMMUNICATION
@@ -91,26 +104,21 @@ class FuzzyControl:
 
         # Auto-membership function population is possible with .automf(3, 5, or 7)
         
-        self.emotions['frustrated'] = fuzz.sigmf(self.emotions.universe, 1, -4)
-        self.emotions['sad'] = fuzz.gaussmf(self.emotions.universe, 3, 1 )
-        self.emotions['neutral'] = fuzz.gaussmf(self.emotions.universe, 5, 1)
-        self.emotions['happy'] = fuzz.gaussmf(self.emotions.universe, 7, 1)
-        self.emotions['excited'] = fuzz.sigmf(self.emotions.universe, 9, 4)
-        #self.gaze[''] = fuzz.trimf(self.gaze.universe, [0, 0, 4])
-        #self.gaze[''] = fuzz.trimf(self.gaze.universe, [0, 0, 4])
-
-        
-
-        self.words['contained'] = fuzz.sigmf(self.words.universe, 3.5, -1)
-        self.words['regular'] = fuzz.gaussmf(self.words.universe, 5, 1)
-        self.words['talker'] = fuzz.sigmf(self.words.universe, 7.5, 1)
-
+        self.emotions['frustrated'] = fuzz.trimf(self.emotions.universe, [0, 0, 2])
+        self.emotions['sad'] = fuzz.trimf(self.emotions.universe, [1, 3, 5] )
+        self.emotions['neutral'] = fuzz.trimf(self.emotions.universe, [3, 5, 7])
+        self.emotions['happy'] = fuzz.trimf(self.emotions.universe, [5, 7, 9])
+        self.emotions['excited'] = fuzz.trimf(self.emotions.universe, [8, 10,10 ])
+     
+        self.words['contained'] = fuzz.trimf(self.words.universe, [0, 2, 4] )
+        self.words['regular'] = fuzz.trimf(self.words.universe, [2, 5, 8])
+        self.words['talker'] = fuzz.trimf(self.words.universe, [6, 8, 10])
 
         # Custom membership functions can be built interactively with a familiar,
         # Pythonic API
-        self.communication['introverted'] = fuzz.sigmf(self.attention.universe, 2, -1)
-        self.communication['neutral'] = fuzz.gaussmf(self.attention.universe, 5, 0.5 )
-        self.communication['extroverted'] = fuzz.sigmf(self.attention.universe, 8, 1)
+        self.communication['introverted']   = fuzz.trimf(self.words.universe,  [0, 2, 4] )
+        self.communication['neutral']       =  fuzz.trimf(self.words.universe, [2, 5, 8] )
+        self.communication['extroverted']   = fuzz.trimf(self.words.universe,  [6, 8, 10])
 
         rules = []
 
@@ -127,18 +135,19 @@ class FuzzyControl:
         self.com_ctrl = ctrl.ControlSystemSimulation(com_ctrl_sys)
 
 
-        # self.emotions.view()
-        # self.words.view()
-        # self.communication.view()
+        #self.emotions.view()
+        #self.words.view()
+        #self.communication.view()
 
 
+        #return 
 
         #------------------ TASK
 
          # New Antecedent/Consequent objects hold universe variables and membership
         # functions
-        self.success = ctrl.Antecedent(np.arange(0, 6, 1), 'Success')
-        self.ans_time = ctrl.Antecedent(np.arange(0, 20, 1), 'Answer Time')
+        self.success = ctrl.Antecedent(np.arange(0, 11, 1), 'Success')
+        self.ans_time = ctrl.Antecedent(np.arange(0, 11, 1), 'Answer Time')
         self.task = ctrl.Consequent(np.arange(0, 11, 1), 'Task')
 
 
@@ -146,29 +155,30 @@ class FuzzyControl:
         # Auto-membership function population is possible with .automf(3, 5, or 7)
         
         # Extremes for lower case (1.4) and higher (4.2) = 2.75
-        self.success['high'] = fuzz.gaussmf(self.success.universe, 1.4, 1)#[1.4, 4.2, 4.2] )
+        self.success['low'] = fuzz.trimf(self.success.universe, [1, 3, 5] )
         #self.success['average'] = fuzz.gaussmf(self.success.universe, 2.75, 1)#[1.4, 4.2, 4.2] )
-        self.success['low'] = fuzz.gaussmf(self.success.universe, 4.2, 1)#[1.4, 4.2, 4.2] )
+        self.success['high'] = fuzz.trimf(self.success.universe, [5, 7, 9] )
 
 
 
-        self.ans_time['Slow'] = fuzz.gaussmf(self.ans_time.universe, 17, 3)
-        self.ans_time['Average'] = fuzz.gaussmf(self.ans_time.universe, 10, 4)
-        self.ans_time['Fast'] = fuzz.gaussmf(self.ans_time.universe, 3, 2 )
+        self.ans_time['Slow']       = fuzz.trimf(self.ans_time.universe,  [0, 2, 4] )
+        self.ans_time['Average']    = fuzz.trimf(self.ans_time.universe,  [2, 5, 8] )
+        self.ans_time['Fast']       = fuzz.trimf(self.ans_time.universe,  [6, 8, 10])
         
         # Custom membership functions can be built interactively with a familiar,
         # Pythonic API
-        self.task['inefficient']= fuzz.sigmf(self.attention.universe, 2, -1)
-        self.task['regular']    = fuzz.gaussmf(self.attention.universe, 5, 3 )
-        self.task['efficient']  = fuzz.sigmf(self.attention.universe, 8, 1)
+        self.task['inefficient']= fuzz.trimf(self.attention.universe, [0, 2, 4] )
+        self.task['regular']    = fuzz.trimf(self.attention.universe, [2, 5, 8] )
+        self.task['efficient']  = fuzz.trimf(self.attention.universe, [6, 8, 10] )
 
 
         rules = []
 
         #print rules
 
+        rules.append( ctrl.Rule(self.success['high'], self.task['efficient']) )
+        rules.append( ctrl.Rule(self.success['high'] | self.ans_time['Average'] , self.task['efficient']) )
         rules.append( ctrl.Rule(self.success['high'] | self.ans_time['Fast'] , self.task['efficient']) )
-        #rules.append( ctrl.Rule(self.success['high'] | self.ans_time['Fast'] , self.task['efficient']) )
         rules.append( ctrl.Rule(self.success['low'] | self.ans_time['Slow'], self.task['inefficient']) )
             
 
@@ -176,22 +186,23 @@ class FuzzyControl:
 
         self.task_ctrl = ctrl.ControlSystemSimulation(task_ctrl_sys)
 
+        if print_flag:
+            self.gaze.view()
+            self.posture.view()
+            self.attention.view()
 
-        self.gaze.view()
-        self.posture.view()
-        self.attention.view()
-
-        self.emotions.view()
-        self.words.view()
-        self.communication.view()
+            self.emotions.view()
+            self.words.view()
+            self.communication.view()
 
 
-        self.success.view()
-        self.ans_time.view()
-        self.task.view()
+            self.success.view()
+            self.ans_time.view()
+            self.task.view()
 
-        raw_input()
+        # #raw_input()
 
+        # time.sleep(1)
 
         # self.task_ctrl.input['Success'] = 90
         # self.task_ctrl.input['Answer Time'] = 1
@@ -204,17 +215,57 @@ class FuzzyControl:
         # self.task.view(sim=self.task_ctrl)
 
 
-        raw_input()
-        return 
+        #raw_input()
+        #return 
+
+    def compute_states(self, read_values):
+
+        # --- ALPHA --- 
+        self.att_ctrl.input['Gaze'] = read_values.deviations
+        self.att_ctrl.input['Posture'] = read_values.deviations
+
+        self.att_ctrl.compute()
+
+        alpha = self.att_ctrl.output['Attention']
+
+        if self.print_flag:
+            self.attention.view(sim=self.att_ctrl)
 
 
+        # --- BETA --- 
+        self.com_ctrl.input['Emotions'] = read_values.emotionCount
+        self.com_ctrl.input['Words'] = read_values.numberWord
+
+        self.com_ctrl.compute()
+
+        beta = self.com_ctrl.output['Communication']
+
+        if self.print_flag:
+            self.communication.view(sim=self.com_ctrl)
+
+
+        # --- GAMA --- 
+        self.task_ctrl.input['Answer Time'] = read_values.time2ans
+        self.task_ctrl.input['Success'] = read_values.sucRate
+
+        self.task_ctrl.compute()
+
+        gama = self.task_ctrl.output['Task']
+
+        if self.print_flag:
+            self.task.view(sim=self.task_ctrl)
+
+
+        return alpha, beta, gama
 
 
 
 
 class Adaptive():
 
-    def __init__(self):
+    def __init__(self, print_flag=False ):
+
+        self.print_flag = print_flag
 
         # New Antecedent/Consequent objects hold universe variables and membership
         # functions
@@ -223,7 +274,7 @@ class Adaptive():
         # Custom membership functions can be built interactively with a familiar,
         # Pythonic API
         self.attention['distracted'] = fuzz.trimf(self.attention.universe, [0, 0, 4])
-        self.attention['medium'] = fuzz.gaussmf(self.attention.universe, 5, 2.3 )
+        self.attention['medium'] = fuzz.trimf(self.attention.universe, [2, 5, 8] )
         self.attention['concentrated'] = fuzz.trimf(self.attention.universe, [6, 10, 10])
 
 
@@ -232,9 +283,9 @@ class Adaptive():
       
         # Custom membership functions can be built interactively with a familiar,
         # Pythonic API
-        self.communication['introverted'] = fuzz.sigmf(self.attention.universe, 2, -1)
-        self.communication['neutral'] = fuzz.gaussmf(self.attention.universe, 5, 0.5 )
-        self.communication['extroverted'] = fuzz.sigmf(self.attention.universe, 8, 1)
+        self.communication['introverted'] = fuzz.trimf(self.attention.universe, [0, 2, 4])
+        self.communication['neutral'] = fuzz.trimf(self.attention.universe,  [2, 5, 8] )
+        self.communication['extroverted'] = fuzz.trimf(self.attention.universe,  [6, 8, 10])
 
 
         #------------------ TASK
@@ -245,9 +296,9 @@ class Adaptive():
         
         # Custom membership functions can be built interactively with a familiar,
         # Pythonic API
-        self.task['inefficient']= fuzz.sigmf(self.attention.universe, 2, -1)
-        self.task['regular']    = fuzz.gaussmf(self.attention.universe, 5, 3 )
-        self.task['efficient']  = fuzz.sigmf(self.attention.universe, 8, 1)
+        self.task['inefficient']= fuzz.trimf(self.attention.universe, [0, 2, 4])
+        self.task['regular']    = fuzz.trimf(self.attention.universe, [2, 5, 8] )
+        self.task['efficient']  = fuzz.trimf(self.attention.universe, [6, 8, 10])
 
 
 
@@ -258,9 +309,7 @@ class Adaptive():
         self.adaptation.automf(5)
 
 
-        self.adaptation.view()
-
-
+        #self.adaptation.view()
 
 
         rules = []
@@ -277,31 +326,35 @@ class Adaptive():
         #rules.append( ctrl.Rule(self.success['low'] | self.ans_time['Slow'], self.task['inefficient']) )
 
 
-
-
-
-        self.attention.view()
-        self.communication.view()
-        self.task.view()
+        if self.print_flag:
+            self.attention.view()
+            self.communication.view()
+            self.task.view()
 
 
         ctrl_sys = ctrl.ControlSystem(rules)
 
         self.adp_func = ctrl.ControlSystemSimulation(ctrl_sys)
 
-        self.adp_func.input['Attention'] = 9
-        self.adp_func.input['Communication'] = 9
-        self.adp_func.input['Task'] = 10
+
+
+
+    def compute_fvalue(self, values):
+        
+        self.adp_func.input['Attention'] = values[0]
+        self.adp_func.input['Communication'] = values[1]
+        self.adp_func.input['Task'] = values[2]
 
 
         self.adp_func.compute()
 
 
-        print self.adp_func.output['Adaptation']
 
-        self.adaptation.view(sim=self.adp_func)
+        if print_flag:
+            print "VALUE", self.adp_func.output['Adaptation']
+            self.adaptation.view(sim=self.adp_func)
 
-        raw_input()
+        #raw_input()
         return
 
 
@@ -309,6 +362,30 @@ class Adaptive():
 
 
 
+
+
+
+
+
+
+
+
+    def compute_fvalue(self, measures):
+
+        self.adp_func.input['Attention'] = measures[0]
+        self.adp_func.input['Communication'] = measures[1]
+        self.adp_func.input['Task'] = measures[2]
+
+
+        self.adp_func.compute()
+
+
+        if self.print_flag:
+            print "Value", self.adp_func.output['Adaptation']
+
+            self.adaptation.view(sim=self.adp_func)
+
+        return self.adp_func.output['Adaptation']
 
 
 
@@ -407,10 +484,24 @@ def adap():
 
 if __name__=="__main__":
     
-    #fz = FuzzyControl()
-    fz = Adaptive()
+    # fz = StatesFuzzyControl(True)
+    
+    # r = ReadValues(8, 1, 3.9, 3.9, 9)
+
+    # measures =  fz.compute_states(r)
+    
+    # print fz.compute_states(r)
+    
+    #raw_input()
+    
+   fz = Adaptive(True)
+
+   values = [5,5,5]
 
 
+   fz.compute_fvalue(values)
+   
+   time.sleep(5)
 
 
 
