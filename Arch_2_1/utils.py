@@ -858,6 +858,150 @@ def generate_graph_frequency():
 
 
 
+def likert_graph_teachers():
+
+
+	bf = [4,3,3,4,2,3,4]
+	af = [4,4,4,4,3,4,4]
+
+
+	cor = [ 'aqua', 'dodgerblue','b', 'darkviolet', 'indigo']
+	cor2 = [ 'paleturquoise', 'cyan','springgreen', 'green', 'black'] #darkgreen']
+
+	
+	fig, ax = plt.subplots()
+
+	#x = [1, 2, 3, 4, 5, 6]
+	my_xticks = ["I1", "I2", "I3", "I4", "I5", "I6", "I7"]#, "D. 4", "D. 5", "D. 6"]
+	labels = range(1,len(my_xticks)+1) 	
+	x=np.arange(1,len(my_xticks)+1)
+	
+
+	width = 0.35
+
+	rect1 = ax.bar(x - width/2, bf, width, color=cor2[0], label="Before Using")
+	
+	rect2 = ax.bar(x + width/2, af, width, color=cor[1], label="After Using")
+
+
+	def autolabel(rects):
+		"""Attach a text label above each bar in *rects*, displaying its height."""
+		for rect in rects:
+			height = rect.get_height()
+			ax.annotate('{}'.format(height),
+						xy=(rect.get_x() + rect.get_width() / 2, height),
+						xytext=(0, 3),  # 3 points vertical offset
+						textcoords="offset points",
+						ha='center', va='bottom')
+
+
+	# Add some text for labels, title and custom x-axis tick labels, etc.
+	ax.set_ylabel('Scores',fontsize=20)
+	ax.set_xlabel('Item Number',fontsize=20)
+	
+	#ax.set_title('Teachers Likert Scale before and after using the system', fontsize=40)
+	ax.set_xticks(x)
+	ax.set_xticklabels(labels)
+	ax.legend()
+
+	ax.set_xlim(0,len(my_xticks)+1)
+	ax.set_ylim(0,5)
+
+	
+
+	#autolabel(rect1)
+	#autolabel(rect2)
+
+	fig.tight_layout()
+
+	plt.show()		
+
+		
+	return
+
+
+
+
+	plt.legend(title='Difficulty', loc='upper right', 
+		numpoints = 1,
+		shadow=True,
+		handlelength=1.5, 
+		fontsize=12)
+
+
+	plt.title("Adaptation timeline in 2nd set", fontsize=32)
+
+	plt.xlabel("Topic_Question Number", fontsize=18)
+	plt.ylabel("Number of occurrences", fontsize=22)
+	plt.show()
+
+
+
+
+def likert_graph_students():
+
+
+	bf = [4.91, 3.57, 4.12, 4.09, 2]
+	bfd = [0.29, 1.25, 0.89, 0.94, 1.25]
+
+	af = [4.69, 4.15, 4.32, 4.33, 2.54 ]
+	afd = [0.58, 0.93, 0.83, 0.92, 1.11 ]
+
+
+
+	cor = [ 'aqua', 'dodgerblue','b', 'darkviolet', 'indigo']
+	cor2 = [ 'paleturquoise', 'cyan','springgreen', 'green', 'black'] #darkgreen']
+
+	
+	fig, ax = plt.subplots()
+
+	#x = [1, 2, 3, 4, 5, 6]
+	x=np.arange(1,len(bf)+1)
+	
+
+	width = 0.35
+
+	rect1 = ax.bar(x - width/2, bf, width, yerr=bfd,  color=cor2[0], label="Before Using")
+	
+	rect2 = ax.bar(x + width/2, af, width, yerr=afd, color=cor[1], label="After Using")
+
+
+	def autolabel(rects):
+		"""Attach a text label above each bar in *rects*, displaying its height."""
+		for rect in rects:
+			height = rect.get_height()
+			ax.annotate('{}'.format(height),
+						xy=(rect.get_x() + rect.get_width() / 2, height),
+						xytext=(0, 3),  # 3 points vertical offset
+						textcoords="offset points",
+						ha='center', va='bottom')
+
+
+	# Add some text for labels, title and custom x-axis tick labels, etc.
+	ax.set_ylabel('Scores',fontsize=20)
+	ax.set_xlabel('Item Number',fontsize=20)
+	
+	#ax.set_title('Teachers Likert Scale before and after using the system', fontsize=40)
+	ax.set_xticks(x)
+	#ax.set_xticklabels(labels)
+	ax.legend()
+
+	ax.set_xlim(0.5,len(bf)+1)
+	ax.set_ylim(0,6)
+
+	
+
+	autolabel(rect1)
+	autolabel(rect2)
+
+	fig.tight_layout()
+
+	plt.show()		
+
+		
+	return
+
+
 def generate_pie():
 
 	# df = pd.read_csv("final_evals.csv")
@@ -989,6 +1133,8 @@ def hole():
 
 if __name__=='__main__':
 	pass
+	likert_graph_students()
+	# likert_graph_teachers()
 	#generate_all_graph()
 	#generate_graph_frequency()
 	#generate_pie()

@@ -47,7 +47,7 @@ from Modules.evaluationhandler import *
 from Modules.interactionhandler import *
 from Modules.Memory import searchwiki  
 from Modules import AudioRecording #as aud_rec
-
+from LAB import fuzzy
 
 class SessionInfo:
 	def __init__(self,initi_time,final_time):
@@ -77,6 +77,8 @@ class SessionInfo:
 
 
 class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
+	
+	
 	def __init__(self):
 		# Explaining super is out of the scope of this article
 		# So please google it if you're not familar with it
@@ -127,7 +129,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#print "Thres valeu", self.answer_threshold
 		entry = self.run_entry_comboBox.itemText( self.run_entry_comboBox.currentIndex())
 		core.input_option = core.input_option_list[str(entry)]
-		self.aud_rec_flag = True
+		self.aud_rec_flag = False#True
 		
 
 		#--- Vision panel
@@ -152,12 +154,16 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		#--- Adaptive 
 		self.user_profile = 3
+		self.adaptation_type = "Fuzzy"
 
 		#self.emotions = adaption.emotions
 		# self.w = adaption.Weights()
 		# self.op_par = adaption.OperationalParameters()
 		# self.read_values=adaption.ReadValues()
 
+		if (self.adaptation_type == "Fuzzy"):
+			self.set_adaptive_fuzzy_parameters()
+			
 
 
 
@@ -227,21 +233,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.group_generate_button.clicked.connect(self.group_eval_generate_action)
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+				
 		#--- Interaction
 
 		self.int_enable = False
@@ -255,6 +247,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		self.int_lock_button.clicked.connect(self.int_lock_action)
 		
+
+
 		
 		#--- Plan and Run
 		self.pushButton_run_activity.clicked.connect(self.start_activity)
@@ -354,8 +348,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#self.destroy()
 
 	
-	
-	#------------------ DIALOG -----------------------------
+#----------------------------------------------- \DIALOG -----------------------------
 	
 	def insertQuestion(self):
 		
@@ -453,7 +446,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 
-#------------------------ CONTENT -------------------------------------
+#------------------------------------------------ \CONTENT -------------------------------------
 
 	def content_NewSubject(self):
 
@@ -630,7 +623,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 
-#-------------------------------------------------- KNOWLEDGE ----------------------------------------
+#-------------------------------------------------- \KNOWLEDGE ----------------------------------------
 
 
 	def know_add_information(self, concept):
@@ -670,16 +663,33 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 
+#-------------------------------------------------- \ADAPTION ----------------------------------------
+
+	def set_adaptive_fuzzy_parameters(self):
+		
+		max_gaze = self.face_dev_activation.value()
+		max_emotions = self.negEmoAct__spinBox.value()
+		max_words = self.adp_words_spinBox.value()
+		max_tta = self.learningTime_doubleSpinBox.value()
+		max_success = self.wrongAns_Tol_doubleSpinBox.value()
+
+		#print max_gaze, max_emotions, max_words, max_tta, max_success
+
+		self.states_fuzzy_control = fuzzy.StatesFuzzyControl(max_gaze=max_gaze,
+															max_emotions=max_emotions,
+															max_words=max_words,
+															max_tta=max_tta, 
+															max_success=max_success,
+															print_flag=False)
+		self.adaptive_fuzzy_control = fuzzy.Adaptive(False)
+	
 
 
 
 
 
 
-
-
-
-#-------------------------------------------------- USER ----------------------------------------
+#-------------------------------------------------- \USER ----------------------------------------
 
 
 	def insert_user(self):
@@ -877,7 +887,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 
-#-------------------------------------------------- EVAL ----------------------------------------
+#-------------------------------------------------- \EVAL ----------------------------------------
 
 
 	# def insert_user(self):
@@ -1805,27 +1815,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#-------------------------------------------------- INTERACTION ----------------------------------------
+#-------------------------------------------------- \INTERACTION ----------------------------------------
 
 
 
@@ -2002,20 +1992,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-#-------------------------------------------------- RUN ----------------------------------------
+#-------------------------------------------------- \RUN ----------------------------------------
 
 	def start_activity(self):
 		
@@ -2239,6 +2216,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			self.read_values)
 			#str(self.cur_eval.id))
 		
+		#Fuzzy
+		#if (self.adaptation_type == "Fuzzy"):
 		
 		core.info("Loading Models!")
 		#self.run_load_models()
@@ -2626,7 +2605,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				#print "Question:", chosen_question
 				print "Exp: ", expected_answer
 
-				self.run_exp_ans.setText(expected_answer)
+				self.run_exp_ans.setText( expected_answer)
 
 				t1 = time.time()
 
@@ -2734,15 +2713,33 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				self.n_deviation = 0
 				self.adapt_sys.clear_emo_variables()
 
-				fvalue, alpha, beta, gama = self.adapt_sys.adp_function(j)
-				fvalue = self.adapt_sys.activation_function(fvalue)
+				if (self.adaptation_type=="Fuzzy"):
+
+					pprint(vars(self.read_values))
+
+					values = self.states_fuzzy_control.compute_states(self.read_values)
+					alpha = values[0]
+					beta = values[1]
+					gama = values[2]
+
+					core.info("Alpha Fuzzy: "+ str(alpha))
+					core.info("Beta Fuzzy: "+ str(beta))
+					core.info("Alpha Fuzzy: "+ str(gama))
+					fvalue = self.adaptive_fuzzy_control.compute_fvalue(values) / 10.0
+					core.info("FVALUE -> " +str(fvalue))
+
+				else:
+					fvalue, alpha, beta, gama = self.adapt_sys.adp_function(j)
+					fvalue = self.adapt_sys.activation_function(fvalue)
+					
+				
 				self.adapt_sys.change_behavior(fvalue)
 
 				self.preview_profile = self.user_profile 
 				self.user_profile = self.adapt_sys.robot_communication_profile+1
 				
 				att.alpha=alpha
-				att.beta=beta
+				att.beta=beta	
 				att.gama=gama
 				att.fvalue=fvalue
 				att.read_values = copy.deepcopy(self.read_values)
