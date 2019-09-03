@@ -154,7 +154,9 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		#--- Adaptive 
 		self.user_profile = 3
-		self.adaptation_type = "Fuzzy"
+		#self.adaptation_type = "Fuzzy"
+		#self.adaptation_type = "Rules"
+		self.adaptation_type = "Woz"
 
 		#self.emotions = adaption.emotions
 		# self.w = adaption.Weights()
@@ -464,8 +466,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 					file_name = self.act.path +  "/Content/subjects.csv"
 					self.sub_list.to_csv(file_name, index=False)
 					clearTable(self.content_questions_table)
-		
 
+		
 
 					break
 			else:
@@ -2508,6 +2510,9 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#print self.sub_list
 		
 		self.preview_profile = 3	
+		self.user_profile = 3	
+		self.adapt_sys.robot_communication_profile=2
+
 
 		core.info("Initializing emotion thread")
 		#self.run_emotion_flag = True
@@ -2713,7 +2718,39 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				self.n_deviation = 0
 				self.adapt_sys.clear_emo_variables()
 
-				if (self.adaptation_type=="Fuzzy"):
+
+
+
+				if (self.adaptation_type=="Woz"):
+
+					result = QMessageBox.question(self,
+                                    "Increasing communication level profile",
+                                    "Para incrementar o nível de dificuldade:\n\n Yes -> Aumenta\nIgnore - > Mantém\n No -> Diminui\n\n",
+                                    QMessageBox.No | QMessageBox.Ignore | QMessageBox.Yes  )
+					
+					self.preview_profile = self.user_profile 
+					
+					alpha = 0
+					beta = 0
+					gama = 0
+
+
+					if result == QMessageBox.Yes:
+						fvalue = 0
+						print "Yes "
+
+					elif result == QMessageBox.No:
+						fvalue = 1
+						print "No "
+					
+					elif result == QMessageBox.Ignore:
+						fvalue = 0.5
+						print "Ignore "
+
+					fvalue = self.adapt_sys.activation_function(fvalue)
+
+
+				elif (self.adaptation_type=="Fuzzy"):
 
 					pprint(vars(self.read_values))
 
@@ -2728,16 +2765,23 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 					fvalue = self.adaptive_fuzzy_control.compute_fvalue(values) / 10.0
 					core.info("FVALUE -> " +str(fvalue))
 
-				else:
+
+				elif (self.adaptation_type=="Rules"):
 					fvalue, alpha, beta, gama = self.adapt_sys.adp_function(j)
 					fvalue = self.adapt_sys.activation_function(fvalue)
 					
 				
+
+
+
 				self.adapt_sys.change_behavior(fvalue)
 
 				self.preview_profile = self.user_profile 
 				self.user_profile = self.adapt_sys.robot_communication_profile+1
 				
+				print "FVALUE_________________>", fvalue
+
+
 				att.alpha=alpha
 				att.beta=beta	
 				att.gama=gama
@@ -2745,7 +2789,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				att.read_values = copy.deepcopy(self.read_values)
 				att.profile=self.preview_profile
 
-				
+					
 				quest.insert_attempt(att)	
 				
 				
