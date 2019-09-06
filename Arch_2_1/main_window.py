@@ -149,7 +149,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.content_delete_question_button.clicked.connect(self.content_DeleteQuestion)
 		self.content_saveSub_button.clicked.connect(self.content_save)
 		self.content_subject_comboBox.currentIndexChanged.connect(self.content_update_tab)
-		self.contenct_clear_questions_button.clicked.connect(self.content_clear_table)
+		self.content_clear_questions_button.clicked.connect(self.content_clear_table)
+		self.content_load_from_file_button.clicked.connect(self.content_load_from_file_action)
 		
 		
 		#--- Adaptive 
@@ -622,7 +623,24 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			self.log("Content <<" + cont_name + ">> deleted!")
 			
 
+	def content_load_from_file_action(self):
 
+		flag = True
+		while (flag):
+			filename = QFileDialog.getOpenFileName(self, 'Open File', self.act.path + "/Content")
+			filename = str(filename)
+
+			if filename.endswith('.csv'):
+				QMessageBox.information(self, "Warning!", "Don't forget to save the table to the content!", QMessageBox.Ok )		
+				break
+
+			else:
+				QMessageBox.critical(self, "Error!", "File is not a CSV file. \n\nChoose a CSV file.", QMessageBox.Ok )		
+
+		data=pd.read_csv(filename)
+		#print "trying data", data
+
+		dataframe_to_table(data,self.content_questions_table)
 
 
 #-------------------------------------------------- \KNOWLEDGE ----------------------------------------
@@ -2008,6 +2026,12 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				
 				
 		# 		return -1
+
+		#self.run_robot_connect_button.setEnabled(False)
+		self.pushButton_run_activity.setEnabled(False)
+		self.run_end_activity_button.setEnabled(True)
+		
+
 		del self.cur_eval #=  Evaluation()	
 		self.cur_eval =  Evaluation(
 								id=self.sys_vars.evaluation_id,
@@ -2099,7 +2123,9 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		# if self.robot is not None:
 		# 	self.vis_sys.unsub(0)
-
+		self.pushButton_run_activity.setEnabled(True)
+		self.run_end_activity_button.setEnabled(False)
+		
 		self.timer.stop()
 		self.clock_timer.stop()
 		
@@ -2144,8 +2170,15 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 
+		sentence = " Would you like to perform data validation of this session right now?"
 
-
+		#change = QMessageBox.information(self, "Finished!", sentence, QMessageBox.Ok | QMessagebox.Cancel )
+		ret = QMessageBox.warning(self, "This sessions has ended", sentence, 					
+									QMessageBox.Cancel | QMessageBox.Ok )
+			
+		if ret == QMessageBox.Ok:
+			self.modules_tabWidget.setCurrentIndex(7)
+			self.eval_open()
 
 
 	def run_connect_robot_action(self):
@@ -2156,6 +2189,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		try:
 			self.robot=core.Robot(self.robot_ip, robot_port)
 			self.nao_connected = True
+			#self.run_robot_connect_button.setEnabled(False)
+
 
 		except:
 			self.nao_connected = False
@@ -2176,10 +2211,13 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 						
 						core.er("CAMERA NOT CONNECTED")
 						return -1
+
 			else:
 				core.info("Aborting due to camera issues.")
 				self.log("Aborting due to camera issues.")	
 				return -1
+		
+		self.run_robot_connect_button.setEnabled(False)
 		
 			
 			
@@ -3222,8 +3260,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 				QCoreApplication.processEvents()
 
-			#t2 = threading.Thread(name='my_service', target=my_service)
-			#self.robot_say_action(text)
+			t2 = threading.Thread(name='my_service', target=my_service)
+			self.robot_say_action(text)
 
 
 
@@ -3231,7 +3269,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 	def robot_say_action(self, text, ask, block ):
 
 		#self.robot_say_block()
-		#self.diag_sys.say(str2say=text,ask=ask, block=block)
+		self.diag_sys.say(str2say=text,ask=ask, block=block)
 		self.user_ans_flag = False
 
 
