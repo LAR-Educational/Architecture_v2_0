@@ -32,6 +32,8 @@ class EvaluationDatabase():
             if  os.path.exists(self.path + "group_list.txt"):
                 inF = open(self.path + "group_list.txt", "r")
                 for line in inF:
+                    line = line.replace("\n","")
+                    #print "line", line
                     self.group_list.append(line)
                     
                 inF.close()    

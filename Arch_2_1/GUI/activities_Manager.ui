@@ -344,6 +344,19 @@
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_3">
            <item>
+            <spacer name="horizontalSpacer_59">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
             <spacer name="horizontalSpacer_10">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
@@ -419,6 +432,19 @@
             </widget>
            </item>
            <item>
+            <spacer name="horizontalSpacer_30">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
             <widget class="QFrame" name="frame_29">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -477,6 +503,19 @@
               </item>
              </layout>
             </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_52">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
            </item>
            <item>
             <widget class="QFrame" name="frame_14">
@@ -538,6 +577,96 @@
             </widget>
            </item>
            <item>
+            <spacer name="horizontalSpacer_54">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QFrame" name="frame_48">
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_9">
+              <item>
+               <spacer name="verticalSpacer_55">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_79">
+                <property name="text">
+                 <string>Text to Speech</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="comboBox_5">
+                <item>
+                 <property name="text">
+                  <string>gTTS</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Watson</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>NAO</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+              <item>
+               <spacer name="verticalSpacer_56">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_61">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
             <widget class="QFrame" name="frame_44">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -591,6 +720,19 @@
               </item>
              </layout>
             </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_55">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
            </item>
            <item>
             <widget class="QFrame" name="frame_16">
@@ -652,6 +794,19 @@
               </item>
              </layout>
             </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_56">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
            </item>
            <item>
             <widget class="QFrame" name="frame_15">
@@ -739,6 +894,19 @@
             </widget>
            </item>
            <item>
+            <spacer name="horizontalSpacer_57">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
             <widget class="QFrame" name="frame_55">
              <property name="minimumSize">
               <size>
@@ -811,6 +979,19 @@
               </item>
              </layout>
             </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_58">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
            </item>
            <item>
             <spacer name="horizontalSpacer_3">
@@ -924,8 +1105,14 @@
             <string>Dialogue Files</string>
            </attribute>
            <layout class="QGridLayout" name="gridLayout_15">
-            <item row="0" column="0">
+            <item row="0" column="1" rowspan="2">
              <widget class="QFrame" name="frame_11">
+              <property name="minimumSize">
+               <size>
+                <width>500</width>
+                <height>0</height>
+               </size>
+              </property>
               <property name="frameShape">
                <enum>QFrame::StyledPanel</enum>
               </property>
@@ -933,7 +1120,187 @@
                <enum>QFrame::Raised</enum>
               </property>
               <layout class="QGridLayout" name="gridLayout_16">
-               <item row="0" column="0">
+               <item row="1" column="5">
+                <layout class="QFormLayout" name="formLayout_4">
+                 <property name="fieldGrowthPolicy">
+                  <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                 </property>
+                 <property name="labelAlignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                 <property name="formAlignment">
+                  <set>Qt::AlignHCenter|Qt::AlignTop</set>
+                 </property>
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label_168">
+                   <property name="text">
+                    <string>User Name</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QLabel" name="label_169">
+                   <property name="text">
+                    <string>&lt;name&gt;</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="label_170">
+                   <property name="text">
+                    <string>Birthday</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="0">
+                  <widget class="QLabel" name="label_195">
+                   <property name="text">
+                    <string>School Year</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="0">
+                  <widget class="QLabel" name="label_196">
+                   <property name="text">
+                    <string>Sport</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="4" column="0">
+                  <widget class="QLabel" name="label_206">
+                   <property name="text">
+                    <string>Team</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="5" column="0">
+                  <widget class="QLabel" name="label_210">
+                   <property name="text">
+                    <string>Food</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="6" column="0">
+                  <widget class="QLabel" name="label_214">
+                   <property name="text">
+                    <string>Dance</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="7" column="0">
+                  <widget class="QLabel" name="label_215">
+                   <property name="text">
+                    <string>Music</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="8" column="0">
+                  <widget class="QLabel" name="label_216">
+                   <property name="text">
+                    <string>Hobby</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="9" column="0">
+                  <widget class="QLabel" name="label_217">
+                   <property name="text">
+                    <string>Toy</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="10" column="0">
+                  <widget class="QLabel" name="label_218">
+                   <property name="text">
+                    <string>Game</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QLabel" name="label_219">
+                   <property name="text">
+                    <string>&lt;bday&gt;</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="1">
+                  <widget class="QLabel" name="label_220">
+                   <property name="text">
+                    <string>&lt;school&gt;</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="1">
+                  <widget class="QLabel" name="label_221">
+                   <property name="text">
+                    <string>&lt;sport&gt;</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="4" column="1">
+                  <widget class="QLabel" name="label_222">
+                   <property name="text">
+                    <string>&lt;team&gt;</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="5" column="1">
+                  <widget class="QLabel" name="label_223">
+                   <property name="text">
+                    <string>&lt;food&gt;</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="6" column="1">
+                  <widget class="QLabel" name="label_224">
+                   <property name="text">
+                    <string>&lt;dance&gt;</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="7" column="1">
+                  <widget class="QLabel" name="label_225">
+                   <property name="text">
+                    <string>&lt;music&gt;</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="8" column="1">
+                  <widget class="QLabel" name="label_226">
+                   <property name="text">
+                    <string>&lt;hobby&gt;</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="9" column="1">
+                  <widget class="QLabel" name="label_232">
+                   <property name="text">
+                    <string>&lt;toy&gt;</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="10" column="1">
+                  <widget class="QLabel" name="label_234">
+                   <property name="text">
+                    <string>&lt;game&gt;</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item row="1" column="4">
+                <spacer name="horizontalSpacer_64">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item row="0" column="2" colspan="4">
                 <widget class="QLabel" name="label_33">
                  <property name="font">
                   <font>
@@ -942,28 +1309,53 @@
                   </font>
                  </property>
                  <property name="text">
-                  <string>Welcome Dialog</string>
+                  <string>Dialogues</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignCenter</set>
                  </property>
                 </widget>
                </item>
-               <item row="1" column="0">
-                <widget class="QTextEdit" name="dialog_welcome_textEdit"/>
+               <item row="1" column="2" colspan="2">
+                <widget class="QLabel" name="label_167">
+                 <property name="frameShape">
+                  <enum>QFrame::StyledPanel</enum>
+                 </property>
+                 <property name="text">
+                  <string>In the Dialogue builder, you can create the dialogues you want to perform along the sessions. You can program </string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignJustify|Qt::AlignVCenter</set>
+                 </property>
+                 <property name="wordWrap">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <spacer name="horizontalSpacer_63">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
                </item>
               </layout>
              </widget>
             </item>
-            <item row="0" column="1">
-             <widget class="Line" name="line">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="2">
+            <item row="0" column="3" rowspan="2">
              <widget class="QFrame" name="frame_12">
+              <property name="minimumSize">
+               <size>
+                <width>700</width>
+                <height>0</height>
+               </size>
+              </property>
               <property name="frameShape">
                <enum>QFrame::StyledPanel</enum>
               </property>
@@ -971,7 +1363,156 @@
                <enum>QFrame::Raised</enum>
               </property>
               <layout class="QGridLayout" name="gridLayout_17">
-               <item row="0" column="0">
+               <item row="2" column="4">
+                <widget class="QPushButton" name="diag_builder_load_button">
+                 <property name="text">
+                  <string>Load</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <spacer name="horizontalSpacer_47">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item row="2" column="6">
+                <spacer name="horizontalSpacer_50">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item row="1" column="1" colspan="6">
+                <widget class="QTextEdit" name="diag_builder_textEdit"/>
+               </item>
+               <item row="1" column="0">
+                <widget class="QFrame" name="frame_50">
+                 <property name="maximumSize">
+                  <size>
+                   <width>160</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="frameShape">
+                  <enum>QFrame::StyledPanel</enum>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Raised</enum>
+                 </property>
+                 <layout class="QGridLayout" name="gridLayout_86">
+                  <item row="2" column="1">
+                   <widget class="QPushButton" name="diag_tag_button">
+                    <property name="text">
+                     <string>ADD&gt;&gt;</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="0">
+                   <spacer name="horizontalSpacer_62">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item row="1" column="0" colspan="2">
+                   <widget class="QListWidget" name="diag_tag_list">
+                    <property name="maximumSize">
+                     <size>
+                      <width>150</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="frameShadow">
+                     <enum>QFrame::Raised</enum>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string>User Name</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Birthday</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>School Year</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Sport</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Team</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Food</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Dance</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Music</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Hobby</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Toy</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Game</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                  <item row="0" column="0" colspan="2">
+                   <widget class="QLabel" name="label_158">
+                    <property name="text">
+                     <string>TextLabel</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item row="0" column="0" colspan="7">
                 <widget class="QLabel" name="label_35">
                  <property name="font">
                   <font>
@@ -980,18 +1521,68 @@
                   </font>
                  </property>
                  <property name="text">
-                  <string>Bye Dialog</string>
+                  <string>Dialogue Builder</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignCenter</set>
                  </property>
                 </widget>
                </item>
-               <item row="1" column="0">
-                <widget class="QTextEdit" name="dialog_bye_textEdit"/>
+               <item row="2" column="2">
+                <widget class="QPushButton" name="diag_builder_clear_button">
+                 <property name="text">
+                  <string>Clear</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="5">
+                <widget class="QPushButton" name="diag_builder_save_button">
+                 <property name="text">
+                  <string>Save</string>
+                 </property>
+                </widget>
                </item>
               </layout>
              </widget>
+            </item>
+            <item row="0" column="2">
+             <spacer name="horizontalSpacer_51">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="0" column="5">
+             <spacer name="horizontalSpacer_53">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="0" column="0">
+             <spacer name="horizontalSpacer_49">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
             </item>
            </layout>
           </widget>
@@ -2918,89 +3509,6 @@
              </layout>
             </widget>
            </item>
-           <item row="3" column="0">
-            <widget class="QFrame" name="frame_33">
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>1000</width>
-               <height>1000</height>
-              </size>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::StyledPanel</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Raised</enum>
-             </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_8">
-              <item>
-               <widget class="QLabel" name="label_60">
-                <property name="maximumSize">
-                 <size>
-                  <width>115</width>
-                  <height>29</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <family>Ubuntu</family>
-                  <pointsize>12</pointsize>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Network Model</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QComboBox" name="emoModel_comboBox">
-                <property name="currentIndex">
-                 <number>4</number>
-                </property>
-                <item>
-                 <property name="text">
-                  <string>Inception_1</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Inception_4-4</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Inception_7-4</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>MobileNet_1</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>MobileNet_7-4</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>MobileNet_4-4</string>
-                 </property>
-                </item>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
            <item row="4" column="1">
             <widget class="QFrame" name="frame_34">
              <property name="frameShape">
@@ -3049,6 +3557,87 @@
              </layout>
             </widget>
            </item>
+           <item row="3" column="0">
+            <widget class="QFrame" name="frame_33">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>1000</width>
+               <height>1000</height>
+              </size>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_8">
+              <item>
+               <widget class="QLabel" name="label_60">
+                <property name="maximumSize">
+                 <size>
+                  <width>115</width>
+                  <height>29</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Ubuntu</family>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Network Model</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="emoModel_comboBox">
+                <property name="currentIndex">
+                 <number>0</number>
+                </property>
+                <item>
+                 <property name="text">
+                  <string>MobileNet_1</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>MobileNet_7-4</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>MobileNet_4-4</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <spacer name="verticalSpacer_32">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
            <item row="1" column="0" colspan="2">
             <widget class="QLabel" name="label_59">
              <property name="font">
@@ -3064,19 +3653,6 @@
               <set>Qt::AlignCenter</set>
              </property>
             </widget>
-           </item>
-           <item row="2" column="0">
-            <spacer name="verticalSpacer_32">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
-            </spacer>
            </item>
            <item row="3" column="1">
             <widget class="QFrame" name="frame_94">
@@ -3134,6 +3710,19 @@
            </item>
            <item row="0" column="0">
             <spacer name="verticalSpacer_33">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="5" column="1">
+            <spacer name="verticalSpacer_54">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
              </property>
@@ -6883,7 +7472,7 @@
       </widget>
       <widget class="QWidget" name="tab">
        <attribute name="title">
-        <string>Interaction Planing</string>
+        <string>Interaction Flow</string>
        </attribute>
        <layout class="QHBoxLayout" name="horizontalLayout_18">
         <item>
@@ -7067,12 +7656,17 @@
                 </property>
                 <item>
                  <property name="text">
-                  <string>Welcome Dialog</string>
+                  <string>Dialogue</string>
                  </property>
                 </item>
                 <item>
                  <property name="text">
-                  <string>Final Dialog</string>
+                  <string>Register User</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Recognize User</string>
                  </property>
                 </item>
                 <item>
@@ -7592,7 +8186,49 @@
               <enum>QFrame::Raised</enum>
              </property>
              <layout class="QGridLayout" name="gridLayout_81">
-              <item row="1" column="0" colspan="2">
+              <item row="3" column="1">
+               <spacer name="horizontalSpacer_41">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item row="3" column="2">
+               <widget class="QPushButton" name="pushButton_17">
+                <property name="text">
+                 <string>Clear</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0" colspan="3">
+               <widget class="QLabel" name="label_113">
+                <property name="font">
+                 <font>
+                  <pointsize>20</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Interaction Timeline</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QPushButton" name="int_delete_line_button">
+                <property name="text">
+                 <string>Delete Line</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0" colspan="3">
                <widget class="QTableWidget" name="int_timeline_table">
                 <property name="sortingEnabled">
                  <bool>true</bool>
@@ -7628,41 +8264,6 @@
                   <string>Name</string>
                  </property>
                 </column>
-               </widget>
-              </item>
-              <item row="3" column="0">
-               <spacer name="horizontalSpacer_41">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item row="3" column="1">
-               <widget class="QPushButton" name="pushButton_17">
-                <property name="text">
-                 <string>Clear</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="0" colspan="2">
-               <widget class="QLabel" name="label_113">
-                <property name="font">
-                 <font>
-                  <pointsize>20</pointsize>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Interaction Timeline</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
                </widget>
               </item>
              </layout>
@@ -7746,7 +8347,7 @@
             </spacer>
            </item>
            <item>
-            <widget class="QFrame" name="frame_50">
+            <widget class="QFrame" name="run_connection_frame">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
              </property>
@@ -7754,35 +8355,38 @@
               <enum>QFrame::Raised</enum>
              </property>
              <layout class="QGridLayout" name="gridLayout_42">
-              <item row="0" column="0">
+              <item row="1" column="0">
                <widget class="QLabel" name="label_76">
                 <property name="text">
                  <string>Robot IP</string>
                 </property>
                </widget>
               </item>
-              <item row="1" column="0">
+              <item row="2" column="0">
                <widget class="QLabel" name="label_77">
                 <property name="text">
                  <string>Port</string>
                 </property>
                </widget>
               </item>
-              <item row="1" column="1">
+              <item row="2" column="1">
                <widget class="QLineEdit" name="run_robot_port">
                 <property name="text">
                  <string>9559</string>
                 </property>
                </widget>
               </item>
-              <item row="1" column="2">
+              <item row="2" column="2">
                <widget class="QPushButton" name="run_robot_connect_button">
                 <property name="text">
                  <string>Connect</string>
                 </property>
+                <property name="shortcut">
+                 <string>Ctrl+Shift+C</string>
+                </property>
                </widget>
               </item>
-              <item row="0" column="1" colspan="2">
+              <item row="1" column="1" colspan="2">
                <widget class="QComboBox" name="run_robot_ip_comboBox">
                 <property name="editable">
                  <bool>true</bool>
@@ -7804,6 +8408,29 @@
                 </item>
                </widget>
               </item>
+              <item row="0" column="0" colspan="3">
+               <widget class="QLabel" name="label_26">
+                <property name="font">
+                 <font>
+                  <pointsize>16</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Sunken</enum>
+                </property>
+                <property name="text">
+                 <string>Device Connection</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
              </layout>
             </widget>
            </item>
@@ -7821,7 +8448,10 @@
             </spacer>
            </item>
            <item>
-            <widget class="QFrame" name="frame_58">
+            <widget class="QFrame" name="run_frame_int_settings">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
              </property>
@@ -7829,21 +8459,21 @@
               <enum>QFrame::Raised</enum>
              </property>
              <layout class="QGridLayout" name="gridLayout_47">
-              <item row="9" column="0" colspan="3">
+              <item row="10" column="0" colspan="3">
                <widget class="Line" name="line_27">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
                </widget>
               </item>
-              <item row="5" column="2">
+              <item row="6" column="2">
                <widget class="QToolButton" name="run_new_eval_group_toolButton">
                 <property name="text">
                  <string>...</string>
                 </property>
                </widget>
               </item>
-              <item row="5" column="0">
+              <item row="6" column="0">
                <widget class="QLabel" name="label_54">
                 <property name="text">
                  <string>Group:</string>
@@ -7853,10 +8483,190 @@
                 </property>
                </widget>
               </item>
-              <item row="12" column="1" colspan="2">
+              <item row="1" column="0" colspan="3">
+               <widget class="QLabel" name="label_209">
+                <property name="font">
+                 <font>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Interaction Name:</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="8" column="0" colspan="3">
+               <widget class="Line" name="line_29">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+              <item row="9" column="0" colspan="2">
+               <widget class="QCheckBox" name="run_autovideo_checkBox">
+                <property name="text">
+                 <string>Record Video/Audio</string>
+                </property>
+                <property name="checked">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="11" column="1" colspan="2">
+               <widget class="QComboBox" name="run_entry_comboBox">
+                <property name="layoutDirection">
+                 <enum>Qt::LeftToRight</enum>
+                </property>
+                <item>
+                 <property name="text">
+                  <string>Keyboard</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Microphone</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Woz</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+              <item row="11" column="0">
+               <widget class="QLabel" name="label_5">
+                <property name="text">
+                 <string>Entry Type</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="run_int_name_label">
+                <property name="text">
+                 <string>NONE</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0" colspan="2">
+               <widget class="QLabel" name="label_98">
+                <property name="font">
+                 <font>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Evaluation settings:</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="2">
+               <widget class="QToolButton" name="toolButton">
+                <property name="text">
+                 <string>...</string>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="1">
+               <widget class="QComboBox" name="run_group_eval_comboBox"/>
+              </item>
+              <item row="3" column="0" colspan="3">
+               <widget class="Line" name="line_34">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="0">
+               <widget class="QLabel" name="label_99">
+                <property name="text">
+                 <string>Interaction ID</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="1">
+               <widget class="QSpinBox" name="run_int_id_spinBox">
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0" colspan="3">
+               <widget class="QLabel" name="label_20">
+                <property name="font">
+                 <font>
+                  <pointsize>16</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="text">
+                 <string>Interaction Settings</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_51">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QFrame" name="frame_6">
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_26">
+              <item>
+               <widget class="QPushButton" name="run_end_activity_button">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string>Finish Activity</string>
+                </property>
+               </widget>
+              </item>
+              <item>
                <widget class="QPushButton" name="pushButton_run_activity">
                 <property name="enabled">
-                 <bool>true</bool>
+                 <bool>false</bool>
                 </property>
                 <property name="palette">
                  <palette>
@@ -8295,146 +9105,9 @@
                 </property>
                </widget>
               </item>
-              <item row="0" column="0" colspan="3">
-               <widget class="QLabel" name="label_209">
-                <property name="font">
-                 <font>
-                  <weight>75</weight>
-                  <bold>true</bold>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Interaction Name:</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="7" column="0" colspan="3">
-               <widget class="Line" name="line_29">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-               </widget>
-              </item>
-              <item row="8" column="0" colspan="2">
-               <widget class="QCheckBox" name="run_autovideo_checkBox">
-                <property name="text">
-                 <string>Record Video/Audio</string>
-                </property>
-                <property name="checked">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="11" column="0" colspan="3">
-               <widget class="Line" name="line_28">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-               </widget>
-              </item>
-              <item row="10" column="1" colspan="2">
-               <widget class="QComboBox" name="run_entry_comboBox">
-                <property name="layoutDirection">
-                 <enum>Qt::LeftToRight</enum>
-                </property>
-                <item>
-                 <property name="text">
-                  <string>Keyboard</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Microphone</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Woz</string>
-                 </property>
-                </item>
-               </widget>
-              </item>
-              <item row="12" column="0">
-               <widget class="QPushButton" name="run_end_activity_button">
-                <property name="text">
-                 <string>Finish Activity</string>
-                </property>
-               </widget>
-              </item>
-              <item row="10" column="0">
-               <widget class="QLabel" name="label_5">
-                <property name="text">
-                 <string>Entry Type</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="run_int_name_label">
-                <property name="text">
-                 <string>NONE</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="0" colspan="2">
-               <widget class="QLabel" name="label_98">
-                <property name="font">
-                 <font>
-                  <weight>75</weight>
-                  <bold>true</bold>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Evaluation settings:</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="2">
-               <widget class="QToolButton" name="toolButton">
-                <property name="text">
-                 <string>...</string>
-                </property>
-               </widget>
-              </item>
-              <item row="5" column="1">
-               <widget class="QComboBox" name="run_group_eval_comboBox"/>
-              </item>
-              <item row="2" column="0" colspan="3">
-               <widget class="Line" name="line_34">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="0">
-               <widget class="QLabel" name="label_99">
-                <property name="text">
-                 <string>Interaction ID</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="1">
-               <widget class="QSpinBox" name="run_int_id_spinBox">
-                <property name="readOnly">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
              </layout>
+             <zorder>pushButton_run_activity</zorder>
+             <zorder>run_end_activity_button</zorder>
             </widget>
            </item>
            <item>
@@ -8454,7 +9127,10 @@
          </widget>
         </item>
         <item>
-         <widget class="QFrame" name="frame_62">
+         <widget class="QFrame" name="run_frame_robot_resources">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
           </property>
@@ -8462,8 +9138,17 @@
            <enum>QFrame::Raised</enum>
           </property>
           <layout class="QGridLayout" name="gridLayout_2">
-           <item row="0" column="1">
-            <widget class="QFrame" name="frame_48">
+           <item row="1" column="1">
+            <widget class="QFrame" name="run_frame_robot_view">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>340</width>
+               <height>16777215</height>
+              </size>
+             </property>
              <property name="font">
               <font>
                <family>Ubuntu</family>
@@ -8475,8 +9160,50 @@
              <property name="frameShadow">
               <enum>QFrame::Raised</enum>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_33">
-              <item>
+             <layout class="QGridLayout" name="gridLayout_84">
+              <item row="2" column="0" colspan="2">
+               <widget class="QLabel" name="img_from_cam">
+                <property name="maximumSize">
+                 <size>
+                  <width>320</width>
+                  <height>240</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap resource="imgs.qrc">:/imgs/cub.jpg</pixmap>
+                </property>
+                <property name="scaledContents">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QRadioButton" name="run_display_image_radioButton">
+                <property name="layoutDirection">
+                 <enum>Qt::LeftToRight</enum>
+                </property>
+                <property name="text">
+                 <string>Display Image</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <spacer name="verticalSpacer_50">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item row="0" column="0" colspan="2">
                <widget class="QLabel" name="label_83">
                 <property name="maximumSize">
                  <size>
@@ -8503,18 +9230,8 @@
                 </property>
                </widget>
               </item>
-              <item>
-               <widget class="QRadioButton" name="run_display_image_radioButton">
-                <property name="layoutDirection">
-                 <enum>Qt::LeftToRight</enum>
-                </property>
-                <property name="text">
-                 <string>Display Image</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="verticalSpacer_8">
+              <item row="6" column="0">
+               <spacer name="verticalSpacer_52">
                 <property name="orientation">
                  <enum>Qt::Vertical</enum>
                 </property>
@@ -8526,27 +9243,54 @@
                 </property>
                </spacer>
               </item>
-              <item>
-               <widget class="QLabel" name="img_from_cam">
-                <property name="maximumSize">
-                 <size>
-                  <width>320</width>
-                  <height>240</height>
-                 </size>
+              <item row="5" column="0" colspan="2">
+               <widget class="QFrame" name="frame_78">
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
                 </property>
-                <property name="text">
-                 <string/>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
                 </property>
-                <property name="pixmap">
-                 <pixmap resource="imgs.qrc">:/imgs/cub.jpg</pixmap>
-                </property>
-                <property name="scaledContents">
-                 <bool>true</bool>
-                </property>
+                <layout class="QGridLayout" name="gridLayout_85">
+                 <item row="0" column="0">
+                  <widget class="QPushButton" name="run_load_pushButton">
+                   <property name="text">
+                    <string>Load</string>
+                   </property>
+                   <property name="shortcut">
+                    <string>Ctrl+Shift+L</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="3">
+                  <widget class="QPushButton" name="run_reset_button">
+                   <property name="text">
+                    <string>Reset</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="3">
+                  <widget class="QPushButton" name="run_emotion_pushButton">
+                   <property name="text">
+                    <string>Emotion</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QPushButton" name="run_facerecog_pushButton">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="text">
+                    <string>Faces</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
                </widget>
               </item>
-              <item>
-               <spacer name="verticalSpacer_11">
+              <item row="1" column="0">
+               <spacer name="verticalSpacer_53">
                 <property name="orientation">
                  <enum>Qt::Vertical</enum>
                 </property>
@@ -8561,8 +9305,11 @@
              </layout>
             </widget>
            </item>
-           <item row="0" column="2">
-            <widget class="QFrame" name="frame_84">
+           <item row="1" column="2">
+            <widget class="QFrame" name="run_frame_dialog">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
              </property>
@@ -8614,14 +9361,14 @@
                 </property>
                </widget>
               </item>
-              <item row="3" column="0" colspan="2">
+              <item row="4" column="0" colspan="2">
                <widget class="Line" name="line_18">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
                </widget>
               </item>
-              <item row="4" column="0">
+              <item row="5" column="0">
                <widget class="QLabel" name="label_201">
                 <property name="font">
                  <font>
@@ -8638,14 +9385,14 @@
                 </property>
                </widget>
               </item>
-              <item row="6" column="0" colspan="2">
+              <item row="7" column="0" colspan="2">
                <widget class="Line" name="line_19">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
                </widget>
               </item>
-              <item row="7" column="0">
+              <item row="8" column="0">
                <widget class="QLabel" name="label_230">
                 <property name="font">
                  <font>
@@ -8662,14 +9409,14 @@
                 </property>
                </widget>
               </item>
-              <item row="9" column="0" colspan="2">
+              <item row="10" column="0" colspan="2">
                <widget class="Line" name="line_20">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
                </widget>
               </item>
-              <item row="10" column="0">
+              <item row="11" column="0">
                <widget class="QLabel" name="label_199">
                 <property name="font">
                  <font>
@@ -8686,7 +9433,7 @@
                 </property>
                </widget>
               </item>
-              <item row="12" column="0">
+              <item row="13" column="0">
                <spacer name="horizontalSpacer_19">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
@@ -8699,17 +9446,17 @@
                 </property>
                </spacer>
               </item>
-              <item row="12" column="1">
+              <item row="13" column="1">
                <widget class="QPushButton" name="run_user_say_pushButton">
                 <property name="text">
                  <string>Say</string>
                 </property>
                </widget>
               </item>
-              <item row="11" column="0" colspan="2">
+              <item row="12" column="0" colspan="2">
                <widget class="QLineEdit" name="run_user_answer"/>
               </item>
-              <item row="8" column="0" colspan="2">
+              <item row="9" column="0" colspan="2">
                <widget class="QLabel" name="run_under_ans">
                 <property name="minimumSize">
                  <size>
@@ -8731,7 +9478,7 @@
                 </property>
                </widget>
               </item>
-              <item row="5" column="0" colspan="2">
+              <item row="6" column="0" colspan="2">
                <widget class="QLabel" name="run_exp_ans">
                 <property name="minimumSize">
                  <size>
@@ -8764,6 +9511,12 @@
                   <height>91</height>
                  </size>
                 </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>433</width>
+                  <height>91</height>
+                 </size>
+                </property>
                 <property name="font">
                  <font>
                   <pointsize>12</pointsize>
@@ -8780,14 +9533,72 @@
                 </property>
                </widget>
               </item>
+              <item row="3" column="0" colspan="2">
+               <widget class="QWidget" name="widget_15" native="true">
+                <layout class="QGridLayout" name="gridLayout_83">
+                 <item row="0" column="1">
+                  <widget class="QPushButton" name="run_next_step_button">
+                   <property name="text">
+                    <string>Next Step</string>
+                   </property>
+                   <property name="shortcut">
+                    <string>Right</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="0">
+                  <spacer name="horizontalSpacer_60">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </widget>
+              </item>
              </layout>
             </widget>
+           </item>
+           <item row="0" column="1">
+            <spacer name="verticalSpacer_8">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="2" column="1">
+            <spacer name="verticalSpacer_11">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
            </item>
           </layout>
          </widget>
         </item>
         <item>
-         <widget class="QFrame" name="frame_61">
+         <widget class="QFrame" name="run_frame_tracking">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="minimumSize">
            <size>
             <width>251</width>
@@ -9324,6 +10135,9 @@
          </item>
          <item>
           <widget class="QFrame" name="frame_57">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="frameShape">
             <enum>QFrame::StyledPanel</enum>
            </property>
@@ -9365,65 +10179,16 @@
           </spacer>
          </item>
          <item>
-          <widget class="QFrame" name="frame_78">
+          <widget class="QFrame" name="frame_171">
            <property name="frameShape">
             <enum>QFrame::StyledPanel</enum>
            </property>
            <property name="frameShadow">
             <enum>QFrame::Raised</enum>
            </property>
-           <layout class="QVBoxLayout" name="verticalLayout_18">
+           <layout class="QVBoxLayout" name="verticalLayout_65">
             <item>
-             <widget class="QPushButton" name="run_load_pushButton">
-              <property name="text">
-               <string>Load</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="run_facerecog_pushButton">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="text">
-               <string>Recognize</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="run_emotion_pushButton">
-              <property name="text">
-               <string>Emotion</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item>
-          <spacer name="verticalSpacer_46">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QFrame" name="frame_76">
-           <property name="frameShape">
-            <enum>QFrame::StyledPanel</enum>
-           </property>
-           <property name="frameShadow">
-            <enum>QFrame::Raised</enum>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout_17">
-            <item>
-             <widget class="QLabel" name="label_79">
+             <widget class="QLabel" name="label_443">
               <property name="text">
                <string>Picture's Name</string>
               </property>
@@ -9446,7 +10211,7 @@
           </widget>
          </item>
          <item>
-          <spacer name="verticalSpacer_47">
+          <spacer name="verticalSpacer_46">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
@@ -9527,6 +10292,19 @@
             </item>
            </layout>
           </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_47">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
          </item>
          <item>
           <spacer name="verticalSpacer_13">
@@ -10043,8 +10821,7 @@
   <tabstop>saveQuestions_Button</tabstop>
   <tabstop>loadQuestions_Button</tabstop>
   <tabstop>sysQuestionsTable</tabstop>
-  <tabstop>dialog_welcome_textEdit</tabstop>
-  <tabstop>dialog_bye_textEdit</tabstop>
+  <tabstop>diag_builder_textEdit</tabstop>
   <tabstop>pushButton_23</tabstop>
   <tabstop>pushButton_34</tabstop>
   <tabstop>tableWidget_5</tabstop>
@@ -10228,11 +11005,11 @@
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>827</x>
+     <x>994</x>
      <y>303</y>
     </hint>
     <hint type="destinationlabel">
-     <x>806</x>
+     <x>926</x>
      <y>336</y>
     </hint>
    </hints>
@@ -10244,7 +11021,7 @@
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>806</x>
+     <x>926</x>
      <y>336</y>
     </hint>
     <hint type="destinationlabel">
@@ -10276,12 +11053,12 @@
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1220</x>
-     <y>395</y>
+     <x>1297</x>
+     <y>382</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1215</x>
-     <y>420</y>
+     <x>1297</x>
+     <y>417</y>
     </hint>
    </hints>
   </connection>
@@ -10292,12 +11069,12 @@
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1151</x>
-     <y>418</y>
+     <x>1297</x>
+     <y>417</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1191</x>
-     <y>388</y>
+     <x>1297</x>
+     <y>382</y>
     </hint>
    </hints>
   </connection>
@@ -10308,12 +11085,12 @@
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>277</x>
-     <y>667</y>
+     <x>310</x>
+     <y>700</y>
     </hint>
     <hint type="destinationlabel">
-     <x>293</x>
-     <y>638</y>
+     <x>310</x>
+     <y>665</y>
     </hint>
    </hints>
   </connection>
@@ -10324,12 +11101,12 @@
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>281</x>
-     <y>624</y>
+     <x>310</x>
+     <y>665</y>
     </hint>
     <hint type="destinationlabel">
-     <x>267</x>
-     <y>652</y>
+     <x>310</x>
+     <y>700</y>
     </hint>
    </hints>
   </connection>
@@ -10340,12 +11117,12 @@
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>675</x>
-     <y>665</y>
+     <x>706</x>
+     <y>700</y>
     </hint>
     <hint type="destinationlabel">
-     <x>683</x>
-     <y>637</y>
+     <x>706</x>
+     <y>665</y>
     </hint>
    </hints>
   </connection>
@@ -10356,12 +11133,44 @@
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>666</x>
-     <y>628</y>
+     <x>706</x>
+     <y>665</y>
     </hint>
     <hint type="destinationlabel">
-     <x>629</x>
-     <y>658</y>
+     <x>706</x>
+     <y>700</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>diag_tag_list</sender>
+   <signal>doubleClicked(QModelIndex)</signal>
+   <receiver>diag_tag_button</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>733</x>
+     <y>563</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>735</x>
+     <y>641</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>diag_builder_clear_button</sender>
+   <signal>clicked()</signal>
+   <receiver>diag_builder_textEdit</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>963</x>
+     <y>677</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>966</x>
+     <y>616</y>
     </hint>
    </hints>
   </connection>

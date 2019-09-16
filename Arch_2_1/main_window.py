@@ -88,9 +88,9 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 		self.setupUi(self)  # This is defined in design.py file automatically
-
-
-
+	
+		#full screen
+		#self.showFullScreen()
 		# GENERAL!!
 
 		self.robot = None
@@ -131,6 +131,12 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		core.input_option = core.input_option_list[str(entry)]
 		self.aud_rec_flag = False#True
 		
+		self.diag_builder_save_button.clicked.connect( lambda: save_txt_to_file(self, self.diag_builder_textEdit,self.act.path+"/Dialog"))
+		self.diag_builder_load_button.clicked.connect( lambda: load_txt_from_file(self, self.diag_builder_textEdit,self.act.path+"/Dialog"))
+
+		#self.diag_bye_save_button.clicked.connect( lambda: save_txt_to_file(self, self.diag_bye_textEdit,self.act.path+"/Dialog"))
+		#self.diag_bye_load_button.clicked.connect( lambda: load_txt_from_file(self, self.diag_bye_textEdit,self.act.path+"/Dialog"))
+		self.diag_load_embeddings_button.clicked.connect(lambda: self.diag_process_dialogue("name_mus.txt"))
 
 		#--- Vision panel
 		self.display_flag = False
@@ -177,8 +183,9 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.knowledge_general_df = pd.read_csv( "Data/general_knowledge.csv" , sep="|", encoding='utf-8')
 		self.know_gen_button_new.clicked.connect( lambda: insert_item_table(self.knowledge_general_table))
 		self.know_gen_button_del.clicked.connect( lambda: delete_item_table(self.knowledge_general_table))
-		self.know_gen_button_save.clicked.connect( lambda: save_table(self, self.knowledge_general_table,self.know_gen_df,self.knowledge_path+"general_knowledge.csv"))
-		self.know_gen_button_load.clicked.connect( lambda: load_table(self, self.knowledge_general_table,self.know_gen_df,self.knowledge_path+"general_knowledge.csv"))
+		self.know_gen_button_save.clicked.connect( self.know_save_file_action)
+		self.know_gen_button_load.clicked.connect( self.know_load_from_file_action)
+		#self.know_gen_button_load.clicked.connect( lambda: load_table(self, self.knowledge_general_table,self.know_gen_df,self.knowledge_path+"general_knowledge.csv"))
 
 		self.know_per_df=None
 		self.know_per_button_new.clicked.connect( lambda: insert_item_table(self.knowledge_personal_table))
@@ -249,7 +256,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.int_load_button.clicked.connect(self.int_load_action)
 
 		self.int_lock_button.clicked.connect(self.int_lock_action)
-		
+		self.int_delete_line_button.clicked.connect(self.int_delete_line_action)
 
 
 		
@@ -269,10 +276,15 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.run_recvid_button.clicked.connect(self.run_start_recording_video)
 		self.run_stopvid_button.clicked.connect(self.run_stop_recording_video)
 		self.run_robot_connect_button.clicked.connect(self.run_connect_robot_action)
+		self.run_reset_button.clicked.connect(self.run_reset_demo_action)
 		self.deviation_times=[]
+
 
 		#self.run_next_question_pushButton.clicked.connect(self.run_next_question)
 		#self.run_next_topic_pushButton.clicked.connect(self.run_next_concept)
+		
+		self.run_next_step_button.clicked.connect(self.setNextStepFalse)
+		self.next_step = True
 		self.run_user_say_pushButton.clicked.connect(self.run_user_say)
 		self.run_end_activity_button.clicked.connect(self.run_end_activity)
 		
@@ -445,6 +457,56 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				writer.writerow(fields)
 	
 	
+	def diag_welcome_open(self):
+		load_txt_from_file(self,self.dialog_welcome_textEdit, self.act_path+"Dialog/")
+
+
+	def diag_welcome(self):
+		
+		text = str(self.diag_welcome_textEdit.toPlainText().toUtf8())
+		print text, type(text)
+		print "nome", self.cur_user.first_name
+		self.log(text)
+		
+		print "Tipo", type( self.cur_user.first_name)
+		
+
+
+
+	def diag_process_dialogue(self, filename):
+
+		f = open(self.act.path+ "/Dialog/" + filename, 'r')
+		text = f.read()
+		f.close()
+		#self.log(txt2say)
+		#print txt2say
+		text = text.encode('utf-8')
+		text = text.replace('<name>', self.cur_user.first_name)
+		#text = text.replace('<user_team>', self.cur_user.preferences['team'])
+		
+		aux = self.cur_user.preferences['food'].toUtf8()
+		aux = str(aux)
+		text = text.replace('<user_food>', aux)
+		
+		aux = self.cur_user.preferences['team'].toUtf8()
+		#aux = str(aux)
+		text = text.replace('<user_team>', aux)
+		
+		aux = self.cur_user.preferences['music'].toUtf8()
+		#aux = str(aux)
+		text = text.replace('<user_music>', aux)
+		
+
+		self.robot_say(text)#, type(text)
+
+		self.log(text)
+
+
+
+
+
+
+
 
 
 
@@ -540,10 +602,12 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			dataframe_to_table(data,self.content_questions_table)
 
 			self.log("Subject loaded: " + self.content_subject_comboBox.currentText())
-			
+			self.content_questions_table.resizeColumnsToContents()
+			#self.content_questions_table.resizeRowsToContents()
+
 
 		else:	
-			self.log("WARNING TABLE <<"+file_name +">>  FILE DO NOT EXIST")
+			self.log("WARNING TABLE <<" + file_name +">>  FILE DO NOT EXIST")
 			labels = []
 			for i in range(0,3):
 				labels.append(str(self.content_questions_table.horizontalHeaderItem(i).text()))
@@ -681,6 +745,38 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			return definition
 
 
+	def know_save_file_action(self):
+
+		save_table(self, self.knowledge_general_table,self.know_gen_df,self.knowledge_path)
+		#self.knowledge_general_table.resizeColumnsToContents()
+
+
+	def know_load_from_file_action(self):
+
+		load_table(self, self.knowledge_general_table,self.know_gen_df,self.knowledge_path)
+		self.knowledge_general_table.resizeColumnsToContents()
+		
+		# flag = True
+		# while (flag):
+		# 	filename = QFileDialog.getOpenFileName(self, 'Open File', "Data/")
+		# 	filename = str(filename)
+
+		# 	if filename is "":
+		# 		break 
+
+		# 	elif filename.endswith('.csv'):
+		# 		QMessageBox.information(self, "Warning!", "Don't forget to save the table to the content!", QMessageBox.Ok )		
+		# 		break
+
+		# 	else:
+		# 		QMessageBox.critical(self, "Error!", "File is not a CSV file. \n\nChoose a CSV file.", QMessageBox.Ok )		
+
+		# print "NOMEEE", filename
+		# data=pd.read_csv(filename)
+		# #print "trying data", data
+
+		# dataframe_to_table(data,self.knowledge_general_table)
+
 
 
 #-------------------------------------------------- \ADAPTION ----------------------------------------
@@ -703,10 +799,6 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 															print_flag=False)
 		self.adaptive_fuzzy_control = fuzzy.Adaptive(False)
 	
-
-
-
-
 
 
 #-------------------------------------------------- \USER ----------------------------------------
@@ -1942,6 +2034,15 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 						)
 
 
+	def int_delete_line_action(self):
+
+
+		# # print self.students_database.users[self.st_db_index_table.currentRow()]
+		# user2kill = self.students_database.users[self.st_db_index_table.currentRow()]
+
+		# self.students_database.delete_user(user2kill)
+		# dataframe_to_table(self.students_database.index_table, self.st_db_index_table)
+		self.int_timeline_table.removeRow(self.int_timeline_table.currentRow())
 
 
 	def int_lock_action(self):
@@ -1955,10 +2056,10 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		print 
 
-		self.pushButton_run_activity.setEnabled(True)
+		#self.pushButton_run_activity.setEnabled(True)
 		self.run_int_name_label.setText(self.cur_interact.name)
 		self.run_int_id_spinBox.setValue(self.cur_interact.id)
-		self.modules_tabWidget.setCurrentIndex(9)
+		self.modules_tabWidget.setCurrentIndex(10)
 
 	def int_add_cont_action(self):
 
@@ -1996,15 +2097,22 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		self.int_timeline_table.insertRow(self.int_timeline_table.rowCount())		
 
-		self.int_timeline_table.setItem(
-				self.int_timeline_table.rowCount()-1,
-				0,
-				QTableWidgetItem("Extra"))
+		text = str(self.int_extra_comboBox.currentText())
 
-		self.int_timeline_table.setItem(
-				self.int_timeline_table.rowCount()-1,
-				1,
-				QTableWidgetItem(self.int_extra_comboBox.currentText()))						
+		if text == 'Dialogue':
+			self.int_timeline_table.setItem(self.int_timeline_table.rowCount()-1, 0, QTableWidgetItem("Dialogue"))
+			filename = QFileDialog.getOpenFileName(self, 'Open File', self.act.path+"/Dialog")
+			name = QFileInfo(filename).fileName()
+			filename = str(filename)
+			#print (url)
+			#filename = filename.replace(self.act.path+"/Dialog",'')
+			#filename = filename.replace(".txt",'')
+			self.int_timeline_table.setItem(self.int_timeline_table.rowCount()-1, 1, QTableWidgetItem(name))						
+
+
+		else:	
+			self.int_timeline_table.setItem(self.int_timeline_table.rowCount()-1, 0, QTableWidgetItem("Extra"))
+			self.int_timeline_table.setItem(self.int_timeline_table.rowCount()-1, 1, QTableWidgetItem(self.int_extra_comboBox.currentText()))						
 
 
 
@@ -2030,6 +2138,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#self.run_robot_connect_button.setEnabled(False)
 		self.pushButton_run_activity.setEnabled(False)
 		self.run_end_activity_button.setEnabled(True)
+		self.run_frame_tracking.setEnabled(True)
 		
 
 		del self.cur_eval #=  Evaluation()	
@@ -2116,6 +2225,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		# Start interaction engine
 		self.interatction_parser()
 
+		#self.pushButton_run_activity.setEnabled(True)
 
 
 
@@ -2138,6 +2248,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				self.flag_ssh = [True]
 				print "antes", self.flag_ssh[0]
 				t1 = threading.Thread(name="ssh", target=ssh_transfer,args=(self.robot_ip, str(self.cur_eval.id), self.flag_ssh))
+		#self.pushButton_run_activity.setEnabled(True)
 				t1.start()
 
 				# while self.flag_ssh[0]:
@@ -2168,7 +2279,11 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		dataframe_to_table(self.evaluation_db.index_table, self.eval_index_table)
 
-
+		self.run_frame_tracking.setEnabled(False)
+		#self.run_frame_robot_resources.setEnabled(True)
+		self.run_frame_dialog.setEnabled(False)
+		#self.run_frame_robot_view.setEnabled(True)
+		
 
 		sentence = " Would you like to perform data validation of this session right now?"
 
@@ -2217,7 +2332,6 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				self.log("Aborting due to camera issues.")	
 				return -1
 		
-		self.run_robot_connect_button.setEnabled(False)
 		
 			
 			
@@ -2281,7 +2395,26 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		if self.robot is not None:
 			self.vis_sys.subscribe(0)
-
+		
+		#self.run_robot_connect_button.setEnabled(False)
+		self.run_connection_frame.setEnabled(False)
+		self.run_frame_int_settings.setEnabled(True)
+		self.run_frame_robot_resources.setEnabled(True)
+		self.run_frame_dialog.setEnabled(True)
+		self.run_frame_robot_view.setEnabled(True)
+		self.pushButton_run_activity.setEnabled(True)
+		self.run_end_activity_button.setEnabled(False)
+		self.pushButton_start_robot_view.setEnabled(True)
+		self.pushButton_stop_robot_view.setEnabled(True)
+		self.frame_57.setEnabled(True)
+		self.run_reset_button.setEnabled(False)
+		self.run_emotion_pushButton.setEnabled(True)
+		self.run_next_step_button.setEnabled(False)
+		self.run_user_answer.setEnabled(False)
+		self.run_reset_button.setEnabled(False)
+		self.run_emotion_pushButton.setEnabled(False)
+		
+		
 		self.robot_say("Estou Pronto.", False)
 		core.info("Robot Connected")
 
@@ -2325,11 +2458,20 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				print "Personal", self.cur_interact.data.iloc[i]['Name']
 				self.personal_interact_talk(self.cur_interact.data.iloc[i]['Name'])
 
-			if self.cur_interact.data.iloc[i]['Type'] == "Extra":
-				print "Extra: ", self.cur_interact.data.iloc[i]['Name']
-				#self.extra_interact(self.cur_interact.data.iloc[i]['Name'])
+			if self.cur_interact.data.iloc[i]['Type'] == "Dialogue":
+				#print "Extra: ", self.cur_interact.data.iloc[i]['Name']
+				self.diag_process_dialogue(self.cur_interact.data.iloc[i]['Name'])
 
-			print "\n\n\n"
+			if self.cur_interact.data.iloc[i]['Type'] == "Extra":
+				#print "Extra: ", self.cur_interact.data.iloc[i]['Name']
+				#self.extra_interact(self.cur_interact.data.iloc[i]['Name'])
+				if self.cur_interact.data.iloc[i]['Name'] == 'Register User':
+					self.interact_know_person()
+
+				elif self.cur_interact.data.iloc[i]['Name'] == 'Recognize User':
+					self.interact_recognize_person()
+					
+
 
 		#self.run_final_dialog()		
 		self.run_end_activity()	
@@ -2417,9 +2559,14 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 	def interact_recognize_person(self):
 
-		#self.students_database.generate_encodings()
-		#self.recog_flag=True
-		#self.cur_user = None
+		self.students_database.generate_encodings()
+		self.recog_flag=True
+
+		for i in range(0,500):
+			QCoreApplication.processEvents()
+
+		#self.cur_user = self.students_database.get_user()
+		self.cur_user= self.students_database.get_user(self.recog_user_id)
 
 
 		self.robot_say("Eu me lembro de você.")
@@ -2877,32 +3024,92 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 
+	# def my_load(self):
+				
+	# 	#Loading selected model
+	# 	model = emotion.classifier_options[self.emoModel_comboBox.currentIndex()]
+	# 	self.emotion_classifier = emotion.Classifier(model)
+	# 	self.face_cascade = cv2.CascadeClassifier('Modules/haarcascade_frontalface_alt.xml')
+	# 	self.students_database.generate_encodings()
+	
+	# class TLoad(QThread):
+				
+	# 	def run(self):
+	# 		self.my_load()
+
+	# #class MyDiag(QDialog):
+	# class MyDiag(QMessageBox):
+
+	# 	def __init__(self, parent=None):
+	# 		super(MyDiag, self).__init__(parent)
+	# 		# ...
+
+	# 		self.setWindowTitle("Waiting for models to load")
+	# 		self.setText("Go take a coffee!")
+			
+	# 		self.setIcon(QMessageBox.Information)
+			
+	# 		self.thread = TLoad()
+	# 		self.thread.finished.connect(self.close)
+	# 		self.thread.start()	
+	# 		#flag_list[0]=False
+
 
 
 
 	def run_load_models(self):
 		#self.students_database.generate_encodings()
+
+		thread = False
+
+		model = emotion.classifier_options[self.emoModel_comboBox.currentIndex()]
+		if thread:
+			msg=MyDiag(self)
+			msg.exec_()
+
+		else:
+			msg=MyDiag(self)
+			msg.exec_()
+
+			self.emotion_classifier = emotion.Classifier(model)
+			self.face_cascade = cv2.CascadeClassifier('Modules/haarcascade_frontalface_alt.xml')
+			self.students_database.generate_encodings()
+		
+			QMessageBox.information(self, "Models Loaded", "Ok to go!")
+
+		#self.faces = self.face_cascade.detectMultiScale(image_gray, 1.3, self.minNei_spinBox.value() )#minNeighbors=5)
+		self.run_display_image_radioButton.setChecked(True)
 		self.run_facerecog_pushButton.setEnabled(True)
 		self.run_emotion_pushButton.setEnabled(True)
-		self.emotion_classifier = emotion.Classifier()
-		self.face_cascade = cv2.CascadeClassifier('Modules/haarcascade_frontalface_alt.xml')
-		#self.faces = self.face_cascade.detectMultiScale(image_gray, 1.3, self.minNei_spinBox.value() )#minNeighbors=5)
 		self.run_load_pushButton.setEnabled(False)
+		self.run_reset_button.setEnabled(True)
+		self.log("Models loaded. Emotion classification model: "+model)
+
 
 	def run_facerecog(self):
 		self.recog_flag=True
 		self.run_emotion_pushButton.setEnabled(False)
 		#self.interact_recognize_person()
+		self.run_reset_button.setEnabled(True)
+		self.run_facerecog_pushButton.setEnabled(False)
 
 
 	def run_att_emo(self):
-		#self.run_emotion_flag=True
+		self.run_emotion_flag=True
 		self.run_facerecog_pushButton.setEnabled(False)
 		self.n_deviations = self.time_disattention = 0
 		# static measuring time, dynamic measuring time, time on atention, time for emotion classifier
 		self.static_time = self.dynamic_time = self.time_attention = self.time_emotion = time.time()
+		self.run_reset_button.setEnabled(True)
+		self.run_emotion_pushButton.setEnabled(False)
 
 
+	def run_reset_demo_action(self):
+		self.run_emotion_flag=False
+		self.recog_flag=False
+		self.run_emotion_pushButton.setEnabled(True)
+		self.run_facerecog_pushButton.setEnabled(True)
+		self.run_reset_button.setEnabled(False)
 
 
 
@@ -2925,6 +3132,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.out.release()
 		self.run_record = False
 
+	def setNextStepFalse(self):
+		self.next_step = False
 		
 	def resume_display_image(self):
 		self.pushButton_start_robot_view.setEnabled(False)
@@ -2957,11 +3166,11 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		# RECOGNIZING USER
 		if (self.recog_flag):
 			self.image, self.recog_user_id = self.students_database.face_recognition(self.image)
-			
 			#self.cur_user= self.students_database.get_user(self.recog_user_id)
-			 
-			if self.recog_user_id:
-				self.run_recognized_user_label.setText(self.recog_user_id)
+			
+			#print "AQUIIIIIIIII", self.recog_user_id
+			if self.recog_user_id is not 'Unknown':
+				self.run_recognized_user_label.setText(self.students_database.get_user(self.recog_user_id).first_name)
 			else:
 				self.log("USER NOT DETECTED")
 
@@ -3263,6 +3472,16 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			t2 = threading.Thread(name='my_service', target=my_service)
 			self.robot_say_action(text)
 
+		else:
+
+			self.run_next_step_button.setEnabled(True)
+			while self.next_step:
+					
+				QCoreApplication.processEvents()
+				
+			self.next_step = True
+			self.run_next_step_button.setEnabled(False)
+
 
 
 
@@ -3311,18 +3530,18 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		elif core.input_option > 0 :
 
 
-			if self.robot is not None:
+			#if self.robot is not None:
 		
-				#self.user_ans_flag = True
+			#self.user_ans_flag = True
 
-				#t1 = threading.Thread(name='wait', target=self.get_ans_mic)
-				#t1.start()
+			#t1 = threading.Thread(name='wait', target=self.get_ans_mic)
+			#t1.start()
 
-				ret = self.diag_sys.getFromMic_Pt()#.decode('utf-8')
+			ret = self.diag_sys.getFromMic_Pt()#.decode('utf-8')
 
-				#self.user_ans_flag = False
-				self.run_under_ans.setText(ret)
-				#t1.join()
+			#self.user_ans_flag = False
+			self.run_under_ans.setText(ret)
+			#t1.join()
 
 
 	
@@ -3330,6 +3549,9 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		# IF text
 		else :
 			self.user_ans_flag = False
+
+			self.run_user_answer.setEnabled(True)
+			self.run_user_answer.setFocus()
 
 			while not self.user_ans_flag:
 					
@@ -3341,6 +3563,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			
 			ret = str(self.run_user_answer.text().toUtf8())
 			self.run_user_answer.setText("")
+			self.run_user_answer.setEnabled(False)
+
 
 
 		if self.aud_rec_flag and record_flag:
@@ -3458,6 +3682,16 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		else:
 			self.display_flag = False
 
+
+
+	def gui_wait(self, flag_list):
+
+	
+
+		while flag_list[0]:
+			QCoreApplication.processEvents()
+
+		flag_list[0]= True
 
 
 
