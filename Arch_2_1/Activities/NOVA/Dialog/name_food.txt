@@ -1,0 +1,1 @@
+Hello my dear friend <name>. I'm a robot that want to eat <user_food> just as you like! Awesome, isen't it?
