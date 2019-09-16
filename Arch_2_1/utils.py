@@ -13,6 +13,7 @@ import numpy as np
 import pandas as pd
 import math
 import duckduckgo as ddg
+from Modules import emotion
 
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
@@ -48,29 +49,117 @@ def delete_item_table(table):
 
 def save_table(window, table, dataframe, filename):
 
-    ret = QMessageBox.question(window, "Saving table!", "Are you sure you want to overwrite this file table?"+
-                                    "\nOld version will be lost!", QMessageBox.Cancel | QMessageBox.Ok )
-    if ret == QMessageBox.Ok:
-       dataframe = table_to_dataframe(table)
-       dataframe.to_csv(filename, index=False, sep="|")#, encoding='utf-8')
+	flag = True
+	#while (flag):
+	filename = QFileDialog.getSaveFileName(window, 'Save File', filename, "CSV (*.csv)")
+	filename = str(filename)
+
+	if filename is "":
+		return 
+
+	# elif filename.endswith('.csv'):
+	# 	#QMessageBox.information(window, "Warning!", "Don't forget to save the table to the content!", QMessageBox.Ok )		
+	# 	break
+
+	# else:
+	# 	QMessageBox.critical(window, "Error!", "File is not a CSV file. \n\nChoose a CSV file.", QMessageBox.Ok )		
+
+
+	ret = QMessageBox.question(window, "Saving table!", "Are you sure you want to overwrite this file table?"+
+									"\nOld version will be lost!", QMessageBox.Cancel | QMessageBox.Ok )
+	if ret == QMessageBox.Ok:
+		dataframe = table_to_dataframe(table)
+		dataframe.to_csv(filename, index=False, sep="|")#, encoding='utf-8')
 
 
 def load_table(window, table, dataframe, filename):
 	
+	#flag = True
+	#while (flag):
+	filename = QFileDialog.getOpenFileName(window, 'Open File', filename,"CSV (*.csv)")
+	filename = str(filename)
 
-    if os.path.exists(filename):
+	if filename is "":
+		return 
 
-        ret = QMessageBox.question(window, "Loading table!", "Are you sure you want to overwrite this screen table?"+
-                                        "\nCurrent content will be lost!", QMessageBox.Cancel | QMessageBox.Ok )
-        if ret == QMessageBox.Ok:
-            dataframe = pd.read_csv(filename, sep="|", encoding='utf-8')
-            #print "DATAFRAME"
-            #print dataframe
-            dataframe_to_table(dataframe,table)
+	# elif filename.endswith('.csv'):
+	# 	#QMessageBox.information(window, "Warning!", "Don't forget to save the table to the content!", QMessageBox.Ok )		
+	# 	break
 
-    else:
+	# else:
+	# 	QMessageBox.critical(window, "Error!", "File is not a CSV file. \n\nChoose a CSV file.", QMessageBox.Ok )		
 
-        QMessageBox.critical(window, "Error!", "File to load does not exist!", QMessageBox.Ok )
+	if os.path.exists(filename):
+
+		ret = QMessageBox.question(window, "Loading table!", "Are you sure you want to overwrite this screen table?"+
+										"\nCurrent content will be lost!\n\nPS: Don't forget to save the new table!", QMessageBox.Cancel | QMessageBox.Ok )
+		if ret == QMessageBox.Ok:
+			dataframe = pd.read_csv(filename, sep="|", encoding='utf-8')
+			#print "DATAFRAME"
+			#print dataframe
+			dataframe_to_table(dataframe,table)
+
+		else:
+
+			QMessageBox.critical(window, "Error!", "File to load does not exist!", QMessageBox.Ok )
+
+
+def save_txt_to_file(window, textField, filename):
+
+	flag = True
+	while (flag):
+		filename = QFileDialog.getSaveFileName(window, 'Save File', filename,"Text (*.txt)")
+		filename = str(filename)
+
+		if filename is "":
+			return 
+
+		elif filename.endswith('.txt'):
+			#QMessageBox.information(window, "Warning!", "Don't forget to save the table to the content!", QMessageBox.Ok )		
+			break
+
+		else:
+			QMessageBox.critical(window, "Error!", "File is not a TXT file. \n\nChoose a TXT file.", QMessageBox.Ok )		
+
+	#if os.path.exists(filename):
+	f = open(filename, 'w')
+	text = (textField.toPlainText().toUtf8())
+	#print "TYPE", type(text)
+	#print text #, type(text)
+	text = str(text)
+	#print text, type(text)
+	f.write(text)
+	f.close()
+	
+
+
+def load_txt_from_file(window, textField, filename):
+	
+	flag = True
+	while (flag):
+		filename = QFileDialog.getOpenFileName(window, 'Open File', filename, "Text (*.txt)")
+		filename = str(filename)
+
+		if filename is "":
+			return 
+
+		elif filename.endswith('.txt'):
+			break
+
+		else:
+			QMessageBox.critical(window, "Error!", "File is not a TXT file. \n\nChoose a TXT file.", QMessageBox.Ok )		
+
+	if os.path.exists(filename):
+		f = open(filename, 'r')
+		text = f.read()
+		#print text, type(text)
+		text = str(text)
+		#print text, type(text)
+		f.close()
+		textField.setText(text)
+	else:
+		QMessageBox.critical(window, "Error!", "File dosent exist", QMessageBox.Ok )		
+	
 
 
 
@@ -207,6 +296,42 @@ def check_positive_afirmation(string, list = positive_list):
 
 	return False	
 
+
+
+
+class TLoad(QThread):
+	
+	def __init__(self, window):
+		QThread.__init__(self)
+		self.window=window
+
+	def run(self):
+		my_load(self.window)
+
+#class MyDiag(QDialog):
+class MyDiag(QMessageBox):
+
+	def __init__(self, window, parent=None):
+		super(MyDiag, self).__init__(parent)
+		# ...
+
+		self.setWindowTitle("Waiting for models to load")
+		self.setText("\nGo take a coffee!")
+		
+		self.setIcon(QMessageBox.Information)
+		
+		# self.thread = TLoad(window)
+		# self.thread.finished.connect(self.close)
+		# self.thread.start()	
+	
+
+def my_load(window):
+			
+	#Loading selected model
+	model = emotion.classifier_options[window.emoModel_comboBox.currentIndex()]
+	window.emotion_classifier = emotion.Classifier(model)
+	window.face_cascade = cv2.CascadeClassifier('Modules/haarcascade_frontalface_alt.xml')
+	window.students_database.generate_encodings()
 
 
 
@@ -1133,7 +1258,7 @@ def hole():
 
 if __name__=='__main__':
 	pass
-	likert_graph_students()
+	#likert_graph_students()
 	# likert_graph_teachers()
 	#generate_all_graph()
 	#generate_graph_frequency()

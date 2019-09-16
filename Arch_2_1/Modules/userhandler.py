@@ -63,14 +63,14 @@ class UserDatabase():
 
         path = "Usuarios/"+str(user_id)+"/"+str(user_id)+".data"
 
-        print "PATH", path 
+        #print "PATH", path 
 
         if os.path.exists(path):
-            print "USER EXISTS!!!"
+            #print "USER EXISTS!!!"
             return self.load_user(path)
         
         else:
-            print "USER DONT EXISTS"
+            #print "USER DONT EXISTS"
             return None
 
 

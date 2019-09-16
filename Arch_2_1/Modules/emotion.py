@@ -9,6 +9,11 @@ labels_dict = {
 	3: 'fear', 4: 'disgust', 5: 'angry', 6: 'sad'}
 input_shape = (224,224,3)
 
+classifier_options = {
+        0:"single_model",
+        1:"ff_model",
+        2:"sf_model"
+}
 
 class Classifier:
     def __init__(self, classifier="sf_model"):
@@ -33,7 +38,7 @@ class Classifier:
             self.model_b = mobilenet.generate_mobilenet(input_shape, 4)
             self.model_b.load_weights('Modules/Emotion/models/mobilenet-monster-second.h5')
 
-        info("Weights loaded. Model initialized!")
+        info("Weights loaded. Model ''"+classifier+"'' initialized!")
     
     def inference(self, image):
         #info("Making inference on image...")
