@@ -5,6 +5,30 @@
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
+import threading
+from multiprocessing import Queue, Process
+from GUI.opening_main import My_Loading#,MyApp 
+
+
+class MyOpening(Process):
+
+    def __init__(self):#, window_type):
+        self.queue = Queue(1)
+        #self.type = window_type
+        super(MyOpening, self).__init__()
+
+    def run(self):
+        app = QApplication([])
+        #if self.type == 'opening':
+        d =  My_Loading()
+        d.show()
+        app.exec_()                         # and execute the app
+
+# app1 = MyOpening()
+# app1.start()
+
+
+
 
 
 #import PyQt4
@@ -17,13 +41,9 @@ import numpy as np
 import pandas as pd
 from utils import *
 import random
-import threading
 import paramiko
 import copy
-
-import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
-
+   
 #from datetime import datetime
 #import utils
 	
@@ -47,7 +67,11 @@ from Modules.evaluationhandler import *
 from Modules.interactionhandler import *
 from Modules.Memory import searchwiki  
 from Modules import AudioRecording #as aud_rec
+from Utils import graphics
 from LAB import fuzzy
+
+
+
 
 class SessionInfo:
 	def __init__(self,initi_time,final_time):
@@ -89,6 +113,23 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		self.setupUi(self)  # This is defined in design.py file automatically
 	
+
+
+		app_icon = QIcon()
+		app_icon.addFile('Robot_R-CASTLE', QSize(16,16))
+		app_icon.addFile('Robot_R-CASTLE', QSize(24,24))
+		app_icon.addFile('Robot_R-CASTLE', QSize(32,32))
+		app_icon.addFile('Robot_R-CASTLE', QSize(48,48))
+		app_icon.addFile('Robot_R-CASTLE', QSize(256,256))
+		# self.setWindowIcon(QIcon('/GUI/R_CASTLE_Logo.jpeg'))
+		
+
+		self.setWindowIcon(app_icon)
+		self.label_27.setPixmap(QPixmap('GUI/Logo'))
+
+		#d =  My_Loading()
+		#d.show()
+
 		#full screen
 		#self.showFullScreen()
 		# GENERAL!!
@@ -97,7 +138,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.vs= None
 		#self.ds=None
 		self.path_nao_records = "/home/nao/"
-
+		#self.run_autovideo_checkBox.setChecked(True) 
 
 		self.sys_vars = core.SystemVariablesControl()
 		#self.diag_sys = dialog.DialogSystem(False, False)
@@ -106,22 +147,13 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 		QTextCodec.setCodecForCStrings(QTextCodec.codecForName("utf8"))
-
-		self.loadactButton.clicked.connect(self.load_file)
-		self.exitButton.clicked.connect(self.close)
-		self.insertQuestion_Button.clicked.connect(self.insertQuestion)
-		self.loadQuestions_Button.clicked.connect(self.loadQuestions_fromFile)
-		self.saveQuestions_Button.clicked.connect(self.saveQuestions_fromFile)
-		#self.reportLoadButton.clicked.connect(self.loadReportsCsv)
-		#self.writeReportButton.clicked.connect(self.writeReportCsv)
-		
-		self.recog_flag = False
 		
 		
 		# --- General
 		self.supervisor ="admin"
 		self.cur_user = None
 		
+		self.recog_flag = False #face recog flag
 
 
 		# --- Dialog
@@ -129,7 +161,10 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#print "Thres valeu", self.answer_threshold
 		entry = self.run_entry_comboBox.itemText( self.run_entry_comboBox.currentIndex())
 		core.input_option = core.input_option_list[str(entry)]
-		self.aud_rec_flag = False#True
+		
+		#self.aud_rec_flag = True
+		self.aud_rec_flag = self.run_audio_record_checkBox.isChecked()
+		#print "AQUII",self.aud_rec_flag
 		
 		self.diag_builder_save_button.clicked.connect( lambda: save_txt_to_file(self, self.diag_builder_textEdit,self.act.path+"/Dialog"))
 		self.diag_builder_load_button.clicked.connect( lambda: load_txt_from_file(self, self.diag_builder_textEdit,self.act.path+"/Dialog"))
@@ -148,6 +183,15 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#--- Content panel
 		self.content_path=None
 		self.subs_list = []
+
+		self.loadactButton.clicked.connect(self.load_file)
+		self.exitButton.clicked.connect(self.close)
+		self.insertQuestion_Button.clicked.connect(self.insertQuestion)
+		self.loadQuestions_Button.clicked.connect(self.loadQuestions_fromFile)
+		self.saveQuestions_Button.clicked.connect(self.saveQuestions_fromFile)
+		#self.reportLoadButton.clicked.connect(self.loadReportsCsv)
+		#self.writeReportButton.clicked.connect(self.writeReportCsv)
+		
 
 		self.content_delete_button.clicked.connect(self.content_delet_topic)
 		self.contenct_newSubj_button.clicked.connect(self.content_NewSubject)
@@ -241,7 +285,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		# --- GROUP ASSESSMENT
 		self.grup_eval_update_tab()
 		self.group_generate_button.clicked.connect(self.group_eval_generate_action)
-		
+		self.group_eval_open_button.clicked.connect(self.group_eval_open_action)
 		
 				
 		#--- Interaction
@@ -318,8 +362,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		#Shortcuts:
 		self.load_file()
-		self.shortcut = True
-		#self.shortcut =  False
+		#self.shortcut = True
+		self.shortcut =  False
 		
 		if self.shortcut:
 			self.int_load_action()
@@ -480,27 +524,34 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		f.close()
 		#self.log(txt2say)
 		#print txt2say
-		text = text.encode('utf-8')
-		text = text.replace('<name>', self.cur_user.first_name)
-		#text = text.replace('<user_team>', self.cur_user.preferences['team'])
+		# print "TEXT TYPE", type(text)
+		# text = text.decode('utf-8')
+		# print "TEXT TYPE", type(text)
+
+		if self.cur_user is not None:
+			text = text.replace('<name>', self.cur_user.first_name)
+			#text = text.replace('<user_team>', self.cur_user.preferences['team'])
 		
-		aux = self.cur_user.preferences['food'].toUtf8()
-		aux = str(aux)
-		text = text.replace('<user_food>', aux)
-		
-		aux = self.cur_user.preferences['team'].toUtf8()
-		#aux = str(aux)
-		text = text.replace('<user_team>', aux)
-		
-		aux = self.cur_user.preferences['music'].toUtf8()
-		#aux = str(aux)
-		text = text.replace('<user_music>', aux)
-		
+
+			aux = self.cur_user.preferences['food']#.toUtf8()
+			# aux = self.cur_user.preferences['food'].toUtf8()
+			#print "TEPE Aux", type(aux)
+			aux = str(aux)
+			text = text.replace('<user_food>', aux)
+			
+			aux = self.cur_user.preferences['team'].toUtf8()
+			#aux = str(aux)
+			text = text.replace('<user_team>', aux)
+			
+			aux = self.cur_user.preferences['music'].toUtf8()
+			#aux = str(aux)
+			text = text.replace('<user_music>', aux)
+			
 
 		self.robot_say(text)#, type(text)
 
 		self.log(text)
-
+	
 
 
 
@@ -1672,18 +1723,106 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#print self.evaluation_db.group_list
 
 
+	def group_gen_status(self, group_name, tp_range=None, time_threshold=100):
+
+		durations = []
+		measures = [[],[],[],[],[]]
+		if tp_range is None:
+			tp_range = [0,10]
+
+		for item in self.evaluation_db.evaluations_list:
+
+			if item.group==group_name:
+
+				item.duration = item.start_time.secsTo(item.end_time)	
+
+				if item.duration < time_threshold:
+					continue
+
+				durations.append(item.duration)
+				for tp in item.topics[tp_range[0]:(tp_range[1]+1)]:
+					for qt in tp.questions:
+						for at in qt.attempts:
+							measures[0].append(at.alpha)
+							measures[1].append(at.beta)
+							measures[2].append(at.gama)
+							measures[3].append(at.fvalue)
+							measures[4].append(at.profile)
+				#print measures
+
+		#print duration
+		#print len(durations)
+		return durations, measures
+
+
+
+
+
 	def group_eval_generate_action(self):
 
 		group = self.group_eval_comboBox.currentText()
-		table_name="Evaluations/Test1.csv"
-		self.evals_to_csv(group, table_name)
+		table_name="Test1.csv"
+		# table_name="Evaluations/Group/Test1.csv"
+		# table_name= self.group_eval_name_lineEdit.text()
+		tp_range = [1,1]
+		
+		self.evals_to_csv(group, table_name, tp_range)
 
+		durs, mea = self.group_gen_status(group, tp_range)
+		# print len(mea[0])
+		# exit()
 		self.group_eval_data_table = pd.read_csv(table_name)
+		data = self.group_eval_data_table
 
 		dataframe_to_table(self.group_eval_data_table, self.group_eval_tableWidget)
 		self.group_eval_tableWidget.resizeColumnsToContents()
 		self.group_eval_tableWidget.resizeRowsToContents()
 
+		#[u'Name', u'Duration', u'Topic', u'Interaction_name', u'Question_number',
+		#    u'Dificult', u'Question', u'Exp_ans', u'Under_ans', u'Sup_ans',
+		#    u'Sys_ans', u'Sys_was', u'Time_to_answer'],
+		#   dtype='object')
+		#print self.group_eval_data_table["Name"][0]
+
+		dur_av = float(sum(durs)/len(durs))
+		dur_sd = np.std(durs)
+
+		sr = data[data['Sys_ans']==1].index.size
+		sw = data[data['Sys_ans']==0].index.size
+		sa = float(sr)/float(data['Sys_ans'].index.size)
+		ur = data[data['Sup_ans']==1].index.size
+		t = data['Sup_ans'].index.size
+		ua = float(ur)/float(t)
+		uw = data[data['Sup_ans']==0].index.size
+
+		# exit()
+		#print "SIZE",sa 
+
+		aux = GroupStatus(0,table_name,group,durs, dur_av, 
+							dur_sd, mea,len(durs), ur, ua, uw,
+							sr, sa, sw )
+
+		filename = self.evaluation_db.path +"Groups/"+group
+		aux.save_group_eval( filename+".group")
+		
+		print filename
+		graphics.users_group_eval(self,data,filename,self.group_display)  
+
+
+		return
+
+
+
+
+	def group_eval_open_action(self):
+
+		filename = QFileDialog.getOpenFileName(self, "Open Eval",self.evaluation_db.path+"/Groups", "Group files(*.group)")
+		#print filename
+		aux = GroupStatus(0,"")
+		self.group_eval = aux.load_group_eval(filename) 
+
+		#print self.group_eval.group_name
+		#exit()
 		'''
 		#def group_eval_generate_graphics(self):
 
@@ -2139,7 +2278,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.pushButton_run_activity.setEnabled(False)
 		self.run_end_activity_button.setEnabled(True)
 		self.run_frame_tracking.setEnabled(True)
-		
+		self.run_frame_int_settings.setEnabled(False)
 
 		del self.cur_eval #=  Evaluation()	
 		self.cur_eval =  Evaluation(
@@ -2235,10 +2374,11 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		# 	self.vis_sys.unsub(0)
 		self.pushButton_run_activity.setEnabled(True)
 		self.run_end_activity_button.setEnabled(False)
+		self.run_frame_int_settings.setEnabled(True)
 		
 		self.timer.stop()
-		self.clock_timer.stop()
 		
+		self.clock_timer.stop()
 		if self.nao_connected:
 			if self.run_autovideo_checkBox.isChecked():
 				self.robot.audio_recording.stopMicrophonesRecording()
@@ -2409,7 +2549,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.frame_57.setEnabled(True)
 		self.run_reset_button.setEnabled(False)
 		self.run_emotion_pushButton.setEnabled(True)
-		self.run_next_step_button.setEnabled(False)
+		#self.run_next_step_button.setEnabled(False)
 		self.run_user_answer.setEnabled(False)
 		self.run_reset_button.setEnabled(False)
 		self.run_emotion_pushButton.setEnabled(False)
@@ -2857,6 +2997,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				print "TIME TO ANS:", att.time2ans 
 
 				self.run_under_ans.setText(user_answer)
+				att.finished = self.counter_timer.elapsed()/1000.0
 
 
 				if dist < self.answer_threshold:
@@ -3170,7 +3311,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			
 			#print "AQUIIIIIIIII", self.recog_user_id
 			if self.recog_user_id is not 'Unknown':
-				self.run_recognized_user_label.setText(self.students_database.get_user(self.recog_user_id).first_name)
+				self.run_recognized_user_label.setText(self.students_dataebase.get_user(self.recog_user_id).first_name)
 			else:
 				self.log("USER NOT DETECTED")
 
@@ -3469,8 +3610,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 				QCoreApplication.processEvents()
 
-			t2 = threading.Thread(name='my_service', target=my_service)
-			self.robot_say_action(text)
+			#t2 = threading.Thread(name='my_service', target=my_service)
+			#self.robot_say_action(text, False, True)
 
 		else:
 
@@ -3480,8 +3621,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				QCoreApplication.processEvents()
 				
 			self.next_step = True
-			self.run_next_step_button.setEnabled(False)
-
+			#self.run_next_step_button.setEnabled(False)
+			self.log("PRESS NEXT STEP BUTTON")
 
 
 
@@ -3600,10 +3741,11 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 
-	def evals_to_csv(self, group, table_name):
+	def evals_to_csv(self, group, table_name, tp_range =None):
 
 		
-		df = pd.DataFrame(columns=(	"Name", 
+		df = pd.DataFrame(columns=(	"Id",
+									"Name", 
 									"Duration", 
 									"Topic", 
 									"Interaction_name", 
@@ -3630,42 +3772,59 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				name = aux.user_name
 				duration = aux.start_time.secsTo(aux.end_time)
 
-				
-
-				for tp in range(len(aux.topics)):
+				try:
+					if tp_range is None:
+						tpsranges = range(len(aux.topics))
+					else:
+						tpsranges = range(tp_range[0],tp_range[1]+1)	 
 					
-					topic_name = aux.tp_names[tp]
-					
-					for q in range(len(aux.topics[tp].questions)):
+					#print "RANGE", tpsranges
+					# if len(aux.topics)==0:
+					# 	continue 
 
-						question = aux.topics[tp].questions[q]
-						att = question.attempts[0]
+					#for tp in range(len(aux.topics)):
+					for tp in tpsranges:
+						try:
+							topic_name = aux.tp_names[tp]
+						except:
+							continue
 
-						#Check for incomplete validation
-						if att.supervisor_consideration<0:
-							flag_validation = True						
-						
-						df.loc[-1]= [	name, 
-										duration, 
-										topic_name,
-										aux.int_name, 
-										q+1, 
-										att.profile, 
-										question.question, 
-										question.exp_ans, 
-										att.given_ans,
-										att.supervisor_consideration,
-										att.system_consideration, 
-										att.system_was, 
-										att.time2ans]
+						#print tp 
+						#print self.evaluation_db.evaluations_list[item].id
 
-						
-						
-						# 
-						df.index = df.index + 1  # shifting index
-						df = df.sort_index()  # sorting by index
-					#pass
-				
+
+						for q in range(len(aux.topics[tp].questions)):
+
+							question = aux.topics[tp].questions[q]
+							att = question.attempts[0]
+
+							#Check for incomplete validation
+							if att.supervisor_consideration<0:
+								flag_validation = True						
+							
+							df.loc[-1]= [	aux.id,
+											name, 
+											duration, 
+											topic_name,
+											aux.int_name, 
+											q+1, 
+											att.profile, 
+											question.question, 
+											question.exp_ans, 
+											att.given_ans,
+											att.supervisor_consideration,
+											att.system_consideration, 
+											att.system_was, 
+											att.time2ans]
+
+							
+							
+							# 
+							df.index = df.index + 1  # shifting index
+							#df = df.sort_index()  # sorting by index
+						#pass
+				except:
+					print "Problem with eval id: ", aux.id
 				#pass
 
 		if flag_validation:

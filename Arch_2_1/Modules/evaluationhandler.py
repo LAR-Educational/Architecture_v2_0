@@ -37,13 +37,18 @@ class EvaluationDatabase():
                     self.group_list.append(line)
                     
                 inF.close()    
-                    
+            
+            if not os.path.exists(self.path + "/Groups"): 
+                os.mkdir(self.path + "/Groups")
+
                 #print "LENNNN", len(self.group_list)
             #print self.index_table
             # print "SIZE:", len(self.index_table.index)
             
         else:  
             os.mkdir(self.path)  
+            os.mkdir(self.path + "group_list.txt")
+            os.mkdir(self.path + "/Groups")
             self.index_table = pd.DataFrame(columns=['Id', 'Date', 'Student Name'])
             self.index_table.to_csv(self.index_path, index=False)
 
@@ -67,7 +72,7 @@ class EvaluationDatabase():
             for line in self.group_list:
             # write line to output file
                 outF.write(line)
-                #outF.write("\n")
+                #1outF.write("\n")
             outF.close()
             return True
         except:
@@ -161,6 +166,68 @@ class EvaluationDatabase():
     def save_eval(self, eval, path):
         f = open(path, 'wb')
         cPickle.dump(eval, f, 2)
+        f.close()
+
+
+class GroupStatus:
+
+    def __init__(self, 
+                id,
+                name,
+                group_name = None,
+                durations= None,
+                dur_av = None,
+                dur_sd = None,    
+                measures= None,
+                participants= None,
+                users_right_rate= None,
+                users_accuracy= None,
+                users_wrong_rate= None,
+                system_right_rate= None,
+                system_accuracy= None,
+                system_wrong_rate= None,
+                obs = None):
+
+
+        if durations is None:
+            self.durations = []        
+        
+        if measures is None:
+            self.mearues = [[],[],[],[],[]]        
+        
+        self.id = id
+        self.name = name
+        self.group_name = group_name
+        self.dur_av = dur_av,
+        self.dur_sd = dur_sd,
+        self.participants= participants
+        self.users_right_rate= users_right_rate
+        self.users_accuracy= users_accuracy
+        self.users_wrong_rate= users_wrong_rate
+        self.system_right_rate= system_right_rate
+        self.system_accuracy= system_accuracy
+        self.system_wrong_rate= system_wrong_rate
+        self.obs = obs
+
+
+    def load_group_eval(self, path):
+        f = open(path, 'rb')
+        tmp_dict = cPickle.load(f)
+        f.close()
+
+        return tmp_dict          
+
+        #self.__dict__.update(tmp_dict) 
+
+
+    # def save_group_eval(self, groupStatus, path):
+    #     f = open(path, 'wb')
+    #     cPickle.dump(groupStatus, f, 2)
+    #     f.close()
+
+    def save_group_eval(self, path):
+        f = open(path, 'wb')
+        cPickle.dump(self, f, 2)
         f.close()
 
 

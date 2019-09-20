@@ -119,7 +119,7 @@ def load(svc):
 
 
 
-def main():
+def old_main():
 
     svc = SystemVariablesControl()
 
@@ -142,11 +142,53 @@ def main():
 
     return
 
+from PyQt4.QtCore import *
+from PyQt4.QtGui import *
+import sys
+import os
+class MyApp(QMainWindow):
+	
+
+    def __init__(self):
+        super(self.__class__, self).__init__()
+        app_icon = QIcon()
+        app_icon.addFile('../GUI/Logo.png', QSize(16,16))
+        app_icon.addFile('../GUI/Logo.png', QSize(24,24))
+        app_icon.addFile('../GUI/Logo.png', QSize(32,32))
+        app_icon.addFile('../GUI/Logo.png', QSize(48,48))
+        app_icon.addFile('vectors.png', QSize(256,256))
+        # self.setWindowIcon(QIcon('/GUI/R_CASTLE_Logo.jpeg'))
+
+        print "path", os.getcwd()
+
+        self.setWindowIcon(app_icon)
+        self.setWindowTitle("HOLA")
+        self.setGeometry(450,350,500,300)
+        
+        self.centralwidget = QWidget(self)
+        #self.centralwidget.setGeometry(50,0, 50,50)
+        #addWidget(QLabel("ROLA"))
+        self.frame_17 = QFrame(self.centralwidget)
+        #self.frame_17 = QFrame(self)
+        #self.gridLayoutr = QGridLayout(self)   
+        self.v = QVBoxLayout(self.frame_17)
+        lab = QLabel("HOla")
+        lab.setMinimumSize(QSize(320, 240))
+        lab.setPixmap(QPixmap('GUI/Logo.png'))     
+        # lab.setPixmap(QPixmap('/GUI/Logo.png'))     
+        #lab.setFixedSize(300,300)  
+        lab.setScaledContents(True)   
+        self.v.addWidget(lab)
+        #self.
+        #self.label_27.setPixmap(QPixmap('/GUI/Logo.png'))
+        #self.setLayout()
 
 
-
-
-
+def main():
+    a = QApplication(sys.argv)  # A new instance of QApplication
+    w = MyApp()
+    w.show()
+    a.exec_()
 
 
 
