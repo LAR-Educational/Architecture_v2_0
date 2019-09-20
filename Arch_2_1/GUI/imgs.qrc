@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="imgs">
+    <file>Logo.jpeg</file>
+    <file>teachers.png</file>
     <file>pie.png</file>
     <file>supervisor.png</file>
     <file>diff.png</file>
@@ -24,5 +26,10 @@
     <file>activityDefault.png</file>
     <file>wrong.png</file>
     <file>correct.jpg</file>
+    <file>Logo.png</file>
+  </qresource>
+  <qresource prefix="ic">
+    <file>Logo.jpeg</file>
+    <file>Logo.png</file>
   </qresource>
 </RCC>

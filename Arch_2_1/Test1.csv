@@ -1,0 +1,91 @@
+Id,Name,Duration,Topic,Interaction_name,Question_number,Dificult,Question,Exp_ans,Under_ans,Sup_ans,Sys_ans,Sys_was,Time_to_answer
+18277.0,None,170.0,meio_ambiente,3q,1.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,lixo produzidi eem nossas casas,-1.0,1.0,-1.0,17.77495002746582
+18277.0,None,170.0,meio_ambiente,3q,2.0,4.0,Qual é o destino do lixo de nossas casas recolhido pelos caminhões de coleta?,Aterro Sanitário,aterro sanitario,-1.0,1.0,-1.0,13.667891025543213
+18277.0,None,170.0,meio_ambiente,3q,3.0,5.0,Qual osignificado dos 3 R's?,Reduzir. Reutilizar. Reciclar,"reduzir, retutilazar recilar",-1.0,1.0,-1.0,13.520485877990723
+18278.0,None,277.0,meio_ambiente,3q,1.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,lixa,-1.0,-1.0,-1.0,72.41049098968506
+18278.0,None,277.0,meio_ambiente,3q,2.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,lxo que voce guarda para o lixeiro pegar,-1.0,1.0,-1.0,12.499988079071045
+18278.0,None,277.0,meio_ambiente,3q,3.0,4.0,Se. em sua casa não passa o caminhão de coleta de lixo. o que é preciso fazer com o lixo produzido?,É preciso fazer um buraco longe de qualquer local onde se capta água e ir depositando o lixo. jogando terra por cima. Assim terá o seu próprio aterro sanitário.,colocar no aterro,-1.0,1.0,-1.0,22.633519887924194
+18280.0,None,254.0,meio_ambiente,3q,1.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,uma pessoa pega o lixo da casa e transporta para a fabrica,1.0,1.0,1.0,27.849610090255737
+18280.0,None,254.0,meio_ambiente,3q,2.0,4.0,Se. em sua casa não passa o caminhão de coleta de lixo. o que é preciso fazer com o lixo produzido?,É preciso fazer um buraco longe de qualquer local onde se capta água e ir depositando o lixo. jogando terra por cima. Assim terá o seu próprio aterro sanitário.,jogar no lixo de reciclagem,1.0,0.0,0.0,26.89972496032715
+18280.0,None,254.0,meio_ambiente,3q,3.0,3.0,Como se chama o lixo que pode virar adubo?,Lixo Orgânico,lixo reciclavel,1.0,0.0,0.0,24.466145992279053
+18282.0,None,240.0,meio_ambiente,3q,1.0,3.0,Como se chama o lixo composto por restos de materiais utilizados na fabricação de produtos?,Lixo Industrial,industrial,1.0,1.0,1.0,23.36468005180359
+18282.0,None,240.0,meio_ambiente,3q,2.0,4.0,Qual é o destino do lixo de nossas casas recolhido pelos caminhões de coleta?,Aterro Sanitário,aterro sanitario,1.0,1.0,1.0,13.879516839981079
+18282.0,None,240.0,meio_ambiente,3q,3.0,5.0,Qual a diferença entre lixo orgânico e lixo e reciclável?,Lixo orgânico pode ser colocado em uma composteira e virar adubo. lixo reciclável pode ser transformado em um material novo de novo.,a,1.0,1.0,1.0,20.7305109500885
+18283.0,None,182.0,meio_ambiente,3q,1.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,lixo que se faz em casa,1.0,1.0,1.0,12.52384901046753
+18283.0,None,182.0,meio_ambiente,3q,2.0,4.0,Como ficaria o ambiente se não houvesse a coleta e reciclagem do lixo?,Viraria um lixão. não haveria saneamento básico?,ficaria horrivel e poluido,0.0,0.0,1.0,17.164719104766846
+18283.0,None,182.0,meio_ambiente,3q,3.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,é o que se faz em casa,1.0,1.0,1.0,14.602550029754639
+18284.0,None,335.0,meio_ambiente,3q,1.0,3.0,Como se chama o lixo composto por restos de materiais utilizados na fabricação de produtos?,Lixo Industrial,nao sei,1.0,0.0,0.0,60.44120502471924
+18284.0,None,335.0,meio_ambiente,3q,2.0,2.0,Cite um exemplo de algo que podemos descartar no lixo orgânico.,Cascas de frutas e legumes,frutas,1.0,1.0,1.0,20.831795930862427
+18284.0,None,335.0,meio_ambiente,3q,3.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,lixo tirado de casa,1.0,1.0,1.0,63.78866195678711
+18285.0,None,210.0,meio_ambiente,3q,1.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,aquele que é produzido em casa,1.0,1.0,1.0,16.2320818901062
+18285.0,None,210.0,meio_ambiente,3q,2.0,4.0,Se. em sua casa não passa o caminhão de coleta de lixo. o que é preciso fazer com o lixo produzido?,É preciso fazer um buraco longe de qualquer local onde se capta água e ir depositando o lixo. jogando terra por cima. Assim terá o seu próprio aterro sanitário.,cavar um buraco,1.0,1.0,1.0,27.868401050567627
+18285.0,None,210.0,meio_ambiente,3q,3.0,5.0,Por que pilhas e baterias devem ser descartadas corretamente?,Para evitar contaminação,nao haver contaminação,1.0,1.0,1.0,17.18238115310669
+18287.0,None,267.0,meio_ambiente,3q,1.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,lixo que possuimos em casa,1.0,1.0,1.0,24.318056106567383
+18287.0,None,267.0,meio_ambiente,3q,2.0,4.0,Qual é o destino do lixo de nossas casas recolhido pelos caminhões de coleta?,Aterro Sanitário,lixão ,0.0,1.0,0.0,20.086472988128662
+18287.0,None,267.0,meio_ambiente,3q,3.0,5.0,Qual a diferença entre lixo orgânico e lixo e reciclável?,Lixo orgânico pode ser colocado em uma composteira e virar adubo. lixo reciclável pode ser transformado em um material novo de novo.,organico serve como adubo e o reciclavel serve para outras coisas,1.0,0.0,0.0,32.755682945251465
+18288.0,None,218.0,meio_ambiente,3q,1.0,3.0,Como se chama o lixo que pode virar adubo?,Lixo Orgânico,organico,1.0,1.0,1.0,9.160614967346191
+18288.0,None,218.0,meio_ambiente,3q,2.0,4.0,Como ficaria o ambiente se não houvesse a coleta e reciclagem do lixo?,Viraria um lixão. não haveria saneamento básico?,viraria um lixão,1.0,1.0,1.0,18.133049964904785
+18288.0,None,218.0,meio_ambiente,3q,3.0,5.0,Qual a diferença entre lixo orgânico e lixo e reciclável?,Lixo orgânico pode ser colocado em uma composteira e virar adubo. lixo reciclável pode ser transformado em um material novo de novo.,embalagens de varios alimentos que voce pode reciclar,1.0,0.0,0.0,30.96450901031494
+18289.0,None,264.0,meio_ambiente,3q,1.0,3.0,Como se chama o lixo composto por restos de materiais utilizados na fabricação de produtos?,Lixo Industrial,lixo de fabricação,1.0,1.0,1.0,59.45915603637695
+18289.0,None,264.0,meio_ambiente,3q,2.0,4.0,Se. em sua casa não passa o caminhão de coleta de lixo. o que é preciso fazer com o lixo produzido?,É preciso fazer um buraco longe de qualquer local onde se capta água e ir depositando o lixo. jogando terra por cima. Assim terá o seu próprio aterro sanitário.,lever na frente do condominio,0.0,0.0,1.0,29.987334966659546
+18289.0,None,264.0,meio_ambiente,3q,3.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,lixo que agente produz,1.0,1.0,1.0,21.349491834640503
+18290.0,None,249.0,meio_ambiente,3q,1.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,para jogar coisas que sobraram de lixo que nao vao servir pra nada,0.0,0.0,1.0,55.37536311149597
+18290.0,None,249.0,meio_ambiente,3q,2.0,2.0,Quando separamos latinhas para reciclar qual recurso natural estamos preservando?,minérios. alumínio,metal,0.0,0.0,1.0,18.04292607307434
+18290.0,None,249.0,meio_ambiente,3q,3.0,1.0,Qual item leva mais tempo para se decompor no mar? Fralda descartável ou pneu?,Pneu,pneu,1.0,1.0,1.0,17.988361835479736
+18291.0,None,198.0,meio_ambiente,3q,1.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,o lixo que voce produz na sua casa,1.0,1.0,1.0,22.370322942733765
+18291.0,None,198.0,meio_ambiente,3q,2.0,4.0,Qual é o destino do lixo de nossas casas recolhido pelos caminhões de coleta?,Aterro Sanitário,eles vao para os lixões,1.0,1.0,1.0,14.817970991134644
+18291.0,None,198.0,meio_ambiente,3q,3.0,5.0,Qual osignificado dos 3 R's?,Reduzir. Reutilizar. Reciclar,nao sei,0.0,0.0,1.0,16.800554990768433
+18292.0,None,309.0,meio_ambiente,3q,1.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,eu não sei,0.0,0.0,1.0,69.52682209014893
+18292.0,None,309.0,meio_ambiente,3q,2.0,2.0,Quando separamos latinhas para reciclar qual recurso natural estamos preservando?,minérios. alumínio,água,0.0,0.0,1.0,30.136986017227173
+18292.0,None,309.0,meio_ambiente,3q,3.0,1.0,O material orgânico decompoe-se mais rápido que embalagens plásticas?,sim,sim,1.0,1.0,1.0,18.65700888633728
+18293.0,None,196.0,meio_ambiente,3q,1.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,não sei,0.0,0.0,1.0,10.988394975662231
+18293.0,None,196.0,meio_ambiente,3q,2.0,2.0,O que podemos fazer com o lixo reciclável?,Separar e enviar para a reciclagem,"reciclar, reutilizar e reduzir",0.0,0.0,1.0,17.64743995666504
+18293.0,None,196.0,meio_ambiente,3q,3.0,1.0,O papel pode levar até seis meses para se decompor totalmente?,sim,não,0.0,0.0,1.0,12.156507015228271
+18294.0,None,223.0,meio_ambiente,3q,1.0,3.0,Como se chama o lixo composto por restos de materiais utilizados na fabricação de produtos?,Lixo Industrial,lixo reciclável,0.0,0.0,1.0,31.781136989593506
+18294.0,None,223.0,meio_ambiente,3q,2.0,2.0,Cite um exemplo de algo que podemos descartar no lixo orgânico.,Cascas de frutas e legumes,cascas de frutas,1.0,1.0,1.0,14.371772050857544
+18294.0,None,223.0,meio_ambiente,3q,3.0,3.0,Como se chama o lixo que pode virar adubo?,Lixo Orgânico,não sei,0.0,0.0,1.0,10.414663076400757
+18295.0,None,217.0,meio_ambiente,3q,1.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,lixo que alguma pessoa usou,0.0,0.0,1.0,19.012993097305298
+18295.0,None,217.0,meio_ambiente,3q,2.0,2.0,Quando separamos latinhas para reciclar qual recurso natural estamos preservando?,minérios. alumínio,o nosso planeta,0.0,0.0,1.0,19.568263053894043
+18295.0,None,217.0,meio_ambiente,3q,3.0,1.0,Qual item leva mais tempo para se decompor no mar? Fralda descartável ou pneu?,Pneu,não sei,0.0,0.0,1.0,19.553467988967896
+18296.0,None,273.0,meio_ambiente,3q,1.0,3.0,Como se chama o lixo composto por restos de materiais utilizados na fabricação de produtos?,Lixo Industrial,orgânico,0.0,0.0,1.0,52.3759651184082
+18296.0,None,273.0,meio_ambiente,3q,2.0,2.0,Quando separamos latinhas para reciclar qual recurso natural estamos preservando?,minérios. alumínio,não sei,0.0,0.0,1.0,39.243725061416626
+18296.0,None,273.0,meio_ambiente,3q,3.0,1.0,O material orgânico decompoe-se mais rápido que embalagens plásticas?,sim,sim,1.0,1.0,1.0,9.562996864318848
+18297.0,None,243.0,meio_ambiente,3q,1.0,3.0,Como se chama o lixo que pode virar adubo?,Lixo Orgânico,lixo orgânico,1.0,1.0,1.0,12.864481925964355
+18297.0,None,243.0,meio_ambiente,3q,2.0,4.0,Como ficaria o ambiente se não houvesse a coleta e reciclagem do lixo?,Viraria um lixão. não haveria saneamento básico?,"ficaria um nojo, cheio de poluição",1.0,1.0,1.0,36.58439302444458
+18297.0,None,243.0,meio_ambiente,3q,3.0,5.0,O que deve ser feito com o lixo hospitalar após ser coletado?,Deve ser recolhido por caminhões especiais e levado para ser incinerado.,não sei,0.0,0.0,1.0,20.21765398979187
+18298.0,None,240.0,meio_ambiente,3q,1.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,lixo que usa em casa,1.0,1.0,1.0,18.80182385444641
+18298.0,None,240.0,meio_ambiente,3q,2.0,4.0,Qual é o destino do lixo de nossas casas recolhido pelos caminhões de coleta?,Aterro Sanitário,aterro sanitário,1.0,1.0,1.0,14.605200052261353
+18298.0,None,240.0,meio_ambiente,3q,3.0,5.0,Qual osignificado dos 3 R's?,Reduzir. Reutilizar. Reciclar,"reutilizar, reduzir",0.0,0.0,1.0,52.984691858291626
+18299.0,None,220.0,meio_ambiente,3q,1.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,coisas que você utiliza na sua casa,0.0,0.0,1.0,21.040354013442993
+18299.0,None,220.0,meio_ambiente,3q,2.0,2.0,Cite um exemplo de algo que podemos descartar no lixo orgânico.,Cascas de frutas e legumes,cascas de banana,1.0,1.0,1.0,13.007826089859009
+18299.0,None,220.0,meio_ambiente,3q,3.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,utensilios que você usa na sua casa,0.0,0.0,1.0,28.049729108810425
+18300.0,None,229.0,meio_ambiente,3q,1.0,3.0,Como se chama o lixo composto por restos de materiais utilizados na fabricação de produtos?,Lixo Industrial,não sei,0.0,0.0,1.0,44.23636794090271
+18300.0,None,229.0,meio_ambiente,3q,2.0,2.0,Cite um exemplo de algo que podemos descartar no lixo orgânico.,Cascas de frutas e legumes,plástico,0.0,0.0,1.0,13.374376058578491
+18300.0,None,229.0,meio_ambiente,3q,3.0,1.0,O material orgânico decompoe-se mais rápido que embalagens plásticas?,sim,sim,1.0,1.0,1.0,20.740190029144287
+18301.0,None,235.0,meio_ambiente,3q,1.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,eu esqueci,0.0,0.0,1.0,32.60667300224304
+18301.0,None,235.0,meio_ambiente,3q,2.0,2.0,Quando separamos latinhas para reciclar qual recurso natural estamos preservando?,minérios. alumínio,alumínio,1.0,1.0,1.0,16.124576091766357
+18301.0,None,235.0,meio_ambiente,3q,3.0,3.0,Como se chama o lixo composto por restos de materiais utilizados na fabricação de produtos?,Lixo Industrial,lixo tóxico,0.0,0.0,1.0,16.916874170303345
+18302.0,None,224.0,meio_ambiente,3q,1.0,3.0,Como se chama o lixo composto por restos de materiais utilizados na fabricação de produtos?,Lixo Industrial,não sei,0.0,0.0,1.0,15.967565059661865
+18302.0,None,224.0,meio_ambiente,3q,2.0,2.0,Quando separamos latinhas para reciclar qual recurso natural estamos preservando?,minérios. alumínio,o solo,0.0,0.0,1.0,21.04444909095764
+18302.0,None,224.0,meio_ambiente,3q,3.0,1.0,O material orgânico decompoe-se mais rápido que embalagens plásticas?,sim,sim,1.0,1.0,1.0,22.480536937713623
+18303.0,None,228.0,meio_ambiente,3q,1.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,não sei,0.0,0.0,1.0,18.1652090549469
+18303.0,None,228.0,meio_ambiente,3q,2.0,2.0,Quando separamos latinhas para reciclar qual recurso natural estamos preservando?,minérios. alumínio,não sei,0.0,0.0,1.0,27.72173309326172
+18303.0,None,228.0,meio_ambiente,3q,3.0,1.0,O papel pode levar até seis meses para se decompor totalmente?,sim,sim,1.0,1.0,1.0,13.815778970718384
+18304.0,None,266.0,meio_ambiente,3q,1.0,3.0,Como se chama o lixo que pode virar adubo?,Lixo Orgânico,orgânico,1.0,1.0,1.0,11.491726875305176
+18304.0,None,266.0,meio_ambiente,3q,2.0,4.0,Se. em sua casa não passa o caminhão de coleta de lixo. o que é preciso fazer com o lixo produzido?,É preciso fazer um buraco longe de qualquer local onde se capta água e ir depositando o lixo. jogando terra por cima. Assim terá o seu próprio aterro sanitário.,não sei,0.0,0.0,1.0,27.020233869552612
+18304.0,None,266.0,meio_ambiente,3q,3.0,3.0,Como se chama o lixo composto por restos de materiais utilizados na fabricação de produtos?,Lixo Industrial,não sei,0.0,0.0,1.0,25.558104038238525
+18305.0,None,248.0,meio_ambiente,3q,1.0,3.0,Como se chama o lixo que pode virar adubo?,Lixo Orgânico,o lixo doméstico,0.0,0.0,1.0,17.30660891532898
+18305.0,None,248.0,meio_ambiente,3q,2.0,2.0,Quando separamos latinhas para reciclar qual recurso natural estamos preservando?,minérios. alumínio,o meio ambiente,0.0,0.0,1.0,15.816606044769287
+18305.0,None,248.0,meio_ambiente,3q,3.0,1.0,Qual item leva mais tempo para se decompor no mar? Caixa de papelão ou vidro,vidro,o vidro,1.0,1.0,1.0,14.27506399154663
+18306.0,None,212.0,meio_ambiente,3q,1.0,3.0,Como se chama o lixo que pode virar adubo?,Lixo Orgânico,lixo orgânico,1.0,1.0,1.0,12.04094910621643
+18306.0,None,212.0,meio_ambiente,3q,2.0,4.0,Qual é o destino do lixo de nossas casas recolhido pelos caminhões de coleta?,Aterro Sanitário,não sei,0.0,0.0,1.0,19.970307111740112
+18306.0,None,212.0,meio_ambiente,3q,3.0,3.0,Como se chama o lixo que pode virar adubo?,Lixo Orgânico,orgânico,1.0,1.0,1.0,9.14447021484375
+18307.0,None,226.0,meio_ambiente,3q,1.0,3.0,Como se chama o lixo que pode virar adubo?,Lixo Orgânico,lixo orgânico,1.0,1.0,1.0,18.432733058929443
+18307.0,None,226.0,meio_ambiente,3q,2.0,4.0,Qual é o destino do lixo de nossas casas recolhido pelos caminhões de coleta?,Aterro Sanitário,não sei,0.0,0.0,1.0,17.081238985061646
+18307.0,None,226.0,meio_ambiente,3q,3.0,3.0,Como se chama o lixo composto por restos de materiais utilizados na fabricação de produtos?,Lixo Industrial,nós não aprendemos isso ainda,0.0,0.0,1.0,28.031946897506714
+18308.0,None,217.0,meio_ambiente,3q,1.0,3.0,Como se chama o lixo composto por restos de materiais utilizados na fabricação de produtos?,Lixo Industrial,esqueci,1.0,0.0,0.0,19.26519799232483
+18308.0,None,217.0,meio_ambiente,3q,2.0,2.0,Cite um exemplo de algo que podemos descartar no lixo orgânico.,Cascas de frutas e legumes,casca de banana,1.0,1.0,1.0,13.187164068222046
+18308.0,None,217.0,meio_ambiente,3q,3.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,"aquele que joga papel, frutas, comida",0.0,0.0,1.0,26.031883001327515
+18309.0,None,204.0,meio_ambiente,3q,1.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,é tudo aquilo que utiliza em casa,1.0,1.0,1.0,27.294151067733765
+18309.0,None,204.0,meio_ambiente,3q,2.0,4.0,Qual é o destino do lixo de nossas casas recolhido pelos caminhões de coleta?,Aterro Sanitário,lixão,1.0,1.0,1.0,13.387139081954956
+18309.0,None,204.0,meio_ambiente,3q,3.0,5.0,Qual a diferença entre lixo orgânico e lixo e reciclável?,Lixo orgânico pode ser colocado em uma composteira e virar adubo. lixo reciclável pode ser transformado em um material novo de novo.,"o lixo orgânico joga comida, e o reciclavel pode ser reciclado",1.0,1.0,1.0,27.175868034362793
