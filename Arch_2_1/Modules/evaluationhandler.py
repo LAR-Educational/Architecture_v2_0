@@ -32,7 +32,7 @@ class EvaluationDatabase():
             if  os.path.exists(self.path + "group_list.txt"):
                 inF = open(self.path + "group_list.txt", "r")
                 for line in inF:
-                    line = line.replace("\n","")
+                    #line = line.replace("\n","")
                     #print "line", line
                     self.group_list.append(line)
                     
@@ -72,7 +72,7 @@ class EvaluationDatabase():
             for line in self.group_list:
             # write line to output file
                 outF.write(line)
-                #1outF.write("\n")
+                outF.write("\n")
             outF.close()
             return True
         except:
@@ -174,6 +174,7 @@ class GroupStatus:
     def __init__(self, 
                 id,
                 name,
+                path = None,
                 group_name = None,
                 durations= None,
                 dur_av = None,
@@ -186,7 +187,7 @@ class GroupStatus:
                 system_right_rate= None,
                 system_accuracy= None,
                 system_wrong_rate= None,
-                obs = None):
+                obs = ""):
 
 
         if durations is None:
@@ -198,8 +199,9 @@ class GroupStatus:
         self.id = id
         self.name = name
         self.group_name = group_name
-        self.dur_av = dur_av,
-        self.dur_sd = dur_sd,
+        self.path = path
+        self.dur_av = dur_av
+        self.dur_sd = dur_sd
         self.participants= participants
         self.users_right_rate= users_right_rate
         self.users_accuracy= users_accuracy
@@ -208,14 +210,14 @@ class GroupStatus:
         self.system_accuracy= system_accuracy
         self.system_wrong_rate= system_wrong_rate
         self.obs = obs
+        self.graphs_trans ={
+            'User Validation':'',
+            'System Validation':'',
+            'User Accuracy':'',
+            'System Accuracy':''
+                
+        }
 
-
-    def load_group_eval(self, path):
-        f = open(path, 'rb')
-        tmp_dict = cPickle.load(f)
-        f.close()
-
-        return tmp_dict          
 
         #self.__dict__.update(tmp_dict) 
 
@@ -231,6 +233,12 @@ class GroupStatus:
         f.close()
 
 
+def load_group_eval(path):
+    f = open(path, 'rb')
+    tmp_dict = cPickle.load(f)
+    f.close()
+
+    return tmp_dict          
 
 
 class Evaluation:
@@ -251,11 +259,13 @@ class Evaluation:
                 int_name=None,
                 user_dif_profile=None,
                 validation=False,
+                path=None,
                 stats = None,
                 ans_threshold=None):
 
         self.id=id
         self.date=date
+        self.path=path
         self.user_id = user_id
         self.user_name=user_name
         if topics is None:
@@ -372,4 +382,6 @@ def main():
 
 
 if __name__=="__main__":
-    main()
+    
+    print "YOU ARE IN THE WRONG WINDOWN"
+    #main()

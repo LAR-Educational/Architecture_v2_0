@@ -47,6 +47,7 @@ class UserDatabase():
 
     def load_users_list(self):
         
+        self.users = []
         for item in self.index_table.Id:#['Id']:
             #print item
             self.users.append(self.load_user( os.path.join(self.path,str(item),str(item)+".data")))
@@ -82,8 +83,8 @@ class UserDatabase():
         if os.path.exists(path):
             #raise NameError('Trying to insert user with id "{}". User already exists!'.format(new_user.id))
             self.save_user(new_user, path +"/" +str(new_user.id)+".data")
-            self.index_table.to_csv(self.index_path, index=False)
-            self.index_table.loc[self.index_table.Id==new_user.id] =[new_user.id, new_user.first_name,new_user.last_name]
+            #self.index_table.to_csv(self.index_path, index=False)
+            self.index_table.loc[self.index_table.Id==new_user.id] =[[new_user.id, new_user.first_name, new_user.last_name]]
             self.index_table.to_csv(self.index_path, index=False)
             
             #generate user Pic in CV.Mat format
@@ -91,6 +92,7 @@ class UserDatabase():
                 cv2.imwrite(path +"/" +str(new_user.id)+".png", new_user.img) # qImageToMat(new_user.img.toImage()))
             
             print "USER EXIST. UPDATING"
+            #self.load_users_list()
             return -1
         
         else:

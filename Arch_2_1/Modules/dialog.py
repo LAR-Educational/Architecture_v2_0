@@ -49,6 +49,7 @@ class DialogSystem:
 		#self.questions = open_file(os.path.join(path,'questions.txt'))
 		#self.answers = open_file(os.path.join(path,'answers.txt'))
 		self.default_language = language
+		self.default_language = 'English'
 		
 		if robot is not None:
 			self.setLang(self.default_language)
