@@ -280,7 +280,10 @@ class Robot:
            
             self.disattention = False
             self.name = robot_name
+            
+            defaultLanguage = 'English'
             self.tts.setLanguage(defaultLanguage)
+
             self.animatedSpeechProxy = ALProxy("ALAnimatedSpeech", robotIp, port)
             self.speechSpeed = 0.5
             self.volume = 1
