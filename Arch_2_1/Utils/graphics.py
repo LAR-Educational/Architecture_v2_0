@@ -9,7 +9,7 @@ from PyQt4.QtGui import *
 
 # ----------------- Group Assessment
 
-def generate_graphics(data, window, filename, topics_range, displayer):
+def generate_graphics(data, window, filename, topics_rangeyer):
     pass
     """   
     Function to create group graphics
@@ -119,7 +119,7 @@ def generate_graphics(data, window, filename, topics_range, displayer):
     def group_eval_performance_graph(self):
     '''
 
-def users_group_eval(window, df,filename,displayer):
+def users_group_eval(window, df,filename):
     #df = self.group_eval_data_table
     filename = str(filename)
     print filename
@@ -130,6 +130,7 @@ def users_group_eval(window, df,filename,displayer):
     #list_content_name = aux_int.data.loc[aux_int.data["Type"]=="Content"]
     list_content_name = df["Topic"].unique()
     
+    ret = []
 
     #list_content_name = list_content_name["Name"].tolist()
 
@@ -209,15 +210,16 @@ def users_group_eval(window, df,filename,displayer):
     plt.xlim(0,len(my_xticks)+1)
     #plt.ylim(0, len(sys_good[0]+sys_bad[0]))
     #plt.ylim(0, len(sys_good)+len(sys_bad))
-    plt.ylim(0, 30)
+    plt.ylim(0, (sys_good[0])+(sys_bad[0])+5)
 
     plt.title("System Classifications", fontsize=32)
 
     plt.xlabel("Topic_Question Number", fontsize=16)
     plt.ylabel("Number of occurrences", fontsize=20)
-  
-    #plt.savefig(filename + "_sys.png")
-    plt.show()
+    sys_val = filename + "_sys_val.png"
+    plt.savefig(sys_val)
+    
+    #plt.show()
     
     #return
     plt.close()
@@ -254,7 +256,7 @@ def users_group_eval(window, df,filename,displayer):
     # plt.xlim(0,7)
     # plt.ylim(-1,25)
     plt.xlim(0,len(my_xticks)+1)
-    plt.ylim(0, (sys_good[0])+(sys_bad[0]))
+    plt.ylim(0, (sys_good[0])+(sys_bad[0])+5)
     #plt.ylim(0, 300)#len(sys_good)+len(sys_bad))
 
     # plt.title("System Classifications", fontsize=32)
@@ -268,11 +270,77 @@ def users_group_eval(window, df,filename,displayer):
     plt.xlabel("Topic_Question Number", fontsize=16)
     plt.ylabel("Number of occurrences", fontsize=20)
     plt.grid(True, linewidth=.15)
-    plt.savefig(filename + "_user.png")
+    user_val=filename + "_user_val.png"
+    plt.savefig(user_val)
+    plt.close()
 
-    displayer.setPixmap(QPixmap(filename + "_user.png"))
+# ----------------------------- PIEs
+
+    ur = df[df['Sup_ans']==1].index.size 	# sys right/student understood/system understood
+    uw = df[df['Sup_ans']==0].index.size
+    um = df[df['Sup_ans']==-1].index.size
+
+
+    colors = ['paleturquoise', 'lightcoral', 'lemonchiffon', 'gold', 'lightskyblue']
+    
+    if um == 0:
+        sizes=[ur,uw]
+        labels = [" Right \n Ansers", "Wrong \nAnswers"] 
+        explode = [0.1,0]
+
+    else:
+        labels = [" Right \n Ansers", "Wrong \nAnswers", "Listening \nProblems"] 
+        sizes = [ur,uw,um]
+        explode = [0.1,0,0]
+
+    plt.rcParams['font.size'] = 16.0
+
+    plt.pie(sizes, labels=labels, autopct='%1.1f%%', colors= colors,
+            shadow=True, startangle=90, explode=explode)
+
+    plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+    plt.title("Users Accuracy", fontsize=35, y =1.03)
+    user_ac=filename + "_user_acc.png"
+    plt.savefig(user_ac)
     #plt.show()
-    #exit()
+    plt.close()
+
+    plt.figure(1)
+
+    sr = df[df['Sys_was']==1].index.size 	# sys right/student understood/system understood
+    sw = df[df['Sys_was']==0].index.size
+    sm = df[df['Sys_was']==-1].index.size
+
+    if sm ==0:
+        labels = [" Right \n Classifications", "Wrong \nClassifications"] 
+        sizes = [sr,sw]
+        explode = [0.1,0]
+    else:
+        labels = [" Right \n Classifications", "Wrong \nClassifications", "Listening \nProblems"] 
+        sizes = [sr,sw,sm]
+        explode = [0.1,0,0]
+
+    plt.rcParams['font.size'] = 16.0
+
+    plt.pie(sizes, labels=labels, autopct='%1.1f%%', colors= colors,
+            shadow=True, startangle=90, explode=explode)
+
+    plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+    plt.title("System Accuracy", fontsize=35, y =1.03)
+    sys_ac=filename + "_sys_acc.png"
+    plt.savefig(sys_ac)
+    #plt.show()
+    plt.close()
+
+    ret.append(user_val)
+    ret.append(sys_val)
+    ret.append(user_ac)
+    ret.append(sys_ac)
+
+    return ret
+
 
 if __name__=="__main__":
     pass#users_group_eval("",pd.read_csv(""),"")
