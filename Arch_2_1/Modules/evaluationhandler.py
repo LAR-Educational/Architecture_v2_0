@@ -29,17 +29,23 @@ class EvaluationDatabase():
         if os.path.exists(self.index_path):
             self.index_table = pd.read_csv(self.index_path)
             
-            if  os.path.exists(self.path + "group_list.txt"):
-                inF = open(self.path + "group_list.txt", "r")
-                for line in inF:
-                    #line = line.replace("\n","")
-                    #print "line", line
-                    self.group_list.append(line)
+            if  os.path.exists(self.path + "group_list.csv"):
+                
+                # inF = open(self.path + "group_list.txt", "r")
+                # for line in inF:
+                #     #line = line.replace("\n","")
+                #     #print "line", line
+                #     self.group_list.append(line)
                     
-                inF.close()    
-            
+                # inF.close()    
+                data = pd.read_csv(self.path + "group_list.csv")
+                self.group_list = data['Groups'].tolist()
+                #print self.group_list
+
             if not os.path.exists(self.path + "/Groups"): 
                 os.mkdir(self.path + "/Groups")
+                data = pd.DataFrame(columns=['Groups'])
+                data.to_csv(self.path + "group_list.csv")
 
                 #print "LENNNN", len(self.group_list)
             #print self.index_table
@@ -47,7 +53,7 @@ class EvaluationDatabase():
             
         else:  
             os.mkdir(self.path)  
-            os.mkdir(self.path + "group_list.txt")
+            os.mkdir(self.path + "group_list.csv")
             os.mkdir(self.path + "/Groups")
             self.index_table = pd.DataFrame(columns=['Id', 'Date', 'Student Name'])
             self.index_table.to_csv(self.index_path, index=False)
@@ -67,13 +73,10 @@ class EvaluationDatabase():
         try:
             self.group_list.append(new_group) 
             
-            outF = open(self.path + "group_list.txt", "w")
-        
-            for line in self.group_list:
-            # write line to output file
-                outF.write(line)
-                outF.write("\n")
-            outF.close()
+            data = pd.DataFrame(self.group_list, columns=['Groups'])
+            
+            data.to_csv(self.path + "group_list.csv", index=False) 
+
             return True
         except:
             raise("ERROR ENTERING GROUP")

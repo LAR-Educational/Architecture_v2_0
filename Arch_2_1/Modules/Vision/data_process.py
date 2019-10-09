@@ -78,12 +78,6 @@ class Data_process:
 
 
 
-
-
-
-
-
-
 	def data_aug(self):
 		'''
 		    Data augmentation
@@ -158,31 +152,31 @@ class Data_process:
 
 	def buildTrainValidationData(self, validation_percent=10):	
 		'''
-		dir= path to run the building
+		path_name= path to run the building
 		validation_percent = percentage of samples in validation. Default 10%.
 	
 		'''
 	
-		dir = os.path.join(self.work_path,"Vision") #"./data/collected" #Original Directory
+		path_name = os.path.join(self.work_path,"Vision") #"./data/collected" #Original Directory
 
 		classes = self.classes #load_classes('shapes.csv') #['cub','pir','esf']
 
 		print classes
 
-		coll_path = os.path.join(dir,"collected")
+		coll_path = os.path.join(path_name,"collected")
 		
 		
 		print coll_path
 		
-		tr_path = os.path.join(dir,"train")
-		val_path = os.path.join(dir,"validation")
+		tr_path = os.path.join(path_name,"train")
+		val_path = os.path.join(path_name,"validation")
 
 
 		print "----- Starting Path Verification -----"
 
 		# ---- Verifying Collected path	
 		if not os.path.exists(coll_path):
-			print "Path aug dosent exist"        
+			print "Path aug dosent exist. Please run data augmentation first."        
 			#os.makedirs(aug_path)
 			return False
 		else:

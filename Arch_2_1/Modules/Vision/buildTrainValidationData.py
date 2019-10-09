@@ -79,9 +79,9 @@ def buildTrainValidationData(dir):
 		
 def main():
 
-
-	erase_database("./data/validation")
-	erase_database("./data/train")
+	pass
+	#erase_database("./data/validation")
+	#erase_database("./data/train")
 	#buildTrainValidationData("./data/collected")		
 		
 		
