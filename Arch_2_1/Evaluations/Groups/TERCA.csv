@@ -1,0 +1,4 @@
+Id,Name,Duration,Topic,Interaction_name,Question_number,Dificult,Question,Exp_ans,Under_ans,Sup_ans,Sys_ans,Sys_was,Time_to_answer
+18276.0,None,71.0,Teste,first,1.0,3.0,What is HRI?,Human-Robot Interaction,sadf,1.0,0.0,0.0,3.5289909839630127
+18276.0,None,71.0,Teste,first,2.0,3.0,What is HRI?,Human-Robot Interaction,asd,0.0,0.0,1.0,2.394984006881714
+18276.0,None,71.0,Teste,first,3.0,3.0,What is HRI?,Human-Robot Interaction,as,0.0,0.0,1.0,1.892632007598877

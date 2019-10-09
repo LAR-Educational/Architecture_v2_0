@@ -13,7 +13,6 @@
 	
 	In development by Msc. Daniel Tozadore 
 	dtozadore@gmail.com
-
  -----------------------------------------------
  '''
 
@@ -25,7 +24,8 @@ import threading
 from multiprocessing import Queue, Process
 from GUI.opening_main import My_Loading#,MyApp 
 from GUI.show_graph import *#,MyApp 
-
+from GUI import schedule 
+from GUI import system_variables_control
 
 # --- Opening dialog window
 class MyOpening(Process):
@@ -42,8 +42,8 @@ class MyOpening(Process):
 
 
 # --- Just a user 
-app1 = MyOpening()
-app1.start()
+# app1 = MyOpening()
+# app1.start()
 
 
 
@@ -61,7 +61,7 @@ from utils import *
 import random
 import paramiko
 import copy
-
+import pickle
 
 
 # --- Custumized imports 
@@ -110,6 +110,12 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		super(self.__class__, self).__init__()
 		self.setupUi(self)  # This is defined in design.py file automatically
 	
+		print '\n\n'
+
+
+
+
+
 
 		# --- Initials setup
 
@@ -122,9 +128,12 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		# self.setWindowIcon(QIcon('/GUI/R_CASTLE_Logo.jpeg'))
 		self.setWindowIcon(app_icon)
 		self.label_27.setPixmap(QPixmap('GUI/Logo'))
-		self.wel_image.setPixmap(QPixmap('GUI/Logo'))
-		clock.AnalogClock(self.wel_clock_widget )
+		#self.wel_image.setPixmap(QPixmap('GUI/Logo'))
+		clock.AnalogClock(parent=self.wel_clock_widget )
 		self.wel_dateEdit.setDate(QDate.currentDate())
+		x= self.digital_clock_widget.geometry().width()
+		y= self.digital_clock_widget.geometry().height()
+		clock.DigitalClock(x,y,self.digital_clock_widget)
 		#full screen
 		#self.showFullScreen()
 
@@ -138,6 +147,13 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#self.run_autovideo_checkBox.setChecked(True) 
 
 		self.sys_vars = core.SystemVariablesControl()
+		ret = [self.sys_vars]
+		svc = system_variables_control.Svc_Gui(ret,self)
+		ret = svc.exec_()
+		print ret
+
+		exit()
+
 		#self.diag_sys = dialog.DialogSystem(False, False)
 		#self.sys_vars.add('user')
 		QTextCodec.setCodecForCStrings(QTextCodec.codecForName("utf8"))
@@ -146,14 +162,39 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.recog_flag = False #face recog flag
 
 
+
+
+
+		# --- Welcome screen
+
+		self.schedule = clock.Schedule()
+		self.wel_update_date()
+		self.wel_open_meeting_button.clicked.connect(self.wel_open_meeting_action)
+		self.wel_new_meeting_button.clicked.connect(self.wel_new_meeting_action)
+		self.wel_delete_meeting_button.clicked.connect(self.wel_del_meeting_action)
+		
+		#meetings =[]
+		self.calendar = clock.MyCalendar(self.wel_calendarWidget)#(self.wel_calendarWidget)
+		#layout = QBoxLayout()
+		self.calendar.setVerticalHeaderFormat(QtGui.QCalendarWidget.NoVerticalHeader)
+		self.wel_add_meetings()
+		#layout.addWidget(self.calendar)
+		#self.wel_calendarWidget.setLayout(layout)
+		#print self.schedule.meetings_table
+		#self.schedule.save_meetings_list()
+		#exit()
+
+
 		# ----------------- JOAO -> TAKE A LOOK UNTIL LINE 172
+
+
 
 		# --- Dialog
 		self.answer_threshold = 1 - 0.60#self.diag_dist_thres_spinBox.value()
 		#print "Thres valeu", self.answer_threshold
 		entry = self.run_entry_comboBox.itemText( self.run_entry_comboBox.currentIndex())
 		core.input_option = core.input_option_list[str(entry)]
-		
+				
 		self.aud_rec_flag = False#True
 		# self.aud_rec_flag = self.run_audio_record_checkBox.isChecked()
 		#print "AQUII",self.aud_rec_flag
@@ -166,15 +207,23 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.diag_load_embeddings_button.clicked.connect(lambda: self.diag_process_dialogue("name_mus.txt"))
 		self.diag_tag_button.clicked.connect(self.diag_insert_tag)
 
-
 		# words_lists = pd.read_csv("Dialog/words_lists.csv")
 		# self.diag_positives_list = words_lists['Pos'].toList()
 		# self.diag_negatives_list = pd.read_csv("Dialog/negatives.csv")
 		# self.diag_doubts_list = pd.read_csv("Dialog/doubts.csv")
 
 		self.diag_load_kw_table_button.clicked.connect(self.diag_load_kw_tables_action)
+		self.diag_save_kw_table_button.clicked.connect(self.diag_save_kw_tables_action)
 		self.diag_kw_pos_add_button.clicked.connect(lambda: self.diag_kws_table_add(self.diag_pos_listWidget))
-		
+		self.diag_kw_neg_add_button.clicked.connect(lambda: self.diag_kws_table_add(self.diag_neg_listWidget))
+		self.diag_kw_doubt_add_button.clicked.connect(lambda: self.diag_kws_table_add(self.diag_doubt_listWidget))
+
+		self.diag_kw_pos_del_button.clicked.connect(lambda: self.diag_kws_del(self.diag_pos_listWidget))
+		self.diag_kw_neg_del_button.clicked.connect(lambda: self.diag_kws_del(self.diag_neg_listWidget))
+		self.diag_kw_doubt_del_button.clicked.connect(lambda: self.diag_kws_del(self.diag_doubt_listWidget))
+
+
+
 
 		#--- Vision panel
 		self.display_flag = False
@@ -299,7 +348,6 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.eval_seek_video_button.clicked.connect(lambda: self.eval_video_player.seek(float(1000*self.eval_current_video_time_doubleSpin.value())))
 
 
-
 		
 		# --- GROUP ASSESSMENT
 		self.grup_eval_update_tab()
@@ -308,7 +356,9 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.group_eval_save_button.clicked.connect(self.group_eval_save_action)
 		self.group_open_graph_button.clicked.connect(self.group_eval_wide_graph)
 		self.group_graph_type_comboBox.currentIndexChanged.connect(self.group_eval_change_graph)		
-		
+		self.group_new_group_button.clicked.connect(self.run_new_eval_group_action)
+		self.group_eval_create_button.clicked.connect(lambda: self.group_create_frame.setEnabled( not self.group_create_frame.isEnabled() ))
+		self.group_eval_create_button.clicked.connect(lambda: self.group_eval_tabWidget.setEnabled(False))
 		
 		
 		#--- Interaction
@@ -382,11 +432,14 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		# self.layoutVertical.addWidget(self.reportLoadButton)
 		# self.layoutVertical.addWidget(self.writeReportButton)
 		
-		
+		self.head_ok_button.clicked.connect(self.create_activity)
+		self.new_activity_button.clicked.connect(self.new_activity)
+
+
 		#Shortcuts:
-		self.load_activity()  # WORKSPACES
 		#self.shortcut = True
 		self.shortcut =  False
+		#self.load_activity()  # WORKSPACES
 		
 		if self.shortcut:
 			self.int_load_action()
@@ -399,16 +452,16 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 	def load_activity(self):
 		
-		#filename = QFileDialog.getOpenFileName(self, 'Open File', './Activities/NOVA')
-		#self.act=ct.load_Activity(filename)
+		filename = QFileDialog.getOpenFileName(self, 'Open File', './Activities/NOVA')
+		self.act=ct.load_Activity(filename)
 		
-		self.act=ct.load_Activity("./Activities/NOVA/activity.data")#None #"/home/tozadore/Projects/Arch_2/Arch_2_1/Activities/NOVA/Content" #None
+		#self.act=ct.load_Activity("./Activities/NOVA/activity.data")#None #"/home/tozadore/Projects/Arch_2/Arch_2_1/Activities/NOVA/Content" #None
 		
 		#self.name_lineEdit.setText(self.act.name)
 		#self.desc_lineEdit.setText(self.act.description)		
 		#self.path_lineEdit.setText(self.act.path)
 		#self._lineEdit.setText(self.act.desc)
-		self.editButton.setEnabled(True)
+		self.head_edit_button.setEnabled(True)
 		self.modules_tabWidget.setEnabled(True)
 		self.content_path = self.act.path +  "/Content" +"/"
 		
@@ -418,8 +471,9 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#self.content_subject_comboBox.addItems(self.sub_list[1])
 
 		self.content_load_subjects()
-
 		self.interact_database = InteractionDatabase(self.act.path)
+
+		self.diag_load_kw_tables_action()
 		
 
 
@@ -429,7 +483,190 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		exit()
 		#self.destroy()
 
-	
+	def new_activity(self):
+		act_name,  ok = QInputDialog.getText(self, 'Text Input Dialog', 'Enter new Activity Name:')
+		if ok:
+			self.head_name_lineEdit.setText(act_name)
+			path = "Activities/"+str(act_name)
+			self.head_path_lineEdit.setText(path)
+			
+			self.head_name_lineEdit.setEnabled(True)
+			self.head_desc_lineEdit.setEnabled(True)
+			self.head_path_lineEdit.setEnabled(True)
+			self.head_ok_button.setEnabled(True)
+			self.head_cancel_button.setEnabled(True)
+
+	def create_activity(self):
+
+		act_name = str(self.head_name_lineEdit.text())
+		#act_path = str(self.head_path_lineEdit.text())
+
+		act = ct.Activity(act_name)
+
+		act.print_Attributes()
+
+		#return
+		# def create_Activity(act, vs=False):
+		vs=False
+		'''    
+		Create a new activity and set all directories
+		'''
+
+
+		if os.path.exists(act.path):
+			core.war("Path activity exists")        
+			
+		else:
+			core.info("Starting new activity folder in " + act.path )
+			os.makedirs(act.path)
+			os.makedirs(os.path.join(act.path,"Vision" ))
+			os.makedirs(os.path.join(act.path, "Logs" ))
+
+			aux_path = os.path.join(act.path, "Dialog" )
+			os.makedirs(aux_path)
+			df = pd.DataFrame(columns= ["Positives", "Negatives", "Doubts"])
+			df.loc[-1]=["Yes","No","Maybe"]
+			df.index = df.index + 1
+			df.to_csv(aux_path +'/keywords.csv',index=False)
+			f = open(aux_path +"/_def_question.txt",'w')
+			f.write("Are you sure?")
+			f.close()
+
+			#os.makedirs(os.path.join(act.path, "Users" ))
+			
+			aux_path=os.path.join(act.path, "Content" )
+			os.makedirs(aux_path)
+			df = pd.DataFrame(columns=['subjects','concepts'])
+			df.to_csv(aux_path +"/subjects.csv",index=False)
+
+		#core.info("Writing activity attributes" )
+		self.log("Writing activity attributes",'w' )
+		
+		
+		
+		if act.vision:
+			core.info("Starting Vision Componets for activity: " + act.name)
+			act.classes = vs.collect_database(act, camId=1)
+			act.ncl = len(act.classes)
+			#act.save()
+			dp = data_process.Data_process(act.path )
+			#dp.buildTrainValidationData()
+			#dp.data_aug()		
+			#dp.generate_model()
+			dp.save_best()
+			dp.print_classes()
+		
+		else:
+			self.log("Activity <<" + act.name + ">> has no Vision system required",'w')	
+		
+			
+		
+		with open(os.path.join(act.path,'activity.data'), 'wb') as f:
+			pickle.dump(act, f, pickle.HIGHEST_PROTOCOL)
+		
+		self.log("Writining successfull",'w')
+		
+			
+
+
+#-------------------------------------------- \Welcome ---------------------------------
+
+	def wel_update_date(self):
+		
+		date = self.wel_dateEdit.date()
+		weekday = date.toString('dddd')
+		# date = date.toString('dddd, d of MMMM of yyyy')
+		weekday = weekday.left(1).toUpper()+weekday.mid(1)
+		day		= date.toString('dd')
+		month 	= date.toString('MMMM')
+		month = month.left(1).toUpper()+month.mid(1)
+		year 	= date.toString('yyyy')
+		self.wel_md_label.setText(day)
+		self.wel_wd_label.setText(weekday)
+		self.wel_month_label.setText(month)
+		self.wel_year_label.setText(year)
+
+	def wel_add_meetings(self):
+		for item in self.schedule.meetings_list:
+			#print  item.date
+			self.calendar.add_meeting(item.date)
+
+	def wel_del_meeting_action(self):
+
+		date = self.calendar.selectedDate()	
+		for item in self.schedule.meetings_list:
+
+			if item.date == date:
+				dg = QMessageBox.warning(self,"Deleting Meeting", "\nAre you sure you want to delete this meeting?", QMessageBox.Ok|QMessageBox.Cancel)
+
+				if  dg == QMessageBox.Ok:
+					self.schedule.del_meeting(date)	
+					dg = QMessageBox.information(self,"Deleted", "Test in date of " + date.toString("dd/MM/yyyy"), QMessageBox.Ok)
+					self.calendar.clear_meetings()
+					self.wel_add_meetings()
+					self.calendar.update()
+					return
+
+		dg = QMessageBox.information(self,"NOUP", "NOOOO", QMessageBox.Ok)
+
+
+	def wel_open_meeting_action(self):
+
+		date = self.calendar.selectedDate()
+		mts = self.schedule.meetings_list
+
+		for item in self.schedule.meetings_list:
+
+			if item.date == date:
+				# dg = QMessageBox.information(self,"YEAH", "YEASSSSSSS", QMessageBox.Ok)
+				arg = [item]
+				#pprint(vars(item))
+				#print "TIPO", type(item.period)
+
+				sc =schedule.Show_schedule(arg, self)
+				sc.setWindowModality(Qt.ApplicationModal)
+				
+				if sc.exec_() == QDialog.Accepted:
+					#print "BLOCK"
+					self.schedule.save_meetings_list()
+					self.calendar.clear_meetings()
+					self.wel_add_meetings()
+					self.calendar.update()
+
+				
+				return
+
+		
+		dg = QMessageBox.critical(self,"Error", "None meeting found here.", QMessageBox.Ok)
+
+		return
+
+	def wel_new_meeting_action(self):
+
+		date = self.calendar.selectedDate()
+		
+		item = clock.Appoitment(0,date, QTime())
+		
+		arg = [item]
+		sc =schedule.Show_schedule(arg, self)
+		# sc.setWindowModality(Qt.ApplicationModal)
+		
+		if sc.exec_() == QDialog.Accepted:
+			#print "BLOCK"
+			self.schedule.add_meeting(item)
+			self.schedule.save_meetings_list()
+			self.calendar.clear_meetings()
+			self.wel_add_meetings()
+			self.calendar.update()
+
+		
+		return
+
+		
+		
+		
+		
+		
 #----------------------------------------------- \DIALOG -----------------------------
 	
 	def insertQuestion(self):
@@ -611,16 +848,32 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		path = self.act.path+"/Dialog/"
 		data = pd.read_csv(path+"keywords.csv")
 
-		print data
+		#print data
+		self.diag_pos_listWidget.clear()
+		self.diag_neg_listWidget.clear()
+		self.diag_doubt_listWidget.clear()
+
 
 		self.diag_positives_list = data['Positives'].tolist()
-		self.diag_pos_listWidget.addItems(self.diag_positives_list,)
+		self.diag_positives_list = [x for x in self.diag_positives_list if str(x) != 'nan']
+		self.diag_pos_listWidget.addItems(self.diag_positives_list)
+		aux = self.diag_pos_listWidget
+		for i in range(aux.count()):
+			aux.item(i).setFlags(aux.item(i).flags() | Qt.ItemIsEditable)
 
 		self.diag_negatives_list = data['Negatives'].tolist()
+		self.diag_negatives_list = [x for x in self.diag_negatives_list if str(x) != 'nan']
 		self.diag_neg_listWidget.addItems(self.diag_negatives_list)
+		aux = self.diag_neg_listWidget
+		for i in range(aux.count()):
+			aux.item(i).setFlags(aux.item(i).flags() | Qt.ItemIsEditable)
 
 		self.diag_doubts_list = data['Doubts'].tolist()
+		self.diag_doubts_list = [x for x in self.diag_doubts_list if str(x) != 'nan']
 		self.diag_doubt_listWidget.addItems(self.diag_doubts_list)
+		aux = self.diag_doubt_listWidget
+		for i in range(aux.count()):
+			aux.item(i).setFlags(aux.item(i).flags() | Qt.ItemIsEditable)
 
 		f = open(path+"_def_question.txt",'r')
 		qt = f.read()
@@ -629,15 +882,54 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.diag_def_question_textEdit.setText(qt)
 
 
+	def diag_save_kw_tables_action(self):
+
+		path = self.act.path+"/Dialog/"
+		#data = pd.read_csv(path+"keywords.csv")
+
+		# #print data
+		# self.diag_pos_listWidget.clear()
+		# self.diag_neg_listWidget.clear()
+		# self.diag_doubt_listWidget.clear()
+		qt = str(self.diag_def_question_textEdit.toPlainText().toUtf8())
+
+		f = open(path+"_def_question.txt",'w')
+		f.write(qt)
+		f.close()
+
+
+		# self.diag_positives_list = data['Positives'].tolist()
+		#print self.diag_pos_listWidget.items()
+		self.diag_positives_list = [ str(self.diag_pos_listWidget.item(i).text().toUtf8()) for i in range(self.diag_pos_listWidget.count())]
+		self.diag_negatives_list = [ str(self.diag_neg_listWidget.item(i).text().toUtf8()) for i in range(self.diag_neg_listWidget.count())]
+		self.diag_doubts_list = [ str(self.diag_doubt_listWidget.item(i).text().toUtf8()) for i in range(self.diag_doubt_listWidget.count())]
+		
+		
+		
+		#print self.diag_negatives_list
+		
+		data = pd.DataFrame(columns=['Positives', 'Negatives','Doubts'])
+		data['Positives'] = pd.Series(self.diag_positives_list)
+		data['Negatives'] = pd.Series(self.diag_negatives_list)
+		data['Doubts'] = 	pd.Series(self.diag_doubts_list)
+
+		#print data 
+
+		data.to_csv(path+"keywords.csv", index=False)
+		return 
+
+	
+
 	def diag_kws_table_add (self, table):
-		aux = QListWidgetItem("TESTEEE")#.setFlags(Qt.ItemIsEditable)
+
+		aux = QListWidgetItem("")#.setFlags(Qt.ItemIsEditable)
 		aux.setFlags(aux.flags() | Qt.ItemIsEditable)
 		
 		table.addItem(aux)	
-		table.setCurrentIndex(table.count()-1)
+		table.setCurrentRow(table.count()-1)
 		item = table.itemFromIndex(table.currentIndex())
-		print "TST", item.text() 
-		table.edit()
+		#print "TST", item.text() 
+		table.editItem(item)
 		#table.insetRow()
 
 	def diag_kws_del(self, table):
@@ -723,35 +1015,38 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 	def content_update_tab(self):
 		#text= self.sub_list['concepts'][self.sub_list['subjects'][self.sub_list['subjects']==str(self.content_subject_comboBox.currentText())].index[0]]
-		text= str(self.sub_list['concepts'][self.content_subject_comboBox.currentIndex()])
-		
-		self.content_concept.setText(text)
-		file_name = str(self.content_path + self.content_subject_comboBox.currentText()+".csv")
-		
-		if os.path.isfile(file_name):
-			data=pd.read_csv(file_name)
-			#print "trying data", data
-
-			dataframe_to_table(data,self.content_questions_table)
-
-			self.log("Subject loaded: " + self.content_subject_comboBox.currentText())
-			self.content_questions_table.resizeColumnsToContents()
-			#self.content_questions_table.resizeRowsToContents()
-
-
-		else:	
-			self.log("WARNING TABLE <<" + file_name +">>  FILE DO NOT EXIST")
-			labels = []
-			for i in range(0,3):
-				labels.append(str(self.content_questions_table.horizontalHeaderItem(i).text()))
+		try:
+			text= str(self.sub_list['concepts'][self.content_subject_comboBox.currentIndex()])
 			
-			data = 	pd.DataFrame(columns=labels, index=range(0))
+			self.content_concept.setText(text)
+			file_name = str(self.content_path + self.content_subject_comboBox.currentText()+".csv")
 
-			#print data
+			if os.path.isfile(file_name):
+				data=pd.read_csv(file_name)
+				#print "trying data", data
 
-			data.to_csv(self.content_path + self.content_subject_comboBox.currentText()+".csv", index=False)
-			data.to_csv(file_name, index=False)
+				dataframe_to_table(data,self.content_questions_table)
 
+				self.log("Subject loaded: " + self.content_subject_comboBox.currentText())
+				self.content_questions_table.resizeColumnsToContents()
+				#self.content_questions_table.resizeRowsToContents()
+
+
+			else:	
+				self.log("WARNING TABLE <<" + file_name +">>  FILE DO NOT EXIST")
+				labels = []
+				for i in range(0,3):
+					labels.append(str(self.content_questions_table.horizontalHeaderItem(i).text()))
+				
+				data = 	pd.DataFrame(columns=labels, index=range(0))
+
+				#print data
+
+				data.to_csv(self.content_path + self.content_subject_comboBox.currentText()+".csv", index=False)
+				data.to_csv(file_name, index=False)
+
+		except:
+			self.log("No subject found!")
 
 
 	def content_InsertQuestion(self):
@@ -1876,11 +2171,14 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 	def group_eval_generate_action(self):
 
 		group = self.group_eval_comboBox.currentText()
+		self.group_eval_tabWidget.setEnabled(True)
 		#table_name="Test1.csv"
-		table_name="Evaluations/Groups/Test1.csv"
-		# table_name= self.group_eval_name_lineEdit.text()
-		tp_range = [1,1]
-		
+		eval_name= str(self.group_eval_name_lineEdit.text())
+		#eval_name = table_name
+		table_name="Evaluations/Groups/"+eval_name+".csv"
+
+		tp_range = [0,1]
+
 		self.evals_to_csv(group, table_name, tp_range)
 
 		durs, mea = self.group_gen_status(group, tp_range)
@@ -1913,7 +2211,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		# exit()
 		#print "SIZE",sa 
-		filename = self.evaluation_db.path +"Groups/"+group
+		filename = self.evaluation_db.path +"Groups/"+eval_name
 
 		aux = GroupStatus(20,table_name,filename,group,durs, dur_av, 
 							dur_sd, mea,len(durs), ur, ua, uw,
@@ -1944,6 +2242,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		filename = QFileDialog.getOpenFileName(self, "Open Eval",self.evaluation_db.path+"/Groups", "Group files(*.group)")
 		#print filename
 		#aux = GroupStatus(0,"")
+		self.group_eval_tabWidget.setEnabled(True)		
 		self.cur_group_eval = load_group_eval(filename) 
 		self.group_eval_open_action(self.cur_group_eval)
 		#print self.group_eval.group_name
@@ -2253,6 +2552,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.run_frame_tracking.setEnabled(True)
 		self.run_frame_int_settings.setEnabled(False)
 		self.run_next_step_button.setEnabled(True)
+		self.run_frame_dialog.setEnabled(True)
+
 
 		del self.cur_eval #=  Evaluation()	
 		self.cur_eval =  Evaluation(
@@ -2352,6 +2653,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.timer.stop()
 		
 		self.clock_timer.stop()
+
 		if self.nao_connected:
 			if self.run_autovideo_checkBox.isChecked():
 				self.robot.audio_recording.stopMicrophonesRecording()
@@ -2503,7 +2805,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.clock_timer.stop()
 		time = QTime.currentTime()
 		#time = time.toString('hh:mm:ss') 
-		self.cur_sess=SessionInfo(time,None)
+		#self.cur_sess=SessionInfo(time,None)
 		self.counter_timer.start()
 		
 		if self.robot is not None:
@@ -2775,7 +3077,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.robot_say("And the last name?", False)
 		last_name = self.user_input()#.decode('utf-8')
 
-		
+		r
 		self.cur_user = User(self.sys_vars.users_id+1,
 						name,
 						last_name,
@@ -3093,7 +3395,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				self.preview_profile = self.user_profile 
 				self.user_profile = self.adapt_sys.robot_communication_profile+1
 				
-				print "FVALUE_________________>", fvalue
+				#print "FVALUE_________________>", fvalue
 
 
 				att.alpha=alpha
@@ -3481,6 +3783,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		while True:
 			cont_name,  ok = QInputDialog.getText(self, 'Text Input Dialog', 'Enter new evaluation group:')
+			cont_name = str(cont_name.toUtf8())
 			if ok:
 				# Check if the name already exists
 				if (cont_name in self.evaluation_db.group_list):
@@ -3488,7 +3791,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				else:		
 					self.evaluation_db.add_evaluation_group(cont_name)
 					self.run_group_eval_comboBox.addItem(cont_name)
-					
+					self.group_eval_comboBox.addItem(cont_name)
 
 
 					break

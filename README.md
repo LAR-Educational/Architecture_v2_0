@@ -30,7 +30,7 @@ https://danieltozadore.wordpress.com/work-and-research/r-castle-phd-project/
 
 The main file is the "main_window.py" located in path "/Architecture_v2_0/Arch_2_1" .
 The IA methods are located in the corresponding files in path "/Architecture_v2_0/Arch_2_1/Modules"
-The complete list of dependencies to be isntall can be find at path:
+The complete list of dependencies to be installed can be found at path:
 "/Architecture_v2_0/Arch_2_1/LAB/packs/req.txt"
 
 

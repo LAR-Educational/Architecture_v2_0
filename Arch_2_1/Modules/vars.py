@@ -37,11 +37,13 @@ class SystemVariablesControl():
     def __init__(self):
        
         self.file_name = ".system_control.svc"
+        self.version = None
         self.users_id = None
         self.session_id = None
         self.evaluation_id = None
         self.interaction_id = None
-
+        self.meeting_id = None
+        self.group_eval_id = None
        
         if os.path.exists(self.file_name):
             
@@ -49,10 +51,15 @@ class SystemVariablesControl():
             self.load()
 
         else:
-            self.users_id = 18001
-            self.session_id = 18001
-            self.evaluation_id = 18001
-            self.interaction_id = 18001
+            default = 19001
+            self.version = default
+            self.users_id = default
+            self.session_id = default
+            self.evaluation_id = default
+            self.interaction_id = default
+            self.meeting_id = default
+            self.group_eval_id = default
+       
         
             self.save()
 

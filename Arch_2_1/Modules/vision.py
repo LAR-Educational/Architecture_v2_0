@@ -173,7 +173,7 @@ class VisionSystem:
 			choice = raw_input("Collected datavase already exist. Do you want to update it? (y/n):")        
 			
 			if choice == "y":
-				increase_database(activity, path_name, max_imgs, camId)
+				self.increase_database(activity, path_name, max_imgs, camId)
 				return True
 			else:
 				exit()
