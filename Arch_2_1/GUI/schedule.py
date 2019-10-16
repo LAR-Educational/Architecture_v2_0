@@ -33,6 +33,7 @@ class Show_schedule(QtGui.QDialog, meeting.Ui_Dialog):
         self.month_label.setText(month)
         self.year_label.setText(year)
         self.dateEdit.setDate(date)
+
         self.period_lineEdit.setText(self.meeting.period)
         self.place_lineEdit.setText(self.meeting.place)
         self.textEdit.setText(self.meeting.details)

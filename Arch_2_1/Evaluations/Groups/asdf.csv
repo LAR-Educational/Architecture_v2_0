@@ -1,0 +1,7 @@
+Id,Name,Duration,Topic,Interaction_name,Question_number,Dificult,Question,Exp_ans,Under_ans,Sup_ans,Sys_ans,Sys_was,Time_to_answer
+19002.0,None,0.0,Teste,first,1.0,3.0,What is HRI?,Human-Robot Interaction,as,0.0,0.0,1.0,2.0338430404663086
+19002.0,None,0.0,Teste,first,2.0,4.0,Who is the real ruler of the GAIPS?,Sandra,as,0.0,0.0,1.0,0.947300910949707
+19002.0,None,0.0,Teste,first,3.0,4.0,Who is the real ruler of the GAIPS?,Sandra,as,0.0,0.0,1.0,1.252074956893921
+19003.0,None,0.0,Teste,first,1.0,3.0,What is HRI?,Human-Robot Interaction,sdf,0.0,0.0,1.0,1.6305129528045654
+19003.0,None,0.0,Teste,first,2.0,4.0,Who is the real ruler of the GAIPS?,Sandra,sandra,1.0,1.0,1.0,1.9115910530090332
+19003.0,None,0.0,Teste,first,3.0,5.0,What is the size of the coffee capsules?,SMALL!,smal,1.0,1.0,1.0,3.302902936935425
