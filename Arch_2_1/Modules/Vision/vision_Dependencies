@@ -4,8 +4,8 @@
 
 
 # run in CPU
-expor CUDA_VISIBLE_DEVICES=
+export CUDA_VISIBLE_DEVICES=
 
 
 # run in GPU
-expor CUDA_VISIBLE_DEVICES=0
+export CUDA_VISIBLE_DEVICES=0

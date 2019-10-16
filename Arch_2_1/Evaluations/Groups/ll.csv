@@ -1,0 +1,184 @@
+Id,Name,Duration,Topic,Interaction_name,Question_number,Dificult,Question,Exp_ans,Under_ans,Sup_ans,Sys_ans,Sys_was,Time_to_answer
+18278.0,None,277.0,inicial,3q,1.0,3.0,O quê você fez no dia de ontem?,a,a,-1.0,-1.0,-1.0,13.239973783493042
+18278.0,None,277.0,inicial,3q,2.0,3.0,O quê você fez no dia de ontem?,a,a,-1.0,-1.0,-1.0,13.061072826385498
+18278.0,None,277.0,inicial,3q,3.0,3.0,Você pode me contar de forma resumida a sua história ou o filme preferido?,a,aaaa,-1.0,-1.0,1.0,22.643459796905518
+18278.0,None,277.0,meio_ambiente,3q,1.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,lixa,0.0,0.0,1.0,72.41049098968506
+18278.0,None,277.0,meio_ambiente,3q,2.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,lxo que voce guarda para o lixeiro pegar,1.0,1.0,1.0,12.499988079071045
+18278.0,None,277.0,meio_ambiente,3q,3.0,4.0,Se. em sua casa não passa o caminhão de coleta de lixo. o que é preciso fazer com o lixo produzido?,É preciso fazer um buraco longe de qualquer local onde se capta água e ir depositando o lixo. jogando terra por cima. Assim terá o seu próprio aterro sanitário.,colocar no aterro,1.0,1.0,1.0,22.633519887924194
+18280.0,None,254.0,inicial,3q,1.0,3.0,Você pode me contar uma situação engraçada que aconteceu com você ou com algum amigo seu aqui na escola?,a ,a,1.0,0.0,0.0,23.30490803718567
+18280.0,None,254.0,inicial,3q,2.0,3.0,Você pode me contar de forma resumida a sua história ou o filme preferido?,a,a,1.0,1.0,1.0,12.015604972839355
+18280.0,None,254.0,inicial,3q,3.0,3.0,Você pode me contar de forma resumida a sua história ou o filme preferido?,a,a,0.0,1.0,0.0,20.092038869857788
+18280.0,None,254.0,meio_ambiente,3q,1.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,uma pessoa pega o lixo da casa e transporta para a fabrica,1.0,1.0,1.0,27.849610090255737
+18280.0,None,254.0,meio_ambiente,3q,2.0,4.0,Se. em sua casa não passa o caminhão de coleta de lixo. o que é preciso fazer com o lixo produzido?,É preciso fazer um buraco longe de qualquer local onde se capta água e ir depositando o lixo. jogando terra por cima. Assim terá o seu próprio aterro sanitário.,jogar no lixo de reciclagem,0.0,0.0,1.0,26.89972496032715
+18280.0,None,254.0,meio_ambiente,3q,3.0,3.0,Como se chama o lixo que pode virar adubo?,Lixo Orgânico,lixo reciclavel,0.0,0.0,1.0,24.466145992279053
+18282.0,None,240.0,inicial,3q,1.0,3.0,Você pode me contar uma situação engraçada que aconteceu com você ou com algum amigo seu aqui na escola?,a ,a,-1.0,-1.0,-1.0,13.265755891799927
+18282.0,None,240.0,inicial,3q,2.0,3.0,Você pode me contar de forma resumida a sua história ou o filme preferido?,a,a,-1.0,-1.0,-1.0,29.924916982650757
+18282.0,None,240.0,inicial,3q,3.0,3.0,Se você pudesse ter um super poder. qual seria? e por quê?,a,a,-1.0,-1.0,1.0,10.635395050048828
+18282.0,None,240.0,meio_ambiente,3q,1.0,3.0,Como se chama o lixo composto por restos de materiais utilizados na fabricação de produtos?,Lixo Industrial,industrial,1.0,1.0,1.0,23.36468005180359
+18282.0,None,240.0,meio_ambiente,3q,2.0,4.0,Qual é o destino do lixo de nossas casas recolhido pelos caminhões de coleta?,Aterro Sanitário,aterro sanitario,1.0,1.0,1.0,13.879516839981079
+18282.0,None,240.0,meio_ambiente,3q,3.0,5.0,Qual a diferença entre lixo orgânico e lixo e reciclável?,Lixo orgânico pode ser colocado em uma composteira e virar adubo. lixo reciclável pode ser transformado em um material novo de novo.,a,1.0,1.0,1.0,20.7305109500885
+18283.0,None,182.0,inicial,3q,1.0,3.0,Você pode me contar de forma resumida a sua história ou o filme preferido?,a,a,-1.0,-1.0,-1.0,8.834817886352539
+18283.0,None,182.0,inicial,3q,2.0,3.0,Quais foram as 3 coisas mais legais que você fez nas férias?,a,a,-1.0,-1.0,-1.0,8.171456098556519
+18283.0,None,182.0,inicial,3q,3.0,3.0,Você pode me contar de forma resumida a sua história ou o filme preferido?,a,a,-1.0,-1.0,1.0,10.52583909034729
+18283.0,None,182.0,meio_ambiente,3q,1.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,lixo que se faz em casa,1.0,1.0,1.0,12.52384901046753
+18283.0,None,182.0,meio_ambiente,3q,2.0,4.0,Como ficaria o ambiente se não houvesse a coleta e reciclagem do lixo?,Viraria um lixão. não haveria saneamento básico?,ficaria horrivel e poluido,0.0,0.0,1.0,17.164719104766846
+18283.0,None,182.0,meio_ambiente,3q,3.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,é o que se faz em casa,1.0,1.0,1.0,14.602550029754639
+18284.0,None,335.0,inicial,3q,1.0,3.0,O quê você fez no dia de ontem?,a,a,-1.0,-1.0,-1.0,5.553400039672852
+18284.0,None,335.0,inicial,3q,2.0,3.0,Você pode me contar de forma resumida a sua história ou o filme preferido?,a,a,-1.0,-1.0,-1.0,9.143936157226562
+18284.0,None,335.0,inicial,3q,3.0,3.0,O quê você fez no dia de ontem?,a,a,-1.0,-1.0,1.0,11.717023849487305
+18284.0,None,335.0,meio_ambiente,3q,1.0,3.0,Como se chama o lixo composto por restos de materiais utilizados na fabricação de produtos?,Lixo Industrial,nao sei,1.0,0.0,0.0,60.44120502471924
+18284.0,None,335.0,meio_ambiente,3q,2.0,2.0,Cite um exemplo de algo que podemos descartar no lixo orgânico.,Cascas de frutas e legumes,frutas,1.0,1.0,1.0,20.831795930862427
+18284.0,None,335.0,meio_ambiente,3q,3.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,lixo tirado de casa,1.0,1.0,1.0,63.78866195678711
+18285.0,None,0.0,inicial,3q,1.0,3.0,Você pode me contar de forma resumida a sua história ou o filme preferido?,a,a,-1.0,-1.0,-1.0,13.992631912231445
+18285.0,None,0.0,inicial,3q,2.0,3.0,Você pode me contar uma situação engraçada que aconteceu com você ou com algum amigo seu aqui na escola?,a ,a,-1.0,-1.0,-1.0,12.466882944107056
+18285.0,None,0.0,inicial,3q,3.0,3.0,Se você pudesse ter um super poder. qual seria? e por quê?,a,a,-1.0,-1.0,1.0,14.441458940505981
+18285.0,None,0.0,meio_ambiente,3q,1.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,aquele que é produzido em casa,1.0,1.0,1.0,16.2320818901062
+18285.0,None,0.0,meio_ambiente,3q,2.0,4.0,Se. em sua casa não passa o caminhão de coleta de lixo. o que é preciso fazer com o lixo produzido?,É preciso fazer um buraco longe de qualquer local onde se capta água e ir depositando o lixo. jogando terra por cima. Assim terá o seu próprio aterro sanitário.,cavar um buraco,1.0,1.0,1.0,27.868401050567627
+18285.0,None,0.0,meio_ambiente,3q,3.0,5.0,Por que pilhas e baterias devem ser descartadas corretamente?,Para evitar contaminação,nao haver contaminação,1.0,1.0,1.0,17.18238115310669
+18287.0,None,267.0,inicial,3q,1.0,3.0,Você pode me contar uma situação engraçada que aconteceu com você ou com algum amigo seu aqui na escola?,a ,a,-1.0,-1.0,-1.0,21.007211923599243
+18287.0,None,267.0,inicial,3q,2.0,3.0,Você pode me contar de forma resumida a sua história ou o filme preferido?,a,a,-1.0,-1.0,-1.0,34.622965812683105
+18287.0,None,267.0,inicial,3q,3.0,3.0,Você pode me contar uma situação engraçada que aconteceu com você ou com algum amigo seu aqui na escola?,a ,a,-1.0,-1.0,1.0,20.89688992500305
+18287.0,None,267.0,meio_ambiente,3q,1.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,lixo que possuimos em casa,1.0,1.0,1.0,24.318056106567383
+18287.0,None,267.0,meio_ambiente,3q,2.0,4.0,Qual é o destino do lixo de nossas casas recolhido pelos caminhões de coleta?,Aterro Sanitário,lixão ,0.0,1.0,0.0,20.086472988128662
+18287.0,None,267.0,meio_ambiente,3q,3.0,5.0,Qual a diferença entre lixo orgânico e lixo e reciclável?,Lixo orgânico pode ser colocado em uma composteira e virar adubo. lixo reciclável pode ser transformado em um material novo de novo.,organico serve como adubo e o reciclavel serve para outras coisas,1.0,0.0,0.0,32.755682945251465
+18288.0,None,218.0,inicial,3q,1.0,3.0,Se você pudesse ter um super poder. qual seria? e por quê?,a,a,-1.0,-1.0,-1.0,13.328261137008667
+18288.0,None,218.0,inicial,3q,2.0,3.0,Você pode me contar de forma resumida a sua história ou o filme preferido?,a,a,-1.0,-1.0,-1.0,22.398205995559692
+18288.0,None,218.0,inicial,3q,3.0,3.0,O quê você fez no dia de ontem?,a,a,-1.0,-1.0,1.0,16.87061309814453
+18288.0,None,218.0,meio_ambiente,3q,1.0,3.0,Como se chama o lixo que pode virar adubo?,Lixo Orgânico,organico,1.0,1.0,1.0,9.160614967346191
+18288.0,None,218.0,meio_ambiente,3q,2.0,4.0,Como ficaria o ambiente se não houvesse a coleta e reciclagem do lixo?,Viraria um lixão. não haveria saneamento básico?,viraria um lixão,1.0,1.0,1.0,18.133049964904785
+18288.0,None,218.0,meio_ambiente,3q,3.0,5.0,Qual a diferença entre lixo orgânico e lixo e reciclável?,Lixo orgânico pode ser colocado em uma composteira e virar adubo. lixo reciclável pode ser transformado em um material novo de novo.,embalagens de varios alimentos que voce pode reciclar,1.0,0.0,0.0,30.96450901031494
+18289.0,None,264.0,inicial,3q,1.0,3.0,O quê você fez no dia de ontem?,a,a,-1.0,-1.0,-1.0,10.32147479057312
+18289.0,None,264.0,inicial,3q,2.0,3.0,Quais foram as 3 coisas mais legais que você fez nas férias?,a,a,-1.0,-1.0,-1.0,18.18876004219055
+18289.0,None,264.0,inicial,3q,3.0,3.0,Você pode me contar de forma resumida a sua história ou o filme preferido?,a,a,-1.0,-1.0,1.0,14.701889991760254
+18289.0,None,264.0,meio_ambiente,3q,1.0,3.0,Como se chama o lixo composto por restos de materiais utilizados na fabricação de produtos?,Lixo Industrial,lixo de fabricação,1.0,1.0,1.0,59.45915603637695
+18289.0,None,264.0,meio_ambiente,3q,2.0,4.0,Se. em sua casa não passa o caminhão de coleta de lixo. o que é preciso fazer com o lixo produzido?,É preciso fazer um buraco longe de qualquer local onde se capta água e ir depositando o lixo. jogando terra por cima. Assim terá o seu próprio aterro sanitário.,lever na frente do condominio,0.0,0.0,1.0,29.987334966659546
+18289.0,None,264.0,meio_ambiente,3q,3.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,lixo que agente produz,1.0,1.0,1.0,21.349491834640503
+18290.0,None,249.0,inicial,3q,1.0,3.0,Quais foram as 3 coisas mais legais que você fez nas férias?,a,a,-1.0,-1.0,-1.0,16.053920030593872
+18290.0,None,249.0,inicial,3q,2.0,3.0,O quê você fez no dia de ontem?,a,a,-1.0,-1.0,-1.0,11.424638032913208
+18290.0,None,249.0,inicial,3q,3.0,3.0,O quê você fez no dia de ontem?,a,a,-1.0,-1.0,1.0,9.512611865997314
+18290.0,None,249.0,meio_ambiente,3q,1.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,para jogar coisas que sobraram de lixo que nao vao servir pra nada,0.0,0.0,1.0,55.37536311149597
+18290.0,None,249.0,meio_ambiente,3q,2.0,2.0,Quando separamos latinhas para reciclar qual recurso natural estamos preservando?,minérios. alumínio,metal,0.0,0.0,1.0,18.04292607307434
+18290.0,None,249.0,meio_ambiente,3q,3.0,1.0,Qual item leva mais tempo para se decompor no mar? Fralda descartável ou pneu?,Pneu,pneu,1.0,1.0,1.0,17.988361835479736
+18291.0,None,198.0,inicial,3q,1.0,3.0,O quê você fez no dia de ontem?,a,a,-1.0,-1.0,-1.0,11.928651094436646
+18291.0,None,198.0,inicial,3q,2.0,3.0,Se você pudesse ter um super poder. qual seria? e por quê?,a,a,-1.0,-1.0,-1.0,14.305580854415894
+18291.0,None,198.0,inicial,3q,3.0,3.0,Se você pudesse ter um super poder. qual seria? e por quê?,a,a,-1.0,-1.0,1.0,17.53759002685547
+18291.0,None,198.0,meio_ambiente,3q,1.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,o lixo que voce produz na sua casa,1.0,1.0,1.0,22.370322942733765
+18291.0,None,198.0,meio_ambiente,3q,2.0,4.0,Qual é o destino do lixo de nossas casas recolhido pelos caminhões de coleta?,Aterro Sanitário,eles vao para os lixões,1.0,1.0,1.0,14.817970991134644
+18291.0,None,198.0,meio_ambiente,3q,3.0,5.0,Qual osignificado dos 3 R's?,Reduzir. Reutilizar. Reciclar,nao sei,0.0,0.0,1.0,16.800554990768433
+18292.0,None,309.0,inicial,3q,1.0,3.0,Quais foram as 3 coisas mais legais que você fez nas férias?,a,a,-1.0,-1.0,-1.0,8.007160902023315
+18292.0,None,309.0,inicial,3q,2.0,3.0,Você pode me contar de forma resumida a sua história ou o filme preferido?,a,a,-1.0,-1.0,-1.0,9.394725799560547
+18292.0,None,309.0,inicial,3q,3.0,3.0,Você pode me contar de forma resumida a sua história ou o filme preferido?,a,a,-1.0,-1.0,1.0,14.031728029251099
+18292.0,None,309.0,meio_ambiente,3q,1.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,eu não sei,0.0,0.0,1.0,69.52682209014893
+18292.0,None,309.0,meio_ambiente,3q,2.0,2.0,Quando separamos latinhas para reciclar qual recurso natural estamos preservando?,minérios. alumínio,água,0.0,0.0,1.0,30.136986017227173
+18292.0,None,309.0,meio_ambiente,3q,3.0,1.0,O material orgânico decompoe-se mais rápido que embalagens plásticas?,sim,sim,1.0,1.0,1.0,18.65700888633728
+18293.0,None,196.0,inicial,3q,1.0,3.0,Se você pudesse ter um super poder. qual seria? e por quê?,a,a,-1.0,-1.0,-1.0,11.295415878295898
+18293.0,None,196.0,inicial,3q,2.0,3.0,Se você pudesse ter um super poder. qual seria? e por quê?,a,a,-1.0,-1.0,-1.0,12.309101104736328
+18293.0,None,196.0,inicial,3q,3.0,3.0,Se você pudesse ter um super poder. qual seria? e por quê?,a,a,-1.0,-1.0,1.0,12.302986145019531
+18293.0,None,196.0,meio_ambiente,3q,1.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,não sei,0.0,0.0,1.0,10.988394975662231
+18293.0,None,196.0,meio_ambiente,3q,2.0,2.0,O que podemos fazer com o lixo reciclável?,Separar e enviar para a reciclagem,"reciclar, reutilizar e reduzir",0.0,0.0,1.0,17.64743995666504
+18293.0,None,196.0,meio_ambiente,3q,3.0,1.0,O papel pode levar até seis meses para se decompor totalmente?,sim,não,0.0,0.0,1.0,12.156507015228271
+18294.0,None,223.0,inicial,3q,1.0,3.0,Se você pudesse ter um super poder. qual seria? e por quê?,a,a,-1.0,-1.0,-1.0,11.78811502456665
+18294.0,None,223.0,inicial,3q,2.0,3.0,Quais foram as 3 coisas mais legais que você fez nas férias?,a,a,-1.0,-1.0,-1.0,9.238080978393555
+18294.0,None,223.0,inicial,3q,3.0,3.0,Você pode me contar uma situação engraçada que aconteceu com você ou com algum amigo seu aqui na escola?,a ,a,-1.0,-1.0,1.0,8.868963956832886
+18294.0,None,223.0,meio_ambiente,3q,1.0,3.0,Como se chama o lixo composto por restos de materiais utilizados na fabricação de produtos?,Lixo Industrial,lixo reciclável,0.0,0.0,1.0,31.781136989593506
+18294.0,None,223.0,meio_ambiente,3q,2.0,2.0,Cite um exemplo de algo que podemos descartar no lixo orgânico.,Cascas de frutas e legumes,cascas de frutas,1.0,1.0,1.0,14.371772050857544
+18294.0,None,223.0,meio_ambiente,3q,3.0,3.0,Como se chama o lixo que pode virar adubo?,Lixo Orgânico,não sei,0.0,0.0,1.0,10.414663076400757
+18295.0,None,217.0,inicial,3q,1.0,3.0,Você pode me contar uma situação engraçada que aconteceu com você ou com algum amigo seu aqui na escola?,a ,a,-1.0,-1.0,-1.0,11.298609018325806
+18295.0,None,217.0,inicial,3q,2.0,3.0,Quais foram as 3 coisas mais legais que você fez nas férias?,a,a,-1.0,-1.0,-1.0,13.080744981765747
+18295.0,None,217.0,inicial,3q,3.0,3.0,Você pode me contar de forma resumida a sua história ou o filme preferido?,a,a,-1.0,-1.0,1.0,18.443192958831787
+18295.0,None,217.0,meio_ambiente,3q,1.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,lixo que alguma pessoa usou,0.0,0.0,1.0,19.012993097305298
+18295.0,None,217.0,meio_ambiente,3q,2.0,2.0,Quando separamos latinhas para reciclar qual recurso natural estamos preservando?,minérios. alumínio,o nosso planeta,0.0,0.0,1.0,19.568263053894043
+18295.0,None,217.0,meio_ambiente,3q,3.0,1.0,Qual item leva mais tempo para se decompor no mar? Fralda descartável ou pneu?,Pneu,não sei,0.0,0.0,1.0,19.553467988967896
+18296.0,None,273.0,inicial,3q,1.0,3.0,Se você pudesse ter um super poder. qual seria? e por quê?,a,a,-1.0,-1.0,-1.0,28.412573099136353
+18296.0,None,273.0,inicial,3q,2.0,3.0,Você pode me contar uma situação engraçada que aconteceu com você ou com algum amigo seu aqui na escola?,a ,a,-1.0,-1.0,-1.0,24.57005786895752
+18296.0,None,273.0,inicial,3q,3.0,3.0,Você pode me contar uma situação engraçada que aconteceu com você ou com algum amigo seu aqui na escola?,a ,a,-1.0,-1.0,1.0,11.241912841796875
+18296.0,None,273.0,meio_ambiente,3q,1.0,3.0,Como se chama o lixo composto por restos de materiais utilizados na fabricação de produtos?,Lixo Industrial,orgânico,0.0,0.0,1.0,52.3759651184082
+18296.0,None,273.0,meio_ambiente,3q,2.0,2.0,Quando separamos latinhas para reciclar qual recurso natural estamos preservando?,minérios. alumínio,não sei,0.0,0.0,1.0,39.243725061416626
+18296.0,None,273.0,meio_ambiente,3q,3.0,1.0,O material orgânico decompoe-se mais rápido que embalagens plásticas?,sim,sim,1.0,1.0,1.0,9.562996864318848
+18297.0,None,243.0,inicial,3q,1.0,3.0,Quais foram as 3 coisas mais legais que você fez nas férias?,a,a,-1.0,-1.0,-1.0,23.047482013702393
+18297.0,None,243.0,inicial,3q,2.0,3.0,Se você pudesse ter um super poder. qual seria? e por quê?,a,a,-1.0,-1.0,-1.0,28.390686988830566
+18297.0,None,243.0,inicial,3q,3.0,3.0,O quê você fez no dia de ontem?,a,a,-1.0,-1.0,1.0,22.58390498161316
+18297.0,None,243.0,meio_ambiente,3q,1.0,3.0,Como se chama o lixo que pode virar adubo?,Lixo Orgânico,lixo orgânico,1.0,1.0,1.0,12.864481925964355
+18297.0,None,243.0,meio_ambiente,3q,2.0,4.0,Como ficaria o ambiente se não houvesse a coleta e reciclagem do lixo?,Viraria um lixão. não haveria saneamento básico?,"ficaria um nojo, cheio de poluição",1.0,1.0,1.0,36.58439302444458
+18297.0,None,243.0,meio_ambiente,3q,3.0,5.0,O que deve ser feito com o lixo hospitalar após ser coletado?,Deve ser recolhido por caminhões especiais e levado para ser incinerado.,não sei,0.0,0.0,1.0,20.21765398979187
+18298.0,None,240.0,inicial,3q,1.0,3.0,Se você pudesse ter um super poder. qual seria? e por quê?,a,a,-1.0,-1.0,-1.0,25.288846015930176
+18298.0,None,240.0,inicial,3q,2.0,3.0,Quais foram as 3 coisas mais legais que você fez nas férias?,a,a,-1.0,-1.0,-1.0,7.983124017715454
+18298.0,None,240.0,inicial,3q,3.0,3.0,O quê você fez no dia de ontem?,a,a,-1.0,-1.0,1.0,12.790453910827637
+18298.0,None,240.0,meio_ambiente,3q,1.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,lixo que usa em casa,1.0,1.0,1.0,18.80182385444641
+18298.0,None,240.0,meio_ambiente,3q,2.0,4.0,Qual é o destino do lixo de nossas casas recolhido pelos caminhões de coleta?,Aterro Sanitário,aterro sanitário,1.0,1.0,1.0,14.605200052261353
+18298.0,None,240.0,meio_ambiente,3q,3.0,5.0,Qual osignificado dos 3 R's?,Reduzir. Reutilizar. Reciclar,"reutilizar, reduzir",0.0,0.0,1.0,52.984691858291626
+18299.0,None,220.0,inicial,3q,1.0,3.0,O quê você fez no dia de ontem?,a,a,-1.0,-1.0,-1.0,13.796190023422241
+18299.0,None,220.0,inicial,3q,2.0,3.0,Quais foram as 3 coisas mais legais que você fez nas férias?,a,a,-1.0,-1.0,-1.0,18.238955974578857
+18299.0,None,220.0,inicial,3q,3.0,3.0,Se você pudesse ter um super poder. qual seria? e por quê?,a,a,-1.0,-1.0,1.0,15.95236611366272
+18299.0,None,220.0,meio_ambiente,3q,1.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,coisas que você utiliza na sua casa,0.0,0.0,1.0,21.040354013442993
+18299.0,None,220.0,meio_ambiente,3q,2.0,2.0,Cite um exemplo de algo que podemos descartar no lixo orgânico.,Cascas de frutas e legumes,cascas de banana,1.0,1.0,1.0,13.007826089859009
+18299.0,None,220.0,meio_ambiente,3q,3.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,utensilios que você usa na sua casa,0.0,0.0,1.0,28.049729108810425
+18300.0,None,229.0,inicial,3q,1.0,3.0,Você pode me contar de forma resumida a sua história ou o filme preferido?,a,a,-1.0,-1.0,-1.0,15.338582992553711
+18300.0,None,229.0,inicial,3q,2.0,3.0,Se você pudesse ter um super poder. qual seria? e por quê?,a,a,-1.0,-1.0,-1.0,13.73345398902893
+18300.0,None,229.0,inicial,3q,3.0,3.0,Se você pudesse ter um super poder. qual seria? e por quê?,a,a,-1.0,-1.0,1.0,14.193496942520142
+18300.0,None,229.0,meio_ambiente,3q,1.0,3.0,Como se chama o lixo composto por restos de materiais utilizados na fabricação de produtos?,Lixo Industrial,não sei,0.0,0.0,1.0,44.23636794090271
+18300.0,None,229.0,meio_ambiente,3q,2.0,2.0,Cite um exemplo de algo que podemos descartar no lixo orgânico.,Cascas de frutas e legumes,plástico,0.0,0.0,1.0,13.374376058578491
+18300.0,None,229.0,meio_ambiente,3q,3.0,1.0,O material orgânico decompoe-se mais rápido que embalagens plásticas?,sim,sim,1.0,1.0,1.0,20.740190029144287
+18301.0,None,235.0,inicial,3q,1.0,3.0,O quê você fez no dia de ontem?,a,a,-1.0,-1.0,-1.0,18.072970151901245
+18301.0,None,235.0,inicial,3q,2.0,3.0,O quê você fez no dia de ontem?,a,a,-1.0,-1.0,-1.0,17.867125988006592
+18301.0,None,235.0,inicial,3q,3.0,3.0,Quais foram as 3 coisas mais legais que você fez nas férias?,a,a,-1.0,-1.0,1.0,29.33568286895752
+18301.0,None,235.0,meio_ambiente,3q,1.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,eu esqueci,0.0,0.0,1.0,32.60667300224304
+18301.0,None,235.0,meio_ambiente,3q,2.0,2.0,Quando separamos latinhas para reciclar qual recurso natural estamos preservando?,minérios. alumínio,alumínio,1.0,1.0,1.0,16.124576091766357
+18301.0,None,235.0,meio_ambiente,3q,3.0,3.0,Como se chama o lixo composto por restos de materiais utilizados na fabricação de produtos?,Lixo Industrial,lixo tóxico,0.0,0.0,1.0,16.916874170303345
+18302.0,None,224.0,inicial,3q,1.0,3.0,Quais foram as 3 coisas mais legais que você fez nas férias?,a,a,-1.0,-1.0,-1.0,29.62497591972351
+18302.0,None,224.0,inicial,3q,2.0,3.0,O quê você fez no dia de ontem?,a,a,-1.0,-1.0,-1.0,13.132033824920654
+18302.0,None,224.0,inicial,3q,3.0,3.0,Se você pudesse ter um super poder. qual seria? e por quê?,a,a,-1.0,-1.0,1.0,15.80807900428772
+18302.0,None,224.0,meio_ambiente,3q,1.0,3.0,Como se chama o lixo composto por restos de materiais utilizados na fabricação de produtos?,Lixo Industrial,não sei,0.0,0.0,1.0,15.967565059661865
+18302.0,None,224.0,meio_ambiente,3q,2.0,2.0,Quando separamos latinhas para reciclar qual recurso natural estamos preservando?,minérios. alumínio,o solo,0.0,0.0,1.0,21.04444909095764
+18302.0,None,224.0,meio_ambiente,3q,3.0,1.0,O material orgânico decompoe-se mais rápido que embalagens plásticas?,sim,sim,1.0,1.0,1.0,22.480536937713623
+18303.0,None,228.0,inicial,3q,1.0,3.0,Se você pudesse ter um super poder. qual seria? e por quê?,a,a,-1.0,-1.0,-1.0,22.39146900177002
+18303.0,None,228.0,inicial,3q,2.0,3.0,Quais foram as 3 coisas mais legais que você fez nas férias?,a,a,-1.0,-1.0,-1.0,12.655766010284424
+18303.0,None,228.0,inicial,3q,3.0,3.0,Você pode me contar uma situação engraçada que aconteceu com você ou com algum amigo seu aqui na escola?,a ,a,-1.0,-1.0,1.0,30.05736994743347
+18303.0,None,228.0,meio_ambiente,3q,1.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,não sei,0.0,0.0,1.0,18.1652090549469
+18303.0,None,228.0,meio_ambiente,3q,2.0,2.0,Quando separamos latinhas para reciclar qual recurso natural estamos preservando?,minérios. alumínio,não sei,0.0,0.0,1.0,27.72173309326172
+18303.0,None,228.0,meio_ambiente,3q,3.0,1.0,O papel pode levar até seis meses para se decompor totalmente?,sim,sim,1.0,1.0,1.0,13.815778970718384
+18304.0,None,266.0,inicial,3q,1.0,3.0,Você pode me contar uma situação engraçada que aconteceu com você ou com algum amigo seu aqui na escola?,a ,a,-1.0,-1.0,-1.0,38.91528296470642
+18304.0,None,266.0,inicial,3q,2.0,3.0,Se você pudesse ter um super poder. qual seria? e por quê?,a,a,-1.0,-1.0,-1.0,23.71760082244873
+18304.0,None,266.0,inicial,3q,3.0,3.0,Quais foram as 3 coisas mais legais que você fez nas férias?,a,a,-1.0,-1.0,1.0,24.982275009155273
+18304.0,None,266.0,meio_ambiente,3q,1.0,3.0,Como se chama o lixo que pode virar adubo?,Lixo Orgânico,orgânico,1.0,1.0,1.0,11.491726875305176
+18304.0,None,266.0,meio_ambiente,3q,2.0,4.0,Se. em sua casa não passa o caminhão de coleta de lixo. o que é preciso fazer com o lixo produzido?,É preciso fazer um buraco longe de qualquer local onde se capta água e ir depositando o lixo. jogando terra por cima. Assim terá o seu próprio aterro sanitário.,não sei,0.0,0.0,1.0,27.020233869552612
+18304.0,None,266.0,meio_ambiente,3q,3.0,3.0,Como se chama o lixo composto por restos de materiais utilizados na fabricação de produtos?,Lixo Industrial,não sei,0.0,0.0,1.0,25.558104038238525
+18305.0,None,248.0,inicial,3q,1.0,3.0,Quais foram as 3 coisas mais legais que você fez nas férias?,a,a,-1.0,-1.0,-1.0,33.57141184806824
+18305.0,None,248.0,inicial,3q,2.0,3.0,Você pode me contar de forma resumida a sua história ou o filme preferido?,a,a,-1.0,-1.0,-1.0,43.9909451007843
+18305.0,None,248.0,inicial,3q,3.0,3.0,Você pode me contar uma situação engraçada que aconteceu com você ou com algum amigo seu aqui na escola?,a ,a,-1.0,-1.0,1.0,17.082982063293457
+18305.0,None,248.0,meio_ambiente,3q,1.0,3.0,Como se chama o lixo que pode virar adubo?,Lixo Orgânico,o lixo doméstico,0.0,0.0,1.0,17.30660891532898
+18305.0,None,248.0,meio_ambiente,3q,2.0,2.0,Quando separamos latinhas para reciclar qual recurso natural estamos preservando?,minérios. alumínio,o meio ambiente,0.0,0.0,1.0,15.816606044769287
+18305.0,None,248.0,meio_ambiente,3q,3.0,1.0,Qual item leva mais tempo para se decompor no mar? Caixa de papelão ou vidro,vidro,o vidro,1.0,1.0,1.0,14.27506399154663
+18306.0,None,212.0,inicial,3q,1.0,3.0,Você pode me contar de forma resumida a sua história ou o filme preferido?,a,a,-1.0,-1.0,-1.0,34.107991218566895
+18306.0,None,212.0,inicial,3q,2.0,3.0,Você pode me contar uma situação engraçada que aconteceu com você ou com algum amigo seu aqui na escola?,a ,a,-1.0,-1.0,-1.0,19.23337697982788
+18306.0,None,212.0,inicial,3q,3.0,3.0,O quê você fez no dia de ontem?,a,a,-1.0,-1.0,1.0,18.35451912879944
+18306.0,None,212.0,meio_ambiente,3q,1.0,3.0,Como se chama o lixo que pode virar adubo?,Lixo Orgânico,lixo orgânico,1.0,1.0,1.0,12.04094910621643
+18306.0,None,212.0,meio_ambiente,3q,2.0,4.0,Qual é o destino do lixo de nossas casas recolhido pelos caminhões de coleta?,Aterro Sanitário,não sei,0.0,0.0,1.0,19.970307111740112
+18306.0,None,212.0,meio_ambiente,3q,3.0,3.0,Como se chama o lixo que pode virar adubo?,Lixo Orgânico,orgânico,1.0,1.0,1.0,9.14447021484375
+18307.0,None,226.0,inicial,3q,1.0,3.0,Você pode me contar de forma resumida a sua história ou o filme preferido?,a,a,-1.0,-1.0,-1.0,19.172487020492554
+18307.0,None,226.0,inicial,3q,2.0,3.0,Você pode me contar uma situação engraçada que aconteceu com você ou com algum amigo seu aqui na escola?,a ,a,-1.0,-1.0,-1.0,25.043031930923462
+18307.0,None,226.0,inicial,3q,3.0,3.0,Quais foram as 3 coisas mais legais que você fez nas férias?,a,a,-1.0,-1.0,1.0,15.87809705734253
+18307.0,None,226.0,meio_ambiente,3q,1.0,3.0,Como se chama o lixo que pode virar adubo?,Lixo Orgânico,lixo orgânico,1.0,1.0,1.0,18.432733058929443
+18307.0,None,226.0,meio_ambiente,3q,2.0,4.0,Qual é o destino do lixo de nossas casas recolhido pelos caminhões de coleta?,Aterro Sanitário,não sei,0.0,0.0,1.0,17.081238985061646
+18307.0,None,226.0,meio_ambiente,3q,3.0,3.0,Como se chama o lixo composto por restos de materiais utilizados na fabricação de produtos?,Lixo Industrial,nós não aprendemos isso ainda,0.0,0.0,1.0,28.031946897506714
+18308.0,None,217.0,inicial,3q,1.0,3.0,Se você pudesse ter um super poder. qual seria? e por quê?,a,a,-1.0,-1.0,-1.0,11.229642868041992
+18308.0,None,217.0,inicial,3q,2.0,3.0,Se você pudesse ter um super poder. qual seria? e por quê?,a,a,-1.0,-1.0,-1.0,14.201910972595215
+18308.0,None,217.0,inicial,3q,3.0,3.0,O quê você fez no dia de ontem?,a,a,-1.0,-1.0,1.0,16.950239181518555
+18308.0,None,217.0,meio_ambiente,3q,1.0,3.0,Como se chama o lixo composto por restos de materiais utilizados na fabricação de produtos?,Lixo Industrial,esqueci,0.0,0.0,1.0,19.26519799232483
+18308.0,None,217.0,meio_ambiente,3q,2.0,2.0,Cite um exemplo de algo que podemos descartar no lixo orgânico.,Cascas de frutas e legumes,casca de banana,1.0,1.0,1.0,13.187164068222046
+18308.0,None,217.0,meio_ambiente,3q,3.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,"aquele que joga papel, frutas, comida",0.0,0.0,1.0,26.031883001327515
+18309.0,None,204.0,inicial,3q,1.0,3.0,Se você pudesse ter um super poder. qual seria? e por quê?,a,a,-1.0,-1.0,-1.0,20.902554988861084
+18309.0,None,204.0,inicial,3q,2.0,3.0,Quais foram as 3 coisas mais legais que você fez nas férias?,a,a,-1.0,-1.0,-1.0,16.62162709236145
+18309.0,None,204.0,inicial,3q,3.0,3.0,O quê você fez no dia de ontem?,a,a,-1.0,-1.0,1.0,11.993053913116455
+18309.0,None,204.0,meio_ambiente,3q,1.0,3.0,O que é um lixo doméstico?,É o lixo produzido em nossas casas,é tudo aquilo que utiliza em casa,1.0,1.0,1.0,27.294151067733765
+18309.0,None,204.0,meio_ambiente,3q,2.0,4.0,Qual é o destino do lixo de nossas casas recolhido pelos caminhões de coleta?,Aterro Sanitário,lixão,1.0,1.0,1.0,13.387139081954956
+18309.0,None,204.0,meio_ambiente,3q,3.0,5.0,Qual a diferença entre lixo orgânico e lixo e reciclável?,Lixo orgânico pode ser colocado em uma composteira e virar adubo. lixo reciclável pode ser transformado em um material novo de novo.,"o lixo orgânico joga comida, e o reciclavel pode ser reciclado",1.0,1.0,1.0,27.175868034362793
+18268.0,None,80.0,GAIPS,gaips,1.0,3.0,What is HRI?,Human-Robot Interaction,asdfasd,-1.0,0.0,-1.0,7.262001991271973
+18268.0,None,80.0,GAIPS,gaips,2.0,2.0,How many robots are in the Demo Room?,5,5,-1.0,1.0,-1.0,5.0334999561309814
+18268.0,None,80.0,GAIPS,gaips,3.0,3.0,What is HRI?,Human-Robot Interaction,f,-1.0,0.0,-1.0,4.974931001663208
+18269.0,None,94.0,GAIPS,gaips,1.0,3.0,What is HRI?,Human-Robot Interaction,,-1.0,0.0,-1.0,2.8739709854125977
+18269.0,None,94.0,GAIPS,gaips,2.0,4.0,Who is the real ruler of the GAIPS?,Sandra,sa,-1.0,0.0,-1.0,16.127747058868408
+18269.0,None,94.0,GAIPS,gaips,3.0,5.0,What is the size of the coffee capsules?,SMALL!,small,-1.0,1.0,-1.0,9.315376996994019
+19009.0,None,133.0,GAIPS,gaips,1.0,3.0,What is HRI?,Human-Robot Interaction,Human-robot Interaction,1.0,1.0,1.0,27.979163885116577
+19009.0,None,133.0,GAIPS,gaips,2.0,4.0,Who is the real ruler of the GAIPS?,Sandra,sandra,1.0,1.0,1.0,8.422147035598755
+19009.0,None,133.0,GAIPS,gaips,3.0,5.0,What is the size of the coffee capsules?,SMALL!,Big,0.0,0.0,1.0,6.154440879821777

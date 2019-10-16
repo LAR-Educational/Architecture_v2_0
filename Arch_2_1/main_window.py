@@ -13,7 +13,7 @@
 	
 	In development by Msc. Daniel Tozadore 
 	dtozadore@gmail.com
- -----------------------------------------------
+ --------------------------------	---------------
  '''
 
 # --- Qt Imports
@@ -147,12 +147,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#self.run_autovideo_checkBox.setChecked(True) 
 
 		self.sys_vars = core.SystemVariablesControl()
-		ret = [self.sys_vars]
-		svc = system_variables_control.Svc_Gui(ret,self)
-		ret = svc.exec_()
-		print ret
-
-		exit()
+		
+		#exit()
 
 		#self.diag_sys = dialog.DialogSystem(False, False)
 		#self.sys_vars.add('user')
@@ -162,7 +158,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.recog_flag = False #face recog flag
 
 
-
+		self.actionSystem_Variables_Control_SVC.triggered.connect(self.open_svc)
 
 
 		# --- Welcome screen
@@ -229,6 +225,9 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.display_flag = False
 		#self.run_autovideo_checkBoxvideo_check_change
 		self.run_display_image_radioButton.toggled.connect(lambda:self.video_check_change(self.run_display_image_radioButton))
+		#self.vision_edit_button.clicked.connect(lambda:self.vision_class_setting_frame.setEnabled(True))
+		self.vision_train_cnn_Button.clicked.connect(self.vision_train_model)
+
 
 
 
@@ -438,12 +437,12 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		#Shortcuts:
 		#self.shortcut = True
-		self.shortcut =  False
-		#self.load_activity()  # WORKSPACES
+		self.shortcut =  True#False
 		
 		if self.shortcut:
-			self.int_load_action()
-			self.int_lock_action()
+			self.load_activity()  # WORKSPACES
+			#self.int_load_action()
+			#self.int_lock_action()
 
 
 		#self.evals_to_csv()
@@ -452,11 +451,24 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 	def load_activity(self):
 		
-		filename = QFileDialog.getOpenFileName(self, 'Open File', './Activities/NOVA')
-		self.act=ct.load_Activity(filename)
+		if self.shortcut:
+			self.act=ct.load_Activity("./Activities/as/activity.data")#None #"/home/tozadore/Projects/Arch_2/Arch_2_1/Activities/NOVA/Content" #None
+		else:
+			filename = QFileDialog.getOpenFileName(self, 'Open File', './Activities/as')
+			self.act=ct.load_Activity(filename)
+			
 		
-		#self.act=ct.load_Activity("./Activities/NOVA/activity.data")#None #"/home/tozadore/Projects/Arch_2/Arch_2_1/Activities/NOVA/Content" #None
+
+		self.vis_dp = data_process.Data_process(self.act.path)
 		
+		self.vision_aug_button.clicked.connect(self.vis_dp.data_aug)
+		self.vision_build_tree_button.clicked.connect(lambda: self.vis_dp.buildTrainValidationData(self.vision_val_per_spinBox.value()))
+		self.vision_del_db_button.clicked.connect(self.vis_dp.erase_database)
+		self.vision_edit_button.clicked.connect(self.vision_edit_settings_action)
+		#self.vision_edit_button.clicked.connect(self.vision_show_database)
+		self.vision_classes_comboBox.currentIndexChanged.connect(self.vision_show_database)
+		#self.vision_inc_db_button.
+
 		#self.name_lineEdit.setText(self.act.name)
 		#self.desc_lineEdit.setText(self.act.description)		
 		#self.path_lineEdit.setText(self.act.path)
@@ -567,6 +579,12 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.log("Writining successfull",'w')
 		
 			
+	def open_svc(self):
+
+		par = [self.sys_vars]
+		svc = system_variables_control.Svc_Gui(par,self)
+		ret = svc.exec_()
+		#print ret
 
 
 #-------------------------------------------- \Welcome ---------------------------------
@@ -934,6 +952,76 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 	def diag_kws_del(self, table):
 		table.takeItem(table.currentRow())
+
+
+
+
+#------------------------------------------------ \VISION -------------------------------------
+
+	def vision_edit_settings_action(self):
+
+		self.vision_class_setting_frame.setEnabled(True)
+		self.vision_classes_comboBox.clear()
+		self.vision_classes_comboBox.addItems(self.vis_dp.classes)
+
+
+
+	def vision_train_model(self):
+
+		name 	= self.vision_model_train_name_lineEdit.text()
+		steps 	= self.vision_steps_Box.value()
+		batch 	= int(self.vision_batch_comboBox.currentText())
+		epochs 	= self.vision_epoch_Box.value()
+		validation = self.vision_val_per_spinBox.value()
+
+		self.vis_dp.generate_model(name, steps,batch,epochs,validation)
+
+
+	def vision_show_database(self):
+
+		lbl_list = self.vision_samples_frame.findChildren(QFrame)
+		#print lbl_list
+		self.vision_class_setting_frame.setEnabled(True)
+		
+		cur_class = str(self.vision_classes_comboBox.currentText())
+		# cur_class = 'Piramid' 
+		# cur_class = 'Cube' 
+		# cur_class = 'Piramid' 
+
+		# Displaying the total of classes
+		pic_list = os.listdir(os.path.join(self.vis_dp.work_path, "Images"))
+		self.vision_total_classes.display(len(pic_list))
+
+		# Displaying the samples per class
+		path = os.path.join(self.vis_dp.work_path, "Images", cur_class)
+		pic_list = os.listdir(path)
+		self.vision_samples_per_class.display(len(pic_list))
+		
+		# Displaying samples in data .Aug path
+		aug_path = os.path.join(self.vis_dp.work_path, '.train', cur_class)
+		self.vision_samples_auged.display(len(os.listdir(aug_path)))
+
+
+		my_rand = [random.randint(1,len(pic_list)-1) for x in range(len(lbl_list)) ]
+		
+		#print my_rand
+		#print pic_list
+		i=0
+		for item in lbl_list:
+			#for i in my_rand:
+			im_path =os.path.join(path, pic_list[my_rand[i]])
+			#print i , my_rand[i], pic_list[my_rand[i]]
+			item.setPixmap(QPixmap(im_path))
+			i+=1
+
+
+
+
+
+
+
+
+
 
 
 #------------------------------------------------ \CONTENT -------------------------------------
@@ -1513,7 +1601,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.cur_eval.usar_id = self.eval_user_id_label.text() 
 		self.cur_eval.user_name = self.eval_user_name.text()
 		self.cur_eval.start_time = self.eval_start.time()
-		self.cur_eval.end_time = self.eval_start.time()
+		self.cur_eval.end_time = self.eval_end.time()
 		self.cur_eval.duration = self.eval_duration.time()
 		self.cur_eval.robot = self.eval_robot_lineEdit.text()
 		self.cur_eval.obs = self.eval_observation_textField.toPlainText()
@@ -1558,7 +1646,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		self.eval_user_id_label.setText(str(self.cur_eval.user_id))
 		self.eval_date.setDate(self.cur_eval.date)#QDate.fromString(self.cur_eval.date.toString(),"dd.MM.yyyy"))
-		#self.eval_duration.setTime(self.cur_eval.duration)
+		#print "DUR", self.cur_eval.duration
 		self.eval_start.setTime(self.cur_eval.start_time)
 		self.eval_end.setTime(self.cur_eval.end_time)
 		self.eval_supervisor_lineEdit.setText(self.cur_eval.supervisor)
@@ -1568,6 +1656,11 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.eval_int_id_spinBox.setValue(self.cur_eval.int_id)
 		self.eval_group_lineEdit.setText(self.cur_eval.group)
 
+		try:
+			self.eval_duration.setTime(self.cur_eval.duration)
+		except:
+			self.log("Duration is None")
+			
 		try:
 			self.eval_observation_textField.setText(self.cur_eval.obs)
 		except:
@@ -1581,7 +1674,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			self.eval_video_player.load(media)
 		
 		else:
-			self.log("Video not founding",'e')
+			self.log("Video not founding",'w')
 
 
 		if self.cur_eval.validation:
@@ -2133,7 +2226,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#print self.evaluation_db.group_list
 
 
-	def group_gen_status(self, group_name, tp_range=None, time_threshold=100):
+	def group_gen_status(self, group_name, tp_range=None, time_threshold=10):
 
 		durations = []
 		measures = [[],[],[],[],[]]
@@ -2248,6 +2341,9 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#print self.group_eval.group_name
 		#exit()
 		
+
+
+
 
 
 	def group_eval_open_action(self, group_eval):
@@ -2677,6 +2773,14 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#self.cur_eval.
 		
 		self.cur_eval.end_time = QTime.currentTime()
+		secs = self.cur_eval.start_time.secsTo(self.cur_eval.end_time)
+		#print"DURRR", secs
+		
+		sec = QTime(0,0,second=secs )
+
+		#print sec
+
+		self.cur_eval.duration = sec#self.cur_eval.start_time.secsTo(self.cur_eval.end_time)
 
 		if self.cur_user is not None:		
 			self.cur_eval.user_name = (self.cur_user.first_name) + " "+ (self.cur_user.last_name)
@@ -4122,7 +4226,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 							#df = df.sort_index()  # sorting by index
 						#pass
 				except:
-					self.log("Problem with eval id: " + aux.id)
+					self.log("Problem with eval id: " + str(aux.id))
 				#pass
 
 		if flag_validation:
