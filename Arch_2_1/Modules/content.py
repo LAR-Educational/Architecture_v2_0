@@ -14,7 +14,7 @@ class Activity():
 	'''
 
 	def __init__(self, name, description = "", vision = False, dialog = True, 
-					adapt = False, path = "./Activities" ):
+					adapt = False, path = "./Activities",created_by =None,edited_by=None, creation_date= None, edition_date=None  ):
 		self.name = name
 		self.description = description
 		self.vision = vision
@@ -22,6 +22,15 @@ class Activity():
 		self.adapt = adapt
 		self.path = os.path.join(path,name)
 		self.classes = []
+		self.created_by 	= created_by
+		self.edited_by 		= edited_by	
+		self.creation_date	= creation_date
+		self.edition_date 	= edition_date
+	
+
+
+
+
 		self.ncl = 0
 		
 	def save(self):

@@ -1,0 +1,57 @@
+
+
+
+--> Atividades
+1-Gerenciar atividades
+2-Criar atividades
+
+
+--> Sistema de diálogo
+3-Algortimo de NLP *
+4-Criar diálogos personalizados *
+5-customizar palavras chaves
+
+--> Sistema de visão
+-Recg de objeto *
+-manipular base de dados
+-gerenciar classificadores
+-recog usuario *
+-cadastrar usuario*
+-reconhecer emoções
+
+6--> Conteúdo
+-Criar tópicos
+-criar tabela de adaptação
+
+
+7-->Adaptação
+-configurar alg. adaptativo
+-configurar parametros
+
+8-->Conhecimento Geral
+-Busca na wiki *
+
+--> Usuários
+-Banco de dados *
+-Alterar interesses manualmente
+
+--> Avaliação
+-Validação Manual
+-Gráficos individuais
+-reassistir sessões
+
+--> Grupo
+-Avaliação em grupo
+
+9--> Gerenciamento de Time line
+-Seleção de conteudos
+-conversa sobre interesses
+-Extras
+
+
+-->Executar
+-Conectar robô
+-Monitorar dados de interação *
+
+
+

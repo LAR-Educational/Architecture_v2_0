@@ -21,7 +21,8 @@ def search(query, section='', sentences=0):
         return 'Por favor coloque algo para pesquisar.'
 
         # Coloca a linguagem da wikipedia em português
-    wikipedia.set_lang("pt")
+    wikipedia.set_lang("en")
+    # wikipedia.set_lang("pt")
 
         # Pega a página e as seções da página
     try:

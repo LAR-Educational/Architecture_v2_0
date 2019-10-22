@@ -159,6 +159,7 @@ class UserDatabase():
 
     
     def generate_encodings(self):
+
         path = 'Usuarios'
         folders = [x for x in os.listdir(path) if re.match(r"[0-9]+", x)]
 

@@ -168,35 +168,39 @@ class VisionSystem:
 
 	def collect_database(self, activity, path_name="./Activities", max_imgs=300, camId=0):
 
+		coll_path = path_name 
 		# ---- Verifying Collected path	
-		if os.path.exists(coll_path):
-			choice = raw_input("Collected datavase already exist. Do you want to update it? (y/n):")        
+		# if os.path.exists(coll_path):
+		# 	choice = raw_input("Collected datavase already exist. Do you want to update it? (y/n):")        
 			
-			if choice == "y":
-				self.increase_database(activity, path_name, max_imgs, camId)
-				return True
-			else:
-				exit()
+		# 	if choice == "y":
+		# 		self.increase_database(activity, path_name, max_imgs, camId)
+		# 		return True
+		# 	else:
+		# 		exit()
 			
-			#return False
-		else:
-			print "No database found. Starting a new one in ", act_path
-			os.makedirs(coll_path)
+		# 	#return False
+		# else:
+		# 	print "No database found. Starting a new one in ", path_name
+		# 	os.makedirs(coll_path)
 		
+		
+		if not os.path.exists(coll_path):
+			os.makedirs(coll_path)
 
 		classes=[]
 
 		subId = self.subscribe(camId)
 	
-		result = self.robot.camera.getImageRemote(subId)
+		result = self.get_img(camId)
 		#create image
 		width = result[0]
 		height = result[1]
 		image = np.zeros((height, width, 3), np.uint8)
 
 
-		act_path = os.path.join(path_name, activity.name, "Vision")
-		coll_path = os.path.join(act.path, 'collected')
+		#act_path = os.path.join(path_name, activity.name, "Vision")
+		#coll_path = os.path.join(act.path, 'collected')
 		
 				
 
@@ -297,7 +301,7 @@ class VisionSystem:
 						break
 		
 		
-					name = os.path.join(act_path, 'collected', str(sh)) + "_" + str(counter) + ".jpeg"# + str(time.ctime()) + ".jpg"
+					name = os.path.join(coll_path, 'collected', str(sh)) + "_" + str(counter) + ".jpeg"# + str(time.ctime()) + ".jpg"
 					cv2.imwrite(name,image)
 			
 					core.info("Image saved." + name)	
@@ -309,10 +313,10 @@ class VisionSystem:
 	
 		#print core.shapes
 	
-		with open(os.path.join(path_name, activity_name,'file_classes.csv'), 'wb') as csvfile:
-			spamwriter = csv.writer(csvfile, delimiter=' ',
-		                quotechar='|', quoting=csv.QUOTE_MINIMAL)
-			spamwriter.writerow(classes)
+		# with open(os.path.join(path_name, activity_name,'file_classes.csv'), 'wb') as csvfile:
+		# 	spamwriter = csv.writer(csvfile, delimiter=' ',
+		#                 quotechar='|', quoting=csv.QUOTE_MINIMAL)
+		# 	spamwriter.writerow(classes)
 	
 		core.info("Captura concluida com sucesso!")
 
@@ -604,3 +608,17 @@ class VisionSystem:
 		    print("2: " + str(ret['all']['2']))
 		    print("")
 	'''        
+
+
+
+def main():
+
+	robot = core.Robot('192.168.1.101',9559)
+
+	vis = VisionSystem(robot)
+
+	vis.collect_database("","NEWIMG",100)
+
+
+if __name__=='__main__':
+	main()

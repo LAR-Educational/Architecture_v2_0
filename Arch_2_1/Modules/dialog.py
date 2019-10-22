@@ -67,7 +67,7 @@ class DialogSystem:
 			block = if the call will block next steps
 		"""
 		#core.nao_say(str2say)
-		
+		#animated = not ask
 		if ask:
 			#print str2say
 

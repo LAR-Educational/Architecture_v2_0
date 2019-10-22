@@ -77,6 +77,9 @@ class Data_process:
 			print "Problems in sorting list"
 			print "Clasees: ", self.classes
 			print "Work path: ", self.work_path
+			classes = os.listdir(os.path.join(self.work_path,"Images"))
+			self.classes = classes
+			self.save()
 			raise 
 		
 		self.save()
