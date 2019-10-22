@@ -383,17 +383,29 @@ def table_to_file(table_name, file_name):
 				writer.writerow(row_data)
 
 
-personal_translate={
-		'sport':"Qual o seu esporte preferido?",
-		'music':"Qual a sua música preferida?",
-		'dance':"Qual a sua dança preferida?",
-		'team':"Qual o seu time de futebol preferido?",
-		'toy':"Qual o seu brinquedo preferido?",
-		'hobby':"O que você gosta de fazer no tempo livre?",
-		'game':"Qual a sua brincadeira preferida?",
-		'food':"Qual a sua comida preferida?",
-}
+# personal_translate={
+# 		'sport':"Qual o seu esporte preferido?",
+# 		'music':"Qual a sua música preferida?",
+# 		'dance':"Qual a sua dança preferida?",
+# 		'team':"Qual o seu time de futebol preferido?",
+# 		'toy':"Qual o seu brinquedo preferido?",
+# 		'hobby':"O que você gosta de fazer no tempo livre?",
+# 		'game':"Qual a sua brincadeira preferida?",
+# 		'food':"Qual a sua comida preferida?",
+# }
 
+
+
+personal_translate={
+		'sport':"What is your favorite sport?",
+		'music':"What is your favorite music?",
+		'dance':"What is your favorite Dance type?",
+		'team': "What is your favorite soccer team?",
+		'toy':  "What is your favorite toy?",
+		'hobby':"What is your favorite hobby?",
+		'game': "What is your favorite game?",
+		'food': "What is your favorite food?",
+}
 sports_dict = {
 	'natação':'natação pura',
 	'ginastica': 'ginastica artistica'
