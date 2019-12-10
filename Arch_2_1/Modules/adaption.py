@@ -89,8 +89,10 @@ class AdaptiveSystem:
 		self.robot_communication_profile = 2
 		self.deviation_times = []
 		
-		self.out_path = str(out_path) #Path to write the output
-
+		if out_path is not None:
+			self.out_path = str(out_path) #Path to write the output
+		else:
+			self.out_path = out_path 
 		self.emotions = {'happy': 0, 'sad': 0, 'angry': 0, 'disgust': 0,
 	 	'surprise': 0, 'fear': 0, 'neutral': 0}
 
@@ -214,7 +216,7 @@ class AdaptiveSystem:
 	def getBadEmotions(self):
 		
 		emo =  self.emotions['sad'] + self.emotions['angry'] +  self.emotions['disgust'] + self.emotions['fear']     
-		core.info( "Number of bad emotions" +  str(emo))
+		#core.info( "Number of bad emotions" +  str(emo))
 
 		return emo
 

@@ -101,7 +101,9 @@ from LAB import fuzzy
 
 class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 	
-	
+	settings = QSettings("gui.ini", QSettings.IniFormat)
+
+
 	def __init__(self):
 		# Explaining super is out of the scope of this article
 		# So please google it if you're not familar with it
@@ -258,8 +260,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#--- Adaptive 
 		self.user_profile = 3
 		#self.adaptation_type = "Fuzzy"
-		#self.adaptation_type = "Rules"
-		self.adaptation_type = "Woz"
+		self.adaptation_type = "Rules"
+		# self.adaptation_type = "Woz"
 
 		#self.emotions = adaption.emotions
 		# self.w = adaption.Weights()
@@ -350,8 +352,14 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.eval_stop_video_button.clicked.connect(self.eval_video_player.stop)
 		self.eval_seek_video_button.clicked.connect(lambda: self.eval_video_player.seek(float(1000*self.eval_current_video_time_doubleSpin.value())))
 
+		#--- OLE
+		self.eval_ole_start_button.clicked.connect(self.ole_start_eval)
+		self.eval_ole_stop_button.clicked.connect(self.ole_stop_eval)
+		self.eval_ole_load_models_button.clicked.connect(self.run_load_models)
+		self.op_ole_open_pushButton.clicked.connect(self.op_ole_open_action_button)
+		self.op_ole_compute_pushButton.clicked.connect(self.op_ole_compute_action)
 
-		
+
 		# --- GROUP ASSESSMENT
 		self.grup_eval_update_tab()
 		self.group_generate_button.clicked.connect(self.group_eval_generate_action)
@@ -451,6 +459,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		#self.evals_to_csv()
 		#exit()
+		restore_state(self.settings)
 
 
 	def load_activity(self):
@@ -515,6 +524,10 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 	def close(self):
 		if self.robot is not None:
 			self.vis_sys.unsub(0)
+		
+		
+		#save_state(self.settings)
+		#self.closeEvent(self, event)
 		exit()
 		#self.destroy()
 
@@ -1686,6 +1699,15 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		# Get the user in the selected row of the users table
 		self.cur_eval = self.evaluation_db.evaluations_list[self.eval_index_table.currentRow()]
 		self.eval_id_label.setText(str(self.cur_eval.id))
+		
+		user = self.students_database.get_user(self.cur_eval.user_id)
+
+		#print self.cur_eval.user_id
+		#print user #"DEU"
+		#exit()
+
+
+		#self.ole_start_eval
 
 		self.eval_user_id_label.setText(str(self.cur_eval.user_id))
 		self.eval_date.setDate(self.cur_eval.date)#QDate.fromString(self.cur_eval.date.toString(),"dd.MM.yyyy"))
@@ -1693,6 +1715,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.eval_start.setTime(self.cur_eval.start_time)
 		self.eval_end.setTime(self.cur_eval.end_time)
 		self.eval_supervisor_lineEdit.setText(self.cur_eval.supervisor)
+		self.eval_user_name.setText(str(self.cur_eval.user_name))
 		self.eval_user_name.setText(str(self.cur_eval.user_name))
 		#self.eval_concept_textField.setText(self.cur_eval.concept)
 		self.eval_last_dif.setText(str(self.cur_eval.user_dif_profile))
@@ -2235,13 +2258,449 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 	def eval_play_video(self):
 		# self.eval_video_player.play(float(1000*self.eval_current_video_time_doubleSpin.value()))
 		self.eval_video_player.play()#float(1000*self.eval_current_video_time_doubleSpin.value()))
+		#self.ole_start_eval()
+
+
+
+# ------------------------------------- \OLE -- Off Line Evaluation
+
+
+
+	def ole_start_eval(self):
+
+		eval_name = "Evaluations/" + str(self.cur_eval.id) +"/" + str(self.cur_eval.id) + '.avi'
+
+		self.log(str("OLE Started with " + str(eval_name)))
+		
+
+		if not os.path.isfile(eval_name):
+		
+			QMessageBox.critical(self,"Video not Found", "\nNo session video found for this evaluation")
+			return 
+		
+		elif (len(self.cur_eval.topics)==0):
+			QMessageBox.critical(self,"Topics not Found", "\nNo topic found for this evaluation")
+			return
+		
+
+
+
+		self.n_deviations = self.time_disattention = 0
+		self.static_time = self.dynamic_time = self.time_attention = self.time_emotion = time.time()
+
+		self.w = adaption.Weights(0, 0, self.gamaWeight.value())
+
+		self.op_par = adaption.OperationalParameters(
+										self.face_dev_activation.value(),
+										self.negEmoAct__spinBox.value(),
+										3, #number of words
+										self.learningTime_doubleSpinBox.value(),
+										1)
+		self.read_values=adaption.ReadValues()
+
+		self.adapt_sys = adaption.AdaptiveSystem(
+			self.robot,
+			self.op_par,
+			self.w,
+			self.read_values)
+
+		self.ole_cap = cv2.VideoCapture(eval_name)
+		self.fps = self.ole_cap.get(cv2.CAP_PROP_FPS)
+		total_frames = self.ole_cap.get(cv2.CAP_PROP_FRAME_COUNT)
+		self.ole_progressBar.setMaximum(total_frames)
+		self.ole_progressBar.setValue(0)
+		#convert = int(self.cur_eval.duration)
+		#print "DURATION", self.cur_eval.duration
+		
+		dur = QTime(0,0).addMSecs(self.cur_eval.start_time.msecsTo(self.cur_eval.end_time))
+		#print dur
+		self.ole_duration_timeEdit.setTime(dur)#QTime(0,0).addMSecs(convert))
+
+		self.ole_max_tp = len(self.cur_eval.topics)
+		self.ole_max_qt = len(self.cur_eval.topics[0].questions)
+		self.ole_max_att = len(self.cur_eval.topics[0].questions[0].attempts)
+
+		self.ole_cur_eval = copy.deepcopy(self.cur_eval)
+
+		self.ole_tp_id = 0
+		self.ole_qt_id = -1
+		self.ole_att_id  = 0
+
+		self.ole_att = self.cur_eval.topics[self.ole_tp_id].questions[self.ole_qt_id].attempts[self.ole_att_id]
+		self.ole_qt = self.cur_eval.topics[self.ole_tp_id].questions[self.ole_qt_id]
+		self.ole_tp = self.cur_eval.topics[self.ole_tp_id]
+
+		self.ole_clock = QTime(0,0)
+
+		#print fps
+		self.ole_timer = QTimer(self)
+		self.ole_timer.timeout.connect(self.ole_update_frame)
+		prop = 1000.0/self.fps
+		#print prop
+		#return 
+		self.classified_emotion = "Waiting"
+		self.ole_timer.start(prop)
+		
+
+		self.ole_question_changed()
+		
+
+	def ole_stop_eval(self):
+
+		# self.ole_cap = cv2.VideoCapture(str(self.cur_eval.id)+ '.avi')
+		# self.ole_timer = QTimer(self)
+		# self.ole_timer.timeout.connect(self.ole_update_frame)
+		self.ole_timer.stop()
+		self.ole_cap.release()
+		# print "OLE STOPED"
+		dg = QMessageBox.question(self, "Finished", "Off-Line Evaluation Ended!", QMessageBox.Ok|QMessageBox.Cancel)
+
+		if dg == QMessageBox.Ok:
+
+			#print os.listdir("Evaluations/"+str(self.cur_eval.id))
+			path = "Evaluations/"+str(self.cur_eval.id)+"/OffLineEvals"
+			if not os.path.exists(path):
+				os.mkdir(path)
+
+			# print os.listdir(path)
+			id_ole = len(os.listdir(path))
+			name = str(self.cur_eval.id)+"_"+str(id_ole)+".ole"
+	
+			filename = QFileDialog.getSaveFileName(self, "Save OffLine Eval", path+"/"+name, "Ole files(*.Ole)")
+			
+			if filename != "":
+				self.evaluation_db.save_eval(self.ole_cur_eval,filename)
+
+				QMessageBox.information(self, "Saved", "Off-Line Evaluation Saved!")
+				self.log("Off-Line Evaluation Saved in " + filename )
+			else:
+				QMessageBox.information(self, "Saved", "Off-Line Evaluation NOT Saved!")
+				
+
+		self.log("Off-Line Evaluation Ended!")
+
+
+	def ole_update_frame(self):
+		
+
+
+		if(self.ole_cap.isOpened()):
+			
+			self.ole_progressBar.setValue(self.ole_progressBar.value()+1)
+			
+			if self.ole_progressBar.value() == self.ole_progressBar.maximum():
+				#self.log("ESTOUROU")
+				self.ole_stop_eval()
+				return
+
+			#rint self.ole_progressBar.value(), self.ole_progressBar.maximum()
+
+			frame_count = self.ole_cap.get(cv2.CAP_PROP_POS_FRAMES)
+			ret, frame = self.ole_cap.read()
+
+			frame = self.run_attention_emotion_thread(frame)
+			self.ole_emotion_label.setText(self.classified_emotion)
+			self.ole_dev_spinBox.setValue(self.n_deviations)
+			self.ole_bademo_spinBox.setValue(self.adapt_sys.getBadEmotions())
+			runing_time = QTime(0,(frame_count/self.fps)/60,(frame_count/self.fps)%60)
+			self.ole_timeEdit.setTime( runing_time )
+
+			# self.ole_qt.finished
+			# aux = QTime(0,0).addMSecs(runing_time.msecsTo())
+			# aux = QTime(0,0).addMSecs(self.ole_qt.finished)
+			aux = self.ole_qt_ends_timeEdit.time()
+
+			diff = runing_time.msecsTo(aux)
+			aux = QTime(0,0).addMSecs(diff)
+			#print diff, aux
+			self.ole_qt_cd_timeEdit.setTime(aux)
+
+			if diff < 0 :
+				self.log("Changing question number")
+				
+				#self.adapt_sys.
+				
+				self.read_values.set(self.n_deviations,
+									self.adapt_sys.getBadEmotions(),
+									0, #self.diag_sys.coutingWords(user_answer),
+									self.ole_att.time2ans,
+									self.ole_att.ans_dist)
+
+				# Clear Variables
+				self.n_deviation = 0
+				self.adapt_sys.clear_emo_variables()
+
+				if (self.adaptation_type=="Fuzzy"):
+
+					pprint(vars(self.read_values))
+
+					values = self.states_fuzzy_control.compute_states(self.read_values)
+					alpha = values[0]
+					beta = values[1]
+					gama = values[2]
+
+					fvalue = self.adaptive_fuzzy_control.compute_fvalue(values) / 10.0
+
+
+				elif (self.adaptation_type=="Rules"):
+ 					fvalue, alpha, beta, gama = self.adapt_sys.adp_function(self.ole_qt_id)
+					act = self.adapt_sys.activation_function(fvalue)
+				
+				core.info("Alpha: "+ str(alpha))
+				core.info("Beta: "+ str(beta))
+				core.info("Alpha: "+ str(gama))
+				core.info("FVALUE -> " +str(fvalue))
+				core.info("Act -> " +str(act))
+				
+			 	aux_att = self.ole_cur_eval.topics[self.ole_tp_id].questions[self.ole_qt_id].attempts[self.ole_att_id] 
+
+				aux_att.alpha=alpha
+				aux_att.beta=beta 
+				aux_att.gama=gama 
+				aux_att.fvalue=fvalue 
+				aux_att.profile=self.adapt_sys.robot_communication_profile+1
+				aux_att.read_values=self.read_values
+
+				self.ole_cur_eval.topics[self.ole_tp_id].questions[self.ole_qt_id].attempts[self.ole_att_id] = aux_att 
+
+
+				self.ole_verticalSlider.setValue(self.adapt_sys.robot_communication_profile+1)
+
+
+				#Changing the question parameters
+				self.ole_question_changed()
+
+			
+			if self.eval_ole_display_radioButton.isChecked():
+				self.ole_display_img(frame)
+			# gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+			# cv2.imshow('frame',gray)
+			# if cv2.waitKey(1) & 0xFF == ord('q'):
+			# 	break
+		else:
+			print "else"
+			#cv2.destroyAllWindows()
+
+
+
+	def ole_question_changed(self):
+
+
+		if (self.ole_tp_id == self.ole_max_tp-1) and (self.ole_qt_id == self.ole_max_qt-1) and (self.ole_att_id == self.ole_max_att-1):
+			
+			#QMessageBox.information(self, "Done!", "All the validation are done!", QMessageBox.Ok )
+			
+			self.ole_stop_eval()
+			return
+		
+		if self.ole_att_id < (self.ole_max_att-1):
+			#self.eval_att_comboBox.setCurrentIndex(self.att_id+1)
+			self.ole_att_id+=1
+
+
+		elif self.ole_qt_id < (self.ole_max_qt-1):
+			# self.eval_questions_comboBox.setCurrentIndex(self.qt_id+1)
+			# self.eval_att_comboBox.setCurrentIndex(0)
+			self.ole_qt_id+=1
+			self.ole_att_id=0
+
+		
+		elif  self.ole_tp_id < (self.ole_max_tp-1):
+			# self.eval_topic_comboBox.setCurrentIndex(self.tp_id+1)
+			# self.eval_questions_comboBox.setCurrentIndex(0)
+			# self.eval_att_comboBox.setCurrentIndex(0)
+			self.ole_tp_id+=1
+			self.ole_qt_id=0
+			self.ole_att_id=0
+
+		self.ole_att = self.cur_eval.topics[self.ole_tp_id].questions[self.ole_qt_id].attempts[self.ole_att_id]
+		self.ole_qt = self.cur_eval.topics[self.ole_tp_id].questions[self.ole_qt_id]
+		self.ole_tp = self.cur_eval.topics[self.ole_tp_id]
+
+
+		# ----- SETTING GUI
+
+		self.ole_question_label.setText(self.ole_qt.question)
+		self.ole_exp_label.setText(self.ole_qt.exp_ans)
+		gave_ans = self.ole_att.given_ans
+		self.ole_gave_label.setText(gave_ans)
+
+		self.ole_correctness_doubleSpinBox.setValue(self.ole_att.ans_dist)
+		self.ole_time2ans_spinBox_2.setValue(self.ole_att.time2ans)
+
+		words =  len(gave_ans.split()) 
+
+		self.ole_words_spinBox.setValue(words)
+
+		# print frame_count/self.fps
+		
+		# Question
+		self.ole_qt_number_spinBox.setValue(self.ole_qt_id+1)
+		begin = self.ole_qt.started
+		# print begin
+		# print "type", type(begin)
+		# convert = 
+		# print "convert",convert
+		mtime =  QTime(0,0)
+		mtime = mtime.addMSecs(int(begin*1000))
+		#print mtime
+		self.ole_qt_starts_timeEdit.setTime(mtime)
+
+		
+		end = self.ole_qt.finished
+		mtime = QTime(0,0)
+		mtime = mtime.addMSecs(int(end*1000))
+		self.ole_qt_ends_timeEdit.setTime(mtime)
+
+		# print end	
+		# print mtime.second()
+
+		frame2go = self.fps*begin
+		self.ole_cap.set(cv2.CAP_PROP_POS_FRAMES, frame2go)
+		self.ole_progressBar.setValue(frame2go	)
+
+
+		
+
+
+
+
+
+	def ole_display_img(self, img):
+		qformat = QImage.Format_Indexed8
+		if len(img.shape)==3:
+				if img.shape[2]==4:
+					qformat = QImage.Format_RGBA8888
+				else :
+					qformat = QImage.Format_RGB888
+		
+		outImage= QImage(img, img.shape[1], img.shape[0], img.strides[0], qformat)
+		outImage = outImage.rgbSwapped()
+
+		self.ole_img.setPixmap(QPixmap.fromImage(outImage))
+		#self.img_from_cam.setScaledContentes(True)
+
+
+
+	def op_ole_open_action_button(self):
+
+		path = "Evaluations/"+str(self.cur_eval.id)+"/OffLineEvals"
+		
+		if not os.path.exists(path):
+			QMessageBox.critical(self, "Off Line Evals missing", "There are none Off Line Evaluations for this evaluation")
+			return
+
+		filename = QFileDialog.getOpenFileName(self, "Save OffLine Eval", path, "Ole files(*.Ole)" )
+		
+		self.ole_cur_eval = self.evaluation_db.load_eval(filename)
+		
+		self.op_ole_open_action(filename)
+
+
+		
+
+
+	def op_ole_open_action(self, name=""):
+		
+		name = name.split("/")[-1]
+
+		self.w = adaption.Weights(0, 0, self.gamaWeight.value())
+
+		self.op_par = adaption.OperationalParameters(
+										self.face_dev_activation.value(),
+										self.negEmoAct__spinBox.value(),
+										3, #number of words
+										self.learningTime_doubleSpinBox.value(),
+										1)
+		self.read_values=adaption.ReadValues()
+
+		self.adapt_sys = adaption.AdaptiveSystem(
+			self.robot,
+			self.op_par,
+			self.w,
+			self.read_values)
+
+
+		self.op_ole_name_lineEdit.setText(name)
+		self.op_ole_topic_comboBox.clear()
+		self.op_ole_questions_comboBox.clear()
+		self.op_ole_att_comboBox.clear()
+
+		self.op_ole_topic_comboBox.currentIndexChanged.connect(self.op_ole_update_tab)
+		self.op_ole_questions_comboBox.currentIndexChanged.connect(self.op_ole_update_tab)
+		self.op_ole_att_comboBox.currentIndexChanged.connect(self.op_ole_update_tab)
+
+		self.op_ole_topic_comboBox.addItems(self.ole_cur_eval.tp_names)
+		
+		index_list = range(1,len(self.ole_cur_eval.topics[0].questions)+1)
+		index_list=["{}".format(x) for x in index_list]
+		self.op_ole_questions_comboBox.addItems(index_list)
+		
+		index_list = range( 1 ,len(self.ole_cur_eval.topics[0].questions[0].attempts)+1)
+		index_list=["{}".format(x) for x in index_list]
+		self.op_ole_att_comboBox.addItems(index_list)
 
 
 
 
 
 
-	# --- GROUP EVAL
+	def op_ole_update_tab(self):
+		
+		
+		tp_id=self.op_ole_topic_comboBox.currentIndex()
+		qt_id=self.op_ole_questions_comboBox.currentIndex()
+		att_id=self.op_ole_att_comboBox.currentIndex()
+
+		tp = self.ole_cur_eval.topics[tp_id]
+		qt = self.ole_cur_eval.topics[tp_id].questions[qt_id]
+		self.aux_att = self.ole_cur_eval.topics[tp_id].questions[qt_id].attempts[att_id] #Attempt()
+		rv = self.aux_att.read_values
+
+		self.op_ole_qt_number_spinBox.setValue(qt_id+1)
+		
+		self.op_ole_dev_spinBox.setValue(rv.deviations)
+		self.op_ole_time2ans_spinBox.setValue(rv.time2ans)
+		self.op_ole_correctness_doubleSpinBox.setValue(rv.sucRate)
+		self.op_ole_bademo_spinBox.setValue(rv.emotionCount)
+		self.op_ole_words_spinBox.setValue(rv.numberWord)
+		
+		self.op_ole_original_verticalSlide.setValue(self.aux_att.profile)
+
+
+	def op_ole_compute_action(self):
+
+		self.adapt_sys.read_values=self.aux_att.read_values
+
+		self.adapt_sys.w = adaption.Weights(
+				self.op_ole_alfaWeight.value(),
+				self.op_ole_betaWeight.value(),
+				self.op_ole_gamaWeight.value()	)
+
+		fvalue, alpha, beta, gama = self.adapt_sys.adp_function(self.op_ole_qt_number_spinBox.value())
+		achieved = self.adapt_sys.activation_function(fvalue)
+
+		self.op_ole_alpha_DoubleSpinBox.setValue(alpha)
+		self.op_ole_beta_DoubleSpinBox.setValue(beta)
+		self.op_ole_gama_DoubleSpinBox.setValue(gama)
+		self.op_ole_fValue_DoubleSpinBox.setValue(fvalue)
+
+		# self.op_ole_achieved_verticalSlide.setValue(self.op_ole_achieved_verticalSlide.value() + achieved)
+		self.adapt_sys.change_behavior(achieved)
+
+		# self.preview_profile = self.user_profile 
+		self.user_profile = self.adapt_sys.robot_communication_profile+1
+		
+		# self.log("ACHIEVED "+ str(achieved))
+
+		self.op_ole_achieved_verticalSlide.setValue(self.user_profile)
+
+
+
+
+
+# ------------------------------------ \GROUP EVAL
 	
 	def grup_eval_update_tab(self):
 
@@ -3700,8 +4159,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 	def run_att_emo(self):
 		self.run_emotion_flag=True
 		self.run_facerecog_pushButton.setEnabled(False)
-		self.n_deviations = self.time_disattention = 0
 		# static measuring time, dynamic measuring time, time on atention, time for emotion classifier
+		self.n_deviations = self.time_disattention = 0
 		self.static_time = self.dynamic_time = self.time_attention = self.time_emotion = time.time()
 		self.run_reset_button.setEnabled(True)
 		self.run_emotion_pushButton.setEnabled(False)
@@ -3877,7 +4336,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 						
 						# get inference from classifier
 						#classified_emotion = "nothing"
-						classified_emotion = self.emotion_classifier.inference(face_to_classify)
+						self.classified_emotion = self.emotion_classifier.inference(face_to_classify)
 						# writes emotion on the image, to be shown on screen
 						#cv2.putText(image, classified_emotion, (0,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,0), 2, cv2.LINE_AA)			
 						# store image on a folder, for future analysis
@@ -3886,9 +4345,9 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 						# reset time
 						self.time_emotion = self.time_diff
 						#core.info("Emotion classified: {}".format(classified_emotion))
-						self.run_emotion_label.setText(classified_emotion)
+						self.run_emotion_label.setText(self.classified_emotion)
 
-						self.adapt_sys.emotions[classified_emotion] += 1
+						self.adapt_sys.emotions[self.classified_emotion] += 1
 				except Exception as e:
 					print(e)
 			# if the time difference meets a threshold, count it as a deviation
@@ -4324,6 +4783,19 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		flag_list[0]= True
 
 
+	def save_state(self):
+		print "--- Saving ---"
+		started = time.time()
+		f = open("win", 'wb')
+		cPickle.dump(self.__dict__, f, 2)
+		f.close()
+		print "--- Save done in {} seconds\n".format(time.time()-started)
+
+	def load_state(self):
+		f = open("win", 'rb')
+		tmp_dict = cPickle.load(f)
+		f.close()
+		self.__dict__.update(tmp_dict) 
 
 
 

@@ -1,0 +1,15 @@
+Id,Name,Duration,Topic,Interaction_name,Question_number,Dificult,Question,Exp_ans,Under_ans,Sup_ans,Sys_ans,Sys_was,Time_to_answer
+19037.0,Silvia Tuli,234.0,Breakfast,First_int,1.0,3.0,What this coffee has different from the other things right now?,It is not ready to have. You need to process it.,It is not ready to have. You need to procces it,-1.0,1.0,-1.0,17.056817054748535
+19037.0,Silvia Tuli,234.0,Breakfast,First_int,2.0,4.0,What is the difference between the coffee and the yogurt?,The coffee is not ready to drink. You need to process it,The coffe is hot and the yogurt is cold,-1.0,0.0,-1.0,18.59806180000305
+19037.0,Silvia Tuli,234.0,Breakfast,First_int,3.0,5.0,"If the donuts have 150 kilocalories each and the yogurt have 100, how much of each will be enough to fill the breakfast calorie request?",Two donuts and one yogurt,repeat,-1.0,0.0,-1.0,20.29593300819397
+19038.0,Silvia Tuli,199.0,Breakfast,First_int,1.0,3.0,What are the names of the groceries we are talking about?,"Donuts, crackers, yogurt and coffee","Donuts, crackers, yogurt coffee",-1.0,1.0,-1.0,17.927879095077515
+19038.0,Silvia Tuli,199.0,Breakfast,First_int,2.0,4.0,What is the difference between the crackers and the donuts?,The crackers are smaller than the donuts,the crackers are smaller than the donuts,-1.0,1.0,-1.0,20.26387596130371
+19038.0,Silvia Tuli,199.0,Breakfast,First_int,3.0,5.0,Look to their packing and show the most calorie grocery,<Donuts>,Donuts,-1.0,1.0,-1.0,20.016453981399536
+19049.0,Daniel Tozadore,108.0,Breakfast,Scenario_1,1.0,3.0,Which of these groceries are made with flour?,The donuts and the creakers,The donuts and the creakers,-1.0,1.0,-1.0,11.24877119064331
+19049.0,Daniel Tozadore,108.0,Breakfast,Scenario_1,2.0,4.0,Show me a drink made with milk.,yogurt,yougurt,-1.0,1.0,-1.0,11.150770902633667
+19052.0,Miguel Vasco,144.0,Breakfast,Scenario_1,1.0,3.0,Which of these groceries are made with flour?,The donuts and the creakers,Donuts and crackers,1.0,1.0,1.0,18.03635597229004
+19052.0,Miguel Vasco,144.0,Breakfast,Scenario_1,2.0,4.0,Show me a drink made with milk.,yogurt,Coffee,0.0,0.0,1.0,10.270587921142578
+19055.0,Minia Axcelsome,144.0,Breakfast,Scenario_1,1.0,3.0,Which of these groceries are made with flour?,The donuts and the creakers,Crackers and the donuts,-1.0,0.0,-1.0,11.046751976013184
+19055.0,Minia Axcelsome,144.0,Breakfast,Scenario_1,2.0,4.0,Show me a drink made with milk.,yogurt,yogurt,-1.0,1.0,-1.0,10.235573053359985
+19056.0,Minia asd,136.0,Breakfast,Scenario_1,1.0,3.0,Which of these groceries are made with flour?,The donuts and the crakers,Donuts and the crakers,-1.0,1.0,-1.0,12.758323907852173
+19056.0,Minia asd,136.0,Breakfast,Scenario_1,2.0,4.0,Show me a drink made with milk.,yogurt,yogurt,-1.0,1.0,-1.0,8.109339952468872
