@@ -446,6 +446,9 @@ def search_engine(query):
 
 
 
+
+
+
 def generate_all_graph():
 
 
@@ -1228,6 +1231,30 @@ def generate_pie():
 
 
 
+
+def restore_state(settings):
+    finfo = QFileInfo(settings.fileName())
+
+    if finfo.exists() and finfo.isFile():
+        for w in qApp.allWidgets():
+            mo = w.metaObject()
+            if w.objectName() != "":
+                for i in range(mo.propertyCount()):
+                    name = mo.property(i).name()
+                    val = settings.value("{}/{}".format(w.objectName(), name), w.property(name))
+                    w.setProperty(name, val)
+
+
+def save_state(settings):
+    for w in qApp.allWidgets():
+        mo = w.metaObject()
+        if w.objectName() != "":
+            for i in range(mo.propertyCount()):
+                name = mo.property(i).name()
+                settings.setValue("{}/{}".format(w.objectName(), name), w.property(name))
+
+
+	
 
 
 def ssh_transfer(robot_ip, file_name, flag):
