@@ -117,8 +117,6 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 
-
-
 		# --- Initials setup
 
 		app_icon = QIcon()
@@ -163,6 +161,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 		self.actionSystem_Variables_Control_SVC.triggered.connect(self.open_svc)
+		self.action_update_eval_index.triggered.connect(self.update_eval_index)
 
 
 		# --- Welcome screen
@@ -314,19 +313,19 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		#--- Evaluation
 		self.cur_eval = None#Evaluation()
+		self.cur_eval_index = 0
 		self.evaluation_db = EvaluationDatabase()
 		if os.path.exists("Evaluations"):
 			dataframe_to_table(self.evaluation_db.index_table, self.eval_index_table)
+		self.eval_index_table.resizeColumnsToContents()
 		
-		self.eval_open_button.clicked.connect( self.eval_open )
-		self.eval_ok_button.clicked.connect( self.eval_confirm_entry)
-		self.eval_cancel_button.clicked.connect(self.eval_cancel)
-		self.eval_delete_button.clicked.connect( self.delete_eval)
-		self.eval_topic_comboBox.currentIndexChanged.connect(self.eval_update_tab)
-		self.eval_questions_comboBox.currentIndexChanged.connect(self.eval_update_tab)
-		self.eval_att_comboBox.currentIndexChanged.connect(self.eval_update_tab)
-		self.eval_ans_sup_comboBox.currentIndexChanged.connect(self.eval_validation_change)
-		self.eval_ans_sys_comboBox.currentIndexChanged.connect(self.eval_validation_change)
+		layout = QVBoxLayout()
+		self.eval_video_player = Phonon.VideoPlayer()
+		media = Phonon.MediaSource('LAB/abertura.mp4')
+		self.eval_video_player.load(media)
+		layout.addWidget(self.eval_video_player)
+		self.eval_wid_video.setLayout(layout)
+		
 		#---- Time eval
 		self.eval_time_questions_comboBox.currentIndexChanged.connect(self.eval_update_time_tab)
 		self.eval_time_att_comboBox.currentIndexChanged.connect(self.eval_update_time_tab)
@@ -339,18 +338,14 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.eval_goToSec_tp_button.clicked.connect(lambda: self.eval_set_video_time(self.eval_tp_started_doubleSpinBox, self.eval_current_video_time_doubleSpin))
 		self.eval_goToSec_qt_button.clicked.connect(lambda: self.eval_set_video_time(self.eval_qt_started_doubleSpinBox, self.eval_current_video_time_doubleSpin))
 		self.eval_goToSec_att_button.clicked.connect(lambda: self.eval_set_video_time(self.eval_att_started_doubleSpinBox, self.eval_current_video_time_doubleSpin))
-		layout = QVBoxLayout()
-		
-		self.eval_video_player = Phonon.VideoPlayer()
-		media = Phonon.MediaSource('LAB/abertura.mp4')
-		self.eval_video_player.load(media)
-		layout.addWidget(self.eval_video_player)
-		self.eval_wid_video.setLayout(layout)
 		
 		self.eval_play_video_button.clicked.connect(self.eval_play_video)
 		self.eval_pause_video_button.clicked.connect(self.eval_video_player.pause)
 		self.eval_stop_video_button.clicked.connect(self.eval_video_player.stop)
 		self.eval_seek_video_button.clicked.connect(lambda: self.eval_video_player.seek(float(1000*self.eval_current_video_time_doubleSpin.value())))
+
+		# self.update_eval_index()
+		# exit()
 
 		#--- OLE
 		self.eval_ole_start_button.clicked.connect(self.ole_start_eval)
@@ -359,6 +354,18 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.op_ole_open_pushButton.clicked.connect(self.op_ole_open_action_button)
 		self.op_ole_compute_pushButton.clicked.connect(self.op_ole_compute_action)
 
+		self.eval_open_button.clicked.connect( self.eval_open )
+		self.eval_preview_eval_button.clicked.connect(lambda: self.eval_open('preview') )
+		self.eval_next_eval_button.clicked.connect( lambda: self.eval_open('next') )
+		self.eval_ok_button.clicked.connect( self.eval_confirm_entry)
+		self.eval_cancel_button.clicked.connect(self.eval_cancel)
+		self.eval_delete_button.clicked.connect( self.delete_eval)
+		self.eval_topic_comboBox.currentIndexChanged.connect(self.eval_update_tab)
+		self.eval_questions_comboBox.currentIndexChanged.connect(self.eval_update_tab)
+		self.eval_att_comboBox.currentIndexChanged.connect(self.eval_update_tab)
+		self.eval_ans_sup_comboBox.currentIndexChanged.connect(self.eval_validation_change)
+		self.eval_ans_sys_comboBox.currentIndexChanged.connect(self.eval_validation_change)
+		
 
 		# --- GROUP ASSESSMENT
 		self.grup_eval_update_tab()
@@ -1635,6 +1642,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		self.eval_index_frame.setEnabled(True)
 		self.eval_frame.setEnabled(False)
+		self.eval_index_ok_frame.setEnabled(False)
 
 
 		#self.log_text.setText(self.user_name_field.text())	
@@ -1684,20 +1692,41 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		self.eval_index_frame.setEnabled(True)
 		self.eval_frame.setEnabled(False)
+		self.eval_index_ok_frame.setEnabled(False)
 
 
 
-	def eval_open(self):
+	def eval_open(self, index='current'):
 
 		#self.st_db_index_table.setEnabled(False)
 		self.eval_index_frame.setEnabled(False)
 		self.eval_frame.setEnabled(True)
 		self.eval_video_widget_buttons.setEnabled(True)
-		
+		self.eval_index_ok_frame.setEnabled(True)
 		#self.user_frame.setEnabled(True)
 		
 		# Get the user in the selected row of the users table
-		self.cur_eval = self.evaluation_db.evaluations_list[self.eval_index_table.currentRow()]
+		if index == 'next':
+			# self.cur_eval = self.evaluation_db.evaluations_list[self.eval_index_table.currentRow()+1]
+			if self.cur_eval_index+1 > self.eval_index_table.rowCount():
+				QMessageBox.critical(self,"Error!", "No Eval next")
+				return	
+			self.cur_eval_index += 1
+			#self.eval_index_table.setItemSelected()
+		elif index == 'preview':
+			# self.cur_eval = self.evaluation_db.evaluations_list[self.eval_index_table.currentRow()-1]
+			if self.cur_eval_index-1 < 0:
+				QMessageBox.critical(self,"Error!", "No Eval before")
+				return	
+			self.cur_eval_index -= 1
+		
+		else:
+			# self.cur_eval = self.evaluation_db.evaluations_list[self.eval_index_table.currentRow()]
+			self.cur_eval_index = self.eval_index_table.currentRow()
+
+		
+		self.cur_eval = self.evaluation_db.evaluations_list[self.cur_eval_index]
+
 		self.eval_id_label.setText(str(self.cur_eval.id))
 		
 		user = self.students_database.get_user(self.cur_eval.user_id)
@@ -1711,7 +1740,24 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		self.eval_user_id_label.setText(str(self.cur_eval.user_id))
 		self.eval_date.setDate(self.cur_eval.date)#QDate.fromString(self.cur_eval.date.toString(),"dd.MM.yyyy"))
-		#print "DUR", self.cur_eval.duration
+		# self.cur_eval.duration= None
+		# print "DUR", self.cur_eval.duration
+		# tt = QTime(0,0).msecsTo(self.cur_eval.duration)
+		# self.log("DUR ", str(self.cur_eval.duration))
+		#dur =0 
+
+		
+		if self.cur_eval.duration is None:
+			dur = self.cur_eval.start_time.msecsTo(self.cur_eval.end_time)
+			#print dur
+			self.cur_eval.duration=dur
+			self.evaluation_db.insert_eval(self.cur_eval)
+		
+			self.eval_duration.setTime(QTime(0,0).addMSecs(dur))
+		else:
+			self.eval_duration.setTime(QTime(0,0).addMSecs(self.cur_eval.duration))
+
+
 		self.eval_start.setTime(self.cur_eval.start_time)
 		self.eval_end.setTime(self.cur_eval.end_time)
 		self.eval_supervisor_lineEdit.setText(self.cur_eval.supervisor)
@@ -1724,10 +1770,10 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		self.eval_open_graphs()
 		
-		try:
-			self.eval_duration.setTime(self.cur_eval.duration)
-		except:
-			self.log("Duration is None")
+		# try:
+		# 	self.eval_duration.setTime(self.cur_eval.duration)
+		# except:
+		# 	self.log("Duration is None")
 			
 		try:
 			self.eval_observation_textField.setText(self.cur_eval.obs)
@@ -1788,10 +1834,10 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 
-
+		self.log("Evaluation number {} Opened".format(self.cur_eval.id))
 		
 
-		self.log_text.setText(self.eval_date.date().toString('dd/MM/yyyy') + " Opened eval of date:")
+		#self.log_text.setText(self.eval_date.date().toString('dd/MM/yyyy') + " Opened eval of date:")
 
 
 
@@ -1841,7 +1887,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.eval_ans_sup_comboBox.setCurrentIndex(aux_att.supervisor_consideration) 
 		self.eval_ans_sys_comboBox.setCurrentIndex(aux_att.system_consideration) 
 		self.eval_sys_was_comboBox.setCurrentIndex(aux_att.system_was) 
-		
+		self.eval_profile_SpinBox.setValue(aux_att.profile)
 		
 		try:
 			self.eval_dist_progressBar.setValue(100 - (aux_att.ans_dist*100))
@@ -2293,7 +2339,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.op_par = adaption.OperationalParameters(
 										self.face_dev_activation.value(),
 										self.negEmoAct__spinBox.value(),
-										3, #number of words
+										self.adp_words_spinBox.value(), #3, #number of words
 										self.learningTime_doubleSpinBox.value(),
 										1)
 		self.read_values=adaption.ReadValues()
@@ -2322,7 +2368,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		self.ole_cur_eval = copy.deepcopy(self.cur_eval)
 
-		self.ole_tp_id = 0
+		# CHANGE TOPIC
+		self.ole_tp_id = 1
 		self.ole_qt_id = -1
 		self.ole_att_id  = 0
 
@@ -2335,7 +2382,18 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#print fps
 		self.ole_timer = QTimer(self)
 		self.ole_timer.timeout.connect(self.ole_update_frame)
-		prop = 1000.0/self.fps
+		
+		ret = QMessageBox.question(self, "Time", "Evaluation in real time?", QMessageBox.No|QMessageBox.Cancel|QMessageBox.Yes)
+		
+		if ret == QMessageBox.Yes:
+			prop = 1000.0/self.fps
+		
+		elif ret == QMessageBox.No:
+			prop = 1
+
+		else:
+			return
+
 		#print prop
 		#return 
 		self.classified_emotion = "Waiting"
@@ -2422,7 +2480,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				
 				self.read_values.set(self.n_deviations,
 									self.adapt_sys.getBadEmotions(),
-									0, #self.diag_sys.coutingWords(user_answer),
+									#self.diag_sys.coutingWords(user_answer),
+									len(self.ole_att.given_ans.split()),
 									self.ole_att.time2ans,
 									self.ole_att.ans_dist)
 
@@ -2459,7 +2518,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				aux_att.gama=gama 
 				aux_att.fvalue=fvalue 
 				aux_att.profile=self.adapt_sys.robot_communication_profile+1
-				aux_att.read_values=self.read_values
+				aux_att.read_values=copy.deepcopy(self.read_values)
 
 				self.ole_cur_eval.topics[self.ole_tp_id].questions[self.ole_qt_id].attempts[self.ole_att_id] = aux_att 
 
@@ -2605,14 +2664,15 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		name = name.split("/")[-1]
 
-		self.w = adaption.Weights(0, 0, self.gamaWeight.value())
+		self.w = adaption.Weights(self.alfaWeight.value(), self.betaWeight.value(), self.gamaWeight.value())
 
 		self.op_par = adaption.OperationalParameters(
 										self.face_dev_activation.value(),
 										self.negEmoAct__spinBox.value(),
-										3, #number of words
+										self.adp_words_spinBox.value(),#3, #number of words
 										self.learningTime_doubleSpinBox.value(),
 										1)
+		
 		self.read_values=adaption.ReadValues()
 
 		self.adapt_sys = adaption.AdaptiveSystem(
@@ -4798,6 +4858,73 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.__dict__.update(tmp_dict) 
 
 
+
+
+	def update_eval_index(self):
+
+		path = "Evaluations"
+
+		os.rename("Evaluations/index_table.csv", "Evaluations/BK_index_table.csv" )
+
+		f = open(path+"/index_table.csv","w+")
+
+		f.write("Id,Date,Group,Student Name\n")
+
+		file_list = os.listdir(path)
+
+		file_list.sort()
+
+		for item in file_list:
+
+			if item.isdigit() and len(item)==5:
+				#print "YES"
+				try:
+					aux = self.evaluation_db.load_eval(os.path.join(path,item, item+".eval"))
+				except:
+					print "Error trying to opening evaluation:", item 
+					continue
+
+
+				try:
+					name = str(aux.user_name.toUtf8())
+				except:
+					try:
+						name = aux.user_name.encode('utf-8')
+					except:
+						name = aux.user_name	
+
+				try:
+
+					if aux.group not in self.evaluation_db.group_list:
+						self.evaluation_db.add_evaluation_group(aux.group)
+
+				except:
+					print "Evaluation {} has no group".format(item)
+					self.evaluation_db.delete_eval(aux)
+					continue
+
+
+				mystr = str(aux.id).encode('utf-8') +","+ str(aux.date.toString("dd.MM.yyyy").toUtf8()) +","+ str(aux.group) +","+ name			
+				#mystr = u' '.join((str(aux.id),",",str(aux.date.toString("dd.MM.yyyy")), ",", str(aux.user_name))).encode('utf-8').strip()			
+				#print mystr
+				f.write(mystr)
+				f.write('\n')
+
+
+
+
+			else:
+				print "Not a evaluation:",item
+
+		f.close()
+
+		self.evaluation_db.index_table = pd.read_csv(self.evaluation_db.index_path)
+		self.evaluation_db.group_list = pd.read_csv(self.evaluation_db.path + "group_list.csv")
+		self.evaluation_db.load_evaluations_list()
+		dataframe_to_table(self.evaluation_db.index_table, self.eval_index_table)
+		self.eval_index_table.resizeColumnsToContents()
+
+		self.log("Evaluation Index updated!")
 
 
 	@pyqtSlot(str)
