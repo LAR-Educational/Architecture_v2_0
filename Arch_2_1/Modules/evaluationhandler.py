@@ -31,31 +31,21 @@ class EvaluationDatabase():
             
             if  os.path.exists(self.path + "group_list.csv"):
                 
-                # inF = open(self.path + "group_list.txt", "r")
-                # for line in inF:
-                #     #line = line.replace("\n","")
-                #     #print "line", line
-                #     self.group_list.append(line)
-                    
-                # inF.close()    
                 data = pd.read_csv(self.path + "group_list.csv")
                 self.group_list = data['Groups'].tolist()
-                #print self.group_list
+                
 
             if not os.path.exists(self.path + "/Groups"): 
                 os.mkdir(self.path + "/Groups")
                 data = pd.DataFrame(columns=['Groups'])
                 data.to_csv(self.path + "group_list.csv")
 
-                #print "LENNNN", len(self.group_list)
-            #print self.index_table
-            # print "SIZE:", len(self.index_table.index)
-            
+                
         else:  
             os.mkdir(self.path)  
             os.mkdir(self.path + "group_list.csv")
             os.mkdir(self.path + "/Groups")
-            self.index_table = pd.DataFrame(columns=['Id', 'Date', 'Student Name'])
+            self.index_table = pd.DataFrame(columns=['Id', 'Date', 'Group', 'Student Name'])
             self.index_table.to_csv(self.index_path, index=False)
 
         
@@ -67,19 +57,24 @@ class EvaluationDatabase():
         #print self.index_table
 
 
+    def load_eval(self, path):
+        f = open(path, 'rb')
+        tmp_dict = cPickle.load(f)
+        f.close()
 
-    def add_evaluation_group(self, new_group):   
-        
-        try:
-            self.group_list.append(new_group) 
-            
-            data = pd.DataFrame(self.group_list, columns=['Groups'])
-            
-            data.to_csv(self.path + "group_list.csv", index=False) 
+        return tmp_dict          
 
-            return True
-        except:
-            raise("ERROR ENTERING GROUP")
+        #self.__dict__.update(tmp_dict) 
+
+
+    def save_eval(self, eval, path):
+        f = open(path, 'wb')
+        cPickle.dump(eval, f, 2)
+        f.close()
+
+
+
+
 
     def load_evaluations_list(self):
         
@@ -156,21 +151,19 @@ class EvaluationDatabase():
 
 
 
-    def load_eval(self, path):
-        f = open(path, 'rb')
-        tmp_dict = cPickle.load(f)
-        f.close()
 
-        return tmp_dict          
+    def add_evaluation_group(self, new_group):   
+        
+        try:
+            self.group_list.append(new_group) 
+            
+            data = pd.DataFrame(self.group_list, columns=['Groups'])
+            
+            data.to_csv(self.path + "group_list.csv", index=False) 
 
-        #self.__dict__.update(tmp_dict) 
-
-
-    def save_eval(self, eval, path):
-        f = open(path, 'wb')
-        cPickle.dump(eval, f, 2)
-        f.close()
-
+            return True
+        except:
+            raise("ERROR ENTERING GROUP")
 
 class GroupStatus:
 
