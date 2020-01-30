@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/tozadore/Projects/Architecture_v2_0/Arch_2_1/GUI/activities_Manager.ui'
+# Form implementation generated from reading ui file 'GUI/activities_Manager.ui'
 #
 # Created by: PyQt4 UI code generator 4.11.4
 #
@@ -1990,7 +1990,7 @@ class Ui_MainWindow(object):
         self.toolBox = QtGui.QToolBox(self.frame_45)
         self.toolBox.setObjectName(_fromUtf8("toolBox"))
         self.adapt_rules = QtGui.QWidget()
-        self.adapt_rules.setGeometry(QtCore.QRect(0, 0, 580, 409))
+        self.adapt_rules.setGeometry(QtCore.QRect(0, 0, 581, 403))
         self.adapt_rules.setObjectName(_fromUtf8("adapt_rules"))
         self.gridLayout_99 = QtGui.QGridLayout(self.adapt_rules)
         self.gridLayout_99.setObjectName(_fromUtf8("gridLayout_99"))
@@ -2848,11 +2848,6 @@ class Ui_MainWindow(object):
         self.label_154.setAlignment(QtCore.Qt.AlignCenter)
         self.label_154.setObjectName(_fromUtf8("label_154"))
         self.gridLayout_57.addWidget(self.label_154, 2, 4, 1, 2)
-        self.eval_last_dif = QtGui.QLabel(self.frame_73)
-        self.eval_last_dif.setFrameShape(QtGui.QFrame.StyledPanel)
-        self.eval_last_dif.setAlignment(QtCore.Qt.AlignCenter)
-        self.eval_last_dif.setObjectName(_fromUtf8("eval_last_dif"))
-        self.gridLayout_57.addWidget(self.eval_last_dif, 3, 6, 1, 1)
         self.label_155 = QtGui.QLabel(self.frame_73)
         self.label_155.setAlignment(QtCore.Qt.AlignCenter)
         self.label_155.setObjectName(_fromUtf8("label_155"))
@@ -2872,6 +2867,9 @@ class Ui_MainWindow(object):
         self.label_142.setAlignment(QtCore.Qt.AlignCenter)
         self.label_142.setObjectName(_fromUtf8("label_142"))
         self.gridLayout_57.addWidget(self.label_142, 2, 0, 1, 1)
+        self.eval_last_dif = QtGui.QSpinBox(self.frame_73)
+        self.eval_last_dif.setObjectName(_fromUtf8("eval_last_dif"))
+        self.gridLayout_57.addWidget(self.eval_last_dif, 3, 6, 1, 1)
         self.gridLayout_52.addWidget(self.frame_73, 1, 0, 1, 1)
         self.frame_47 = QtGui.QFrame(self.tab_16)
         self.frame_47.setMinimumSize(QtCore.QSize(281, 0))
@@ -6184,6 +6182,8 @@ class Ui_MainWindow(object):
         self.menuSystem.setObjectName(_fromUtf8("menuSystem"))
         self.menuUpdate_Evaluations_Index = QtGui.QMenu(self.menuSystem)
         self.menuUpdate_Evaluations_Index.setObjectName(_fromUtf8("menuUpdate_Evaluations_Index"))
+        self.menuBatch_Process = QtGui.QMenu(self.menubar)
+        self.menuBatch_Process.setObjectName(_fromUtf8("menuBatch_Process"))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtGui.QStatusBar(MainWindow)
         self.statusbar.setObjectName(_fromUtf8("statusbar"))
@@ -6204,6 +6204,10 @@ class Ui_MainWindow(object):
         self.actionSystem_Variables_Control_SVC.setObjectName(_fromUtf8("actionSystem_Variables_Control_SVC"))
         self.action_update_eval_index = QtGui.QAction(MainWindow)
         self.action_update_eval_index.setObjectName(_fromUtf8("action_update_eval_index"))
+        self.actionOff_Line_Evaluations = QtGui.QAction(MainWindow)
+        self.actionOff_Line_Evaluations.setObjectName(_fromUtf8("actionOff_Line_Evaluations"))
+        self.actionBest_Weights = QtGui.QAction(MainWindow)
+        self.actionBest_Weights.setObjectName(_fromUtf8("actionBest_Weights"))
         self.menuMenu.addAction(self.actionExit)
         self.menuUsers.addAction(self.actionCreate_User)
         self.menuUsers.addAction(self.actionChange_User)
@@ -6213,10 +6217,13 @@ class Ui_MainWindow(object):
         self.menuUpdate_Evaluations_Index.addAction(self.action_update_eval_index)
         self.menuSystem.addAction(self.actionSystem_Variables_Control_SVC)
         self.menuSystem.addAction(self.menuUpdate_Evaluations_Index.menuAction())
+        self.menuBatch_Process.addAction(self.actionOff_Line_Evaluations)
+        self.menuBatch_Process.addAction(self.actionBest_Weights)
         self.menubar.addAction(self.menuMenu.menuAction())
         self.menubar.addAction(self.menuUsers.menuAction())
         self.menubar.addAction(self.menuSystem.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())
+        self.menubar.addAction(self.menuBatch_Process.menuAction())
 
         self.retranslateUi(MainWindow)
         self.modules_tabWidget.setCurrentIndex(7)
@@ -6230,7 +6237,7 @@ class Ui_MainWindow(object):
         self.emoModel_comboBox.setCurrentIndex(0)
         self.toolBox.setCurrentIndex(0)
         self.toolBox.layout().setSpacing(6)
-        self.eval_frame.setCurrentIndex(1)
+        self.eval_frame.setCurrentIndex(0)
         self.eval_ans_sup_comboBox.setCurrentIndex(-1)
         self.eval_sys_was_comboBox.setCurrentIndex(-1)
         self.op_ole_adp_tabWidget.setCurrentIndex(0)
@@ -6766,7 +6773,6 @@ class Ui_MainWindow(object):
         self.label_157.setText(_translate("MainWindow", "preferences", None))
         self.eval_user_id_label.setText(_translate("MainWindow", "0000", None))
         self.label_154.setText(_translate("MainWindow", "Student Name", None))
-        self.eval_last_dif.setText(_translate("MainWindow", "0", None))
         self.label_155.setText(_translate("MainWindow", "UserID", None))
         self.label_152.setText(_translate("MainWindow", "Last Difficult", None))
         self.label_142.setText(_translate("MainWindow", "User", None))
@@ -7134,6 +7140,7 @@ class Ui_MainWindow(object):
         self.menuHelp.setTitle(_translate("MainWindow", "Help", None))
         self.menuSystem.setTitle(_translate("MainWindow", "System", None))
         self.menuUpdate_Evaluations_Index.setTitle(_translate("MainWindow", "Update Index", None))
+        self.menuBatch_Process.setTitle(_translate("MainWindow", "Batch Process", None))
         self.actionExit.setText(_translate("MainWindow", "Exit", None))
         self.actionCreate_User.setText(_translate("MainWindow", "Create User", None))
         self.actionChange_User.setText(_translate("MainWindow", "Change User", None))
@@ -7142,5 +7149,7 @@ class Ui_MainWindow(object):
         self.actionContact_Developers.setText(_translate("MainWindow", "Contact Developers", None))
         self.actionSystem_Variables_Control_SVC.setText(_translate("MainWindow", "System Variables Control (SVC)", None))
         self.action_update_eval_index.setText(_translate("MainWindow", "Evaluation", None))
+        self.actionOff_Line_Evaluations.setText(_translate("MainWindow", "Off Line - Evaluations", None))
+        self.actionBest_Weights.setText(_translate("MainWindow", "Best Weights", None))
 
 from GUI import imgs

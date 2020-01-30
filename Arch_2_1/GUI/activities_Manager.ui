@@ -5070,8 +5070,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>580</width>
-                <height>409</height>
+                <width>581</width>
+                <height>403</height>
                </rect>
               </property>
               <attribute name="label">
@@ -6745,7 +6745,7 @@
            <enum>QTabWidget::North</enum>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tab_16">
            <attribute name="title">
@@ -7060,19 +7060,6 @@
                  </property>
                 </widget>
                </item>
-               <item row="3" column="6">
-                <widget class="QLabel" name="eval_last_dif">
-                 <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
-                 </property>
-                 <property name="text">
-                  <string>0</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
                <item row="1" column="4" colspan="2">
                 <widget class="QLabel" name="label_155">
                  <property name="text">
@@ -7113,6 +7100,9 @@
                   <set>Qt::AlignCenter</set>
                  </property>
                 </widget>
+               </item>
+               <item row="3" column="6">
+                <widget class="QSpinBox" name="eval_last_dif"/>
                </item>
               </layout>
              </widget>
@@ -15228,10 +15218,18 @@ QProgressBar::chunk {
     <addaction name="actionSystem_Variables_Control_SVC"/>
     <addaction name="menuUpdate_Evaluations_Index"/>
    </widget>
+   <widget class="QMenu" name="menuBatch_Process">
+    <property name="title">
+     <string>Batch Process</string>
+    </property>
+    <addaction name="actionOff_Line_Evaluations"/>
+    <addaction name="actionBest_Weights"/>
+   </widget>
    <addaction name="menuMenu"/>
    <addaction name="menuUsers"/>
    <addaction name="menuSystem"/>
    <addaction name="menuHelp"/>
+   <addaction name="menuBatch_Process"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionExit">
@@ -15272,6 +15270,16 @@ QProgressBar::chunk {
   <action name="action_update_eval_index">
    <property name="text">
     <string>Evaluation</string>
+   </property>
+  </action>
+  <action name="actionOff_Line_Evaluations">
+   <property name="text">
+    <string>Off Line - Evaluations</string>
+   </property>
+  </action>
+  <action name="actionBest_Weights">
+   <property name="text">
+    <string>Best Weights</string>
    </property>
   </action>
  </widget>

@@ -162,8 +162,10 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		self.actionSystem_Variables_Control_SVC.triggered.connect(self.open_svc)
 		self.action_update_eval_index.triggered.connect(self.update_eval_index)
-
-
+		self.actionOff_Line_Evaluations.triggered.connect(self.ole_batch_eval)
+		self.actionBest_Weights.triggered.connect(self.eval_batch_find_weights)
+		
+		
 		# --- Welcome screen
 
 		self.schedule = clock.Schedule()
@@ -473,7 +475,9 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		if self.shortcut:
 
-			self.act=ct.load_Activity("./Activities/Nutrition/activity.data")#None #"/home/tozadore/Projects/Arch_2/Arch_2_1/Activities/NOVA/Content" #None
+			#self.act=ct.load_Activity("./Activities/Nutrition/activity.data")#None 
+			self.act=ct.load_Activity("Activities/NOVA/activity.data") #None
+			#self.act=ct.load_Activity("/home/tozadore/Projects/Arch_2/Arch_2_1/Activities/NOVA/Content") #None
 			#dataframe_to_table(self.know_pa,table)
 		else:
 			filename = QFileDialog.getOpenFileName(self, 'Open File', './Activities')
@@ -1666,10 +1670,12 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.cur_eval.user_name = self.eval_user_name.text()
 		self.cur_eval.start_time = self.eval_start.time()
 		self.cur_eval.end_time = self.eval_end.time()
-		self.cur_eval.duration = self.eval_duration.time()
+		#self.cur_eval.duration = self.eval_duration.time()
+		self.cur_eval.duration = self.cur_eval.start_time.msecsTo(self.cur_eval.end_time)
 		self.cur_eval.robot = self.eval_robot_lineEdit.text()
 		self.cur_eval.obs = self.eval_observation_textField.toPlainText()
 		self.cur_eval.supervisor = self.eval_supervisor_lineEdit.text()
+		self.cur_eval.user_dif_profile=self.eval_last_dif.value()
 
 
 		# aux = Evaluation(int(self.eval_id_label.text()),
@@ -1747,7 +1753,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#dur =0 
 
 		
-		if self.cur_eval.duration is None:
+		if (self.cur_eval.duration is None) or (type(self.cur_eval.duration)==QTime):#'PyQt4.QtCore.QTime'):
 			dur = self.cur_eval.start_time.msecsTo(self.cur_eval.end_time)
 			#print dur
 			self.cur_eval.duration=dur
@@ -1755,6 +1761,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 			self.eval_duration.setTime(QTime(0,0).addMSecs(dur))
 		else:
+			#print type(self.cur_eval.duration)
 			self.eval_duration.setTime(QTime(0,0).addMSecs(self.cur_eval.duration))
 
 
@@ -1764,7 +1771,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.eval_user_name.setText(str(self.cur_eval.user_name))
 		self.eval_user_name.setText(str(self.cur_eval.user_name))
 		#self.eval_concept_textField.setText(self.cur_eval.concept)
-		self.eval_last_dif.setText(str(self.cur_eval.user_dif_profile))
+		self.eval_last_dif.setValue(self.cur_eval.user_dif_profile)
 		self.eval_int_id_spinBox.setValue(self.cur_eval.int_id)
 		self.eval_group_lineEdit.setText(self.cur_eval.group)
 
@@ -1945,7 +1952,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].supervisor_consideration = self.eval_ans_sup_comboBox.currentIndex()
 		self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].system_consideration = self.eval_ans_sys_comboBox.currentIndex()
-		
+		self.cur_eval.topics[self.tp_id].questions[self.qt_id].attempts[self.att_id].profile = self.eval_profile_SpinBox.value()
+
 		self.evaluation_db.insert_eval(self.cur_eval)
 
 		if (self.tp_id == max_tp-1) and (self.qt_id == max_qt-1) and (self.att_id == max_att-1):
@@ -2383,16 +2391,16 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.ole_timer = QTimer(self)
 		self.ole_timer.timeout.connect(self.ole_update_frame)
 		
-		ret = QMessageBox.question(self, "Time", "Evaluation in real time?", QMessageBox.No|QMessageBox.Cancel|QMessageBox.Yes)
+		# ret = QMessageBox.question(self, "Time", "Evaluation in real time?", QMessageBox.No|QMessageBox.Cancel|QMessageBox.Yes)
 		
-		if ret == QMessageBox.Yes:
-			prop = 1000.0/self.fps
+		# if ret == QMessageBox.Yes:
+		prop = 1000.0/self.fps
 		
-		elif ret == QMessageBox.No:
-			prop = 1
+		# elif ret == QMessageBox.No:
+		# 	prop = 1
 
-		else:
-			return
+		# else:
+		# 	return
 
 		#print prop
 		#return 
@@ -2411,6 +2419,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.ole_timer.stop()
 		self.ole_cap.release()
 		# print "OLE STOPED"
+		
+		''' OLDE VERSIONNN
 		dg = QMessageBox.question(self, "Finished", "Off-Line Evaluation Ended!", QMessageBox.Ok|QMessageBox.Cancel)
 
 		if dg == QMessageBox.Ok:
@@ -2433,11 +2443,26 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				self.log("Off-Line Evaluation Saved in " + filename )
 			else:
 				QMessageBox.information(self, "Saved", "Off-Line Evaluation NOT Saved!")
-				
+		'''
+
+
+		path = "Evaluations/"+str(self.cur_eval.id)+"/OffLineEvals"
+		if not os.path.exists(path):
+			os.mkdir(path)
+
+		# print os.listdir(path)
+		id_ole = len(os.listdir(path))
+		name = str(self.cur_eval.id)+"_"+str(id_ole)+".ole"
+
+		filename = path+"/"+name
+		self.evaluation_db.save_eval(self.ole_cur_eval,filename)
 
 		self.log("Off-Line Evaluation Ended!")
+		self.ole_on_course = False
 
-
+	
+	
+	
 	def ole_update_frame(self):
 		
 
@@ -2538,7 +2563,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			# if cv2.waitKey(1) & 0xFF == ord('q'):
 			# 	break
 		else:
-			print "else"
+			print "Image not found!"
 			#cv2.destroyAllWindows()
 
 
@@ -2620,11 +2645,6 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.ole_progressBar.setValue(frame2go	)
 
 
-		
-
-
-
-
 
 	def ole_display_img(self, img):
 		qformat = QImage.Format_Indexed8
@@ -2639,6 +2659,34 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		self.ole_img.setPixmap(QPixmap.fromImage(outImage))
 		#self.img_from_cam.setScaledContentes(True)
+
+
+
+
+
+
+	def ole_batch_eval(self):
+
+		self.modules_tabWidget.setCurrentIndex(7)
+		self.eval_frame.setCurrentIndex(5)
+		self.run_load_models()
+
+
+		for self.cur_eval in self.evaluation_db.evaluations_list:
+			#self.cur_eval.duration = self.cur_eval.start_time.msecsTo(self.cur_eval.end_time)
+			#print self.cur_eval.id, self.cur_eval.duration
+			self.ole_on_course = True
+
+			self.ole_start_eval()
+
+			while self.ole_on_course:
+				QCoreApplication.processEvents()
+
+
+		self.log("BATCH FINISEHD")
+
+		#self.eval_batch_find_weights()
+
 
 
 
@@ -2759,6 +2807,84 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 
+
+
+	def eval_batch_find_weights(self):
+
+
+		best_weights = np.zeros((10,10,10))
+
+		self.w = adaption.Weights(0,0,0)#self.alfaWeight.value(), self.betaWeight.value(), self.gamaWeight.value())
+
+		self.op_par = adaption.OperationalParameters(
+										self.face_dev_activation.value(),
+										self.negEmoAct__spinBox.value(),
+										self.adp_words_spinBox.value(),#3, #number of words
+										self.learningTime_doubleSpinBox.value(),
+										1)
+		
+		self.read_values=adaption.ReadValues()
+
+		self.adapt_sys = adaption.AdaptiveSystem(
+			self.robot,
+			self.op_par,
+			self.w,
+			self.read_values)
+
+
+
+		for self.cur_eval in self.evaluation_db.evaluations_list:
+
+		#self.cur_eval = self.evaluation_db.evaluations_list[0]
+		
+
+			path = "Evaluations/"+str(self.cur_eval.id)+"/OffLineEvals/"+str(self.cur_eval.id)+"_0.ole"
+		
+			self.ole_cur_eval = self.evaluation_db.load_eval(path)
+			#self.op_ole_open_action(filename)
+			
+			tp = self.ole_cur_eval.topics[1]
+			matches = 0 
+
+			for wa in range(10):
+				for wb in range(10):
+					for wg in range(10):
+
+						self.adapt_sys.w=adaption.Weights(wa/10.0, wb/10.0, wg/10.0)
+						#fitness = 0
+						cur_level = 3
+						for qt in range(3):
+							
+							try:
+								original = tp.questions[qt+1].attempts[0].profile
+							except:
+								original = self.ole_cur_eval.user_dif_profile
+
+							rv = tp.questions[qt].attempts[0].read_values
+
+							self.adapt_sys.read_values=rv
+
+							fvalue, alpha, beta, gama = self.adapt_sys.adp_function(qt)
+							achieved = self.adapt_sys.activation_function(fvalue)
+							
+							cur_level += achieved
+
+							if original == cur_level:
+								print original, cur_level
+								best_weights[wa][wb][wg]+=1
+								matches += 1
+
+		out = open("Evaluations/weights.csv","w+")
+
+		for wa in range(10):
+			for wb in range(10):
+				for wg in range(10):
+					out.write(str(wa/10.0)+","+str(wb/10.0)+","+str(wg/10.0)+","+str(best_weights[wa][wb][wg])+"\n")
+
+		out.close()
+
+		
+		self.log("\n\nEnded with {} matches!".format(matches))
 
 # ------------------------------------ \GROUP EVAL
 	
@@ -4884,6 +5010,20 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 					print "Error trying to opening evaluation:", item 
 					continue
 
+				if aux.group != "Woz-B":
+				#if aux.group != "grupoA-WozgrupoB-Woz":
+					print aux.group
+					continue
+	
+				# if aux.duration < 60000:
+				# 	continue
+				# #print "MENOOR"
+				#self.evaluation_db.delete_eval(self.cur_eval)
+
+				# if aux.group == "grupoA-Woz":
+				# 	aux.group = "Woz-A"
+				# if aux.group == "grupoA-WozgrupoB-Woz":
+				# 	aux.group = "Woz-B"
 
 				try:
 					name = str(aux.user_name.toUtf8())
