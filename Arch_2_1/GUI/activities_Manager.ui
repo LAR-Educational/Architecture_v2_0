@@ -5070,8 +5070,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>581</width>
-                <height>403</height>
+                <width>504</width>
+                <height>136</height>
                </rect>
               </property>
               <attribute name="label">
@@ -6745,7 +6745,7 @@
            <enum>QTabWidget::North</enum>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>3</number>
           </property>
           <widget class="QWidget" name="tab_16">
            <attribute name="title">
@@ -7666,6 +7666,26 @@
                    <widget class="QTextEdit" name="eval_concept_textField"/>
                   </item>
                   <item>
+                   <spacer name="verticalSpacer_63">
+                    <property name="orientation">
+                     <enum>Qt::Vertical</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>20</width>
+                      <height>40</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
+                   <widget class="Line" name="line_47">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
                    <widget class="QLabel" name="label_269">
                     <property name="font">
                      <font>
@@ -7682,28 +7702,34 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="label_192">
-                    <property name="maximumSize">
-                     <size>
-                      <width>300</width>
-                      <height>200</height>
-                     </size>
-                    </property>
-                    <property name="frameShape">
-                     <enum>QFrame::StyledPanel</enum>
-                    </property>
-                    <property name="text">
-                     <string/>
-                    </property>
-                    <property name="pixmap">
-                     <pixmap resource="imgs.qrc">:/imgs/no-image-icon-11.PNG</pixmap>
-                    </property>
-                    <property name="scaledContents">
-                     <bool>true</bool>
-                    </property>
-                    <property name="alignment">
-                     <set>Qt::AlignCenter</set>
-                    </property>
+                   <widget class="QWidget" name="widget_31" native="true">
+                    <layout class="QHBoxLayout" name="horizontalLayout_49">
+                     <item>
+                      <widget class="QLabel" name="label_192">
+                       <property name="maximumSize">
+                        <size>
+                         <width>200</width>
+                         <height>150</height>
+                        </size>
+                       </property>
+                       <property name="frameShape">
+                        <enum>QFrame::StyledPanel</enum>
+                       </property>
+                       <property name="text">
+                        <string/>
+                       </property>
+                       <property name="pixmap">
+                        <pixmap resource="imgs.qrc">:/imgs/no-image-icon-11.PNG</pixmap>
+                       </property>
+                       <property name="scaledContents">
+                        <bool>true</bool>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
                    </widget>
                   </item>
                  </layout>
@@ -8092,7 +8118,7 @@
                   <item row="2" column="0" colspan="2">
                    <widget class="QPushButton" name="pushButton_6">
                     <property name="text">
-                     <string>PushButton</string>
+                     <string>Generate</string>
                     </property>
                    </widget>
                   </item>
@@ -8136,6 +8162,9 @@
                     <property name="text">
                      <string>Posture</string>
                     </property>
+                    <property name="checked">
+                     <bool>true</bool>
+                    </property>
                    </widget>
                   </item>
                   <item>
@@ -8148,6 +8177,9 @@
                     </property>
                     <property name="text">
                      <string>Attention</string>
+                    </property>
+                    <property name="checked">
+                     <bool>true</bool>
                     </property>
                    </widget>
                   </item>
@@ -8186,7 +8218,10 @@
                      <enum>Qt::LeftToRight</enum>
                     </property>
                     <property name="text">
-                     <string>RadioButton</string>
+                     <string>Emotions</string>
+                    </property>
+                    <property name="checked">
+                     <bool>true</bool>
                     </property>
                    </widget>
                   </item>
@@ -8199,7 +8234,10 @@
                      <bool>true</bool>
                     </property>
                     <property name="text">
-                     <string>RadioButton</string>
+                     <string>Words</string>
+                    </property>
+                    <property name="checked">
+                     <bool>true</bool>
                     </property>
                    </widget>
                   </item>
@@ -8238,7 +8276,10 @@
                      <enum>Qt::LeftToRight</enum>
                     </property>
                     <property name="text">
-                     <string>RadioButton</string>
+                     <string>Time to answer</string>
+                    </property>
+                    <property name="checked">
+                     <bool>true</bool>
                     </property>
                    </widget>
                   </item>
@@ -8251,7 +8292,10 @@
                      <bool>true</bool>
                     </property>
                     <property name="text">
-                     <string>RadioButton</string>
+                     <string>Correctiness</string>
+                    </property>
+                    <property name="checked">
+                     <bool>true</bool>
                     </property>
                    </widget>
                   </item>
@@ -8276,7 +8320,7 @@
                   <string/>
                  </property>
                  <property name="pixmap">
-                  <pixmap resource="imgs.qrc">:/imgs/no-image-icon-11.PNG</pixmap>
+                  <pixmap resource="imgs.qrc">:/imgs/graph1.png</pixmap>
                  </property>
                  <property name="scaledContents">
                   <bool>true</bool>
@@ -14653,19 +14697,6 @@ QProgressBar::chunk {
               </property>
              </spacer>
             </item>
-            <item row="3" column="2">
-             <spacer name="horizontalSpacer_94">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
             <item row="5" column="0" colspan="3">
              <widget class="QWidget" name="widget_21" native="true">
               <layout class="QHBoxLayout" name="horizontalLayout_15">
@@ -14722,16 +14753,15 @@ QProgressBar::chunk {
            <zorder>verticalSpacer_14</zorder>
            <zorder>verticalSpacer_25</zorder>
            <zorder>horizontalSpacer_48</zorder>
-           <zorder>horizontalSpacer_94</zorder>
            <zorder>widget_21</zorder>
            <zorder>wel_calendarWidget</zorder>
           </widget>
           <widget class="QFrame" name="frame_62">
            <property name="geometry">
             <rect>
-             <x>465</x>
+             <x>420</x>
              <y>0</y>
-             <width>461</width>
+             <width>561</width>
              <height>111</height>
             </rect>
            </property>
@@ -14742,6 +14772,33 @@ QProgressBar::chunk {
             <enum>QFrame::Raised</enum>
            </property>
            <layout class="QGridLayout" name="gridLayout_13">
+            <item row="1" column="0" colspan="5">
+             <widget class="QWidget" name="widget_20" native="true">
+              <layout class="QHBoxLayout" name="horizontalLayout_32">
+               <item>
+                <widget class="QLabel" name="wel_date_label">
+                 <property name="font">
+                  <font>
+                   <pointsize>18</pointsize>
+                   <weight>50</weight>
+                   <italic>false</italic>
+                   <bold>false</bold>
+                   <underline>false</underline>
+                   <strikeout>false</strikeout>
+                   <kerning>false</kerning>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Date ....</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
             <item row="0" column="0">
              <spacer name="horizontalSpacer_36">
               <property name="orientation">
@@ -14755,167 +14812,7 @@ QProgressBar::chunk {
               </property>
              </spacer>
             </item>
-            <item row="0" column="3">
-             <spacer name="horizontalSpacer_89">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item row="1" column="0" colspan="5">
-             <widget class="QWidget" name="widget_20" native="true">
-              <layout class="QHBoxLayout" name="horizontalLayout_32">
-               <item>
-                <widget class="QLabel" name="wel_wd_label">
-                 <property name="font">
-                  <font>
-                   <pointsize>18</pointsize>
-                   <weight>50</weight>
-                   <italic>false</italic>
-                   <bold>false</bold>
-                   <underline>false</underline>
-                   <strikeout>false</strikeout>
-                   <kerning>false</kerning>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>Tusday</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_278">
-                 <property name="maximumSize">
-                  <size>
-                   <width>13</width>
-                   <height>16777215</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <pointsize>8</pointsize>
-                   <underline>false</underline>
-                   <strikeout>false</strikeout>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>,</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="wel_md_label">
-                 <property name="font">
-                  <font>
-                   <pointsize>18</pointsize>
-                   <weight>50</weight>
-                   <italic>false</italic>
-                   <bold>false</bold>
-                   <underline>false</underline>
-                   <strikeout>false</strikeout>
-                   <kerning>false</kerning>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>22</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_276">
-                 <property name="font">
-                  <font>
-                   <pointsize>8</pointsize>
-                   <underline>false</underline>
-                   <strikeout>false</strikeout>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>of</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="wel_month_label">
-                 <property name="font">
-                  <font>
-                   <pointsize>18</pointsize>
-                   <weight>50</weight>
-                   <italic>false</italic>
-                   <bold>false</bold>
-                   <underline>false</underline>
-                   <strikeout>false</strikeout>
-                   <kerning>false</kerning>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>October</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_277">
-                 <property name="font">
-                  <font>
-                   <pointsize>8</pointsize>
-                   <underline>false</underline>
-                   <strikeout>false</strikeout>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>of</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="wel_year_label">
-                 <property name="font">
-                  <font>
-                   <pointsize>18</pointsize>
-                   <weight>50</weight>
-                   <italic>false</italic>
-                   <bold>false</bold>
-                   <underline>false</underline>
-                   <strikeout>false</strikeout>
-                   <kerning>false</kerning>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>2019</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item row="0" column="2">
+            <item row="0" column="1">
              <widget class="QLabel" name="label_212">
               <property name="palette">
                <palette>
@@ -14969,7 +14866,7 @@ QProgressBar::chunk {
               </property>
              </widget>
             </item>
-            <item row="0" column="4">
+            <item row="0" column="3">
              <widget class="QDateEdit" name="wel_dateEdit">
               <property name="palette">
                <palette>
@@ -15051,8 +14948,8 @@ QProgressBar::chunk {
               </property>
              </widget>
             </item>
-            <item row="0" column="1">
-             <spacer name="horizontalSpacer_90">
+            <item row="0" column="4">
+             <spacer name="horizontalSpacer_89">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
@@ -15113,8 +15010,8 @@ QProgressBar::chunk {
           <widget class="QPushButton" name="pushButton_10">
            <property name="geometry">
             <rect>
-             <x>620</x>
-             <y>430</y>
+             <x>640</x>
+             <y>460</y>
              <width>138</width>
              <height>37</height>
             </rect>
@@ -15224,6 +15121,7 @@ QProgressBar::chunk {
     </property>
     <addaction name="actionOff_Line_Evaluations"/>
     <addaction name="actionBest_Weights"/>
+    <addaction name="actionFuzzyBatch"/>
    </widget>
    <addaction name="menuMenu"/>
    <addaction name="menuUsers"/>
@@ -15280,6 +15178,11 @@ QProgressBar::chunk {
   <action name="actionBest_Weights">
    <property name="text">
     <string>Best Weights</string>
+   </property>
+  </action>
+  <action name="actionFuzzyBatch">
+   <property name="text">
+    <string>Fuzzy Type</string>
    </property>
   </action>
  </widget>

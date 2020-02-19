@@ -164,18 +164,20 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.action_update_eval_index.triggered.connect(self.update_eval_index)
 		self.actionOff_Line_Evaluations.triggered.connect(self.ole_batch_eval)
 		self.actionBest_Weights.triggered.connect(self.eval_batch_find_weights)
-		
+		self.actionFuzzyBatch.triggered.connect(self.eval_best_fit_fuzzy)
 		
 		# --- Welcome screen
 
 		self.schedule = clock.Schedule()
-		#self.wel_update_date()
+		self.wel_update_date()
 		self.wel_open_meeting_button.clicked.connect(self.wel_open_meeting_action)
 		self.wel_new_meeting_button.clicked.connect(self.wel_new_meeting_action)
 		self.wel_delete_meeting_button.clicked.connect(self.wel_del_meeting_action)
 		
 		#meetings =[]
 		self.calendar = clock.MyCalendar(self.wel_calendarWidget)#(self.wel_calendarWidget)
+		#self.calendar.setLocale(QLocale.UnitedStates,QLocale.English)
+		self.setLocale(QLocale(QLocale.English))
 		#layout = QBoxLayout()
 		self.calendar.setVerticalHeaderFormat(QtGui.QCalendarWidget.NoVerticalHeader)
 		self.wel_add_meetings()
@@ -458,7 +460,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		#Shortcuts:
 		self.shortcut = True
-		# self.shortcut =  False
+		#self.shortcut =  False
 		
 		if self.shortcut:
 			self.load_activity()  # WORKSPACES
@@ -655,17 +657,25 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 	def wel_update_date(self):
 		
 		date = self.wel_dateEdit.date()
-		weekday = date.toString('dddd')
-		# date = date.toString('dddd, d of MMMM of yyyy')
-		weekday = weekday.left(1).toUpper()+weekday.mid(1)
-		day		= date.toString('dd')
-		month 	= date.toString('MMMM')
-		month = month.left(1).toUpper()+month.mid(1)
-		year 	= date.toString('yyyy')
-		self.wel_md_label.setText(day)
-		self.wel_wd_label.setText(weekday)
-		self.wel_month_label.setText(month)
-		self.wel_year_label.setText(year)
+		#QDate date = QDateTime::currentDateTime().date();
+		locale = QLocale(QLocale.English) # set the locale you want here
+		strDate = locale.toString(date, "dddd, d MMMM yyyy")
+
+
+		#print swedishDate	
+		self.wel_date_label.setText(strDate)
+
+
+		# weekday = date.toString('dddd')
+		# # date = date.toString('dddd, d of MMMM of yyyy')
+		# weekday = weekday.left(1).toUpper()+weekday.mid(1)
+		# day		= date.toString('dd')
+		# month 	= date.toString('MMMM')
+		# month = month.left(1).toUpper()+month.mid(1)
+		# year 	= date.toString('yyyy')
+		# self.wel_wd_label.setText(weekday)
+		# self.wel_month_label.setText(month)
+		# self.wel_year_label.setText(year)
 
 	def wel_add_meetings(self):
 		for item in self.schedule.meetings_list:
@@ -1023,6 +1033,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 	def vision_edit_settings_action(self):
 
+		print "hello"
 		self.vision_class_setting_frame.setEnabled(True)
 		self.vision_classes_comboBox.clear()
 		self.vision_classes_comboBox.addItems(self.vis_dp.classes)
@@ -1381,6 +1392,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 															max_success=max_success,
 															print_flag=False)
 		self.adaptive_fuzzy_control = fuzzy.Adaptive(False)
+		#self.adaptive_fuzzy_control = fuzzy.StatesFuzzyControl(False)
 	
 
 
@@ -2052,10 +2064,10 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 	def eval_gen_stats_action(self):
 
-		if not self.eval_check_validation():
-			# ERROR
-			QMessageBox.critical(self, "Error!", "Some validation missing!", QMessageBox.Ok )
-			return False
+		# if not self.eval_check_validation():
+		# 	# ERROR
+		# 	QMessageBox.critical(self, "Error!", "Some validation missing!", QMessageBox.Ok )
+		# 	return False
 		
 		max_tp = len(self.cur_eval.topics)
 		max_qt = len(self.cur_eval.topics[0].questions)
@@ -2120,11 +2132,11 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#print "LIST", tp_qt_x
 		#return
 
-		if self.cur_eval.validation == False:
-			# ERROR
+		# if self.cur_eval.validation == False:
+		# 	# ERROR
 			
-			QMessageBox.critical(self, "Error!", "Some validation missing!", QMessageBox.Ok )
-			return False
+		# 	QMessageBox.critical(self, "Error!", "Some validation missing!", QMessageBox.Ok )
+		# 	return False
 	
 		
 		self.eval_graph_1()
@@ -2803,6 +2815,166 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		# self.log("ACHIEVED "+ str(achieved))
 
 		self.op_ole_achieved_verticalSlide.setValue(self.user_profile)
+
+
+
+
+
+
+
+
+
+	def eval_best_fit_fuzzy(self):
+
+		# best_weights = np.zeros((10,10,10))
+
+		self.set_adaptive_fuzzy_parameters()
+
+		self.w = adaption.Weights(0,0,0)#self.alfaWeight.value(), self.betaWeight.value(), self.gamaWeight.value())
+
+		ff = open("Read_values.txt", "w")
+
+		ff.write(
+				str("Eval ID")+ " , " +    
+				str("Question #") + " , " +    
+				str("Deviations")+ " , " +    
+				str("EmotionCount")+ " , " +    
+				str("NumberWord")+ " , " +    
+				str("SucRate")+ " , " +    
+				str("Time2ans")+ " , " +    
+				str("Alpha")+ " , " +    
+				str("Beta")+ " , " +    
+				str("Gama")+ " , " +    
+				str("Achieved")+ " , " +    
+				str("Original")+ " , " +    
+				str("Cur Level")+ "\n ")    
+		
+
+		self.op_par = adaption.OperationalParameters(
+										self.face_dev_activation.value(),
+										self.negEmoAct__spinBox.value(),
+										self.adp_words_spinBox.value(),#3, #number of words
+										self.learningTime_doubleSpinBox.value(),
+										1)
+		
+		self.read_values=adaption.ReadValues()
+
+		self.adapt_sys = adaption.AdaptiveSystem(
+			self.robot,
+			self.op_par,
+			self.w,
+			self.read_values)
+
+
+		right = 0
+		wrong = 0
+
+		for self.cur_eval in self.evaluation_db.evaluations_list:
+
+		#self.cur_eval = self.evaluation_db.evaluations_list[0]
+		
+
+			path = "Evaluations/"+str(self.cur_eval.id)+"/OffLineEvals/"+str(self.cur_eval.id)+"_0.ole"
+		
+			self.ole_cur_eval = self.evaluation_db.load_eval(path)
+			#self.op_ole_open_action(filename)
+			
+			tp = self.ole_cur_eval.topics[1]
+			matches = 0 
+
+			# for wa in range(10):
+			# 	for wb in range(10):
+			# 		for wg in range(10):
+
+			#self.adapt_sys.w=adaption.Weights(wa/10.0, wb/10.0, wg/10.0)
+			#fitness = 0
+			cur_level = 3
+			for qt in range(3):
+				
+				try:
+					original = tp.questions[qt+1].attempts[0].profile
+				except:
+					original = self.ole_cur_eval.user_dif_profile
+
+				rv = tp.questions[qt].attempts[0].read_values
+
+				rv.sucRate = 10-rv.sucRate*10
+
+				self.read_values=rv
+
+
+				try:
+					values = self.states_fuzzy_control.compute_states(self.read_values)
+					right+=1
+				except Exception as ex:
+					self.log("Evaluation number {} with problems in question {}".format(self.cur_eval.id, qt+1 ), "e")
+					self.log('ERROR: \n {}'.format(ex), 'e')
+					wrong+=1
+					#ff.write(" 		ERROR\n")
+					
+					continue
+				
+				#ff.write('\n')
+
+				alpha = values[0]
+				beta = values[1]
+				gama = values[2]
+
+				#core.info("Alpha Fuzzy: "+ str(alpha))
+				#core.info("Beta Fuzzy: "+ str(beta))
+				#core.info("Gama Fuzzy: "+ str(gama))
+				fvalue = self.adaptive_fuzzy_control.compute_fvalue(values) / 10.0
+				core.info("FVALUE -> " +str(fvalue))
+
+				#fvalue, alpha, beta, gama = self.adapt_sys.adp_function(qt)
+
+				achieved = self.adapt_sys.activation_function(fvalue)
+				
+				cur_level += achieved
+
+				if original == cur_level:
+					print original, cur_level
+					#best_weights[wa][wb][wg]+=1
+					matches += 1
+
+				ff.write(
+					str(self.cur_eval.id)+ " , " +    
+					str(qt+1)+ " , " +    
+					"{:.2f}".format(self.read_values.deviations)+ " , " +    
+					"{:.2f}".format(self.read_values.emotionCount)+ " , " +    
+					"{:.2f}".format(self.read_values.numberWord)+ " , " +    
+					"{:.2f}".format(self.read_values.sucRate)+ " , " +    
+					"{:.2f}".format(self.read_values.time2ans)+ " , " +    
+					"{:.2f}".format(alpha)+ " , " +    
+					"{:.2f}".format(beta)+ " , " +    
+					"{:.2f}".format(gama)+ " , " +    
+					str(achieved)+ " , " +    
+					str(original)+ " , " +    
+					str(cur_level)+ "\n ")    
+					
+
+
+
+		# out = open("Evaluations/weights.csv","w+")
+
+		# for wa in range(10):
+		# 	for wb in range(10):
+		# 		for wg in range(10):
+		# 			out.write(str(wa/10.0)+","+str(wb/10.0)+","+str(wg/10.0)+","+str(best_weights[wa][wb][wg])+"\n")
+
+		# out.close()
+		ff.close()
+		self.log("\n\nEnded with {} matches!".format(matches))
+		print "Right:", right
+		print "Wrong:", wrong
+
+
+
+
+
+
+
+
 
 
 

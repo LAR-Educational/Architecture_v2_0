@@ -236,6 +236,8 @@ class MyCalendar(QtGui.QCalendarWidget):
         else:
             self.meetings = meetings
 
+        self.setLocale(QtCore.QLocale.English)
+
         self.setVerticalHeaderFormat(QtGui.QCalendarWidget.VerticalHeaderFormat.numerator)
 
     def add_meeting(self, metting):

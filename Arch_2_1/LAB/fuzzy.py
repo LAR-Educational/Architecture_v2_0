@@ -48,7 +48,7 @@ class StatesFuzzyControl:
 
     def __init__(self,  max_gaze=10, #max_posture=10, 
                         max_words=10, max_emotions=10,
-                        max_success=1, max_tta = 10,
+                        max_success=1, max_tta = 30,
                         print_flag=False):
 
         self.print_flag = print_flag
@@ -147,7 +147,7 @@ class StatesFuzzyControl:
          # New Antecedent/Consequent objects hold universe variables and membership
         # functions
         self.success = ctrl.Antecedent(np.arange(0, 11, 1), 'Success')
-        self.ans_time = ctrl.Antecedent(np.arange(0, 11, 1), 'Answer Time')
+        self.ans_time = ctrl.Antecedent(np.arange(0, max_tta+1, 1), 'Answer Time')
         self.task = ctrl.Consequent(np.arange(0, 11, 1), 'Task')
 
 
@@ -156,31 +156,46 @@ class StatesFuzzyControl:
         
         # Extremes for lower case (1.4) and higher (4.2) = 2.75
         self.success['low'] = fuzz.trimf(self.success.universe, [1, 3, 5] )
-        #self.success['average'] = fuzz.gaussmf(self.success.universe, 2.75, 1)#[1.4, 4.2, 4.2] )
-        self.success['high'] = fuzz.trimf(self.success.universe, [5, 7, 9] )
+        self.success['average'] = fuzz.trimf(self.success.universe, [4, 6, 8] )
+        self.success['high'] = fuzz.trimf(self.success.universe, [7, 10, 10] )
 
+        low = max_tta/3.0
+        mid = 0.67 * max_tta
+        high = max_tta
 
-
-        self.ans_time['Slow']       = fuzz.trimf(self.ans_time.universe,  [0, 2, 4] )
-        self.ans_time['Average']    = fuzz.trimf(self.ans_time.universe,  [2, 5, 8] )
-        self.ans_time['Fast']       = fuzz.trimf(self.ans_time.universe,  [6, 8, 10])
+        self.ans_time['Fast']       = fuzz.trimf(self.ans_time.universe,  [0, low/2.0, low] )
+        self.ans_time['Average']    = fuzz.trimf(self.ans_time.universe,  [low, mid, high] )
+        self.ans_time['Slow']       = fuzz.trimf(self.ans_time.universe,  [ mid , high, max_tta])
         
         # Custom membership functions can be built interactively with a familiar,
         # Pythonic API
-        self.task['inefficient']= fuzz.trimf(self.attention.universe, [0, 2, 4] )
-        self.task['regular']    = fuzz.trimf(self.attention.universe, [2, 5, 8] )
-        self.task['efficient']  = fuzz.trimf(self.attention.universe, [6, 8, 10] )
+        self.task['inefficient']= fuzz.trimf(self.task.universe, [0, 2, 4] )
+        self.task['regular']    = fuzz.trimf(self.task.universe, [2, 5, 8] )
+        self.task['efficient']  = fuzz.trimf(self.task.universe, [6, 8, 10] )
 
 
         rules = []
 
         #print rules
 
-        rules.append( ctrl.Rule(self.success['high'], self.task['efficient']) )
-        rules.append( ctrl.Rule(self.success['high'] | self.ans_time['Average'] , self.task['efficient']) )
-        rules.append( ctrl.Rule(self.success['high'] | self.ans_time['Fast'] , self.task['efficient']) )
-        rules.append( ctrl.Rule(self.success['low'] | self.ans_time['Slow'], self.task['inefficient']) )
+        #rules.append( ctrl.Rule(self.success['high'], self.task['efficient']) )
+        # rules.append( ctrl.Rule(self.success['high'] | self.ans_time['Fast'] , self.task['efficient']) )
+        # rules.append( ctrl.Rule(self.success['high'] | self.ans_time['Average'] , self.task['efficient']) )
+        # rules.append( ctrl.Rule(self.success['high'] | self.ans_time['Slow'], self.task['regular']) )
+        # rules.append( ctrl.Rule(self.success['low'] | self.ans_time['Slow'], self.task['inefficient']) )
+        # rules.append( ctrl.Rule(self.success['low'] | self.ans_time['Average'], self.task['inefficient']) )
+        # rules.append( ctrl.Rule(self.success['low'] | self.ans_time['Fast'], self.task['inefficient']) )
             
+        #rules.append( ctrl.Rule(self.success['high'], self.task['efficient']) )
+        rules.append( ctrl.Rule(self.success['high'] , self.task['efficient']) )
+        rules.append( ctrl.Rule(self.success['average'] & self.ans_time['Average'] , self.task['efficient']) )
+        rules.append( ctrl.Rule(self.success['average'] & self.ans_time['Slow'], self.task['regular']) )
+        rules.append( ctrl.Rule(self.success['low'] & self.ans_time['Slow'], self.task['inefficient']) )
+        rules.append( ctrl.Rule(self.success['low'] | self.ans_time['Average'], self.task['inefficient']) )
+        rules.append( ctrl.Rule(self.success['low'] & self.ans_time['Fast'], self.task['inefficient']) )
+            
+
+
 
         task_ctrl_sys = ctrl.ControlSystem(rules)
 
@@ -316,7 +331,7 @@ class Adaptive():
 
         #print rules
 
-        #rules.append( ctrl.Rule(self.task['efficient'] , self.adaptation['decent']) )
+        rules.append( ctrl.Rule(self.task['efficient'] , self.adaptation['decent']) )
         rules.append( ctrl.Rule(self.attention['concentrated'] | self.communication['extroverted']  | self.task['efficient'] , self.adaptation['good']) )
         rules.append( ctrl.Rule(self.attention['concentrated'] | self.task['efficient'] , self.adaptation['decent']) )
         rules.append( ctrl.Rule(self.attention['medium'] | self.communication['neutral']  | self.task['regular'] , self.adaptation['average']) )
@@ -339,27 +354,23 @@ class Adaptive():
 
 
 
-    def compute_fvalue(self, values):
+    # def compute_fvalue(self, values):
         
-        self.adp_func.input['Attention'] = values[0]
-        self.adp_func.input['Communication'] = values[1]
-        self.adp_func.input['Task'] = values[2]
+    #     self.adp_func.input['Attention'] = values[0]
+    #     self.adp_func.input['Communication'] = values[1]
+    #     self.adp_func.input['Task'] = values[2]
 
 
-        self.adp_func.compute()
-
-
-
-        if print_flag:
-            print "VALUE", self.adp_func.output['Adaptation']
-            self.adaptation.view(sim=self.adp_func)
-
-        #raw_input()
-        return
+    #     self.adp_func.compute()
 
 
 
+    #     if print_flag:
+    #         print "VALUE", self.adp_func.output['Adaptation']
+    #         self.adaptation.view(sim=self.adp_func)
 
+    #     #raw_input()
+    #     return
 
 
 
@@ -392,89 +403,91 @@ class Adaptive():
 
 
 
-def exemple():
+# def exemple():
 
 
-    # New Antecedent/Consequent objects hold universe variables and membership
-    # functions
-    quality = ctrl.Antecedent(np.arange(0, 11, 1), 'quality')
-    service = ctrl.Antecedent(np.arange(0, 11, 1), 'service')
-    tip = ctrl.Consequent(np.arange(0, 26, 1), 'tip')
+#     # New Antecedent/Consequent objects hold universe variables and membership
+#     # functions
+#     quality = ctrl.Antecedent(np.arange(0, 11, 1), 'quality')
+#     service = ctrl.Antecedent(np.arange(0, 11, 1), 'service')
+#     tip = ctrl.Consequent(np.arange(0, 26, 1), 'tip')
 
-    # Auto-membership function population is possible with .automf(3, 5, or 7)
-    quality.automf(3)
-    service.automf(5)
+#     # Auto-membership function population is possible with .automf(3, 5, or 7)
+#     quality.automf(3)
+#     service.automf(5)
 
-    # Custom membership functions can be built interactively with a familiar,
-    # Pythonic API
-    tip['low'] = fuzz.trimf(tip.universe, [0, 5, 20])
-    tip['medium'] = fuzz.trimf(tip.universe, [0, 13, 25])
-    tip['high'] = fuzz.trimf(tip.universe, [13, 25, 25])
+#     # Custom membership functions can be built interactively with a familiar,
+#     # Pythonic API
+#     tip['low'] = fuzz.trimf(tip.universe, [0, 5, 20])
+#     tip['medium'] = fuzz.trimf(tip.universe, [0, 13, 25])
+#     tip['high'] = fuzz.trimf(tip.universe, [13, 25, 25])
 
 
-    tip.view()
+#     tip.view()
     
     
     
-    raw_input()
+#     raw_input()
 
 
 
 
 
-def adap():
+# def adap():
 
 
-    # New Antecedent/Consequent objects hold universe variables and membership
-    # functions
-    self.posture = ctrl.Antecedent(np.arange(0, 11, 1), 'self.posture')
-    self.gaze = ctrl.Antecedent(np.arange(0, 11, 1), 'self.gaze')
-    self.attention = ctrl.Consequent(np.arange(0, 11, 1), 'self.attention')
+#     # New Antecedent/Consequent objects hold universe variables and membership
+#     # functions
+#     self.posture = ctrl.Antecedent(np.arange(0, 11, 1), 'self.posture')
+#     self.gaze = ctrl.Antecedent(np.arange(0, 11, 1), 'self.gaze')
+#     self.attention = ctrl.Consequent(np.arange(0, 11, 1), 'self.attention')
 
-    # Auto-membership function population is possible with .automf(3, 5, or 7)
-    self.posture.automf(3)
-    #self.gaze.automf(5)
+#     # Auto-membership function population is possible with .automf(3, 5, or 7)
+#     self.posture.automf(3)
+#     #self.gaze.automf(5)
 
-    self.gaze['rare'] = fuzz.trimf(self.gaze.universe, [0, 2, 4])
-    self.gaze['neutral'] = fuzz.trimf(self.gaze.universe, [2, 5, 7])
-    self.gaze['frequent'] = fuzz.trimf(self.gaze.universe, [5, 10, 10])
-    #self.gaze[''] = fuzz.trimf(self.gaze.universe, [0, 0, 4])
-    #self.gaze[''] = fuzz.trimf(self.gaze.universe, [0, 0, 4])
+#     self.gaze['rare'] = fuzz.trimf(self.gaze.universe, [0, 2, 4])
+#     self.gaze['neutral'] = fuzz.trimf(self.gaze.universe, [2, 5, 7])
+#     self.gaze['frequent'] = fuzz.trimf(self.gaze.universe, [5, 10, 10])
+#     #self.gaze[''] = fuzz.trimf(self.gaze.universe, [0, 0, 4])
+#     #self.gaze[''] = fuzz.trimf(self.gaze.universe, [0, 0, 4])
 
-    # Custom membership functions can be built interactively with a familiar,
-    # Pythonic API
-    self.attention['distracted'] = fuzz.trimf(self.attention.universe, [0, 0, 4])
-    self.attention['medium'] = fuzz.gaussmf(self.attention.universe, 5, 2.3 )
-    self.attention['concentrated'] = fuzz.trimf(self.attention.universe, [6, 10, 10])
+#     # Custom membership functions can be built interactively with a familiar,
+#     # Pythonic API
+#     self.attention['distracted'] = fuzz.trimf(self.attention.universe, [0, 0, 4])
+#     self.attention['medium'] = fuzz.gaussmf(self.attention.universe, 5, 2.3 )
+#     self.attention['concentrated'] = fuzz.trimf(self.attention.universe, [6, 10, 10])
 
-    self.gaze.view()
-    self.attention.view()
+#     self.gaze.view()
+#     self.attention.view()
     
-    rule1 = ctrl.Rule(self.gaze['rare'] | self.posture['poor'], self.attention['distracted'])
-    rule2 = ctrl.Rule(self.gaze['neutral'], self.attention['medium'])
-    rule3 = ctrl.Rule(self.gaze['frequent'] | self.posture['good'], self.attention['concentrated'])
+#     rule1 = ctrl.Rule(self.gaze['rare'] | self.posture['poor'], self.attention['distracted'])
+#     rule2 = ctrl.Rule(self.gaze['neutral'], self.attention['medium'])
+#     rule3 = ctrl.Rule(self.gaze['frequent'] | self.posture['good'], self.attention['concentrated'])
 
 
-    #rule1.view()
+#     #rule1.view()
     
 
-    adp_ctrl = ctrl.ControlSystem([rule1, rule2, rule3])
+#     adp_ctrl = ctrl.ControlSystem([rule1, rule2, rule3])
 
-    adp = ctrl.ControlSystemSimulation(adp_ctrl)
-
-
-    adp.input['self.gaze'] = 1
-    adp.input['self.posture'] = 1
-
-    adp.compute()
-
-    print adp.output['self.attention']
+#     adp = ctrl.ControlSystemSimulation(adp_ctrl)
 
 
-    self.attention.view(sim=adp)
+#     adp.input['self.gaze'] = 1
+#     adp.input['self.posture'] = 1
+
+#     adp.compute()
+
+#     print adp.output['self.attention']
 
 
-    raw_input()
+#     self.attention.view(sim=adp)
+
+
+#     raw_input()
+
+
 
 
 
@@ -483,7 +496,7 @@ def adap():
 
 
 if __name__=="__main__":
-    
+    pass
     # fz = StatesFuzzyControl(True)
     
     # r = ReadValues(8, 1, 3.9, 3.9, 9)
@@ -494,14 +507,14 @@ if __name__=="__main__":
     
     #raw_input()
     
-   fz = Adaptive(True)
+#    fz = Adaptive(True)
 
-   values = [5,5,5]
+#    values = [5,5,5]
 
 
-   fz.compute_fvalue(values)
+#    fz.compute_fvalue(values)
    
-   time.sleep(5)
+#    time.sleep(5)
 
 
 
