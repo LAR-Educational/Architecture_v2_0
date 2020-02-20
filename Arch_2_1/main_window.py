@@ -1829,6 +1829,11 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			self.eval_topic_comboBox.clear()
 			self.eval_att_comboBox.clear()
 
+			self.eval_time_topic_comboBox.clear()
+			self.eval_time_questions_comboBox.clear()
+			self.eval_time_att_comboBox.clear()
+
+			#eval_time_topic_comboBox.emp
 
 			self.eval_topic_comboBox.addItems(self.cur_eval.tp_names)
 			self.eval_time_topic_comboBox.addItems(self.cur_eval.tp_names)
@@ -2832,7 +2837,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		self.w = adaption.Weights(0,0,0)#self.alfaWeight.value(), self.betaWeight.value(), self.gamaWeight.value())
 
-		ff = open("Read_values.txt", "w")
+		ff = open("Read_values.csv", "w")
 
 		ff.write(
 				str("Eval ID")+ " , " +    
@@ -2845,8 +2850,9 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				str("Alpha")+ " , " +    
 				str("Beta")+ " , " +    
 				str("Gama")+ " , " +    
-				str("Achieved")+ " , " +    
-				str("Original")+ " , " +    
+				str("Value Achieved")+ " , " +    
+				str("Current profile")+ " , " +    
+				str("True Label")+ " , " +    
 				str("Cur Level")+ "\n ")    
 		
 
@@ -2868,6 +2874,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		right = 0
 		wrong = 0
+		matches = 0 
 
 		for self.cur_eval in self.evaluation_db.evaluations_list:
 
@@ -2880,7 +2887,6 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			#self.op_ole_open_action(filename)
 			
 			tp = self.ole_cur_eval.topics[1]
-			matches = 0 
 
 			# for wa in range(10):
 			# 	for wb in range(10):
@@ -2891,6 +2897,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 			cur_level = 3
 			for qt in range(3):
 				
+				cur_profile = tp.questions[qt].attempts[0].profile
+
 				try:
 					original = tp.questions[qt+1].attempts[0].profile
 				except:
@@ -2949,6 +2957,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 					"{:.2f}".format(beta)+ " , " +    
 					"{:.2f}".format(gama)+ " , " +    
 					str(achieved)+ " , " +    
+					str(cur_profile)+ " , " +    
 					str(original)+ " , " +    
 					str(cur_level)+ "\n ")    
 					
@@ -5182,7 +5191,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 					print "Error trying to opening evaluation:", item 
 					continue
 
-				if aux.group != "Woz-B":
+				# if aux.group != "Woz-B":# or aux.group != "grupoA-Woz":
+				if aux.group != "Woz-B" and  aux.group != "grupoA-Woz":
 				#if aux.group != "grupoA-WozgrupoB-Woz":
 					print aux.group
 					continue

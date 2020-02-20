@@ -80,8 +80,10 @@ class EvaluationDatabase():
         
         for item in self.index_table.Id:#['Id']:
             #print item
-            self.evaluations_list.append(self.load_eval( os.path.join(self.path,str(item),str(item)+".eval")))
-        
+            try:
+                self.evaluations_list.append(self.load_eval( os.path.join(self.path,str(item),str(item)+".eval")))
+            except:
+                print "DEU RUIM NA", item
         
         #print self.users
         
