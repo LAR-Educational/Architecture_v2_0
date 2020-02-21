@@ -58,11 +58,15 @@ class EvaluationDatabase():
 
 
     def load_eval(self, path):
-        f = open(path, 'rb')
-        tmp_dict = cPickle.load(f)
-        f.close()
+        try:
+            f = open(path, 'rb')
+            tmp_dict = cPickle.load(f)
+            f.close()
+            return tmp_dict          
+        except:
+            print "Path {} not found! Evaluation not opened".format(path)
+            raise
 
-        return tmp_dict          
 
         #self.__dict__.update(tmp_dict) 
 
@@ -80,8 +84,11 @@ class EvaluationDatabase():
         
         for item in self.index_table.Id:#['Id']:
             #print item
-            self.evaluations_list.append(self.load_eval( os.path.join(self.path,str(item),str(item)+".eval")))
-        
+            
+            try: 
+                self.evaluations_list.append(self.load_eval( os.path.join(self.path,str(item),str(item)+".eval")))
+            except:
+                print "ERROR IN LOADING EVAL"
         
         #print self.users
         

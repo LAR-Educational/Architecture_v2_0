@@ -12,7 +12,7 @@ import cv2
 import numpy as np
 import pandas as pd
 import math
-import duckduckgo as ddg
+#import duckduckgo as ddg
 from Modules import emotion
 
 import matplotlib.pyplot as plt
