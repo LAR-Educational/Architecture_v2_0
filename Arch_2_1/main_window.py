@@ -473,7 +473,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		
 		if self.shortcut:
 
-			self.act=ct.load_Activity("./Activities/Nutrition/activity.data")#None #"/home/tozadore/Projects/Arch_2/Arch_2_1/Activities/NOVA/Content" #None
+			#self.act=ct.load_Activity("./Activities/Nutrition/activity.data")#None #"/home/tozadore/Projects/Arch_2/Arch_2_1/Activities/NOVA/Content" #None
+			self.act=ct.load_Activity("./Activities/NOVA/activity.data")#None #"/home/tozadore/Projects/Arch_2/Arch_2_1/Activities/NOVA/Content" #None
 			#dataframe_to_table(self.know_pa,table)
 		else:
 			filename = QFileDialog.getOpenFileName(self, 'Open File', './Activities')
