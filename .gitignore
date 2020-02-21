@@ -1,9 +1,11 @@
 *.pyc
 Arch_2_1/AttentionLogs
 Arch_2_1/emotion_imgs
-Arch_2_1/Evaluations/1*
 Arch_2_1/AttentionLogs/
 Arch_2_1/audios/
 Arch_2_1/Activities/
 Arch_2_1/Log/
+<<<<<<< HEAD
 Arch_2_1/Evaluations/BK_19_09_19/
+Arch_2_1/Evaluations/1*
+

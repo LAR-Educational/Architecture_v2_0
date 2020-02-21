@@ -75,7 +75,7 @@ class Data_process:
 			self.classes.sort()
 		except:
 			print "Problems in sorting list"
-			print "Clasees: ", self.classes
+			print "Classes: ", self.classes
 			print "Work path: ", self.work_path
 			classes = os.listdir(os.path.join(self.work_path,"Images"))
 			self.classes = classes
