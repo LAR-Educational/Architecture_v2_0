@@ -84,11 +84,10 @@ class EvaluationDatabase():
         
         for item in self.index_table.Id:#['Id']:
             #print item
-            
-            try: 
+            try:
                 self.evaluations_list.append(self.load_eval( os.path.join(self.path,str(item),str(item)+".eval")))
             except:
-                print "ERROR IN LOADING EVAL"
+                print "ERROR IN LOADING EVAL NUMBER", item
         
         #print self.users
         
