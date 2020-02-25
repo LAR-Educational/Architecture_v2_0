@@ -3,8 +3,8 @@
 
 from pathlib import Path
 import matplotlib.pyplot as plt
-import numpy as np
 from sklearn import svm, metrics, datasets, neural_network, neighbors, naive_bayes
+import numpy as np
 
 #from sklearn.neural_network import MLPClassifier
 

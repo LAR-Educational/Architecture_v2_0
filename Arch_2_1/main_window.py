@@ -2899,9 +2899,9 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				cur_profile = tp.questions[qt].attempts[0].profile
 
 				try:
-					original = tp.questions[qt+1].attempts[0].profile
+					original = self.cur_eval.topics[1].questions[qt+1].attempts[0].profile
 				except:
-					original = self.ole_cur_eval.user_dif_profile
+					original = self.cur_eval.user_dif_profile
 
 				rv = tp.questions[qt].attempts[0].read_values
 
@@ -2991,34 +2991,78 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 	def eval_batch_find_weights(self):
 
+		self.log( "Best Weight finder started \n")
 
-		best_weights = np.zeros((10,10,10))
+		best_weights = np.zeros((10,10,10,15,30,15))
 
 		self.w = adaption.Weights(0,0,0)#self.alfaWeight.value(), self.betaWeight.value(), self.gamaWeight.value())
 
-		self.op_par = adaption.OperationalParameters(
-										self.face_dev_activation.value(),
-										self.negEmoAct__spinBox.value(),
-										self.adp_words_spinBox.value(),#3, #number of words
-										self.learningTime_doubleSpinBox.value(),
-										1)
+
+		# self.op_par = adaption.OperationalParameters(
+		# 								self.face_dev_activation.value(),
+		# 								self.negEmoAct__spinBox.value(),
+		# 								self.adp_words_spinBox.value(),#3, #number of words
+		# 								self.learningTime_doubleSpinBox.value(),
+		# 								1)
 		
 		self.read_values=adaption.ReadValues()
 
 		self.adapt_sys = adaption.AdaptiveSystem(
 			self.robot,
-			self.op_par,
+			None, #self.op_par,
 			self.w,
 			self.read_values)
 
+		total_windows = 0
+
+		ff = open("Read_values_RULEBASED.csv", "w")
+
+		ff.write(
+				str("Eval ID")+ " , " +    
+				str("Question #") + " , " +    
+				str("Deviations")+ " , " +    
+				str("EmotionCount")+ " , " +    
+				str("NumberWord")+ " , " +    
+				str("SucRate")+ " , " +    
+				str("Time2ans")+ " , " +    
+				str("Wa")+ " , " +    
+				str("Alpha")+ " , " +    
+				str("Wb")+ " , " +    
+				str("Beta")+ " , " +    
+				str("Wg")+ " , " +    
+				str("Gama")+ " , " +    
+				str("Fvalue")+ " , " +    
+				str("Increase")+ " , " +    
+				str("Achieved")+ " , " +    
+				str("True")+ " , " +    
+				str("Matched")+ "\n ")    
+		
 
 
+
+		# for face_dev_var in range(15,30):
+		# 	for emo_var in range(20,50):
+		# 		for tta_var in range(15,30):
+
+					
+		self.op_par = adaption.OperationalParameters(
+										face_dev_var,#15, #self.face_dev_activation.value(),
+										emo_var,#65,#self.negEmoAct__spinBox.value(),
+										3,#,self.adp_words_spinBox.value(),#3, #number of words
+										tta_var,#22,#self.learningTime_doubleSpinBox.value(),
+										1)
+		
+		self.adapt_sys.op_par=self.op_par
+		
 		for self.cur_eval in self.evaluation_db.evaluations_list:
+		
+		#for self.cur_eval in self.evaluation_db.evaluations_list[0:2]:
 
 		#self.cur_eval = self.evaluation_db.evaluations_list[0]
 		
 
 			path = "Evaluations/"+str(self.cur_eval.id)+"/OffLineEvals/"+str(self.cur_eval.id)+"_0.ole"
+			#ground_truth = "Evaluations/"+str(self.cur_eval.id)+"/"+str(self.cur_eval.id)+".eval"
 		
 			self.ole_cur_eval = self.evaluation_db.load_eval(path)
 			#self.op_ole_open_action(filename)
@@ -3028,40 +3072,91 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 			for wa in range(10):
 				for wb in range(10):
-					for wg in range(10):
+					for wg in range(1,10):
 
 						self.adapt_sys.w=adaption.Weights(wa/10.0, wb/10.0, wg/10.0)
 						#fitness = 0
 						cur_level = 3
 						for qt in range(3):
 							
+							#cur_profile = tp.questions[qt].attempts[0].profile
+
 							try:
-								original = tp.questions[qt+1].attempts[0].profile
+								original = self.cur_eval.topics[1].questions[qt+1].attempts[0].profile
 							except:
-								original = self.ole_cur_eval.user_dif_profile
+								original = self.cur_eval.user_dif_profile
 
 							rv = tp.questions[qt].attempts[0].read_values
 
-							self.adapt_sys.read_values=rv
+							#rv.sucRate = 1.0-rv.sucRate
 
-							fvalue, alpha, beta, gama = self.adapt_sys.adp_function(qt)
+							self.adapt_sys.read_values=rv
+							self.read_values= rv
+							fvalue, alpha, beta, gama = self.adapt_sys.adp_function(qt, print_flag=False)
 							achieved = self.adapt_sys.activation_function(fvalue)
 							
+
+
 							cur_level += achieved
 
+							if cur_level > 5:
+								cur_level = 5 
+							elif cur_level < 1:
+								cur_level = 1
+								
+
+							matched = False
+
 							if original == cur_level:
-								print original, cur_level
-								best_weights[wa][wb][wg]+=1
+								#print "Resul:", original, cur_level
+								# best_weights[wa][wb][wg]+=1
+								best_weights[wa][wb][wg][face_dev_var-15][emo_var-20][tta_var-15]+=1
+								
 								matches += 1
+								matched = True
+
+
+							# ff.write(
+							# str(self.cur_eval.id)+ " , " +    
+							# str(qt+1)+ " , " +    
+							# "{:.2f}".format(self.read_values.deviations)+ " , " +    
+							# "{:.2f}".format(self.read_values.emotionCount)+ " , " +    
+							# "{:.2f}".format(self.read_values.numberWord)+ " , " +    
+							# "{:.2f}".format(self.read_values.sucRate)+ " , " +    
+							# "{:.2f}".format(self.read_values.time2ans)+ " , " +    
+							# "{:.2f}".format(wa/10.0)+ " , " +    
+							# "{:.2f}".format(alpha)+ " , " +    
+							# "{:.2f}".format(wb/10.0)+ " , " +    
+							# "{:.2f}".format(beta)+ " , " +    
+							# "{:.2f}".format(wg/10.0)+ " , " +    
+							# "{:.2f}".format(gama)+ " , " +    
+							# "{:.2f}".format(fvalue)+ " , " +    
+							# str(achieved)+ " , " +    
+							# str(cur_level)+ " , " +    
+							# str(original)+ ", " +    
+							# str(matched)+ "\n ")    
+							
+		best_fit = np.max(best_weights)
+		total = self.evaluation_db.size*3
+		print "MAX {} of {}".format(best_fit,total)
+
+		print "Accuracy: {:.2f}".format((best_fit/total))
 
 		out = open("Evaluations/weights.csv","w+")
 
-		for wa in range(10):
-			for wb in range(10):
-				for wg in range(10):
-					out.write(str(wa/10.0)+","+str(wb/10.0)+","+str(wg/10.0)+","+str(best_weights[wa][wb][wg])+"\n")
+		# for wa in range(10):
+		# 	for wb in range(10):
+		# 		for wg in range(10):
+		# 			for face_dev_var in range(15,30):
+		# 				for emo_var in range(20,50):
+		# 					for tta_var in range(15,30):
+
+								# out.write(str(wa/10.0)+","+str(wb/10.0)+","+str(wg/10.0)+","+
+								# str(face_dev_var-15) + "," + str(emo_var-20) + "," + str(tta_var-15) + "," +
+								# str(best_weights[wa][wb][wg][face_dev_var-15][emo_var-20][tta_var-15])+"\n")
 
 		out.close()
+		ff.close()
 
 		
 		self.log("\n\nEnded with {} matches!".format(matches))
