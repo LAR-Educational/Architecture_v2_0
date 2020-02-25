@@ -197,16 +197,29 @@ class StatesFuzzyControl:
         #rules.append( ctrl.Rule(self.success['high'], self.task['efficient']) )
 
         # rules.append( ctrl.Rule(self.success['high'] , self.task['efficient']) )
-        # rules.append( ctrl.Rule(self.success['average'] & self.ans_time['Average'] , self.task['efficient']) )
         # rules.append( ctrl.Rule(self.success['average'] & self.ans_time['Slow'], self.task['regular']) )
         # rules.append( ctrl.Rule(self.success['low'] & self.ans_time['Slow'], self.task['inefficient']) )
         # rules.append( ctrl.Rule(self.success['low'] | self.ans_time['Average'], self.task['inefficient']) )
         # rules.append( ctrl.Rule(self.success['low'] & self.ans_time['Fast'], self.task['inefficient']) )
         #print rules
+        rules.append( ctrl.Rule(self.success['high'] & self.ans_time['Fast'] , self.task['efficient']) )
+        rules.append( ctrl.Rule(self.success['high'] & self.ans_time['Average'] , self.task['efficient']) )
+        rules.append( ctrl.Rule(self.success['high'] & self.ans_time['Slow'] , self.task['efficient']) )
 
-        rules.append( ctrl.Rule(self.success['high'] ,      self.task['efficient']) )
-        rules.append( ctrl.Rule(self.success['average'],    self.task['regular']) )
-        rules.append( ctrl.Rule(self.success['low'] ,       self.task['inefficient']) )
+
+        rules.append( ctrl.Rule(self.success['average'] & self.ans_time['Fast'] , self.task['efficient']) )
+        rules.append( ctrl.Rule(self.success['average'] & self.ans_time['Average'] , self.task['regular']) )
+        rules.append( ctrl.Rule(self.success['average'] & self.ans_time['Slow'] , self.task['regular']) )
+
+        rules.append( ctrl.Rule(self.success['low'] & self.ans_time['Fast'] , self.task['inefficient']) )
+        rules.append( ctrl.Rule(self.success['low'] & self.ans_time['Average'] , self.task['inefficient']) )
+        rules.append( ctrl.Rule(self.success['low'] & self.ans_time['Slow'] , self.task['inefficient']) )
+
+
+
+        # rules.append( ctrl.Rule(self.success['high'] ,      self.task['efficient']) )
+        # rules.append( ctrl.Rule(self.success['average'],    self.task['regular']) )
+        # rules.append( ctrl.Rule(self.success['low'] ,       self.task['inefficient']) )
         
         #print rules
          
@@ -521,8 +534,8 @@ if __name__=="__main__":
         r = ReadValues(30, 100, 5, 22.2, a)
 
         # measures =  fz.compute_states(r)
-        print a,  fz.compute_states(r)
         try:
+            print a,  fz.compute_states(r)
             pass
         except:
             print "Problems in ", a 
