@@ -99,39 +99,43 @@ class AdaptiveSystem:
 
 
 
-	def adp_function(self, adaptive_frame, fadp_previous_value = 0):
+	def adp_function(self, adaptive_frame, fadp_previous_value = 0, print_flag = True):
 	
 		#calculating the alpha vector
 	
 		alpha = normalize(self.read_values.deviations, self.op_par.max_deviation)
-		core.info("Alpha :" + str(alpha)) 
+		
+		
 	
 		#calculating the beta vector
 		beta = (normalize(self.read_values.emotionCount, self.op_par.max_emotion_count) + 
 			normalize(self.read_values.numberWord, self.op_par.min_number_word) )/2
 		
-		core.info("Beta :" + str(beta)) 
-	
 		#calculating the gama vector
-		# gama = (normalize(self.read_values.time2ans, self.op_par.max_time2ans) + 
-		# 	 normalize(self.read_values.sucRate, self.op_par.min_suc_rate) )/2
+		gama = (normalize(self.read_values.time2ans, self.op_par.max_time2ans) 
+				+  2*normalize(self.read_values.sucRate, self.op_par.min_suc_rate) )/3
 		
-		gama = normalize(self.read_values.sucRate, self.op_par.min_suc_rate) 
+		#gama = normalize(self.read_values.sucRate, self.op_par.min_suc_rate) 
 		
-
-		core.info("Gama :" + str(gama)) 
+		#gama = self.read_values.sucRate
 	
 	
 		fadp = self.w.alpha*alpha + self.w.beta*beta + self.w.gama*gama
-		core.info("fadp(t) = w.alpha*alpha + w.beta*beta + w.gama*gama")
-		core.info(str(fadp) + " = " 
-					+ str(self.w.alpha) + "*" + str(alpha) 
-					+ " + " + str(self.w.beta) + "*" + str(beta) + " + "
-					+  str(self.w.gama) + "*" + str(gama))
 	
 		# fadp(t) = fadp(t-1) + fadp(t)
 		fadp =  fadp + fadp_previous_value
-		core.info("Final: " + str(fadp))				
+	
+		if print_flag:
+			core.info("Alpha :" + str(alpha)) 
+			core.info("Beta :" + str(beta)) 
+			core.info("Gama :" + str(gama)) 
+			core.info("fadp(t) = w.alpha*alpha + w.beta*beta + w.gama*gama")
+			core.info(str(fadp) + " = " 
+						+ str(self.w.alpha) + "*" + str(alpha) 
+						+ " + " + str(self.w.beta) + "*" + str(beta) + " + "
+						+  str(self.w.gama) + "*" + str(gama))
+			core.info("Final: " + str(fadp))				
+		
 		
 		if self.out_path is not None:
 			path_name = os.path.join( "Log", "AdaptiveLogs", self.out_path + "_reads.txt") 
