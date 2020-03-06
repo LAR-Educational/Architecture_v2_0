@@ -163,17 +163,22 @@ class StatesFuzzyControl:
         # Auto-membership function population is possible with .automf(3, 5, or 7)
         
         # Extremes for lower case (1.4) and higher (4.2) = 2.75
-        self.success['low'] = fuzz.trimf(self.success.universe, [0, 1, 3] )
-        self.success['average'] = fuzz.trimf(self.success.universe, [4, 6, 7] )
-        self.success['high'] = fuzz.trimf(self.success.universe, [7, 10, 10] )
+        # self.success['low'] = fuzz.trimf(self.success.universe, [0, 1, 3] )
+        # self.success['average'] = fuzz.trimf(self.success.universe, [4, 6, 7] )
+        # self.success['high'] = fuzz.trimf(self.success.universe, [7, 10, 10] )
 
-        low = max_tta/3.0
-        mid = 0.67 * max_tta
-        high = max_tta
+        # self.success.automf(2)
+        self.success.automf(2, names=["low","high"])
 
-        self.ans_time['Fast']       = fuzz.trimf(self.ans_time.universe,  [0, low/2.0, low] )
-        self.ans_time['Average']    = fuzz.trimf(self.ans_time.universe,  [low, mid, high] )
-        self.ans_time['Slow']       = fuzz.trimf(self.ans_time.universe,  [ mid , high, max_tta])
+        # low = max_tta/3.0
+        # mid = 0.67 * max_tta
+        # high = max_tta
+
+
+        self.ans_time.automf(3,names=["Slow", "Average", "Fast" ])
+        # self.ans_time['Fast']       = fuzz.trimf(self.ans_time.universe,  [0, low/2.0, low] )
+        # self.ans_time['Average']    = fuzz.trimf(self.ans_time.universe,  [low, mid, high] )
+        # self.ans_time['Slow']       = fuzz.trimf(self.ans_time.universe,  [ mid , high, max_tta])
         
         # Custom membership functions can be built interactively with a familiar,
         # Pythonic API
@@ -186,13 +191,13 @@ class StatesFuzzyControl:
 
         #print rules
 
-        #rules.append( ctrl.Rule(self.success['high'], self.task['efficient']) )
-        # rules.append( ctrl.Rule(self.success['high'] | self.ans_time['Fast'] , self.task['efficient']) )
-        # rules.append( ctrl.Rule(self.success['high'] | self.ans_time['Average'] , self.task['efficient']) )
-        # rules.append( ctrl.Rule(self.success['high'] | self.ans_time['Slow'], self.task['regular']) )
-        # rules.append( ctrl.Rule(self.success['low'] | self.ans_time['Slow'], self.task['inefficient']) )
-        # rules.append( ctrl.Rule(self.success['low'] | self.ans_time['Average'], self.task['inefficient']) )
-        # rules.append( ctrl.Rule(self.success['low'] | self.ans_time['Fast'], self.task['inefficient']) )
+        rules.append( ctrl.Rule(self.success['high'], self.task['efficient']) )
+        rules.append( ctrl.Rule(self.success['high'] & self.ans_time['Fast'] , self.task['efficient']) )
+        rules.append( ctrl.Rule(self.success['high'] & self.ans_time['Average'] , self.task['efficient']) )
+        rules.append( ctrl.Rule(self.success['high'] & self.ans_time['Slow'], self.task['regular']) )
+        rules.append( ctrl.Rule(self.success['low'] & self.ans_time['Slow'], self.task['inefficient']) )
+        rules.append( ctrl.Rule(self.success['low'] & self.ans_time['Average'], self.task['inefficient']) )
+        rules.append( ctrl.Rule(self.success['low'] & self.ans_time['Fast'], self.task['inefficient']) )
             
         #rules.append( ctrl.Rule(self.success['high'], self.task['efficient']) )
 
@@ -202,26 +207,31 @@ class StatesFuzzyControl:
         # rules.append( ctrl.Rule(self.success['low'] | self.ans_time['Average'], self.task['inefficient']) )
         # rules.append( ctrl.Rule(self.success['low'] & self.ans_time['Fast'], self.task['inefficient']) )
         #print rules
-        rules.append( ctrl.Rule(self.success['high'] & self.ans_time['Fast'] , self.task['efficient']) )
-        rules.append( ctrl.Rule(self.success['high'] & self.ans_time['Average'] , self.task['efficient']) )
-        rules.append( ctrl.Rule(self.success['high'] & self.ans_time['Slow'] , self.task['efficient']) )
+        # rules.append( ctrl.Rule(self.success['high'] & self.ans_time['Fast'] , self.task['efficient']) )
+        # rules.append( ctrl.Rule(self.success['high'] & self.ans_time['Average'] , self.task['efficient']) )
+        # rules.append( ctrl.Rule(self.success['high'] & self.ans_time['Slow'] , self.task['efficient']) )
 
 
-        rules.append( ctrl.Rule(self.success['average'] & self.ans_time['Fast'] , self.task['efficient']) )
-        rules.append( ctrl.Rule(self.success['average'] & self.ans_time['Average'] , self.task['regular']) )
-        rules.append( ctrl.Rule(self.success['average'] & self.ans_time['Slow'] , self.task['regular']) )
+        # rules.append( ctrl.Rule(self.success['average'] & self.ans_time['Fast'] , self.task['efficient']) )
+        # rules.append( ctrl.Rule(self.success['average'] & self.ans_time['Average'] , self.task['regular']) )
+        # rules.append( ctrl.Rule(self.success['average'] & self.ans_time['Slow'] , self.task['regular']) )
 
-        rules.append( ctrl.Rule(self.success['low'] & self.ans_time['Fast'] , self.task['inefficient']) )
-        rules.append( ctrl.Rule(self.success['low'] & self.ans_time['Average'] , self.task['inefficient']) )
-        rules.append( ctrl.Rule(self.success['low'] & self.ans_time['Slow'] , self.task['inefficient']) )
-
+        # rules.append( ctrl.Rule(self.success['low'] & self.ans_time['Fast'] , self.task['inefficient']) )
+        # rules.append( ctrl.Rule(self.success['low'] & self.ans_time['Average'] , self.task['inefficient']) )
+        # rules.append( ctrl.Rule(self.success['low'] & self.ans_time['Slow'] , self.task['inefficient']) )
 
 
         # rules.append( ctrl.Rule(self.success['high'] ,      self.task['efficient']) )
         # rules.append( ctrl.Rule(self.success['average'],    self.task['regular']) )
         # rules.append( ctrl.Rule(self.success['low'] ,       self.task['inefficient']) )
+       
+
+        # rules.append( ctrl.Rule(self.success['good'] ,      self.task['efficient']) )
+        # # rules.append( ctrl.Rule(self.success['average'],    self.task['regular']) )
+        # rules.append( ctrl.Rule(self.success['poor'] ,       self.task['inefficient']) )
         
         #print rules
+        self.success.view()
          
 
         task_ctrl_sys = ctrl.ControlSystem(rules)
@@ -315,9 +325,11 @@ class Adaptive():
         
         # Custom membership functions can be built interactively with a familiar,
         # Pythonic API
-        self.attention['distracted'] = fuzz.trimf(self.attention.universe, [0, 0, 4])
-        self.attention['medium'] = fuzz.trimf(self.attention.universe, [2, 5, 8] )
-        self.attention['concentrated'] = fuzz.trimf(self.attention.universe, [6, 10, 10])
+        # self.attention['distracted'] = fuzz.trimf(self.attention.universe, [0, 0, 4])
+        # self.attention['medium'] = fuzz.trimf(self.attention.universe, [2, 5, 8] )
+        # self.attention['concentrated'] = fuzz.trimf(self.attention.universe, [6, 10, 10])
+
+        self.attention.automf(3, names=['distracted','medium', 'concentrated' ])
 
 
         #------------------ COMMUNICATION
@@ -325,10 +337,10 @@ class Adaptive():
       
         # Custom membership functions can be built interactively with a familiar,
         # Pythonic API
-        self.communication['introverted'] = fuzz.trimf(self.attention.universe, [0, 2, 4])
-        self.communication['neutral'] = fuzz.trimf(self.attention.universe,  [2, 5, 8] )
-        self.communication['extroverted'] = fuzz.trimf(self.attention.universe,  [6, 8, 10])
-
+        # self.communication['introverted'] = fuzz.trimf(self.attention.universe, [0, 2, 4])
+        # self.communication['neutral'] = fuzz.trimf(self.attention.universe,  [2, 5, 8] )
+        # self.communication['extroverted'] = fuzz.trimf(self.attention.universe,  [6, 8, 10])
+        self.communication.automf(3, names= ["introverted", "neutral","extroverted" ] )
 
         #------------------ TASK
 
@@ -338,15 +350,16 @@ class Adaptive():
         
         # Custom membership functions can be built interactively with a familiar,
         # Pythonic API
-        self.task['inefficient']= fuzz.trimf(self.attention.universe, [0, 2, 4])
-        self.task['regular']    = fuzz.trimf(self.attention.universe, [2, 5, 8] )
-        self.task['efficient']  = fuzz.trimf(self.attention.universe, [6, 8, 10])
+        # self.task['inefficient']= fuzz.trimf(self.attention.universe, [0, 2, 4])
+        # self.task['regular']    = fuzz.trimf(self.attention.universe, [2, 5, 8] )
+        # self.task['efficient']  = fuzz.trimf(self.attention.universe, [6, 8, 10])
 
+        self.task.automf(3, names=["inefficient", "regular", "efficient"] )
 
 
         # ADAPTATION
 
-        self.adaptation = ctrl.Consequent(np.arange(0, 6, 1), 'Adaptation')
+        self.adaptation = ctrl.Consequent(np.arange(1, 5, 1), 'Adaptation')
 
         self.adaptation.automf(5)
 
@@ -363,7 +376,7 @@ class Adaptive():
         rules.append( ctrl.Rule(self.attention['concentrated'] & self.task['efficient'] , self.adaptation['decent']) )
         rules.append( ctrl.Rule(self.attention['medium'] & self.communication['neutral']  & self.task['regular'] , self.adaptation['average']) )
         rules.append( ctrl.Rule(self.attention['distracted'] & self.task['efficient'] , self.adaptation['decent']) )
-        rules.append( ctrl.Rule(self.attention['distracted'] | self.communication['introverted']  | self.task['inefficient'] , self.adaptation['poor']) )
+        rules.append( ctrl.Rule(self.attention['distracted'] & self.communication['introverted']  & self.task['inefficient'] , self.adaptation['poor']) )
         #rules.append( ctrl.Rule(self.success['low'] | self.ans_time['Slow'], self.task['inefficient']) )
 
 

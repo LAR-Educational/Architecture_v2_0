@@ -4,6 +4,49 @@
 import os
 import codecs
 
+import numpy as np
+import time
+
+st = time.time()
+
+print "Started", st
+
+out = open("out.txt", "w")
+
+# f = np.loadtxt(open("Evaluations/weights_64.csv", "rb"), delimiter=",")
+f = np.loadtxt(open("Evaluations/weights_72.csv", "rb"), delimiter=",")
+
+print "loaded. Searching maximum", (st - time.time())/60
+
+
+#i = np.where(f == np.amax(f))
+
+
+row = f[np.where(f[:,6] == 72)]
+# row = f[np.where(f[:,6] == 64)]
+
+
+print "Done", (st - time.time())/60
+
+#print row[0]
+
+np.savetxt('72.csv', row, delimiter=',', fmt='%f')
+
+#out.write(row[0])
+#print f[np.where(f[:,6] == 64)]
+out.close()
+#f.close()
+
+
+
+
+
+
+
+
+
+
+
 class File(object):
 	def __init__(self, filename='data', folder='Database'):
 		self.filename = filename
