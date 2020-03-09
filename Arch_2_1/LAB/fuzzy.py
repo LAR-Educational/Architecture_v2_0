@@ -49,7 +49,7 @@ class StatesFuzzyControl:
     def __init__(self,  max_gaze=10, #max_posture=10, 
                         max_words=10, max_emotions=10,
                         max_success=1, max_tta = 30,
-                        print_flag=False):
+                        auto = False, print_flag=False):
 
         self.print_flag = print_flag
 
@@ -64,14 +64,19 @@ class StatesFuzzyControl:
         self.posture.automf(3)
         #self.gaze.automf(5)
 
-        inf = max_gaze/3
-        av = max_gaze/2
-        sup = max_gaze*2/3
+        if auto:
+            self.gaze.automf(3, names=["rare", "neutral", "frequent"])
 
-        self.gaze['rare'] = fuzz.trimf(self.gaze.universe, [0, 0, inf+1])
-        self.gaze['neutral'] = fuzz.trimf(self.gaze.universe, [inf-1, av, sup+1])
-        self.gaze['frequent'] = fuzz.trimf(self.gaze.universe, [sup-1, max_gaze, max_gaze])
-        
+        else:
+            inf = max_gaze/3
+            av = max_gaze/2
+            sup = max_gaze*2/3
+
+            self.gaze['rare'] = fuzz.trimf(self.gaze.universe, [0, 0, inf+1])
+            self.gaze['neutral'] = fuzz.trimf(self.gaze.universe, [inf-1, av, sup+1])
+            self.gaze['frequent'] = fuzz.trimf(self.gaze.universe, [sup-1, max_gaze, max_gaze])
+
+
         # Custom membership functions can be built interactively with a familiar,
         # Pythonic API
         self.attention['distracted'] = fuzz.trimf(self.attention.universe, [0, 0, 4])
@@ -102,38 +107,45 @@ class StatesFuzzyControl:
         self.words = ctrl.Antecedent(np.arange(0, max_words+1, 1), 'Words')
         self.communication = ctrl.Consequent(np.arange(0, 11, 1), 'Communication')
 
-        # Auto-membership function population is possible with .automf(3, 5, or 7)
-        inf = max_emotions/3
-        mid = max_emotions/2
-        sup = max_emotions*2/3
+       
+        if auto:
+            self.emotions.automf(5, names=["excited", "happy", "neutral", "sad", "frustrated"])
+            self.words.automf(3, names=["contained", "regular", "talker"])
+            self.communication.automf(3, names=["introverted", "neutral", "extroverted"])
         
-        self.emotions['excited'] = fuzz.trimf(self.emotions.universe, [0, inf/2, inf])
-        self.emotions['happy'] = fuzz.trimf(self.emotions.universe, [inf/2, inf, mid] )
-        self.emotions['neutral'] = fuzz.trimf(self.emotions.universe, [inf, mid, sup])
-        self.emotions['sad'] = fuzz.trimf(self.emotions.universe, [inf, sup/2, sup])
-        self.emotions['frustrated'] = fuzz.trimf(self.emotions.universe, [sup/2, sup,max_emotions ])
-     
+        else:
+        # Auto-membership function population is possible with .automf(3, 5, or 7)
+            inf = max_emotions/3
+            mid = max_emotions/2
+            sup = max_emotions*2/3
+            
+            self.emotions['excited'] = fuzz.trimf(self.emotions.universe, [0, inf/2, inf])
+            self.emotions['happy'] = fuzz.trimf(self.emotions.universe, [inf/2, inf, mid] )
+            self.emotions['neutral'] = fuzz.trimf(self.emotions.universe, [inf, mid, sup])
+            self.emotions['sad'] = fuzz.trimf(self.emotions.universe, [inf, sup/2, sup])
+            self.emotions['frustrated'] = fuzz.trimf(self.emotions.universe, [sup/2, sup,max_emotions ])
+        
 
-        inf = (max_words/3)-1
-        av = max_words/2
-        sup = int(max_words*2/3)
-        self.words['contained'] = fuzz.trimf(self.words.universe, [0, 1, 2] )
-        self.words['regular'] = fuzz.trimf(self.words.universe, [1, 2, 3])
-        self.words['talker'] = fuzz.trimf(self.words.universe, [3, 4, 5])
+            inf = (max_words/3)-1
+            av = max_words/2
+            sup = int(max_words*2/3)
+            self.words['contained'] = fuzz.trimf(self.words.universe, [0, 1, 2] )
+            self.words['regular'] = fuzz.trimf(self.words.universe, [1, 2, 3])
+            self.words['talker'] = fuzz.trimf(self.words.universe, [3, 4, 5])
 
-        # Custom membership functions can be built interactively with a familiar,
-        # Pythonic API
-        self.communication['introverted']   = fuzz.trimf(self.communication.universe,  [0, 2, 4] )
-        self.communication['neutral']       =  fuzz.trimf(self.communication.universe, [2, 5, 8] )
-        self.communication['extroverted']   = fuzz.trimf(self.communication.universe,  [6, 8, 10])
+            # Custom membership functions can be built interactively with a familiar,
+            # Pythonic API
+            self.communication['introverted']   = fuzz.trimf(self.communication.universe,  [0, 2, 4] )
+            self.communication['neutral']       =  fuzz.trimf(self.communication.universe, [2, 5, 8] )
+            self.communication['extroverted']   = fuzz.trimf(self.communication.universe,  [6, 8, 10])
 
         rules = []
 
         rules.append( ctrl.Rule(self.emotions['frustrated'] , self.communication['neutral']) )
-        rules.append( ctrl.Rule(self.emotions['frustrated'] | self.words['talker'] , self.communication['neutral']) )
-        rules.append( ctrl.Rule(self.emotions['sad'] | self.words['contained'] , self.communication['introverted']) )
+        rules.append( ctrl.Rule(self.emotions['frustrated'] & self.words['talker'] , self.communication['neutral']) )
+        rules.append( ctrl.Rule(self.emotions['sad'] & self.words['contained'] , self.communication['introverted']) )
         rules.append( ctrl.Rule(self.emotions['neutral'] , self.communication['neutral']) )
-        rules.append( ctrl.Rule(self.emotions['happy'] | self.words['regular'] , self.communication['extroverted']) )
+        rules.append( ctrl.Rule(self.emotions['happy'] & self.words['regular'] , self.communication['extroverted']) )
         # rules.append( ctrl.Rule(self.emotions['excited'] | self.words['talker'] , self.communication['extroverted']) )
         rules.append( ctrl.Rule( self.words['talker'] , self.communication['extroverted']) )
         
@@ -161,30 +173,35 @@ class StatesFuzzyControl:
 
 
         # Auto-membership function population is possible with .automf(3, 5, or 7)
+        if auto:
+            self.success.automf(2, names=["low","high"])
+            self.ans_time.automf(3,names=["Slow", "Average", "Fast" ])
+            self.task.automf(3, names=["inefficient", "regular", "efficient"])
         
         # Extremes for lower case (1.4) and higher (4.2) = 2.75
-        # self.success['low'] = fuzz.trimf(self.success.universe, [0, 1, 3] )
-        # self.success['average'] = fuzz.trimf(self.success.universe, [4, 6, 7] )
-        # self.success['high'] = fuzz.trimf(self.success.universe, [7, 10, 10] )
-
-        # self.success.automf(2)
-        self.success.automf(2, names=["low","high"])
-
-        # low = max_tta/3.0
-        # mid = 0.67 * max_tta
-        # high = max_tta
-
-
-        self.ans_time.automf(3,names=["Slow", "Average", "Fast" ])
-        # self.ans_time['Fast']       = fuzz.trimf(self.ans_time.universe,  [0, low/2.0, low] )
-        # self.ans_time['Average']    = fuzz.trimf(self.ans_time.universe,  [low, mid, high] )
-        # self.ans_time['Slow']       = fuzz.trimf(self.ans_time.universe,  [ mid , high, max_tta])
         
+        else:
+            self.success['low'] = fuzz.trimf(self.success.universe, [0, 1, 3] )
+            #self.success['average'] = fuzz.trimf(self.success.universe, [4, 6, 7] )
+            self.success['high'] = fuzz.trimf(self.success.universe, [7, 10, 10] )
+
+            #hahahahahah
+            # self.success.automf(2, an)
+
+            low = max_tta/3.0
+            mid = 0.67 * max_tta
+            high = max_tta
+
+
+            self.ans_time['Fast']       = fuzz.trimf(self.ans_time.universe,  [0, low/2.0, low] )
+            self.ans_time['Average']    = fuzz.trimf(self.ans_time.universe,  [low, mid, high] )
+            self.ans_time['Slow']       = fuzz.trimf(self.ans_time.universe,  [ mid , high, max_tta])
+            
         # Custom membership functions can be built interactively with a familiar,
         # Pythonic API
-        self.task['inefficient']= fuzz.trimf(self.task.universe, [0, 2, 4] )
-        self.task['regular']    = fuzz.trimf(self.task.universe, [2, 5, 8] )
-        self.task['efficient']  = fuzz.trimf(self.task.universe, [6, 8, 10] )
+            self.task['inefficient']= fuzz.trimf(self.task.universe, [0, 2, 4] )
+            self.task['regular']    = fuzz.trimf(self.task.universe, [2, 5, 8] )
+            self.task['efficient']  = fuzz.trimf(self.task.universe, [6, 8, 10] )
 
 
         rules = []
@@ -537,14 +554,15 @@ class Adaptive():
 if __name__=="__main__":
     # pass
     fz = StatesFuzzyControl( max_gaze=30,
-                            max_emotions=100,
+                            max_emotions=400,
                             max_words=5,
                             max_tta=22,
+                            auto= True,
                             print_flag=False)
 
     for a in range(10):
 
-        r = ReadValues(30, 100, 5, 22.2, a)
+        r = ReadValues(30, 500, 3, 22.2, a)
 
         # measures =  fz.compute_states(r)
         try:
@@ -554,19 +572,22 @@ if __name__=="__main__":
             print "Problems in ", a 
         #raw_input("Press any button")
 
-    exit()
+    #exit()
 
 
     fz = Adaptive(print_flag=False)
 
 
-    # for a in range(10):
-    #     for b in range(10):
-    #         for c in range(10):
+    for a in range(1,10):
+        for b in range(1,10):
+            for c in range(1,10):
 
-    #             values = [a,b,c]
+                values = [a,b,c]
+                try:
+                    print a,b,c, "%.2f"%fz.compute_fvalue(values)
+                except:
+                    print "No good at", values
 
-    #             print a,b,c, "%.2f"%fz.compute_fvalue(values)
 
     time.sleep(5)
 
