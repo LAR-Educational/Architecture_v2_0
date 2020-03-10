@@ -66,7 +66,7 @@ class StatesFuzzyControl:
 
         if auto:
             self.gaze.automf(3, names=["rare", "neutral", "frequent"])
-
+            self.attention.automf(3, names=["distracted", "medium", "concentrated"] )
         else:
             inf = max_gaze/3
             av = max_gaze/2
@@ -77,11 +77,11 @@ class StatesFuzzyControl:
             self.gaze['frequent'] = fuzz.trimf(self.gaze.universe, [sup-1, max_gaze, max_gaze])
 
 
-        # Custom membership functions can be built interactively with a familiar,
-        # Pythonic API
-        self.attention['distracted'] = fuzz.trimf(self.attention.universe, [0, 0, 4])
-        self.attention['medium'] = fuzz.trimf(self.attention.universe, [2, 5, 8])
-        self.attention['concentrated'] = fuzz.trimf(self.attention.universe, [6, 10, 10])
+            # Custom membership functions can be built interactively with a familiar,
+            # Pythonic API
+            self.attention['distracted'] = fuzz.trimf(self.attention.universe, [0, 0, 4])
+            self.attention['medium'] = fuzz.trimf(self.attention.universe, [2, 5, 8])
+            self.attention['concentrated'] = fuzz.trimf(self.attention.universe, [6, 10, 10])
 
         #self.gaze.view()
         #self.attention.view()
@@ -141,14 +141,36 @@ class StatesFuzzyControl:
 
         rules = []
 
-        rules.append( ctrl.Rule(self.emotions['frustrated'] , self.communication['neutral']) )
-        rules.append( ctrl.Rule(self.emotions['frustrated'] & self.words['talker'] , self.communication['neutral']) )
-        rules.append( ctrl.Rule(self.emotions['sad'] & self.words['contained'] , self.communication['introverted']) )
-        rules.append( ctrl.Rule(self.emotions['neutral'] , self.communication['neutral']) )
-        rules.append( ctrl.Rule(self.emotions['happy'] & self.words['regular'] , self.communication['extroverted']) )
+        # rules.append( ctrl.Rule(self.emotions['frustrated'] , self.communication['neutral']) )
+        # rules.append( ctrl.Rule(self.emotions['frustrated'] & self.words['talker'] , self.communication['neutral']) )
+        # rules.append( ctrl.Rule(self.emotions['sad'] & self.words['contained'] , self.communication['introverted']) )
+        # rules.append( ctrl.Rule(self.emotions['neutral'] , self.communication['neutral']) )
+        # rules.append( ctrl.Rule(self.emotions['happy'] & self.words['regular'] , self.communication['extroverted']) )
         # rules.append( ctrl.Rule(self.emotions['excited'] | self.words['talker'] , self.communication['extroverted']) )
-        rules.append( ctrl.Rule( self.words['talker'] , self.communication['extroverted']) )
+        # rules.append( ctrl.Rule( self.words['talker'] , self.communication['extroverted']) )
         
+        # rules.append( ctrl.Rule(self.emotions['frustrated'] & self.words['contained'] , self.communication['introverted']) )
+        # rules.append( ctrl.Rule(self.emotions['frustrated'] & self.words['regular'] , self.communication['introverted']) )
+        # rules.append( ctrl.Rule(self.emotions['frustrated'] & self.words['talker'] , self.communication['neutral']) )
+        
+        rules.append( ctrl.Rule(self.emotions['frustrated'] , self.communication['introverted']) )
+        
+        rules.append( ctrl.Rule(self.emotions['sad'] & self.words['contained'] , self.communication['introverted']) )
+        rules.append( ctrl.Rule(self.emotions['sad'] & self.words['regular'] , self.communication['introverted']) )
+        rules.append( ctrl.Rule(self.emotions['sad'] & self.words['talker'] , self.communication['neutral']) )
+        rules.append( ctrl.Rule(self.emotions['neutral'] & self.words['contained'], self.communication['neutral']) )
+        rules.append( ctrl.Rule(self.emotions['neutral'] & self.words['regular'], self.communication['neutral']) )
+        rules.append( ctrl.Rule(self.emotions['neutral'] & self.words['talker'], self.communication['extroverted']) )
+        rules.append( ctrl.Rule(self.emotions['happy'] & self.words['contained'] , self.communication['neutral']) )
+        rules.append( ctrl.Rule(self.emotions['happy'] & self.words['regular'] , self.communication['extroverted']) )
+        rules.append( ctrl.Rule(self.emotions['happy'] & self.words['talker'] , self.communication['extroverted']) )
+        # rules.append( ctrl.Rule(self.emotions['excited'] & self.words['contained'] , self.communication['extroverted']) )
+        # rules.append( ctrl.Rule(self.emotions['excited'] & self.words['regular'] , self.communication['extroverted']) )
+        # rules.append( ctrl.Rule(self.emotions['excited'] & self.words['talker'] , self.communication['extroverted']) )
+        rules.append( ctrl.Rule(self.emotions['excited'] , self.communication['extroverted']) )
+        
+
+
 
         com_ctrl_sys = ctrl.ControlSystem(rules)
 
@@ -174,16 +196,17 @@ class StatesFuzzyControl:
 
         # Auto-membership function population is possible with .automf(3, 5, or 7)
         if auto:
-            self.success.automf(2, names=["low","high"])
-            self.ans_time.automf(3,names=["Slow", "Average", "Fast" ])
+            self.success.automf(3, names=["low", "medium", "high"])
+            #self.ans_time.automf(3,names=["Slow", "Average", "Fast" ])
+            self.ans_time.automf(3,names=["Fast", "Average", "Slow" ])
             self.task.automf(3, names=["inefficient", "regular", "efficient"])
         
         # Extremes for lower case (1.4) and higher (4.2) = 2.75
         
         else:
-            self.success['low'] = fuzz.trimf(self.success.universe, [0, 1, 3] )
-            #self.success['average'] = fuzz.trimf(self.success.universe, [4, 6, 7] )
-            self.success['high'] = fuzz.trimf(self.success.universe, [7, 10, 10] )
+            self.success['low'] = fuzz.trimf(self.success.universe, [0, 3, 5] )
+            self.success['medium'] = fuzz.trimf(self.success.universe, [3, 5, 7] )
+            self.success['high'] = fuzz.trimf(self.success.universe, [5, 8, 10] )
 
             #hahahahahah
             # self.success.automf(2, an)
@@ -209,13 +232,19 @@ class StatesFuzzyControl:
         #print rules
 
         rules.append( ctrl.Rule(self.success['high'], self.task['efficient']) )
-        rules.append( ctrl.Rule(self.success['high'] & self.ans_time['Fast'] , self.task['efficient']) )
-        rules.append( ctrl.Rule(self.success['high'] & self.ans_time['Average'] , self.task['efficient']) )
-        rules.append( ctrl.Rule(self.success['high'] & self.ans_time['Slow'], self.task['regular']) )
-        rules.append( ctrl.Rule(self.success['low'] & self.ans_time['Slow'], self.task['inefficient']) )
-        rules.append( ctrl.Rule(self.success['low'] & self.ans_time['Average'], self.task['inefficient']) )
-        rules.append( ctrl.Rule(self.success['low'] & self.ans_time['Fast'], self.task['inefficient']) )
-            
+        # rules.append( ctrl.Rule(self.success['high'] & self.ans_time['Fast'] , self.task['efficient']) )
+        # rules.append( ctrl.Rule(self.success['high'] & self.ans_time['Average'] , self.task['efficient']) )
+        # rules.append( ctrl.Rule(self.success['high'] & self.ans_time['Slow'], self.task['regular']) )
+        rules.append( ctrl.Rule(self.success['medium'] & self.ans_time['Fast'] , self.task['efficient']) )
+        rules.append( ctrl.Rule(self.success['medium'] & self.ans_time['Average'] , self.task['regular']) )
+        rules.append( ctrl.Rule(self.success['medium'] & self.ans_time['Slow'], self.task['inefficient']) )
+        # rules.append( ctrl.Rule(self.success['low'] & self.ans_time['Slow'], self.task['inefficient']) )
+        # rules.append( ctrl.Rule(self.success['low'] & self.ans_time['Average'], self.task['inefficient']) )
+        # rules.append( ctrl.Rule(self.success['low'] & self.ans_time['Fast'], self.task['inefficient']) )
+
+        rules.append( ctrl.Rule(self.success['low'] , self.task['inefficient']) )
+
+
         #rules.append( ctrl.Rule(self.success['high'], self.task['efficient']) )
 
         # rules.append( ctrl.Rule(self.success['high'] , self.task['efficient']) )
@@ -248,7 +277,7 @@ class StatesFuzzyControl:
         # rules.append( ctrl.Rule(self.success['poor'] ,       self.task['inefficient']) )
         
         #print rules
-        self.success.view()
+        #self.success.view()
          
 
         task_ctrl_sys = ctrl.ControlSystem(rules)
@@ -372,6 +401,7 @@ class Adaptive():
         # self.task['efficient']  = fuzz.trimf(self.attention.universe, [6, 8, 10])
 
         self.task.automf(3, names=["inefficient", "regular", "efficient"] )
+        #self.task.automf(3, names=["inefficient",  "efficient"] )
 
 
         # ADAPTATION
@@ -389,10 +419,13 @@ class Adaptive():
         #print rules
 
         rules.append( ctrl.Rule(self.task['efficient'] , self.adaptation['good']) )
-        rules.append( ctrl.Rule(self.attention['concentrated'] & self.communication['extroverted']  & self.task['efficient'] , self.adaptation['good']) )
-        rules.append( ctrl.Rule(self.attention['concentrated'] & self.task['efficient'] , self.adaptation['decent']) )
-        rules.append( ctrl.Rule(self.attention['medium'] & self.communication['neutral']  & self.task['regular'] , self.adaptation['average']) )
-        rules.append( ctrl.Rule(self.attention['distracted'] & self.task['efficient'] , self.adaptation['decent']) )
+        #rules.append( ctrl.Rule(self.attention['concentrated'] & self.communication['extroverted']  & self.task['efficient'] , self.adaptation['good']) )
+        rules.append( ctrl.Rule(self.attention['concentrated'] & self.communication['extroverted'] & self.task['regular'] , self.adaptation['good']) )
+        
+        rules.append( ctrl.Rule(self.attention['medium'] & self.communication['neutral']  & self.task['regular'] , self.adaptation['poor']) )
+        
+        rules.append( ctrl.Rule(self.attention['distracted'] & self.communication['extroverted'] & self.task['efficient'] , self.adaptation['decent']) )
+        
         rules.append( ctrl.Rule(self.attention['distracted'] & self.communication['introverted']  & self.task['inefficient'] , self.adaptation['poor']) )
         #rules.append( ctrl.Rule(self.success['low'] | self.ans_time['Slow'], self.task['inefficient']) )
 
@@ -554,28 +587,34 @@ class Adaptive():
 if __name__=="__main__":
     # pass
     fz = StatesFuzzyControl( max_gaze=30,
-                            max_emotions=400,
-                            max_words=5,
-                            max_tta=22,
+                            max_emotions=500,
+                            max_words=3,
+                            max_tta=60,
                             auto= True,
                             print_flag=False)
 
-    for a in range(10):
 
-        r = ReadValues(30, 500, 3, 22.2, a)
+    # for a in range(0,35):
 
-        # measures =  fz.compute_states(r)
-        try:
-            print a,  fz.compute_states(r)
-            pass
-        except:
-            print "Problems in ", a 
-        #raw_input("Press any button")
+
+    #     r = ReadValues(a, 100, 2, 1 , 9)
+
+    #     # measures =  fz.compute_states(r)
+    #     try:
+    #         print a,  fz.compute_states(r)
+    #         pass
+    #     except:
+    #         print "Problems in ", a 
+    #     #raw_input("Press any button")
 
     #exit()
 
 
     fz = Adaptive(print_flag=False)
+
+    # values = [1.3,8.14,1.8]
+
+    # print "%.2f"%fz.compute_fvalue(values)
 
 
     for a in range(1,10):
@@ -588,8 +627,9 @@ if __name__=="__main__":
                 except:
                     print "No good at", values
 
+    #test = raw_input("VLA")
 
-    time.sleep(5)
+    # time.sleep(5)
 
 
 

@@ -2910,11 +2910,12 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				self.read_values=rv
 
 
+				values = self.states_fuzzy_control.compute_states(self.read_values)
 				try:
-					values = self.states_fuzzy_control.compute_states(self.read_values)
 					right+=1
+				
 				except Exception as ex:
-					self.log("Evaluation number {} with problems in question {}".format(self.cur_eval.id, qt+1 ), "e")
+					self.log("Evaluation number {} with problems in question {}\n{}".format(self.cur_eval.id, qt+1,ex.message ), "e")
 					wrong+=1
 					# Current profile
 					# Current profileERROR\n")
@@ -2931,12 +2932,23 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				#core.info("Beta Fuzzy: "+ str(beta))
 				#core.info("Gama Fuzzy: "+ str(gama))
 				fvalue = self.adaptive_fuzzy_control.compute_fvalue(values) / 10.0
+
+				print "FVALEU", fvalue
+
+
 				core.info("FVALUE -> " +str(fvalue))
 
 				#fvalue, alpha, beta, gama = self.adapt_sys.adp_function(qt)
 
-				achieved = self.adapt_sys.activation_function(fvalue)
+				#achieved = self.adapt_sys.activation_function(fvalue)
 				
+				if fvalue > 2.5:
+					achieved = 1
+				# elif fvalue <2.5:
+				else:
+					achieved = -1
+
+
 				cur_level += achieved
 
 				if original == cur_level:
