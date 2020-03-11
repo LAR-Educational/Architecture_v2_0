@@ -265,7 +265,7 @@ class StatesFuzzyControl:
         # rules.append( ctrl.Rule(self.success['low'] & self.ans_time['Fast'] , self.task['inefficient']) )
         # rules.append( ctrl.Rule(self.success['low'] & self.ans_time['Average'] , self.task['inefficient']) )
         # rules.append( ctrl.Rule(self.success['low'] & self.ans_time['Slow'] , self.task['inefficient']) )
-
+        # git filter-branch --index-filter 'git rm -r --cached --ignore-unmatch Arch_2_1/Evaluations/weights_72.csv' HEAD
 
         # rules.append( ctrl.Rule(self.success['high'] ,      self.task['efficient']) )
         # rules.append( ctrl.Rule(self.success['average'],    self.task['regular']) )
