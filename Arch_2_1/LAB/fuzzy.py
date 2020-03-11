@@ -49,7 +49,7 @@ class StatesFuzzyControl:
     def __init__(self,  max_gaze=10, #max_posture=10, 
                         max_words=10, max_emotions=10,
                         max_success=1, max_tta = 30,
-                        auto = False, print_flag=False):
+                        auto = True, print_flag=False):
 
         self.print_flag = print_flag
 
@@ -149,24 +149,29 @@ class StatesFuzzyControl:
         # rules.append( ctrl.Rule(self.emotions['excited'] | self.words['talker'] , self.communication['extroverted']) )
         # rules.append( ctrl.Rule( self.words['talker'] , self.communication['extroverted']) )
         
+        
+        rules.append( ctrl.Rule(self.emotions['frustrated'] , self.communication['introverted']) )
+        
         # rules.append( ctrl.Rule(self.emotions['frustrated'] & self.words['contained'] , self.communication['introverted']) )
         # rules.append( ctrl.Rule(self.emotions['frustrated'] & self.words['regular'] , self.communication['introverted']) )
         # rules.append( ctrl.Rule(self.emotions['frustrated'] & self.words['talker'] , self.communication['neutral']) )
         
-        rules.append( ctrl.Rule(self.emotions['frustrated'] , self.communication['introverted']) )
-        
         rules.append( ctrl.Rule(self.emotions['sad'] & self.words['contained'] , self.communication['introverted']) )
         rules.append( ctrl.Rule(self.emotions['sad'] & self.words['regular'] , self.communication['introverted']) )
         rules.append( ctrl.Rule(self.emotions['sad'] & self.words['talker'] , self.communication['neutral']) )
+       
         rules.append( ctrl.Rule(self.emotions['neutral'] & self.words['contained'], self.communication['neutral']) )
         rules.append( ctrl.Rule(self.emotions['neutral'] & self.words['regular'], self.communication['neutral']) )
         rules.append( ctrl.Rule(self.emotions['neutral'] & self.words['talker'], self.communication['extroverted']) )
+       
         rules.append( ctrl.Rule(self.emotions['happy'] & self.words['contained'] , self.communication['neutral']) )
         rules.append( ctrl.Rule(self.emotions['happy'] & self.words['regular'] , self.communication['extroverted']) )
         rules.append( ctrl.Rule(self.emotions['happy'] & self.words['talker'] , self.communication['extroverted']) )
+       
         # rules.append( ctrl.Rule(self.emotions['excited'] & self.words['contained'] , self.communication['extroverted']) )
         # rules.append( ctrl.Rule(self.emotions['excited'] & self.words['regular'] , self.communication['extroverted']) )
         # rules.append( ctrl.Rule(self.emotions['excited'] & self.words['talker'] , self.communication['extroverted']) )
+       
         rules.append( ctrl.Rule(self.emotions['excited'] , self.communication['extroverted']) )
         
 

@@ -4,7 +4,6 @@
 import os
 import codecs
 
-<<<<<<< HEAD
 import numpy as np
 import time
 
@@ -48,8 +47,6 @@ out.close()
 
 
 
-=======
->>>>>>> 8588090925555211825cca553f36ade5016ea42c
 class File(object):
 	def __init__(self, filename='data', folder='Database'):
 		self.filename = filename

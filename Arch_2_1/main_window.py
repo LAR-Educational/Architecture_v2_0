@@ -116,6 +116,9 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		# --- Initials setup
 
+		
+
+
 		app_icon = QIcon()
 		app_icon.addFile('Robot_R-CASTLE', QSize(16,16))
 		app_icon.addFile('Robot_R-CASTLE', QSize(24,24))
@@ -466,7 +469,9 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 		#self.evals_to_csv()
-		#exit()
+		self.eval_best_fit_fuzzy()
+		exit()
+		
 		restore_state(self.settings)
 
 
@@ -2851,7 +2856,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				str("Achieved Adaptation")+ " , " +    
 				str("Current profile")+ " , " +    
 				str("True Profile")+ " , " +    
-				str("True Adaptation")+ "\n ")    
+				str("True Adaptation")+ ", " +    
+				str("Error")+ "\n ")    
 		
 
 		self.op_par = adaption.OperationalParameters(
@@ -2910,8 +2916,10 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				self.read_values=rv
 
 
-				values = self.states_fuzzy_control.compute_states(self.read_values)
+				error = "False"
+
 				try:
+					values = self.states_fuzzy_control.compute_states(self.read_values)
 					right+=1
 				
 				except Exception as ex:
@@ -2920,7 +2928,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 					# Current profile
 					# Current profileERROR\n")
 					# Current profile
-					continue
+					error = "TRUE"
+					#continue
 				
 				#ff.write('\n')
 
@@ -2970,7 +2979,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 					str(achieved)+ " , " +    
 					str(cur_profile)+ " , " +    
 					str(original)+ " , " +    
-					str(original-cur_profile)+ "\n ")    
+					str(original-cur_profile)+ " , " +    
+					str(error)+ "\n ")    
 					
 
 
