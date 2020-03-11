@@ -427,11 +427,13 @@ class Adaptive():
         #rules.append( ctrl.Rule(self.attention['concentrated'] & self.communication['extroverted']  & self.task['efficient'] , self.adaptation['good']) )
         rules.append( ctrl.Rule(self.attention['concentrated'] & self.communication['extroverted'] & self.task['regular'] , self.adaptation['good']) )
         
-        rules.append( ctrl.Rule(self.attention['medium'] & self.communication['neutral']  & self.task['regular'] , self.adaptation['poor']) )
+        rules.append( ctrl.Rule(self.attention['medium'] & self.communication['neutral']  & self.task['regular'] , self.adaptation['average']) )
         
-        rules.append( ctrl.Rule(self.attention['distracted'] & self.communication['extroverted'] & self.task['efficient'] , self.adaptation['decent']) )
+        rules.append( ctrl.Rule(self.attention['distracted'] & self.communication['extroverted'] & self.task['regular'] , self.adaptation['decent']) )
         
-        rules.append( ctrl.Rule(self.attention['distracted'] & self.communication['introverted']  & self.task['inefficient'] , self.adaptation['poor']) )
+        rules.append( ctrl.Rule(self.attention['distracted'] & self.communication['introverted']  & self.task['regular'] , self.adaptation['mediocre']) )
+
+        rules.append( ctrl.Rule(self.task['inefficient'] , self.adaptation['poor']) )
         #rules.append( ctrl.Rule(self.success['low'] | self.ans_time['Slow'], self.task['inefficient']) )
 
 

@@ -469,8 +469,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 		#self.evals_to_csv()
-		self.eval_best_fit_fuzzy()
-		exit()
+		# self.eval_best_fit_fuzzy()
+		# exit()
 		
 		restore_state(self.settings)
 
@@ -2853,10 +2853,10 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				str("Alpha")+ " , " +    
 				str("Beta")+ " , " +    
 				str("Gama")+ " , " +    
-				str("Achieved Adaptation")+ " , " +    
-				str("Current profile")+ " , " +    
+				str("Achieved")+ " , " +    
+				str("True")+ ", " +    
 				str("True Profile")+ " , " +    
-				str("True Adaptation")+ ", " +    
+				str("F Value")+ " , " +    
 				str("Error")+ "\n ")    
 		
 
@@ -2940,12 +2940,12 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				#core.info("Alpha Fuzzy: "+ str(alpha))
 				#core.info("Beta Fuzzy: "+ str(beta))
 				#core.info("Gama Fuzzy: "+ str(gama))
-				fvalue = self.adaptive_fuzzy_control.compute_fvalue(values) / 10.0
+				fvalue = self.adaptive_fuzzy_control.compute_fvalue(values) #/ 10.0
 
-				print "FVALEU", fvalue
+				#print "FVALEU", fvalue
 
 
-				core.info("FVALUE -> " +str(fvalue))
+				#core.info("FVALUE -> " +str(fvalue))
 
 				#fvalue, alpha, beta, gama = self.adapt_sys.adp_function(qt)
 
@@ -2960,10 +2960,21 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 				cur_level += achieved
 
-				if original == cur_level:
-					print original, cur_level
+				mt = 0
+				
+				if original == 1 and cur_profile ==1:
+					variation =-1
+				elif original == 5 and cur_profile == 5:
+					variation = 1
+				else:
+					variation = original-cur_profile
+
+
+				if variation == achieved:
+					# print original, cur_level
 					#best_weights[wa][wb][wg]+=1
 					matches += 1
+					mt = 1
 
 				ff.write(
 					str(self.cur_eval.id)+ " , " +    
@@ -2977,10 +2988,10 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 					"{:.2f}".format(beta)+ " , " +    
 					"{:.2f}".format(gama)+ " , " +    
 					str(achieved)+ " , " +    
-					str(cur_profile)+ " , " +    
-					str(original)+ " , " +    
 					str(original-cur_profile)+ " , " +    
-					str(error)+ "\n ")    
+					str(original)+ " , " +    
+					"{:.2f}".format(fvalue) + " , " +    
+					str(mt)+ "\n ")    
 					
 
 
@@ -2997,7 +3008,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		self.log("\n\nEnded with {} matches!".format(matches))
 		print "Right:", right
 		print "Wrong:", wrong
-
+		print "Acc:", float(float(matches)/ (right+wrong))
 
 
 
