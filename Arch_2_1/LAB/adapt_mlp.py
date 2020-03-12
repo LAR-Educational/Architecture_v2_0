@@ -12,81 +12,53 @@ data = np.loadtxt("mlp.csv", delimiter=',', skiprows=1)
 
 datasize = len(data[:,0])
 
-print datasize
-
-
-
-n1 = np.count_nonzero(data[:,5] ==-1)
-n0 = np.count_nonzero(data[:,5] == 0)
-nm1 =np.count_nonzero(data[:,5] == 1)
-
-
-
-print n1,n0, nm1, n1+n0+nm1
-
-# print ([data[:,5]==-1]==True)
-# print data[:,5]==-1
-# print data[:,5]==-1
-
-# nm1 = len(data[:5]==-1)
-# n0
-# n1
-
-#exit()
-
-
+#print datasize
 
 # x_train = data[:int(datasize*0.66),:5]
 # y_train = data[:int(datasize*0.66),5]
 
-# # print len(xtrain)
-# # print len(ytrain)
+X = data[:,:5]
+Y = data[:,5]
+
+# print len(xtrain)
+# print len(ytrain)
 
 
 # x_test = data[int(datasize*0.66):,:5]
 # y_test = data[int(datasize*0.66):,5]
 
-xtest = data[:,:5]
-ytest = data[:,5]
 
 
-#x_train, x_test, y_train, y_test = 
+# xtest = data[]
+# ytest =
 
 
-
-
-model = neural_network.MLPClassifier(solver= 'sgd', hidden_layer_sizes=(10,10,10, 10), max_iter= 10000, momentum=0.0, power_t=0.5)
+model = neural_network.MLPClassifier(solver= 'sgd', hidden_layer_sizes=(1000,1000,1000), 
+                                    max_iter= 100, momentum=0.1,
+                                    power_t=0.5)
 
 # model = mlp
 
 
-# model = svm.SVC(C=1, kernel='linear')
+# model = svm.SVC(C=3, kernel='linear')
 
-# model = svm.LinearSVC(penalty='l2',loss='hinge', dual=True, tol=1e-5, multi_class='crammer_singer', class_weight='balanced')
+# model = svm.LinearSVC(penalty='l2',loss='hinge', dual=True, tol=1e-5, multi_class='crammer_singer', class_weight='balancede')
 
 # model = neighbors.KNeighborsClassifier(n_neighbors=5)
 
 
+result = cross_val_score(model, X, Y, cv=10)
+
+print result 
+
+print np.average(result) , len(result)
 
 
 
-scores = cross_val_score(model, xtest, ytest, cv=10)
 
-print (scores)
-print np.average(scores)
+
 
 exit()
-
-
-
-
-
-
-
-
-
-
-
 
 
 

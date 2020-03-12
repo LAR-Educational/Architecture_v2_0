@@ -2988,7 +2988,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 					"{:.2f}".format(beta)+ " , " +    
 					"{:.2f}".format(gama)+ " , " +    
 					str(achieved)+ " , " +    
-					str(original-cur_profile)+ " , " +    
+					str(variation)+ " , " +    
 					str(original)+ " , " +    
 					"{:.2f}".format(fvalue) + " , " +    
 					str(mt)+ "\n ")    
