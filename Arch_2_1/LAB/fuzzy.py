@@ -17,7 +17,7 @@ import numpy as np
 import skfuzzy as fuzz
 import matplotlib.pyplot as plt
 from skfuzzy import control as ctrl
-  
+from pprint import pprint
 
 class ReadValues:
     """
@@ -44,7 +44,8 @@ class ReadValues:
 
 
 
-class StatesFuzzyControl:
+# class StatesFuzzyControl:
+class StatesFuzzyControl2:
 
     def __init__(self,  max_gaze=10, #max_posture=10, 
                         max_words=10, max_emotions=10,
@@ -411,9 +412,11 @@ class Adaptive():
 
         # ADAPTATION
 
-        self.adaptation = ctrl.Consequent(np.arange(1, 5, 1), 'Adaptation')
+        self.adaptation = ctrl.Consequent(np.arange(0, 10, 1), 'Adaptation')
+        # self.adaptation = ctrl.Consequent(np.arange(1, 5, 1), 'Adaptation')
 
-        self.adaptation.automf(5)
+        self.adaptation.automf(3, names=['Low', 'Medium', 'High'])
+        # self.adaptation.automf(5)
 
 
         #self.adaptation.view()
@@ -421,20 +424,33 @@ class Adaptive():
 
         rules = []
 
+        rules.append( ctrl.Rule(self.task['efficient'] , self.adaptation['High']) )
+        #rules.append( ctrl.Rule(self.attention['concentrated'] & self.communication['extroverted']  & self.task['efficient'] , self.adaptation['good']) )
+        rules.append( ctrl.Rule(self.attention['concentrated'] & self.communication['extroverted'] & self.task['regular'] , self.adaptation['Medium']) )
+        
+        rules.append( ctrl.Rule(self.attention['medium'] & self.communication['neutral']  & self.task['regular'] , self.adaptation['Medium']) )
+        
+        rules.append( ctrl.Rule(self.attention['distracted'] & self.communication['extroverted'] & self.task['regular'] , self.adaptation['Medium']) )
+        
+        rules.append( ctrl.Rule(self.attention['distracted'] & self.communication['introverted']  & self.task['regular'] , self.adaptation['Medium']) )
+
+        rules.append( ctrl.Rule(self.task['inefficient'] , self.adaptation['Low']) )
+        #rules.append( ctrl.Rule(self.success['low'] | self.ans_time['Slow'], self.task['inefficient']) )
+
         #print rules
 
-        rules.append( ctrl.Rule(self.task['efficient'] , self.adaptation['good']) )
-        #rules.append( ctrl.Rule(self.attention['concentrated'] & self.communication['extroverted']  & self.task['efficient'] , self.adaptation['good']) )
-        rules.append( ctrl.Rule(self.attention['concentrated'] & self.communication['extroverted'] & self.task['regular'] , self.adaptation['good']) )
+        # rules.append( ctrl.Rule(self.task['efficient'] , self.adaptation['good']) )
+        # #rules.append( ctrl.Rule(self.attention['concentrated'] & self.communication['extroverted']  & self.task['efficient'] , self.adaptation['good']) )
+        # rules.append( ctrl.Rule(self.attention['concentrated'] & self.communication['extroverted'] & self.task['regular'] , self.adaptation['good']) )
         
-        rules.append( ctrl.Rule(self.attention['medium'] & self.communication['neutral']  & self.task['regular'] , self.adaptation['average']) )
+        # rules.append( ctrl.Rule(self.attention['medium'] & self.communication['neutral']  & self.task['regular'] , self.adaptation['average']) )
         
-        rules.append( ctrl.Rule(self.attention['distracted'] & self.communication['extroverted'] & self.task['regular'] , self.adaptation['decent']) )
+        # rules.append( ctrl.Rule(self.attention['distracted'] & self.communication['extroverted'] & self.task['regular'] , self.adaptation['decent']) )
         
-        rules.append( ctrl.Rule(self.attention['distracted'] & self.communication['introverted']  & self.task['regular'] , self.adaptation['mediocre']) )
+        # rules.append( ctrl.Rule(self.attention['distracted'] & self.communication['introverted']  & self.task['regular'] , self.adaptation['mediocre']) )
 
-        rules.append( ctrl.Rule(self.task['inefficient'] , self.adaptation['poor']) )
-        #rules.append( ctrl.Rule(self.success['low'] | self.ans_time['Slow'], self.task['inefficient']) )
+        # rules.append( ctrl.Rule(self.task['inefficient'] , self.adaptation['poor']) )
+        # #rules.append( ctrl.Rule(self.success['low'] | self.ans_time['Slow'], self.task['inefficient']) )
 
 
         if self.print_flag:
@@ -499,91 +515,99 @@ class Adaptive():
 
 
 
-# def exemple():
-
-
-#     # New Antecedent/Consequent objects hold universe variables and membership
-#     # functions
-#     quality = ctrl.Antecedent(np.arange(0, 11, 1), 'quality')
-#     service = ctrl.Antecedent(np.arange(0, 11, 1), 'service')
-#     tip = ctrl.Consequent(np.arange(0, 26, 1), 'tip')
-
-#     # Auto-membership function population is possible with .automf(3, 5, or 7)
-#     quality.automf(3)
-#     service.automf(5)
-
-#     # Custom membership functions can be built interactively with a familiar,
-#     # Pythonic API
-#     tip['low'] = fuzz.trimf(tip.universe, [0, 5, 20])
-#     tip['medium'] = fuzz.trimf(tip.universe, [0, 13, 25])
-#     tip['high'] = fuzz.trimf(tip.universe, [13, 25, 25])
-
-
-#     tip.view()
+class StatesFuzzyControl:
     
-    
-    
-#     raw_input()
+    def __init__(self,  max_gaze=10, #max_posture=10, 
+                        max_words=10, max_emotions=10,
+                        max_success=1, max_tta = 30,
+                        auto = True, print_flag=False):
+
+        self.print_flag = print_flag
+
+        # --------------- ATTENTION
+        self.gaze = ctrl.Antecedent(np.arange(0, max_gaze+1, 1), 'Gaze')
+        self.gaze.automf(3, names=["rare", "neutral", "frequent"])
+
+        #------------------ COMMUNICATION
+        self.emotions = ctrl.Antecedent(np.arange(0, max_emotions, 1), 'Emotions')
+        self.words = ctrl.Antecedent(np.arange(0, max_words+1, 1), 'Words')
+
+        self.emotions.automf(3, names=["happy", "neutral", "sad", ])
+        self.words.automf(3, names=["contained", "regular", "talker"])
+
+        #------------------ TASK
+        self.success = ctrl.Antecedent(np.arange(0, 11, 1), 'Success')
+        self.ans_time = ctrl.Antecedent(np.arange(0, max_tta+1, 1), 'Answer_Time')
+
+        self.success.automf(3, names=["low", "medium", "high"])
+        self.ans_time.automf(3,names=["fast", "average", "slow" ])
+
+       
+        #------------------- Adaptation
+       
+        self.adaptation = ctrl.Consequent(np.arange(0, 10, 1), 'Adaptation')
+     
+        self.adaptation.automf(3, names=['Low', 'Medium', 'High'])
+     
+        rules = []
+
+        rules.append( ctrl.Rule(self.success['high'] , self.adaptation['High']) )
+     
+        rules.append( ctrl.Rule(self.gaze['frequent'] & 
+                        self.emotions['happy'] & self.words['talker']  &
+                        self.success['medium'] & self.ans_time['fast'],
+                        self.adaptation['High']) )
+
+
+        rules.append( ctrl.Rule(self.gaze['neutral'] & 
+                        self.emotions['neutral'] & self.words['regular']  &
+                        self.success['medium'] & self.ans_time['average'],
+                        self.adaptation['Medium']) )
+
+
+        rules.append( ctrl.Rule(self.gaze['rare'] & 
+                        self.emotions['sad'] & self.words['contained']  &
+                        self.success['medium'] & self.ans_time['slow'],
+                        self.adaptation['Low']) )
+
+
+        rules.append( ctrl.Rule(self.success['low'] , self.adaptation['Low']) )
+
+
+        ctrl_sys = ctrl.ControlSystem(rules)
+
+        self.adp_func = ctrl.ControlSystemSimulation(ctrl_sys)
+
+        if print_flag:
+            self.gaze.view()
+            self.posture.view()
+            self.attention.view()
+
+            self.emotions.view()
+            self.words.view()
+            self.communication.view()
+
+
+            self.success.view()
+            self.ans_time.view()
+            self.task.view()
 
 
 
+    def compute(self, read_values):
 
+        # --- ALPHA --- 
+        self.adp_func.input['Gaze'] = read_values.deviations
+        # --- BETA --- 
+        self.adp_func.input['Emotions'] = read_values.emotionCount
+        self.adp_func.input['Words'] = read_values.numberWord
+        # --- GAMA --- 
+        self.adp_func.input['Answer_Time'] = read_values.time2ans
+        self.adp_func.input['Success'] = read_values.sucRate
 
-# def adap():
+        self.adp_func.compute()
 
-
-#     # New Antecedent/Consequent objects hold universe variables and membership
-#     # functions
-#     self.posture = ctrl.Antecedent(np.arange(0, 11, 1), 'self.posture')
-#     self.gaze = ctrl.Antecedent(np.arange(0, 11, 1), 'self.gaze')
-#     self.attention = ctrl.Consequent(np.arange(0, 11, 1), 'self.attention')
-
-#     # Auto-membership function population is possible with .automf(3, 5, or 7)
-#     self.posture.automf(3)
-#     #self.gaze.automf(5)
-
-#     self.gaze['rare'] = fuzz.trimf(self.gaze.universe, [0, 2, 4])
-#     self.gaze['neutral'] = fuzz.trimf(self.gaze.universe, [2, 5, 7])
-#     self.gaze['frequent'] = fuzz.trimf(self.gaze.universe, [5, 10, 10])
-#     #self.gaze[''] = fuzz.trimf(self.gaze.universe, [0, 0, 4])
-#     #self.gaze[''] = fuzz.trimf(self.gaze.universe, [0, 0, 4])
-
-#     # Custom membership functions can be built interactively with a familiar,
-#     # Pythonic API
-#     self.attention['distracted'] = fuzz.trimf(self.attention.universe, [0, 0, 4])
-#     self.attention['medium'] = fuzz.gaussmf(self.attention.universe, 5, 2.3 )
-#     self.attention['concentrated'] = fuzz.trimf(self.attention.universe, [6, 10, 10])
-
-#     self.gaze.view()
-#     self.attention.view()
-    
-#     rule1 = ctrl.Rule(self.gaze['rare'] | self.posture['poor'], self.attention['distracted'])
-#     rule2 = ctrl.Rule(self.gaze['neutral'], self.attention['medium'])
-#     rule3 = ctrl.Rule(self.gaze['frequent'] | self.posture['good'], self.attention['concentrated'])
-
-
-#     #rule1.view()
-    
-
-#     adp_ctrl = ctrl.ControlSystem([rule1, rule2, rule3])
-
-#     adp = ctrl.ControlSystemSimulation(adp_ctrl)
-
-
-#     adp.input['self.gaze'] = 1
-#     adp.input['self.posture'] = 1
-
-#     adp.compute()
-
-#     print adp.output['self.attention']
-
-
-#     self.attention.view(sim=adp)
-
-
-#     raw_input()
-
-
+        return self.adp_func.output['Adaptation']
 
 
 
@@ -592,6 +616,60 @@ class Adaptive():
 
 
 if __name__=="__main__":
+    
+    
+    
+    print "TEST"
+    
+    fz = StatesFuzzyControl( max_gaze=30,
+                            max_emotions=500,
+                            max_words=3,
+                            max_tta=60,
+                            auto= True,
+                            print_flag=False)
+
+
+ #   pprint(vars(fz))
+    
+    print 
+    print 
+
+#    pprint(vars(fz.words))
+    r = ReadValues( 8.00 ,	 407.00 ,	 3.00 ,	 1.82 ,	 69.53) 
+
+
+    defuzzify_method = "mom"
+    fz.adaptation.defuzzify_method = defuzzify_method
+
+    pprint(vars(fz.adaptation))
+
+    print   fz.compute(r)
+
+
+    
+    
+    fz.gaze.defuzzify_method = defuzzify_method
+    fz.words.defuzzify_method = defuzzify_method
+    fz.emotions.defuzzify_method = defuzzify_method
+    fz.success.defuzzify_method = defuzzify_method
+    fz.ans_time.defuzzify_method = defuzzify_method
+
+    pprint(vars(fz.adaptation))
+
+
+
+    print   fz.compute(r)
+
+
+
+
+    
+    
+    
+    
+def old_main():    
+    
+    
     # pass
     fz = StatesFuzzyControl( max_gaze=30,
                             max_emotions=500,
@@ -601,20 +679,30 @@ if __name__=="__main__":
                             print_flag=False)
 
 
-    # for a in range(0,35):
 
 
-    #     r = ReadValues(a, 100, 2, 1 , 9)
+    r = vReadValues(  8.00 ,	 407.00 ,	 3.00 ,	 1.82 ,	 69.53 
+) 
 
-    #     # measures =  fz.compute_states(r)
-    #     try:
-    #         print a,  fz.compute_states(r)
-    #         pass
-    #     except:
-    #         print "Problems in ", a 
-    #     #raw_input("Press any button")
 
-    #exit()
+
+    # print fz.compute(r)
+
+    # exit()
+    for a in range(0,10):
+    
+        r = ReadValues(15, 100, 2, a , 9)
+
+        # measures =  fz.compute_states(r)
+        try:
+            print a,  fz.compute(r)
+            pass
+        except:
+            print "Problems in ", a 
+        #raw_input("Press any button")
+
+    exit()
+
 
 
     fz = Adaptive(print_flag=False)

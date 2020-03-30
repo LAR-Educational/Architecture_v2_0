@@ -27,6 +27,8 @@ from GUI.show_graph import *#,MyApp
 from GUI import schedule 
 from GUI import system_variables_control
 
+
+
 # --- Opening dialog window
 class MyOpening(Process):
 
@@ -469,8 +471,9 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 		#self.evals_to_csv()
-		# self.eval_best_fit_fuzzy()
-		# exit()
+		self.eval_best_fit_fuzzy()
+		#self.eval_batch_find_weights()
+		exit()
 		
 		restore_state(self.settings)
 
@@ -2842,6 +2845,9 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		ff = open("Read_values.csv", "w")
 
+		confusion_matrix = np.zeros((3,3))
+
+
 		ff.write(
 				str("Eval ID")+ " , " +    
 				str("Question #") + " , " +    
@@ -2879,6 +2885,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		right = 0
 		wrong = 0
 		matches = 0 
+
+		results = []
 
 		for self.cur_eval in self.evaluation_db.evaluations_list:
 
@@ -2951,11 +2959,15 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 				#achieved = self.adapt_sys.activation_function(fvalue)
 				
-				if fvalue > 2.5:
+				results.append(fvalue)
+
+				if fvalue > 4.1:
 					achieved = 1
-				# elif fvalue <2.5:
-				else:
+				elif fvalue < 3.8:
 					achieved = -1
+				else:
+					achieved = 0
+					print fvalue
 
 
 				cur_level += achieved
@@ -2976,6 +2988,9 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 					matches += 1
 					mt = 1
 
+				confusion_matrix [variation+1, achieved+1] += 1
+
+
 				ff.write(
 					str(self.cur_eval.id)+ " , " +    
 					str(qt+1)+ " , " +    
@@ -2995,6 +3010,19 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 					
 
 
+		print confusion_matrix
+
+		print "Max:", max(results), "Min:", min (results), "Avg:", np.average(results)
+
+		f = open("foo_FUZZY.csv", "w")
+
+		for i in range(3):
+			for j in range(3):
+				f.write(str(confusion_matrix[i][j])+ " ,")
+			f.write("\n")
+
+		f.close()
+
 
 		# out = open("Evaluations/weights.csv","w+")
 
@@ -3011,6 +3039,9 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		print "Acc:", float(float(matches)/ (right+wrong))
 
 
+		plt.hist(results,  alpha=0.5)
+
+		plt.show()
 
 
 
@@ -3074,16 +3105,18 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		# 		str("Matched")+ "\n ")    
 		
 
-		fdv = 10
-		ev = 200
-		tv = 10
+		fdv = 20
+		ev = 413
+		tv = 59
 
-		d1 = 30
-		d2 = 50
-		d3 = 40
+		d1 = 1
+		d2 = 1
+		d3 = 1
 
 
 		best_weights = np.zeros((10,10,10,fdv+d1,ev+d2,tv+d3))
+
+		confusion_matrix = np.zeros((3,3))
 
 		for face_dev_var in range(fdv,fdv+d1):
 			for emo_var in range(ev,ev+d2):
@@ -3093,7 +3126,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 					self.op_par = adaption.OperationalParameters(
 													face_dev_var,#15, #self.face_dev_activation.value(),
 													emo_var,#65,#self.negEmoAct__spinBox.value(),
-													5,#,self.adp_words_spinBox.value(),#3, #number of words
+													3,#,self.adp_words_spinBox.value(),#3, #number of words
 													tta_var,#22,#self.learningTime_doubleSpinBox.value(),
 													1)
 					
@@ -3115,16 +3148,16 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 						tp = self.ole_cur_eval.topics[1]
 						matches = 0 
 
-						for wa in range(10):
-							for wb in range(10):
-								for wg in range(1,10):
+						for wa in range(0,1):
+							for wb in range(4,5):
+								for wg in range(9,10):
 
 									self.adapt_sys.w=adaption.Weights(wa/10.0, wb/10.0, wg/10.0)
 									#fitness = 0
 									cur_level = 3
 									for qt in range(3):
 										
-										#cur_profile = tp.questions[qt].attempts[0].profile
+										cur_profile = self.cur_eval.topics[1].questions[qt].attempts[0].profile
 
 										try:
 											original = self.cur_eval.topics[1].questions[qt+1].attempts[0].profile
@@ -3151,12 +3184,32 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 											
 
 										matched = False
+										
+										if original == 1 and cur_profile ==1:
+											variation =-1
+										elif original == 5 and cur_profile == 5:
+											variation = 1
+										else:
+											variation = original-cur_profile
 
-										if original == cur_level:
+
+										confusion_matrix [variation+1, achieved+1] += 1
+
+
+										# if cur_level == original:
+										if variation == achieved:
 											#print "Resul:", original, cur_level
 											# best_weights[wa][wb][wg]+=1
 											best_weights[wa][wb][wg][face_dev_var-fdv][emo_var-ev][tta_var-tv]+=1
 											
+											print "Var: {}  | Ach {}    ".format(variation, achieved)
+											print "Ori: {}  | Cur {}    ".format(original, cur_profile)
+
+
+
+
+
+
 											matches += 1
 											matched = True
 
@@ -3185,25 +3238,38 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 							
 		best_fit = np.max(best_weights)
 		total = self.evaluation_db.size*3
-		print "MAX {} of {}".format(best_fit,total)
+
+		max_ind = np.argmax(best_weights)
+
+		print "MAX {} of {}........... INDEX {}".format(best_fit,total,max_ind)
 
 		print "Accuracy: {:.2f}".format((best_fit/total))
 
-		out = open("Evaluations/weights.csv","w+")
+		# out = open("Evaluations/weights_Final.csv","w+")
+		# for wa in range(10):
+		# 	for wb in range(10):
+		# 		for wg in range(10):
+		# 			for face_dev_var in range(fdv,fdv+d1):
+		# 				for emo_var in range(ev,ev+d2):
+		# 					for tta_var in range(tv,tv+d3):
 
-		for wa in range(10):
-			for wb in range(10):
-				for wg in range(10):
-					for face_dev_var in range(fdv,fdv+d1):
-						for emo_var in range(ev,ev+d2):
-							for tta_var in range(tv,tv+d3):
-
-								out.write(str(wa/10.0)+","+str(wb/10.0)+","+str(wg/10.0)+","+
-								str(face_dev_var+fdv) + "," + str(emo_var+ev) + "," + str(tta_var+tv) + "," +
-								str(best_weights[wa][wb][wg][face_dev_var-fdv][emo_var-ev][tta_var-tv])+"\n")
-
-		out.close()
+		# 						out.write(str(wa/10.0)+","+str(wb/10.0)+","+str(wg/10.0)+","+
+		# 						str(face_dev_var+fdv) + "," + str(emo_var+ev) + "," + str(tta_var+tv) + "," +
+		# 						str(best_weights[wa][wb][wg][face_dev_var-fdv][emo_var-ev][tta_var-tv])+"\n")
+		# out.close()
 		# ff.close()
+
+		#np.savetxt("foo.csv", confusion_matrix, delimiter=",")
+
+
+		f = open("foo.csv", "w")
+
+		for i in range(3):
+			for j in range(3):
+				f.write(str(confusion_matrix[i][j])+ " ,")
+			f.write("\n")
+
+		f.close()
 
 		print "Ended in ", time.time() - start
 
