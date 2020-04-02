@@ -471,11 +471,12 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 
 		#self.evals_to_csv()
-		self.eval_best_fit_fuzzy()
 		#self.eval_batch_find_weights()
+		
+		self.eval_best_fit_fuzzy()
 		exit()
 		
-		restore_state(self.settings)
+		# restore_state(self.settings)
 
 
 	def load_activity(self):
@@ -1389,13 +1390,24 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		#print max_gaze, max_emotions, max_words, max_tta, max_success
 
-		self.states_fuzzy_control = fuzzy.StatesFuzzyControl(max_gaze=max_gaze,
-															max_emotions=max_emotions,
-															max_words=max_words,
-															max_tta=max_tta, 
-															max_success=max_success,
+		# self.states_fuzzy_control = fuzzy.StatesFuzzyControl(max_gaze=max_gaze,
+		# 													max_emotions=max_emotions,
+		# 													max_words=max_words,
+		# 													max_tta=max_tta, 
+		# 													max_success=max_success,
+		# 													print_flag=False)
+
+		# self.states_fuzzy_control = fuzzy.StatesFuzzyControl(print_flag=False)
+		
+		self.states_fuzzy_control = fuzzy.StatesFuzzyControl(max_gaze=30,
+															max_emotions=500,
+															max_words=3,
+															max_tta=30, 
+															max_success=1,
 															print_flag=False)
-		self.adaptive_fuzzy_control = fuzzy.Adaptive(False)
+
+		self.defuz = 'mom'
+		self.adaptive_fuzzy_control = fuzzy.Adaptive( defuz = self.defuz, print_flag= False)
 		#self.adaptive_fuzzy_control = fuzzy.StatesFuzzyControl(False)
 	
 
@@ -2843,7 +2855,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		self.w = adaption.Weights(0,0,0)#self.alfaWeight.value(), self.betaWeight.value(), self.gamaWeight.value())
 
-		ff = open("Read_values.csv", "w")
+		ff = open("Log/Fuzzy/" + self.defuz +".csv", "w")
 
 		confusion_matrix = np.zeros((3,3))
 
@@ -2854,14 +2866,14 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				str("Deviations")+ " , " +    
 				str("EmotionCount")+ " , " +    
 				str("NumberWord")+ " , " +    
-				str("SucRate")+ " , " +    
 				str("Time2ans")+ " , " +    
+				str("SucRate")+ " , " +    
 				str("Alpha")+ " , " +    
 				str("Beta")+ " , " +    
 				str("Gama")+ " , " +    
 				str("Achieved")+ " , " +    
 				str("True")+ ", " +    
-				str("True Profile")+ " , " +    
+				# str("True Profile")+ " , " +    
 				str("F Value")+ " , " +    
 				str("Error")+ "\n ")    
 		
@@ -2961,9 +2973,9 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				
 				results.append(fvalue)
 
-				if fvalue > 4.1:
+				if fvalue > 1.5:
 					achieved = 1
-				elif fvalue < 3.8:
+				elif fvalue < 1.3:
 					achieved = -1
 				else:
 					achieved = 0
@@ -2997,14 +3009,14 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 					"{:.2f}".format(self.read_values.deviations)+ " , " +    
 					"{:.2f}".format(self.read_values.emotionCount)+ " , " +    
 					"{:.2f}".format(self.read_values.numberWord)+ " , " +    
-					"{:.2f}".format(self.read_values.sucRate)+ " , " +    
 					"{:.2f}".format(self.read_values.time2ans)+ " , " +    
+					"{:.2f}".format(self.read_values.sucRate)+ " , " +    
 					"{:.2f}".format(alpha)+ " , " +    
 					"{:.2f}".format(beta)+ " , " +    
 					"{:.2f}".format(gama)+ " , " +    
 					str(achieved)+ " , " +    
 					str(variation)+ " , " +    
-					str(original)+ " , " +    
+					# str(original)+ " , " +    
 					"{:.2f}".format(fvalue) + " , " +    
 					str(mt)+ "\n ")    
 					

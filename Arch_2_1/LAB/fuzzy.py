@@ -18,6 +18,13 @@ import skfuzzy as fuzz
 import matplotlib.pyplot as plt
 from skfuzzy import control as ctrl
 from pprint import pprint
+import os
+from skfuzzy.cluster import cmeans
+from skfuzzy.cluster import cmeans_predict
+
+
+
+
 
 class ReadValues:
     """
@@ -44,8 +51,8 @@ class ReadValues:
 
 
 
-# class StatesFuzzyControl:
-class StatesFuzzyControl2:
+class StatesFuzzyControl:
+# class StatesFuzzyControl2:
 
     def __init__(self,  max_gaze=10, #max_posture=10, 
                         max_words=10, max_emotions=10,
@@ -101,7 +108,7 @@ class StatesFuzzyControl2:
 
         #------------------ COMMUNICATION
 
-        # New Antecedent/Consequent objects hold universe variables and membership
+        # New Antecedernt/Consequent objects hold universe variables and membership
         # functions
 
         self.emotions = ctrl.Antecedent(np.arange(0, max_emotions, 1), 'Emotions')
@@ -367,7 +374,7 @@ class StatesFuzzyControl2:
 
 class Adaptive():
 
-    def __init__(self, print_flag=False ):
+    def __init__(self, defuz = 'centroid', print_flag=False ):
 
         self.print_flag = print_flag
 
@@ -412,8 +419,11 @@ class Adaptive():
 
         # ADAPTATION
 
-        self.adaptation = ctrl.Consequent(np.arange(0, 10, 1), 'Adaptation')
+        self.adaptation = ctrl.Consequent(np.arange(0, 4, 1), 'Adaptation')
         # self.adaptation = ctrl.Consequent(np.arange(1, 5, 1), 'Adaptation')
+
+        self.adaptation.defuzzify_method = defuz
+
 
         self.adaptation.automf(3, names=['Low', 'Medium', 'High'])
         # self.adaptation.automf(5)
@@ -437,7 +447,8 @@ class Adaptive():
         rules.append( ctrl.Rule(self.task['inefficient'] , self.adaptation['Low']) )
         #rules.append( ctrl.Rule(self.success['low'] | self.ans_time['Slow'], self.task['inefficient']) )
 
-        #print rules
+        
+        # --------- 5 RULES --------------
 
         # rules.append( ctrl.Rule(self.task['efficient'] , self.adaptation['good']) )
         # #rules.append( ctrl.Rule(self.attention['concentrated'] & self.communication['extroverted']  & self.task['efficient'] , self.adaptation['good']) )
@@ -515,7 +526,7 @@ class Adaptive():
 
 
 
-class StatesFuzzyControl:
+class StatesFuzzyControl3:
     
     def __init__(self,  max_gaze=10, #max_posture=10, 
                         max_words=10, max_emotions=10,
@@ -615,54 +626,6 @@ class StatesFuzzyControl:
 
 
 
-if __name__=="__main__":
-    
-    
-    
-    print "TEST"
-    
-    fz = StatesFuzzyControl( max_gaze=30,
-                            max_emotions=500,
-                            max_words=3,
-                            max_tta=60,
-                            auto= True,
-                            print_flag=False)
-
-
- #   pprint(vars(fz))
-    
-    print 
-    print 
-
-#    pprint(vars(fz.words))
-    r = ReadValues( 8.00 ,	 407.00 ,	 3.00 ,	 1.82 ,	 69.53) 
-
-
-    defuzzify_method = "mom"
-    fz.adaptation.defuzzify_method = defuzzify_method
-
-    pprint(vars(fz.adaptation))
-
-    print   fz.compute(r)
-
-
-    
-    
-    fz.gaze.defuzzify_method = defuzzify_method
-    fz.words.defuzzify_method = defuzzify_method
-    fz.emotions.defuzzify_method = defuzzify_method
-    fz.success.defuzzify_method = defuzzify_method
-    fz.ans_time.defuzzify_method = defuzzify_method
-
-    pprint(vars(fz.adaptation))
-
-
-
-    print   fz.compute(r)
-
-
-
-
     
     
     
@@ -674,21 +637,32 @@ def old_main():
     fz = StatesFuzzyControl( max_gaze=30,
                             max_emotions=500,
                             max_words=3,
-                            max_tta=60,
+                            max_tta=30,
                             auto= True,
                             print_flag=False)
 
 
 
 
-    r = vReadValues(  8.00 ,	 407.00 ,	 3.00 ,	 1.82 ,	 69.53 
-) 
+    r = ReadValues(  7.00, 	 401.00 ,	 2.00  ,	 60.44,	 2.67 ) 
 
 
 
-    # print fz.compute(r)
+    [a,b,c] = fz.compute_states(r)
 
-    # exit()
+    print a,b,c
+
+    ad = Adaptive('som')
+
+    fvalue = ad.compute_fvalue([a,b,c])
+
+    print fvalue
+
+    exit()
+    
+    
+    
+    
     for a in range(0,10):
     
         r = ReadValues(15, 100, 2, a , 9)
@@ -732,6 +706,93 @@ def old_main():
 
 
 
+def fuzzy_means():
+
+    path = "Log/Fuzzy/" 
+    
+    #print os.listdir(path)
+    
+    name = "lom"
+    # data = np.loadtxt( path + name + ".csv", delimiter=',', comments="%", skiprows=1)
+    data = np.genfromtxt( path + name + ".csv", delimiter=',', comments="%", )#, skiprows=1)
+
+    
+    data = data[:,2:6]
+    
+    # print data
+
+
+    data = data[1:, :]
+
+
+    data = np.transpose(data)
+
+
+    # print data 
+    # print "Ater:\n", data
+
+
+    cm = cmeans(data=data, c=3, m=.0001, error=0.001, maxiter=500)
+
+    # print cm
+
+
+    pred =  cmeans_predict(test_data=data, cntr_trained=cm[0], m=.1, error=0.1, maxiter=500)
+
+    print pred[-2]
+
+
+
+
+
+if __name__=="__main__":
+    
+    # old_main()
+    
+    fuzzy_means()
+
+    # print "TEST"
+    
+    exit()
+
+    fz = StatesFuzzyControl( max_gaze=30,
+                            max_emotions=500,
+                            max_words=3,
+                            max_tta=60,
+                            auto= True,
+                            print_flag=False)
+
+
+ #   pprint(vars(fz))
+    
+    print 
+    print 
+
+#    pprint(vars(fz.words))
+    r = ReadValues( 8.00 ,	 407.00 ,	 3.00 ,	 69.53 ,	 1.82 ) 
+
+
+    defuzzify_method = "mom"
+    fz.adaptation.defuzzify_method = defuzzify_method
+
+    pprint(vars(fz.adaptation))
+
+    print   fz.compute(r)
+
+
+    
+    
+    fz.gaze.defuzzify_method = defuzzify_method
+    fz.words.defuzzify_method = defuzzify_method
+    fz.emotions.defuzzify_method = defuzzify_method
+    fz.success.defuzzify_method = defuzzify_method
+    fz.ans_time.defuzzify_method = defuzzify_method
+
+    pprint(vars(fz.adaptation))
+
+
+
+    print   fz.compute(r)
 
 
 
