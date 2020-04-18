@@ -419,14 +419,21 @@ class Adaptive():
 
         # ADAPTATION
 
-        self.adaptation = ctrl.Consequent(np.arange(0, 4, 1), 'Adaptation')
-        # self.adaptation = ctrl.Consequent(np.arange(1, 5, 1), 'Adaptation')
+        # self.adaptation = ctrl.Consequent(np.arange(1, 10, 1), 'Adaptation')
+        self.adaptation = ctrl.Consequent(np.arange(-1, 1.1, 0.1), 'Content Difficulty Adaptation')
 
         self.adaptation.defuzzify_method = defuz
 
 
-        self.adaptation.automf(3, names=['Low', 'Medium', 'High'])
+        self.adaptation.automf(3, names=['Decrease', 'Maintain', 'Increase'])
         # self.adaptation.automf(5)
+
+        # self.adaptation['Decrease']= fuzz.trapmf(self.adaptation.universe, [-2, -1, -.5, 0])
+        # self.adaptation['Maintain']= fuzz.trimf(self.adaptation.universe, [ -.25, 0, .25])
+        # self.adaptation['Increase']= fuzz.trapmf(self.adaptation.universe, [ 0, .5, 1, 2])
+
+
+
 
 
         #self.adaptation.view()
@@ -434,17 +441,17 @@ class Adaptive():
 
         rules = []
 
-        rules.append( ctrl.Rule(self.task['efficient'] , self.adaptation['High']) )
+        rules.append( ctrl.Rule(self.task['efficient'] , self.adaptation['Increase']) )
         #rules.append( ctrl.Rule(self.attention['concentrated'] & self.communication['extroverted']  & self.task['efficient'] , self.adaptation['good']) )
-        rules.append( ctrl.Rule(self.attention['concentrated'] & self.communication['extroverted'] & self.task['regular'] , self.adaptation['Medium']) )
+        rules.append( ctrl.Rule(self.attention['concentrated'] & self.communication['extroverted'] & self.task['regular'] , self.adaptation['Increase']) )
         
-        rules.append( ctrl.Rule(self.attention['medium'] & self.communication['neutral']  & self.task['regular'] , self.adaptation['Medium']) )
+        rules.append( ctrl.Rule(self.attention['medium'] & self.communication['neutral']  & self.task['regular'] , self.adaptation['Maintain']) )
         
-        rules.append( ctrl.Rule(self.attention['distracted'] & self.communication['extroverted'] & self.task['regular'] , self.adaptation['Medium']) )
+        rules.append( ctrl.Rule(self.attention['distracted'] & self.communication['extroverted'] & self.task['regular'] , self.adaptation['Maintain']) )
         
-        rules.append( ctrl.Rule(self.attention['distracted'] & self.communication['introverted']  & self.task['regular'] , self.adaptation['Medium']) )
+        rules.append( ctrl.Rule(self.attention['distracted'] & self.communication['introverted']  & self.task['regular'] , self.adaptation['Decrease']) )
 
-        rules.append( ctrl.Rule(self.task['inefficient'] , self.adaptation['Low']) )
+        rules.append( ctrl.Rule(self.task['inefficient'] , self.adaptation['Decrease']) )
         #rules.append( ctrl.Rule(self.success['low'] | self.ans_time['Slow'], self.task['inefficient']) )
 
         
@@ -465,9 +472,10 @@ class Adaptive():
 
 
         if self.print_flag:
-            self.attention.view()
-            self.communication.view()
-            self.task.view()
+            pass
+            # self.attention.view()
+            # self.communication.view()
+            # self.task.view()
 
 
         ctrl_sys = ctrl.ControlSystem(rules)
@@ -515,11 +523,12 @@ class Adaptive():
 
 
         if self.print_flag:
-            print "Value", self.adp_func.output['Adaptation']
+            print "Value", self.adp_func.output['Content Difficulty Adaptation']
 
+            self.adaptation.view()
             self.adaptation.view(sim=self.adp_func)
 
-        return self.adp_func.output['Adaptation']
+        return self.adp_func.output['Content Difficulty Adaptation']
 
 
 
@@ -644,7 +653,7 @@ def old_main():
 
 
 
-    r = ReadValues(  7.00, 	 401.00 ,	 2.00  ,	 60.44,	 2.67 ) 
+    r = ReadValues(  7.00, 	 401.00 ,	 2.00  ,	 60.44,	 10 ) 
 
 
 
@@ -749,16 +758,11 @@ if __name__=="__main__":
     
     # old_main()
     
-    fuzzy_means()
-
-    # print "TEST"
     
-    exit()
-
-    fz = StatesFuzzyControl( max_gaze=30,
+    fz = StatesFuzzyControl( max_gaze=60,
                             max_emotions=500,
-                            max_words=3,
-                            max_tta=60,
+                            max_words=5,
+                            max_tta=70,
                             auto= True,
                             print_flag=False)
 
@@ -769,11 +773,29 @@ if __name__=="__main__":
     print 
 
 #    pprint(vars(fz.words))
-    r = ReadValues( 8.00 ,	 407.00 ,	 3.00 ,	 69.53 ,	 1.82 ) 
+    r = ReadValues( 5.00 ,	 100.00 ,	3.80 ,	 40.53 ,	 8.82 ) 
 
 
+
+    [a,b,c] = fz.compute_states(r)
+
+    print a,b,c
+
+    ad = Adaptive('lom', True)
+
+    fvalue = ad.compute_fvalue([a,b,c])
+
+    #print fvalue
+    raw_input()
+
+    exit()
+    
+
+
+
+    exit()
     defuzzify_method = "mom"
-    fz.adaptation.defuzzify_method = defuzzify_method
+    fz.adaption.defuzzify_method = defuzzify_method
 
     pprint(vars(fz.adaptation))
 

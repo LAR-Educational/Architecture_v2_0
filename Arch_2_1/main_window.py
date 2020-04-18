@@ -1406,7 +1406,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 															max_success=1,
 															print_flag=False)
 
-		self.defuz = 'mom'
+		self.defuz = 'som'
 		self.adaptive_fuzzy_control = fuzzy.Adaptive( defuz = self.defuz, print_flag= False)
 		#self.adaptive_fuzzy_control = fuzzy.StatesFuzzyControl(False)
 	
@@ -2973,9 +2973,9 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 				
 				results.append(fvalue)
 
-				if fvalue > 1.5:
+				if fvalue > 0.25:
 					achieved = 1
-				elif fvalue < 1.3:
+				elif fvalue < -.25:
 					achieved = -1
 				else:
 					achieved = 0
@@ -3053,7 +3053,7 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 
 		plt.hist(results,  alpha=0.5)
 
-		plt.show()
+		#plt.show()
 
 
 
