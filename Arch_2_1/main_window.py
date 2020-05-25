@@ -473,8 +473,8 @@ class MainApp(QMainWindow, activities_Manager.Ui_MainWindow):
 		#self.evals_to_csv()
 		#self.eval_batch_find_weights()
 		
-		self.eval_best_fit_fuzzy()
-		exit()
+		# self.eval_best_fit_fuzzy()
+		# exit()
 		
 		# restore_state(self.settings)
 
